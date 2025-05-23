@@ -11,77 +11,80 @@ select:-webkit-autofill {
   -webkit-text-fill-color: black !important;
 }
 
-
-.theme-1 { /*Only for primary*/
-  color : #D91656 ;
-  background-color : #640D5F ;
-}
+/* .theme-1 { */
+/*Only for primary*/
+/* color: #d91656;
+  background-color: #640d5f; */
+/* } */
 
 .theme-button {
-  background-color : #640D5F ;
-  color : #FFEB55 ;
+  background-color: #640d5f;
+  color: #ffeb55;
   font-weight: 500;
 }
 
-.theme-2 {  /*Only for logo*/
-  color : #D91656 ;
-  border-color: #D91656 ;
+.theme-2 {
+  /*Only for logo*/
+  color: #d91656;
+  border-color: #d91656;
 }
 
 .theme-22 {
-  border-color : #640D5F ;
+  border-color: #640d5f;
 }
 
-.theme-3 { /* Text */
-  color : #FFEB55 ;
-
+.theme-3 {
+  /* Text */
+  color: #ffeb55;
 }
 
 .theme-31 {
-  color : #640D5F
+  color: #640d5f;
 }
 
 .theme-label {
-  color : #640D5F
+  color: #640d5f;
 }
 
 .theme-value {
-  color : gray
+  color: gray;
 }
 
 .theme-6 {
-  color : #e4bee3 ;
+  color: #e4bee3;
 }
 
 .theme-7 {
-  background-color: #D91656;
+  background-color: #d91656;
 }
 
 .theme-login {
-  background-color: #4E1184;
+  background-color: #4e1184;
 }
 
 .theme-login-bg {
-  background-color: #0E1555;
+  background-color: #0e1555;
 }
 
 .theme-form-bg {
-  background-color: #0E1555;
+  background-color: #0e1555;
   border-radius: 20px;
   margin: 10px;
 }
 
-.theme-4 { /*Box BackGround*/
-  background-color: #640D5F;
+.theme-4 {
+  /*Box BackGround*/
+  background-color: #640d5f;
 }
 
-.theme-5 { /*Main BackGround*/
+.theme-5 {
+  /*Main BackGround*/
   background-color: #e4bee3;
 }
 
 .service-card-theme {
   background-color: whitesmoke;
-  border-color: #640D5F;
+  border-color: #640d5f;
   border-width: 3px;
 }
 
@@ -93,7 +96,7 @@ body {
   width: 100%;
   height: 100vh;
   box-sizing: border-box;
-  background-color: #e4bee3;
+  background-color: #fff;
   color: rgb(54, 52, 52);
 }
 
@@ -110,12 +113,11 @@ body {
   background-repeat: no-repeat;
 }
 
-.frame{
+.frame {
   background-image: url("");
 }
 
 .sidebar {
-
   /* background-color: #212020; */
   transform: translateX(-100%);
   transition: transform 0.3s ease-in-out;
@@ -128,7 +130,6 @@ body {
 .sidebar.closed {
   transform: translateX(-100%);
 }
-
 
 .scroller::-webkit-scrollbar {
   width: 10px;
@@ -146,7 +147,11 @@ body {
 }
 
 .scroller::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8); /* Darker gradient on hover */
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  ); /* Darker gradient on hover */
 }
 
 /* For Firefox */
@@ -155,21 +160,17 @@ body {
   scrollbar-color: #3b82f6 #f0f0f0;
 }
 
-
-
 .noscrl::-webkit-scrollbar {
-  display: none ;
+  display: none;
 }
 
 .remscroller ::-webkit-scrollbar {
-  display: none ;
+  display: none;
 }
 
 .btn-5 {
   margin-left: 10px;
 }
-
-
 
 .popup-window {
   position: absolute;
@@ -202,25 +203,28 @@ body {
 
 .label-x {
   color: #8a2be2;
-  margin-right: '20px';
+  margin-right: "20px";
 }
 
 .value-x {
-  color : grey
+  color: grey;
 }
 
 .input-theme {
   @apply bg-[#8E1616] text-[#EEEEEE] focus:bg-[#8E1616];
 }
 
-
 .box-theme {
-  @apply bg-black ;
+  @apply bg-black;
 }
 
 @layer components {
   .nav-link {
-    @apply px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 transition-colors;
+    @apply px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors;
+  }
+
+  .nav-link-updated {
+    @apply relative text-white after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-full after:h-[2px] after:bg-blue-300 after:opacity-0 hover:after:opacity-100 transition;
   }
 
   .mobile-nav-link {
@@ -278,3 +282,27 @@ body {
   background-size: 4rem 4rem;
 }
 
+/* New changes */
+
+.nav-bg {
+  @apply bg-[#2C3ED3];
+}
+.nav-txt {
+  @apply text-[#2C3ED3];
+}
+
+.btn-outline {
+  @apply border-white border-2 bg-transparent rounded-2xl px-4 py-2;
+}
+.btn-outline-border-black {
+  @apply border-[#ABABAB] border-2 bg-transparent rounded-full;
+}
+.txt-landing-blue {
+  @apply text-[#7850FA];
+}
+.txt-landing {
+  @apply text-[#3C3C3C];
+}
+.btn-fill {
+  @apply border-white border-2 bg-[#2C3ED3] rounded-full   text-white font-semibold;
+}
