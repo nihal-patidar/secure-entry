@@ -141,7 +141,7 @@ body {
 }
 
 .scroller::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #3b82f6, #2563eb); /* Thumb gradient */
+  background: linear-gradient(135deg, hwb(217 57% 5%), #2563eb); /* Thumb gradient */
   border-radius: 10px;
   border: 2px solid #f0f0f0; /* Space between thumb and track */
 }

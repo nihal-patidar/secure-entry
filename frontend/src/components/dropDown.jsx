@@ -9,13 +9,16 @@ export default function DropDown({ options, name, lable, discription, align }) {
                 <p style={{fontSize:"14px", paddingLeft:"10px", marginBottom:"6px"}}>{discription}</p>
             </div>
             <div>
-            <div style={{alignContent:"start"}}>
+            <button className='noOutline' style={{alignContent:"start", minWidth:"260px"}} onClick={() => {
+                        document.querySelector(`.dropDown-${name}`).classList.toggle('hidden');
+                    }}>
                 <button
                 type="button"
                 className="inline-flex justify-between w-full rounded-md w-64 border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 id="options-menu"
                 aria-haspopup="true"
                 aria-expanded="true"
+                style={{borderRadius:"8px", backgroundColor:"#F5F5F5", color:"#212121", fontSize:"14px", paddingLeft:"10px", paddingRight:"10px", outlineWidth:"0px"}}
                 >
                 {selectedOption || "Select an option"}
                 <svg
@@ -24,9 +27,7 @@ export default function DropDown({ options, name, lable, discription, align }) {
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     aria-hidden="true"
-                    onClick={() => {
-                        document.querySelector(`.dropDown-${name}`).classList.toggle('hidden');
-                    }}
+                    
                 >
                     <path
                     fillRule="evenodd"
@@ -35,9 +36,9 @@ export default function DropDown({ options, name, lable, discription, align }) {
                     />
                 </svg>
                 </button>
-            </div>
+            </button>
             <div
-                className={`dropDown-${name} origin-top-right   mt-4 pl-3 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10`}
+                className={`dropDown-${name} origin-top-right   mt-4 pl-3 pr-2 py-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10`}
                 role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="options-menu"
@@ -52,10 +53,10 @@ export default function DropDown({ options, name, lable, discription, align }) {
                         }
                     }
                     className={`${
-                        selectedOption === option ? "bg-gray-100" : ""
-                    } block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left`}
+                        selectedOption === option ? "bg-white-100" : ""
+                    } option block py-2 text-sm text-gray-700 hover:bg-blue-50 px-2 w-full text-left`}
                     role="menuitem"
-                    style={{color: "#212121", backgroundColor: "white"}}
+                    style={{transition:"background-color 0.2s ease"}}
                     >
                     {option}
                     </button>

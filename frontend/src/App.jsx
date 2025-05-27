@@ -15,13 +15,6 @@ import VisitorFormCreate from './forms/VisitorForm';
 import { UpdateServiceForm } from './forms/UpdateService';
 import Profile from './pages/Profile'
 import StepForTicket from './pages/StepForTicket';
-import DropDown from './components/dropDown.jsx';
-
-let options = [
-  "CSe", 
-  "IT",
-  "AIML",
-]
 
 const router= createBrowserRouter([
   {
@@ -35,12 +28,6 @@ const router= createBrowserRouter([
   {
     path:"/register",
     element:<RegistrationPage/>
-  },
-  {
-    path:"/dropdown",
-    element:<DropDown options={options} onSelect={(e) => {selectedOption = e;}} lable={'Branch'} discription={
-      "Lorem ipsum dmagna aliqua.ex ea commodo consequat."
-    } selectedOption={'CSe'} align={'horizontal'}/>
   },
   {
     path:"/home",
