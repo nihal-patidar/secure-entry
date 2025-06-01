@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import Input from '../components/small/Input';
 import { Button } from "@material-tailwind/react";
 import api from '../../axiosConfig';
+import { LoginHandle } from '../api/operations/authAPI';
 const LoginPage = () => {
     var {userData,showLoading}= useContext(UserContext);
     return (
@@ -50,39 +51,50 @@ const Login = () => {
     sessionStorage.setItem(key, JSON.stringify(item));
 }
 
-  const LonginHandle = async (data) => {
-      //console.log("i am logining working");
-      setShowLoading((prev) => !prev);
-      await api.post("/api/login", {
-          email: data.email,
-          password: data.password
-      }).then((response) => {
-          //console.log("data", response.data);
-          setUserData(response.data);
-          navigate("/home");
-          localStorage.setItem("userData", response.data.token);
-        // setSessionItemWithExpiry("userData",response.data.token,60*60*1000);
-          api.get('/api/profile',{
-              headers:{
-                  Authorization:`Bearer ${response.data.token}`
-              }
-          }).then((response)=>{
-              setUserData(response.data.userData);
-              //console.log("userdata: ",response.data.userData);
-              toast.success("User Data Fetched");
-          }).catch((err)=>{
-              nevigate('/login');
-          })
-          toast.success("Login Successfully!");
-      }).catch((error) => {
-          setShowLoading((prev) => !prev);
-          //console.log("error data", error.response.data);
-          toast.warning(error.response.data.msg);
-      })
-  }
+
+//   const LonginHandle = async (data) => {
+//       //console.log("i am logining working");
+//       setShowLoading((prev) => !prev);
+//       await api.post("/api/login", {
+//           email: data.email,
+//           password: data.password
+//       }).then((response) => {
+//           //console.log("data", response.data);
+//           setUserData(response.data);
+//           navigate("/home");
+//           localStorage.setItem("userData", response.data.token);
+//         // setSessionItemWithExpiry("userData",response.data.token,60*60*1000);
+//           api.get('/api/profile',{
+//               headers:{
+//                   Authorization:`Bearer ${response.data.token}`
+//               }
+//           }).then((response)=>{
+//               setUserData(response.data.userData);
+//               //console.log("userdata: ",response.data.userData);
+//               toast.success("User Data Fetched");
+//           }).catch((err)=>{
+//               nevigate('/login');
+//           })
+//           toast.success("Login Successfully!");
+//       }).catch((error) => {
+//           setShowLoading((prev) => !prev);
+//           //console.log("error data", error.response.data);
+//           toast.warning(error.response.data.msg);
+//       })
+//   }
+
+const handleLogin = async (formData) => {
+  await LoginHandle({ 
+    data: formData, 
+    setShowLoading, 
+    setUserData,
+    navigate
+  });
+};
+
   return (
       <>
-          <form onSubmit={handleSubmit(LonginHandle)} className="flex flex-col items-center justify-center py-3 px-8 border border-[#FFEB55] w-[85%] sm:w-[20rem] rounded-xl shadow-md gap-3">
+          <form onSubmit={handleSubmit(handleLogin)} className="flex flex-col items-center justify-center py-3 px-8 border border-[#FFEB55] w-[85%] sm:w-[20rem] rounded-xl shadow-md gap-3">
               <div className="top text-center">
                   <h2 className="text-2xl font-bold" >Login</h2>
                   <p>Don't have account, please <Link to="/register" className=" text-blue-500 underline">register</Link></p>

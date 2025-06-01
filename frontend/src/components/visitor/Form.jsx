@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import EmailOtpForm from "../small/EmailVerification";
 import RazorpayPayment from "./Payment";
 import LoadingDots from "../small/LoadingDots";
+import { apiConnector } from "../../api/apiconnector";
+import { getFormData } from "../../api/operations/formAPI";
 
 const Form = ({
   formId,
@@ -24,21 +26,14 @@ const Form = ({
   const [image, setImage] = React.useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    api
-      .get(`/service/getFormData/${formId}`)
-      .then((response) => {
-        if (!response.data.serviceData?.form_structure) {
-          alert("First Create the form");
-          navigate(-1);
-        }
-        setServiceData(response.data.serviceData);
-        setAmount(response.data.serviceData?.ticket_price);
-        // console.log("serviceData",response.data.serviceData)
-      })
-      .catch((err) => {
-        toast.warning(err.response.data.msg);
-      });
+  useEffect(async () => {
+
+    await getFormData({
+      formId,
+      setServiceData,
+      setAmount,
+      navigate,
+    });
 
     api
       .get(`/service/getThisService/${formId}`)
@@ -151,80 +146,83 @@ const Form = ({
               {
                 /* console.log("form field", ele); */
               }
-              {/* if (ele.fieldName === "email") {
+              {
+                /* if (ele.fieldName === "email") {
                 setEnable(false);
                 return (
                   <EmailOtpForm register={register} setEnable={setEnable} />
                 );
-              } */}
-              
+              } */
+              }
 
-              return (ele.fieldName === "email" ?
-                <EmailOtpForm register={register} setEnable={setEnable} /> :
-                <>{
-
-              ele.fieldDataType === "select" ? (
+              return ele.fieldName === "email" ? (
+                <EmailOtpForm register={register} setEnable={setEnable} />
+              ) : (
                 <>
-                  {ele.fieldName === "Game Type" ? (
-                    <div className="w-full">
-                      <label className="block text-sm font-medium text-gray-700">
-                        {ele.fieldName}
-                      </label>
-                      <select
-                        // className="border p-2 rounded-md"
-                        className="mt-1 p-3 w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none bg-gray-100 focus:bg-white"
-                        {...register(ele.fieldName, { required: true })}
-                        onChange={(e) => setAmount(e.target.value)}
-                      >
-                        {ele?.options?.map((option, index) => {
-                          return (
-                            <option key={index} value={option.value}>
-                              {option.option}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                  ) : (
-                    <div className="w-full">
-                      <label className="block text-sm font-medium text-gray-700">
-                        {ele.fieldName}
-                      </label>
-                      <select
-                        // className="border p-2 rounded-md"
-                        className="mt-1 p-3 w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none bg-gray-100 focus:bg-white"
-                        {...register(ele.fieldName, { required: true })}
-                      >
-                        {/* <option value="" disabled>
+                  {ele.fieldDataType === "select" ? (
+                    <>
+                      {ele.fieldName === "Game Type" ? (
+                        <div className="w-full">
+                          <label className="block text-sm font-medium text-gray-700">
+                            {ele.fieldName}
+                          </label>
+                          <select
+                            // className="border p-2 rounded-md"
+                            className="mt-1 p-3 w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none bg-gray-100 focus:bg-white"
+                            {...register(ele.fieldName, { required: true })}
+                            onChange={(e) => setAmount(e.target.value)}
+                          >
+                            {ele?.options?.map((option, index) => {
+                              return (
+                                <option key={index} value={option.value}>
+                                  {option.option}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                      ) : (
+                        <div className="w-full">
+                          <label className="block text-sm font-medium text-gray-700">
+                            {ele.fieldName}
+                          </label>
+                          <select
+                            // className="border p-2 rounded-md"
+                            className="mt-1 p-3 w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none bg-gray-100 focus:bg-white"
+                            {...register(ele.fieldName, { required: true })}
+                          >
+                            {/* <option value="" disabled>
                       -- Select an option --
                     </option> */}
-                        {ele?.options?.map((option, index) => (
-                          <option key={index} value={option.value}>
-                            {option.option}
-                          </option>
-                        ))}
-                      </select>
+                            {ele?.options?.map((option, index) => (
+                              <option key={index} value={option.value}>
+                                {option.option}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div key={index} className="w-full">
+                      <label className="block text-sm font-medium text-gray-700">
+                        {ele.fieldName}
+                      </label>
+                      <input
+                        {...register(ele.fieldName, { required: true })}
+                        type={ele.fieldDatatype}
+                        placeholder={ele.fieldName}
+                        className="mt-1 p-3 w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none bg-gray-100 focus:bg-white"
+                        onChange={
+                          ele.fieldDatatype === "file"
+                            ? previewImage
+                            : undefined
+                        }
+                      />
                     </div>
                   )}
                 </>
-              ) : (
-                <div key={index} className="w-full">
-                  <label className="block text-sm font-medium text-gray-700">
-                    {ele.fieldName}
-                  </label>
-                  <input
-                    {...register(ele.fieldName, { required: true })}
-                    type={ele.fieldDatatype}
-                    placeholder={ele.fieldName}
-                    className="mt-1 p-3 w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none bg-gray-100 focus:bg-white"
-                    onChange={
-                      ele.fieldDatatype === "file" ? previewImage : undefined
-                    }
-                  />
-                </div>
-              )
-            }</>)
-
+              );
             })}
 
           {/* {serviceData && (
