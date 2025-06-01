@@ -14,7 +14,7 @@ const LoginComponent = () => {
                     />
                 </div>
 
-                <SignUpComponent />
+                <SigninComponent />
 
             </div>
         </div>

@@ -15,6 +15,7 @@ import VisitorFormCreate from './forms/VisitorForm';
 import { UpdateServiceForm } from './forms/UpdateService';
 import Profile from './pages/Profile'
 import StepForTicket from './pages/StepForTicket';
+import CreateVisitorForm from './forms/CreateVisitorForm.jsx';
 
 const router= createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router= createBrowserRouter([
   {
     path:"/register",
     element:<RegistrationPage/>
+  },
+  {
+    path:"/newForm",
+    element:<CreateVisitorForm/>
   },
   {
     path:"/home",
