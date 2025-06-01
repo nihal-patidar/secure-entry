@@ -5,3 +5,4 @@ frontend/.env
 backend/.env
 .idea
 backend/middleware/firebase.json
+backend/middleware/uploadFile.js
