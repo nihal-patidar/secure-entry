@@ -1,63 +1,88 @@
-import React from 'react';
-import { Ticket, Github, Twitter, Linkedin } from 'lucide-react';
-import { Link } from 'react-router-dom';
-export default function Footer() {
-  return (
-    <footer className="bg-gray-900 text-white w-full px-4 pt-5">
-      <div className="">
-        <div className="flex flex-col gap-4">
-          <div className="space-y-4">
-            <div className="flex items-center">
-              <Ticket className="h-8 w-8 text-indigo-400" />
-              <span className="ml-2 text-xl font-bold">SecureEntry</span>
-            </div>
-            <p className="text-gray-400">
-              Secure Entry for Retricted Entries.
-            </p>
-          </div>
-          
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li><Link to="/" className="text-gray-400 hover:text-white">Home</Link> </li>
-              <li><Link to="https://ticket-scanner-next-hcb2.vercel.app/" className="text-gray-400 hover:text-white">Scanner Application</Link> </li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Legal</h3>
-            <ul className="space-y-2 flex flex-col gap-2">
-              <li><Link to="https://merchant.razorpay.com/policy/OOYfcYXpSIIozc/privacy" className="text-gray-400 hover:text-white">Privacy Policy</Link> </li>
-              <li><Link to="https://merchant.razorpay.com/policy/OOYfcYXpSIIozc/terms" className="text-gray-400 hover:text-white">Terms of Service</Link> </li>
-              <li><Link to="https://merchant.razorpay.com/policy/OOYfcYXpSIIozc/refund" className="text-gray-400 hover:text-white">Cancellation and Refund Policy
-              </Link> </li>
-              <li><Link to="https://merchant.razorpay.com/policy/OOYfcYXpSIIozc/shipping">Shipping & Delivery Policy
-              </Link> </li>
-              <li><Link to="https://merchant.razorpay.com/policy/OOYfcYXpSIIozc/contact_us">Contact us
-              </Link> </li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
-            <div className="flex space-x-4">
-              <Link to="https://www.linkedin.com/in/nihal-patidar/" className="text-gray-400 hover:text-white">
-                {/* <Linkedin className="h-6 w-6" /> */}
-                <span>Nihal Patidar</span>
-              </Link> 
-              <Link to="https://www.instagram.com/yagyadeep_ahirwar786?igsh=dXg1YTVid2ZvN2Ex" className="text-gray-400 hover:text-white">
-                {/* <Linkedin className="h-6 w-6" /> */}
-                <span>Yagyadeep Ahirwar</span>
-              </Link> 
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaLinkedinIn,
+  FaGithub,
+  FaEnvelope,
+} from "react-icons/fa";
+//npm i react-icons
 
+export default function Footer() {
+  const liClass = "text-sm text-[#797979]  hover:text-white cursor-pointer";
+
+  return (
+    <div className="font-sans">
+      <footer className="bg-black text-white py-10 px-6 md:px-20">
+        <div className="flex flex-col md:flex-row justify-between gap-10">
+          <div className="w-full md:w-[300px]">
+            <h2 className="text-2xl font-bold">
+              Secure <br /> Entry
+            </h2>
+            <p className="text-sm text-[#797979] mt-4">
+              Secure entry should be effortless. Start with Secure Entry today.
+            </p>
+            <div className="flex gap-4 bottom-0 mt-10 text-lg text-[#797979]">
+              <FaFacebookF className="hover:text-white cursor-pointer" />
+              <FaTwitter className="hover:text-white cursor-pointer" />
+              <FaLinkedinIn className="hover:text-white cursor-pointer" />
+              <FaGithub className="hover:text-white cursor-pointer" />
+              <FaEnvelope className="hover:text-white cursor-pointer" />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10" id="prods">
+            <div>
+              <h3 className="font-bold mb-4">Product</h3>
+              <ul className="space-y-2">
+                <li className={liClass}>Dashboard</li>
+                <li className={liClass}>Analytics</li>
+                <li className={liClass}>Reports</li>
+                <li className={liClass}>Alerts</li>
+                <li className={liClass}>Monitoring</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold mb-4">Product</h3>
+              <ul className="space-y-2">
+                <li className={liClass}>Security</li>
+                <li className={liClass}>Access Logs</li>
+                <li className={liClass}>Device Control</li>
+                <li className={liClass}>Policy Manager</li>
+                <li className={liClass}>Authentication</li>
+                <li className={liClass}>Authentication</li>
+                <li className={liClass}>Authentication</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold mb-4">Product</h3>
+              <ul className="space-y-2">
+                <li className={liClass}>API Access</li>
+                <li className={liClass}>Integrations</li>
+                <li className={liClass}>Webhooks</li>
+                <li className={liClass}>SDK</li>
+                <li className={liClass}>Docs</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold mb-4">Product</h3>
+              <ul className="space-y-2">
+                <li className={liClass}>Pricing</li>
+                <li className={liClass}>Support</li>
+                <li className={liClass}>FAQ</li>
+                <li className={liClass}>Blog</li>
+                <li className={liClass}>Careers</li>
+              </ul>
             </div>
           </div>
         </div>
-        
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} E-Validation . All rights reserved.</p>
+        <div className="text-center text-xs text-[#797979] mt-10">
+          {" "}
+          <p>
+            © {new Date().getFullYear()} E-Validation . All rights
+            reserved.
+          </p>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </div>
   );
 }
