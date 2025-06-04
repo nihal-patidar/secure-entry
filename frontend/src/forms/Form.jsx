@@ -1,3 +1,12 @@
+import { DefaultQuestion, PlaceHolders } from "./Aside.jsx";
+import img from "./images/DefaultCover.jpg"
+import StartTimer from "./FormComponents/Timer.jsx";
+import SingleSelect from "./FormComponents/SingleSelect.jsx";
+import InputFile from "./FormComponents/InputFile.jsx";
+import { useEffect, useState } from "react";
+import Logo from "./FormComponents/Logo.jsx";
+
+
 function AddButton({appendTo}){
     const label = document.createElement('label');
     label.setAttribute('contenteditable', 'true'); // make label editable
@@ -13,21 +22,27 @@ function AddButton({appendTo}){
     document.getElementById(`${appendTo}`).appendChild(label);
 }
 
+function addTimer(){
+    document.getElementById("Timer").classList.remove("hidden");
+}
+function addLogo(){
+    document.getElementById("Logo").classList.remove("hidden");
+}
+export function removeLogo(){
+    document.getElementById("Logo").classList.add("hidden");
+}
+
 
 function Question({type, count}){
+    const QueKey = type == "logo" || type == "Timer" || type == "Terms and Conditions" || type ==  "cover" || type ==  "ending page" || type == "welcome page" ? 0 : 1;
     return (
-        <>
-            <div id={`question-${count}`} style={{width:"65vw", background:"white", color:"black", border:"1px solid #eaeaea", minHeight:"20vh", margin:"1vw", borderRadius:"15px"}}>
+        <div key={`${QueKey}`}>
+            <div  style={{width:"65vw", background:"white", color:"black", border:"1px solid #eaeaea", minHeight:"20vh", margin:"1vw", borderRadius:"15px"}}>
 
-                <div style={{display:"flex", padding:"1vh", paddingTop:"2vh"}} id={`question-${count}-head`}>
-                    <p>{count}{`]`}</p>
-                    <h2 style={{paddingLeft:"2.5vh", outline:"none"}} contentEditable="true">Write your Question here</h2>
-                </div>
-
-                <div id={`question-${count}-input`}>
+                <div id={`question-${count}`}>
                     {
-                        type === "single selection" ? 
-                                                    <></> 
+                        type === "single selection" ?
+                                                    <SingleSelect count={count} type={type} options={["A", "B", "C", "D"]}></SingleSelect>
                                                     :
                         type === "multiple selection"?
                                                     <></>
@@ -36,52 +51,113 @@ function Question({type, count}){
                                                     <></>
                                                     :
                         type === "logo"?
-                                                    <></>
+                                                    <>
+                                                    <div style={{display:"none"}}>
+                                                        {
+                                                            setTimeout(() => {
+                                                                addLogo()
+                                                                // document.getElementById('Ques').removeChild(document.getElementById(`que-container-${count}`))
+                                                            }, 100)
+                                                        }
+                                                    </div>
+                                                    </>
                                                     :
                         type === "special Render over Choise" ? 
                                                     <></> 
                                                     :
-                        type === "FullName" || type === "address"?
+                        type === "FullName" ?
+                                                    <input type={`${"text"}`}  style={{marginLeft:"10vh", background:"white", color:"#212121", border:"2px solid #eaeaea", borderRadius:"7px", height:"6vh", width:"60vh", marginTop:"4vh"}}/>
+                                                    :
+                        type === "address" ?
                                                     <input type={`${"text"}`}  style={{marginLeft:"10vh", background:"white", color:"#212121", border:"2px solid #eaeaea", borderRadius:"7px", height:"6vh", width:"60vh", marginTop:"4vh"}}/>
                                                     :
                         type === "Phone no."?
                                                     <input type={`${"number"}`}  style={{marginLeft:"10vh", background:"white", color:"#212121", border:"2px solid #eaeaea", borderRadius:"7px", height:"6vh", width:"60vh", marginTop:"4vh"}}/>
                                                     :
-                        type === "upload image"?
-                                                    <input type={`${"image"}`}  style={{marginLeft:"10vh", background:"white", color:"#212121", border:"2px solid #eaeaea", borderRadius:"7px", height:"5vh", width:"60vh", marginTop:"4vh"}}/>
+                        type === "upload image"? 
+                                                    <InputFile name="Image"/>
                                                     :
                         type === "upload file"?
-                                                    <input type={`${"file"}`}  style={{marginLeft:"10vh", background:"white", color:"#212121", border:"2px solid #eaeaea", borderRadius:"7px", height:"5vh", width:"60vh", marginTop:"4vh"}}/>
+                                                    <InputFile name="File"/>
                                                     :
                         type === "Timer"?
-                                                    <input type={`${"time"}`}  style={{marginLeft:"10vh", background:"white", color:"#212121", border:"2px solid #eaeaea", borderRadius:"7px", height:"6vh", width:"60vh", marginTop:"4vh"}}/>
+                                                    <div>
+                                                        {
+                                                            setTimeout(() => {
+                                                                addTimer()
+                                                            }, 100)
+                                                        }
+                                                    </div>
                                                     :
                         type === "Terms and Conditions"?
                                                     <input type={`${"text"}`}  style={{marginLeft:"10vh", background:"white", color:"#212121", border:"2px solid #eaeaea", borderRadius:"7px", height:"24vh", width:"60vh", marginTop:"4vh"}}/>
                                                     :
                         type === "cover" ? 
-                                                    <input type={`${"image"}`}  style={{marginLeft:"10vh", background:"white", color:"#212121", border:"2px solid #eaeaea", borderRadius:"7px", height:"5vh", width:"60vh", marginTop:"4vh"}}/>
+                                                    <InputFile name="Cover Image"/>
                                                     :
+                        type === "ending page" ? 
+                                                    <>
+                                                    </>
+                                                    : 
+                        type === "welcome page" ? 
+                                                    <>
+                                                    </>
+                                                    :     
                                                     <input type={`${type}`}  style={{marginLeft:"10vh", background:"white", color:"#212121", border:"2px solid #eaeaea", borderRadius:"7px", height:"6vh", width:"60vh", marginTop:"4vh"}}/>
                                             // <AddButton appendTo={`question-${count}-input`}></AddButton>        
                     }
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
 
+
+
 export default function FoRm({ques}){
     let count = 1;
+
+
+    function EditModeToggle(){
+        document.getElementById('Cover').classList.toggle('DontTouch');
+    }
+
     return(
         <>
-            <div id="Ques" style={{border: "2px solid #eaeaea", margin:"2vh", marginLeft:"2vh", width:"68vw", justifyItems:"center", height:"92vh", background:"#F2F3F9", borderRadius:"15px", overflowY:"scroll",scrollbarWidth:"none"}}>
-                {
-                    ques.map((element) => (
-                        <Question type={`${element}`} count={count++}/>
-                    ))
-                }
+            <div id="Form" style={{border: "2px solid #eaeaea", margin:"2vh", marginLeft:"2vh", width:"68vw", justifyItems:"center", height:"92vh", background:"#F2F3F9", borderRadius:"15px", overflowY:"scroll",scrollbarWidth:"none"}}>
+                <div className="DontTouch" style={{width:"100%", zIndex:"-1"}} id="Cover" onClick={EditModeToggle}>
+                    <img src={img}  width={"100%"} style={{maxHeight:"100px", zIndex:"-1", resize:"both"}} alt="" />
+                    <button style={{position:"absolute",top:"5px"}}>abc</button>
+                </div>
+
+                <div id="Logo" className="hidden">
+                    <Logo name={"Logo"} />
+                </div>
+                <div id="Timer" className="hidden">
+                    <StartTimer time={{days: 0}}/>
+                </div>
+
+                <div id="Head-Form" style={{minWidth:"280px"}}>
+                    <h2 contentEditable="true" style={{color:"#000", fontWeight:"bold", outline:"none", textAlign:"center", fontSize:"2.5vw", paddingTop:"40px"}}>Form Heading</h2>
+                    <div style={{border:"1px dotted black"}}></div>
+                    <p contentEditable="true" style={{outline:"none", textAlign:"center"}}>Details</p>
+                </div>
+                <div id="Ques">
+                    {
+                        ques.map((element) => (
+                            <div>
+                                {
+                                    console.log((Question({type:element, count:{count}})).type)
+                                }
+                                {
+                                    (Question({type:element, count:{count}})).key == 1 ? <Question id={`que-container-${count}`} type={`${element}`} count={count++}/> : <></>
+                                }
+                                
+                            </div>
+                        ))
+                    }
+                </div>
             </div>    
         </>
     )

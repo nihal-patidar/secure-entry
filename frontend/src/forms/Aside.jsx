@@ -3,6 +3,50 @@ import FoRm from "./Form.jsx";
 
 export let Questions = ["logo", "text", "number", "single selection", "multiple selection", "Dropdown Selection", "special Render over Choise", "FullName", "email", "address", "Phone no.", "upload image", "upload file", "Date", "Time", "Timer", "Terms and Conditions", "cover", "ending page", "welcome page"];
 
+export const DefaultQuestion = {  "logo": `Choose logo`,
+    "text": `Write your Question`,
+    "number": `Write Your Question`,
+    "single selection": `Q Select from below`,
+    "multiple selection": `Q Multi Select from below`,
+    "Dropdown Selection": `Q Dropdown Question`,
+    "special Render over Choise": `Parent Question Which decide further Questions`,
+    "FullName": `full name`,
+    "email": `email`,
+    "address": `address`,
+    "Phone no.": `phone number`,
+    "upload image": `Question to Upload an Image`, 
+    "upload file": `Question to Upload an Image`,
+    "Date": `Enter Date`,
+    "Time": `Enter Time`,
+    "Timer": `Enter Timer`,
+    "Terms and Conditions": `Terms and Conditions`,
+    "cover":`Cover Image`, 
+    "ending page": `ending page promo`, 
+    "welcome page": `welcome page promo`}
+
+export const PlaceHolders = {  "logo": `Choose logo`,
+        "text": `Write your Question`,
+        "number": `Write Your Question`,
+        "single selection": `Q Select from below`,
+        "multiple selection": `Q Multi Select from below`,
+        "Dropdown Selection": `Q Dropdown Question`,
+        "special Render over Choise": `Parent Question Which decide further Questions`,
+        "FullName": `full name`,
+        "email": `email`,
+        "address": `address`,
+        "Phone no.": `phone number`,
+        "upload image": `Question to Upload an Image`, 
+        "upload file": `Question to Upload an Image`,
+        "Date": `Enter Date`,
+        "Time": `Enter Time`,
+        "Timer": {days: "1", hours: "0", minutes: "0", seconds: "0"},
+        "Terms and Conditions": `Terms and Conditions`,
+        "cover":`Cover Image`, 
+        "ending page": `ending page promo`, 
+        "welcome page": `welcome page promo`}
+    
+
+
 export default function Aside(){
     let selectedAside = ("Fields");
     const [Feilds, setFeilds] = useState({"essentials":["logo", "text", "number", "single selection", "multiple selection", "Dropdown Selection", "special Render over Choise"],
@@ -102,6 +146,9 @@ export default function Aside(){
                                 <path d="M11.1673 7.5C11.1673 7.99937 11.0653 8.49349 10.8676 8.95204C10.6698 9.41059 10.3805 9.82391 10.0173 10.1667C9.33751 10.8101 8.43667 11.168 7.50065 11.1667C6.52665 11.1667 5.64065 10.7867 4.98398 10.1667C4.62081 9.82391 4.33148 9.41059 4.13373 8.95204C3.93598 8.49349 3.83398 7.99937 3.83398 7.5H11.1673Z" fill="black"/>
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M0.166992 4.16666C0.166992 3.10579 0.58842 2.08837 1.33857 1.33823C2.08871 0.588084 3.10613 0.166656 4.16699 0.166656H10.8337C11.8945 0.166656 12.9119 0.588084 13.6621 1.33823C14.4122 2.08837 14.8337 3.10579 14.8337 4.16666V10.8333C14.8337 11.8942 14.4122 12.9116 13.6621 13.6618C12.9119 14.4119 11.8945 14.8333 10.8337 14.8333H0.166992V4.16666ZM2.00033 7.49999C2.00033 6.0413 2.57979 4.64235 3.61124 3.6109C4.64269 2.57945 6.04164 1.99999 7.50033 1.99999C8.95902 1.99999 10.358 2.57945 11.3894 3.6109C12.4209 4.64235 13.0003 6.0413 13.0003 7.49999C13.0003 8.95868 12.4209 10.3576 11.3894 11.3891C10.358 12.4205 8.95902 13 7.50033 13C6.04164 13 4.64269 12.4205 3.61124 11.3891C2.57979 10.3576 2.00033 8.95868 2.00033 7.49999Z" fill="black"/>
                                 </svg>`}}
+
+
+    
 
     function hideFieldofType(st){
         Feild[st].forEach(element => {

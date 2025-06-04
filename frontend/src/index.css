@@ -308,3 +308,14 @@ body {
 .btn-fill {
   @apply border-white border-2 bg-[#2C3ED3] rounded-full   text-white font-semibold;
 }
+
+
+.DontTouch button{
+  display:none;
+}
+.DontTouch image{
+  resize: none;
+}
+.visible{
+  display: inline-block;
+}
