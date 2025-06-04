@@ -131,7 +131,7 @@ export default function FoRm({ques}){
                     <button style={{position:"absolute",top:"5px"}}>abc</button>
                 </div>
 
-                <div id="Logo" className="hidden">
+                <div id="Logo" className="hidden" style={{justifySelf:"start", margin:"30px", marginTop:"0"}}>
                     <Logo name={"Logo"} />
                 </div>
                 <div id="Timer" className="hidden">

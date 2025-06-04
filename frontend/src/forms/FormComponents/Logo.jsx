@@ -3,7 +3,7 @@ import { removeLogo } from "../Form.jsx";
 
 const Logo = ({name}) => {
   const inputRef = useRef();
-  const [LogoPos, setLogoPos] = useState(1);
+  const [LogoPos, setLogoPos] = useState(0);
   const [previewUrl, setPreviewUrl] = useState("null");
 
   const addLogo = () => {
