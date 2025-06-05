@@ -1,7 +1,7 @@
 import React from "react";
 import { QrCode, Shield, Users, BarChart } from "lucide-react";
 
-export default function Services() {
+export default function HowItWorks() {
   const services = [
     {
       icon: <QrCode className="h-8 w-8" />,
@@ -28,7 +28,7 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="min-h-screen px-10 lg:px-20 flex flex-col gap-16 bg-white text-black mt-20"
+      className="min-h-screen px-6  lg:px-20 flex flex-col gap-16 bg-white text-black mt-20"
     >
       {/* TExt part */}
       <div className="flex flex-col justify-center items-center gap-8">

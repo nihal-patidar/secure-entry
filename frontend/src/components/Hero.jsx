@@ -83,11 +83,11 @@ export default function Hero() {
         </div>
 
         {/* Right photo + video */}
-        <div className="relative w-[300px] h-[600px] mx-auto transform -translate-x-2  lg:translate-x-[30%]">
+        <div className="relative max-w-[300px] h-[600px] mx-auto transform -translate-x-2  lg:translate-x-[30%]">
           <img
             src="Video-landing.gif"
             alt="Screen Animation"
-            className="absolute top-[70px] left-[40px] w-[220px] h-[460px] object-cover rounded-lg z-0"
+            className="absolute w-[14rem] h-[29rem] top-[2.5rem] left-[2rem] object-cover rounded-lg z-0"
           />
 
           <img
@@ -99,7 +99,7 @@ export default function Hero() {
       </div>
 
       {/* lower div */}
-      <div className="z-10 flex flex-col justify-center items-center gap-4">
+      <div className="z-10 flex flex-col pr-6 lg:pr-0 justify-center items-center gap-4">
         <div className=" text-3xl lg:text-5xl text-black font-semibold">
           Create New <span className="txt-landing-blue">Event</span> !
         </div>
