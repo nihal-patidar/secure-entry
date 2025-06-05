@@ -35,6 +35,10 @@ const router= createBrowserRouter([
     element:<CreateVisitorForm/>
   },
   {
+    path:"/form",
+    element:<VisitorFormCreate/>
+  },
+  {
     path:"/home",
     element:<Auth><Home/></Auth>,
     children:[

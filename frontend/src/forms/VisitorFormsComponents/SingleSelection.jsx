@@ -31,8 +31,6 @@ export default function SingleSelect({options, count, type}){
             });
             element.addEventListener('click', ()=>{
                 if(selected != -1 && selected != numb){
-                    // setTimeout(() => {
-                    // }, 100);
                     unSelect();
                 }
                 element.style.border = "1px solid blue";
@@ -51,7 +49,7 @@ export default function SingleSelect({options, count, type}){
             countOpt++;
 
         })
-    }, 100);
+    }, 10);
     return (
         <>
             <div style={{display:"flex", padding:"1vh", paddingTop:"2vh"}} id={`question-${count}-head`}>

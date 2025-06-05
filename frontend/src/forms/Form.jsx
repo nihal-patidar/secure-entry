@@ -5,11 +5,11 @@ import SingleSelect from "./FormComponents/SingleSelect.jsx";
 import InputFile from "./FormComponents/InputFile.jsx";
 import { useEffect, useState } from "react";
 import Logo from "./FormComponents/Logo.jsx";
-
+// import QueNav from "./FormComponents/questionNav.jsx";
 
 function AddButton({appendTo}){
     const label = document.createElement('label');
-    label.setAttribute('contenteditable', 'true'); // make label editable
+    label.setAttribute('contenteditable', 'true'); 
     label.textContent = "Edit Option";
   
     const checkbox = document.createElement('input');
@@ -37,12 +37,12 @@ function Question({type, count}){
     const QueKey = type == "logo" || type == "Timer" || type == "Terms and Conditions" || type ==  "cover" || type ==  "ending page" || type == "welcome page" ? 0 : 1;
     return (
         <div key={`${QueKey}`}>
-            <div  style={{width:"65vw", background:"white", color:"black", border:"1px solid #eaeaea", minHeight:"20vh", margin:"1vw", borderRadius:"15px"}}>
+            <div  style={{width:"65vw", background:"white", color:"black", minHeight:"20vh", margin:"1vw", borderRadius:"15px"}}>
 
                 <div id={`question-${count}`}>
                     {
                         type === "single selection" ?
-                                                    <SingleSelect count={count} type={type} options={["A", "B", "C", "D"]}></SingleSelect>
+                                                    <SingleSelect count={count} type={type} opts={["A", "B", "C", "D"]}></SingleSelect>
                                                     :
                         type === "multiple selection"?
                                                     <></>
@@ -57,7 +57,7 @@ function Question({type, count}){
                                                             setTimeout(() => {
                                                                 addLogo()
                                                                 // document.getElementById('Ques').removeChild(document.getElementById(`que-container-${count}`))
-                                                            }, 100)
+                                                            }, 10)
                                                         }
                                                     </div>
                                                     </>
@@ -85,7 +85,7 @@ function Question({type, count}){
                                                         {
                                                             setTimeout(() => {
                                                                 addTimer()
-                                                            }, 100)
+                                                            }, 10)
                                                         }
                                                     </div>
                                                     :
@@ -125,7 +125,7 @@ export default function FoRm({ques}){
 
     return(
         <>
-            <div id="Form" style={{border: "2px solid #eaeaea", margin:"2vh", marginLeft:"2vh", width:"68vw", justifyItems:"center", height:"92vh", background:"#F2F3F9", borderRadius:"15px", overflowY:"scroll",scrollbarWidth:"none"}}>
+            <div id="Form" style={{border: "2px solid #eaeaea", margin:"2vh", marginLeft:"2vh", width:"68vw", justifyItems:"center", height:"92vh", background:"#fff", borderRadius:"15px", overflowY:"scroll",scrollbarWidth:"none"}}>
                 <div className="DontTouch" style={{width:"100%", zIndex:"-1"}} id="Cover" onClick={EditModeToggle}>
                     <img src={img}  width={"100%"} style={{maxHeight:"100px", zIndex:"-1", resize:"both"}} alt="" />
                     <button style={{position:"absolute",top:"5px"}}>abc</button>
@@ -146,12 +146,17 @@ export default function FoRm({ques}){
                 <div id="Ques">
                     {
                         ques.map((element) => (
-                            <div>
+                            <div style={{border:"1px solid #eaeaea", borderRadius:"10px", marginTop:"10px"}}>
                                 {
-                                    console.log((Question({type:element, count:{count}})).type)
-                                }
-                                {
-                                    (Question({type:element, count:{count}})).key == 1 ? <Question id={`que-container-${count}`} type={`${element}`} count={count++}/> : <></>
+                                    (Question({type:element, count:{count}})).key == 1 ? (
+                                            <div>
+                                                <div style={{minHight:"180px", border:""}}>
+                                                  {/* <QueNav cnt={count} /> */}
+                                                </div>
+                                                <div style={{marginTop:"0px"}}></div>
+                                                <Question id={`que-container-${count}`} type={`${element}`} count={count++}/> 
+                                            </div>    
+                                        ) : <></>
                                 }
                                 
                             </div>

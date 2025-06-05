@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useState , useEffect } from "react"
 import FoRm from "./Form.jsx";
 
-export let Questions = ["logo", "text", "number", "single selection", "multiple selection", "Dropdown Selection", "special Render over Choise", "FullName", "email", "address", "Phone no.", "upload image", "upload file", "Date", "Time", "Timer", "Terms and Conditions", "cover", "ending page", "welcome page"];
+
+// const [questions, setQuestions] = useState(Questions);
 
 export const DefaultQuestion = {  "logo": `Choose logo`,
     "text": `Write your Question`,
@@ -9,7 +10,7 @@ export const DefaultQuestion = {  "logo": `Choose logo`,
     "single selection": `Q Select from below`,
     "multiple selection": `Q Multi Select from below`,
     "Dropdown Selection": `Q Dropdown Question`,
-    "special Render over Choise": `Parent Question Which decide further Questions`,
+    "special Render over Choise": `Parent Question Which decide further questions`,
     "FullName": `full name`,
     "email": `email`,
     "address": `address`,
@@ -46,9 +47,12 @@ export const PlaceHolders = {  "logo": `Choose logo`,
         "welcome page": `welcome page promo`}
     
 
-
+        
+    
 export default function Aside(){
     let selectedAside = ("Fields");
+    const [Questions, setQuestions] = useState([]);
+    // ["logo", "text", "number", "single selection", "multiple selection", "Dropdown Selection", "special Render over Choise", "FullName", "email", "address", "Phone no.", "upload image", "upload file", "Date", "Time", "Timer", "Terms and Conditions", "cover", "ending page", "welcome page"]
     const [Feilds, setFeilds] = useState({"essentials":["logo", "text", "number", "single selection", "multiple selection", "Dropdown Selection", "special Render over Choise"],
                                                   "contactDetails":["FullName", "email", "address", "Phone no."],
                                                   "Uploads":["upload image", "upload file"],
@@ -150,6 +154,44 @@ export default function Aside(){
 
     
 
+    function Duplicate(index) {
+        setQuestions(prev => {
+            const updated = [...prev];
+            const valueToDuplicate = updated[index];
+            updated.splice(index + 1, 0, valueToDuplicate);    
+            return updated;
+        });
+        console.log(index);
+        console.log(Questions);
+    }
+    
+    function Remove(index) {
+        setQuestions(prev => prev.filter((_, i) => i !== index));
+
+        console.log(index);
+        console.log(Questions);
+    }
+
+
+
+    function QueNav({cnt}){
+        return (
+            <div style={{display:"flex", justifyContent:"end"}}>
+                <button onClick={() => Duplicate(cnt)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                    </svg>
+                </button>
+                <button onClick={() => Remove(cnt)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                    </svg>
+                </button>
+            </div>
+        )
+    }
+
+    
     function hideFieldofType(st){
         Feild[st].forEach(element => {
             document.getElementById(`feild-${element}-1`).classList.toggle('hidden');
@@ -168,29 +210,31 @@ export default function Aside(){
     }
 
     function addQuestion(type){
-        Questions[Questions.length] = type;
-
+        console.log(type);
+        setQuestions([...Questions, type])
+        // console.log(Questions);
     }
     // #E2E6FF // 
-
     return(
     <>
         <div style={{display:"flex",maxWidth:"100vw"}}>
     
-            <div style={{border: "2px solid #eaeaea", margin:"2vh", marginRight:"0", background:"#F2F3F9", borderRadius:"15px", maxWidth:"27vw", overflow:"hidden"}}>
+            <div style={{border: "2px solid #d3d3d3", margin:"2vh", marginRight:"0", background:"#f2f4ff", borderRadius:"15px", maxWidth:"27vw", overflow:"hidden"}}>
                 <div className="flex" style={{minWidth:"0px"}}>
                     <div style={{minWidth:"100px", paddingTop:"20px", paddingLeft:"20px"}}>
                         <div style={{minHeight:"70px", cursor:"pointer"}}>feilds</div>
                         <div style={{minHeight:"70px", cursor:"pointer"}}>design</div>
                         <div style={{minHeight:"70px", cursor:"pointer"}}>logic</div>
                     </div>
-                    <div style={{width:"2px", background:"#eaeaea", marginRight:"20px"}}></div>
+                    <div style={{minWidth:"1px", background:"#d3d3d3", marginRight:"20px"}}>
+                        
+                    </div>
                     <div>
                         {selectedAside === "Fields" ?
                             <div id="feilds" style={{height:"90vh", marginTop:"2vh", overflowY:"scroll", scrollbarWidth:"none"}}>
-                                <input type="text" placeholder="Search" style={{background:"white", maxWidth:"200px", cursor:"pointer"}}/>
-                                <div style={{background:"#F2F3F9", minHeight:"500px", minWidth:"100px", color:"black"}}>
-                                    {feildTypes.map(element => (
+                                <input type="text" placeholder="Search" style={{background:"#F2F4F9", borderRadius:"8px", outline:"none", paddingLeft:"1.3vw", border:"1px solid #d3d3d3", maxWidth:"200px", cursor:"pointer"}}/>
+                                <div style={{background:"#F2F4Ff", minHeight:"500px", minWidth:"100px", color:"black"}}>
+                                    {feildTypes.map((element) => (
                                         <div key={element} id={`${element}`}>
                                           <button  style={{marginTop:"10px"}} onClick={() => hideFieldofType(`${element}`)}>{element}</button>
                                           {Feild[element]?.map((ele, idx) => (
@@ -198,11 +242,11 @@ export default function Aside(){
                                                     <div key={idx} style={{display:"flex"}}>
                                                         <div style={{background:"transparent",  maxWidth:"fit-content", alignContent:"center"}}>
                                                             <div>
-                                                                {console.log(element, ele)}
+                                                                {/* {console.log(element, ele)} */}
                                                                 <div id={`feild-${ele}-1`}  dangerouslySetInnerHTML={{ __html: Icon[element][ele]}} style={{width:"28px", height:"28px",alignContent:"center", justifyItems:"center", borderRadius:"5px",background:"#ABB9FF"}}></div>
                                                             </div>
                                                         </div>
-                                                        <button id={`feild-${ele}-2`} style={{ color: "#a1a1a1", textWrap:"wrap", cursor:"pointer", paddingLeft:"10px", alignItems:"center", width:"275px", textAlign:"start", transition:"all 0.5s"}} onClick={() => addQuestion(`ele`)} className="w-{100%} hover:bg-blue-50 rounded-[5px]">{ele}</button>
+                                                        <button id={`feild-${ele}-2`} style={{ color: "#a1a1a1", textWrap:"wrap", cursor:"pointer", paddingLeft:"10px", alignItems:"center", width:"275px", textAlign:"start", transition:"all 0.5s"}} onClick={() => addQuestion(`${Feild[element][idx]}`)} className="w-{100%} hover:bg-blue-50 rounded-[5px]">{ele}</button>
                                                     </div>
                                                     <br />
                                                 </div>
@@ -220,8 +264,8 @@ export default function Aside(){
                 </div>
             </div>
             
-            <div>
-                <FoRm ques={Questions}></FoRm>
+            <div>        
+                <FoRm ques={Questions} />
             </div>
         </div>
 
