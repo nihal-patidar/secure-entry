@@ -19,10 +19,10 @@ export default function Navbar() {
 
   return (
     <nav
-      className={` fixed z-50 transition-all duration-300  ease-in-out   ${
+      className={` fixed z-50 transition-all duration-300 lg:max-w-full max-w-[90%] ease-in-out   ${
         isScrolled
-          ? "lg:top-4 lg:left-1/2 lg:-translate-x-1/2 lg:w-[60%] lg:rounded-full lg:shadow-lg opacity-0 lg:opacity-100"
-          : " w-full translate-x-0 rounded-none shadow-none"
+          ? "lg:top-4 lg:left-1/2 lg:-translate-x-1/2  lg:rounded-full lg:w-[60%] lg:shadow-lg opacity-0 lg:opacity-100"
+          : " w-full  translate-x-0 rounded-none shadow-none"
       } 
       lg:bg-[#2C3ED3] lg:opacity-100  lg:pointer-events-auto bg-transparent w-full `}
     >
@@ -41,7 +41,7 @@ export default function Navbar() {
                 Services
               </a>
               <a href="#creator" className="nav-link-updated">
-                About Us
+                Where we operate
               </a>
               <a href="#contact" className="nav-link-updated">
                 Help & support
