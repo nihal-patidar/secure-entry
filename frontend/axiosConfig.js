@@ -5,7 +5,7 @@ const api = axios.create({
   // baseURL: "http://64.227.136.247/", // Replace with your backend's base URL
   baseURL: "https://secure-entry-f5go.onrender.com",
   // baseURL : "http://localhost:3000",
-  
+
   headers: {
     'Content-Type': 'application/json',
   },

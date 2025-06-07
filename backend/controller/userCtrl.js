@@ -22,7 +22,7 @@ const userRegistor = async (req, res) => {
   // first check the user is present or not
 
   try {
-    
+
     let isExist = await userModel.findOne({ email: req.body.email });
     if (isExist) {
       return res.status(400).json({
@@ -30,7 +30,7 @@ const userRegistor = async (req, res) => {
       });
     }
     let salt = bcrypt.genSaltSync(10);
-    console.log("password",req.body.password);
+    console.log("password", req.body.password);
     let hashPass = bcrypt.hashSync(req.body.password, salt);
     let newUser = new userModel({
       name: req.body.name,
@@ -272,7 +272,7 @@ const userProfileUpdate = async (req, res) => {
           let updatedData = await userModel.findByIdAndUpdate(
             { _id: user_id },
             {
-              $set:{ name , email , image : imageUrl },
+              $set: { name, email, image: imageUrl },
             },
             { new: true }
           );
@@ -557,6 +557,7 @@ const getUser = async (req, res) => {
     });
   }
 };
+const forgotPassword = async (req, res) => { }
 module.exports = {
   userRegistor,
   mailVarification,
