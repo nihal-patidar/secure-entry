@@ -1,5 +1,4 @@
 "use client";
-import { cn } from "../lib/utils";
 import { IMAGE_URL_CARD } from "../constants/Links";
 
 export function Card(props) {
