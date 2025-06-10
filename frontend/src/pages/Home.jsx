@@ -21,7 +21,7 @@ import { ServiceContext } from "../context/ServiceContext";
 import { dataContext } from "../context/DataState";
 import MadeWithLove from "../components/small/Signature";
 import MadeWithLoveM from "../components/small/SignatureMobile";
-import LayoutServices from '../components/newServices/LayoutServices'
+import MainBody from '../components/newServices/MainBody'
 
 const Home = () => {
   // const [showSidebar, setShowSidebar] = useState(true);
@@ -203,7 +203,7 @@ const Home = () => {
 // };
 return(
   <>
-  <LayoutServices/>
+  <MainBody/>
   </>
 )
 }
