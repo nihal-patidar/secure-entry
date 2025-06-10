@@ -1,17 +1,14 @@
 import { useState , useEffect } from "react"
 import FoRm from "./Form.jsx";
 
-
-// const [questions, setQuestions] = useState(Questions);
-
-export const DefaultQuestion = {  "logo": `Choose logo`,
+export const DefaultQuestion = {  "Logo": `Choose Logo`,
     "text": `Write your Question`,
     "number": `Write Your Question`,
     "single selection": `Q Select from below`,
     "multiple selection": `Q Multi Select from below`,
     "Dropdown Selection": `Q Dropdown Question`,
     "special Render over Choise": `Parent Question Which decide further questions`,
-    "FullName": `full name`,
+    "FullName": `Full Name`,
     "email": `email`,
     "address": `address`,
     "Phone no.": `phone number`,
@@ -21,11 +18,11 @@ export const DefaultQuestion = {  "logo": `Choose logo`,
     "Time": `Enter Time`,
     "Timer": `Enter Timer`,
     "Terms and Conditions": `Terms and Conditions`,
-    "cover":`Cover Image`, 
+    "Cover":`Cover Image`, 
     "ending page": `ending page promo`, 
     "welcome page": `welcome page promo`}
 
-export const PlaceHolders = {  "logo": `Choose logo`,
+export const PlaceHolders = {  "Logo": `Choose Logo`,
         "text": `Write your Question`,
         "number": `Write Your Question`,
         "single selection": `Q Select from below`,
@@ -42,46 +39,50 @@ export const PlaceHolders = {  "logo": `Choose logo`,
         "Time": `Enter Time`,
         "Timer": {days: "1", hours: "0", minutes: "0", seconds: "0"},
         "Terms and Conditions": `Terms and Conditions`,
-        "cover":`Cover Image`, 
+        "Cover":`Cover Image`, 
         "ending page": `ending page promo`, 
         "welcome page": `welcome page promo`}
-    
 
-        
+
     
 export default function Aside(){
-    let selectedAside = ("Fields");
+    const [selectedAside, setSelectedAside] = useState("Fields");
+    const [lastSelectedAside, setlastSelectedAside] = useState("Fields");
     const [Questions, setQuestions] = useState([]);
-    // ["logo", "text", "number", "single selection", "multiple selection", "Dropdown Selection", "special Render over Choise", "FullName", "email", "address", "Phone no.", "upload image", "upload file", "Date", "Time", "Timer", "Terms and Conditions", "cover", "ending page", "welcome page"]
-    const [Feilds, setFeilds] = useState({"essentials":["logo", "text", "number", "single selection", "multiple selection", "Dropdown Selection", "special Render over Choise"],
-                                                  "contactDetails":["FullName", "email", "address", "Phone no."],
-                                                  "Uploads":["upload image", "upload file"],
-                                                  "Date & Time":["Date", "Time", "Timer"], 
-                                                  "Legal & Consent":["Terms and Conditions"],
-                                                  "Media and Structure":["cover", "ending page", "welcome page"]});
+    const [editMode, setEditMode] = useState([]);
+    const [Options, setOptions] = useState([]);
+    const [Logo, setLogo] = useState(false);
+    const [Timer, setTimer] = useState(false);
+    const [Cover, setCover] = useState(false);
 
-    
+    // ["logo", "text", "number", "single selection", "multiple selection", "Dropdown Selection", "special Render over Choise", "FullName", "email", "address", "Phone no.", "upload image", "upload file", "Date", "Time", "Timer", "Terms and Conditions", "cover", "ending page", "welcome page"]
+    const [Feilds, setFeilds] = useState({"Essentials":["text", "number", "single selection", "multiple selection", "Dropdown Selection", "special Render over Choise"],
+                                                  "Contact Details":["FullName", "email", "address", "Phone no."],
+                                                  "Uploads":["upload image", "upload file"],
+                                                  "Date & Time":["Date", "Time"], 
+                                                  "Legal & Consent":["Terms and Conditions"],
+                                                  "Media and Structure":["ending page", "welcome page"],
+                                                  "One Time Render": ["Timer", "Logo", "Cover"]});
+
         
-    const Feild = {"essentials":["logo", "text", "number", "single selection", "multiple selection", "Dropdown Selection", "special Render over Choise"],
+    const Feild = {"Essentials":["text", "number", "single selection", "multiple selection", "Dropdown Selection", "special Render over Choise"],
                    "contactDetails":["FullName", "email", "address", "Phone no."],
                    "Uploads":["upload image", "upload file"],
-                   "Date & Time":["Date", "Time", "Timer"], 
+                   "Date & Time":["Date", "Time"], 
                    "Legal & Consent":["Terms and Conditions"],
-                   "Media and Structure":["cover", "ending page", "welcome page"]}
+                   "Media and Structure":["ending page", "welcome page"]}
+
     const feildTypes = [
-        "essentials",
-        "contactDetails",
+        "One Time Render",
+        "Essentials",
+        "Contact Details",
         "Uploads",
         "Date & Time",
         "Legal & Consent",
-        "Media and Structure"
+        "Media and Structure",
     ];
-    const Icon = {  "essentials":{"logo": `<svg width="22" height="22" viewBox="0 0 23 23" fill="white" xmlns="http://www.w3.org/2000/svg">
-                                <rect rx="5" fill="#"/>
-                                <path d="M11.5002 8.30939C10.8692 8.30939 10.2523 8.49651 9.72758 8.8471C9.20288 9.19769 8.79393 9.696 8.55244 10.279C8.31095 10.862 8.24777 11.5036 8.37088 12.1225C8.49399 12.7414 8.79787 13.3099 9.24408 13.7561C9.6903 14.2023 10.2588 14.5062 10.8777 14.6293C11.4967 14.7524 12.1382 14.6893 12.7212 14.4478C13.3042 14.2063 13.8025 13.7973 14.1531 13.2726C14.5037 12.7479 14.6908 12.1311 14.6908 11.5C14.6897 10.6541 14.3532 9.84321 13.7551 9.24509C13.157 8.64696 12.3461 8.31046 11.5002 8.30939Z" fill="black"/>
-                                <path d="M16.0807 8.5928C16.8836 8.5928 17.5345 7.94194 17.5345 7.13905C17.5345 6.33617 16.8836 5.6853 16.0807 5.6853C15.2778 5.6853 14.627 6.33617 14.627 7.13905C14.627 7.94194 15.2778 8.5928 16.0807 8.5928Z" fill="black"/>
-                                <path d="M17.8706 8.60001L17.8097 8.46626L17.7125 8.57626C17.4744 8.84666 17.1732 9.05405 16.8356 9.18001L16.7419 9.21439L16.78 9.30595C17.0706 10.0009 17.2197 10.7468 17.2188 11.5C17.2188 14.6538 14.6531 17.2188 11.5 17.2188C8.34687 17.2188 5.78125 14.6538 5.78125 11.5C5.78125 8.34626 8.34625 5.78126 11.5 5.78126C12.3481 5.77949 13.1858 5.96853 13.9509 6.33439L14.0406 6.37501L14.0797 6.28376C14.2222 5.95296 14.4439 5.66232 14.7253 5.43751L14.84 5.34595L14.7097 5.28126C13.7185 4.76574 12.6173 4.4977 11.5 4.50001C7.64031 4.50001 4.5 7.64033 4.5 11.5C4.5 15.3597 7.64031 18.5 11.5 18.5C15.3597 18.5 18.5 15.3597 18.5 11.5C18.5016 10.4993 18.2869 9.51004 17.8706 8.60001Z" fill="black"/>
-                                 </svg>`,
+
+    const Icon = {  "Essentials":{
                                 "text": `<svg width="22" height="22" viewBox="0 0 13 11" fill="white" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12.25 2.75V0.25H0.75V2.75H2.75V1.25H5.5V10H3.75V11H9.25V10H7.5V1.25H10.25V2.75H12.25Z" fill="black"/>
                                 </svg>`,
@@ -100,7 +101,7 @@ export default function Aside(){
                                 "special Render over Choise": `<svg width="22" height="22" viewBox="0 0 17 17" fill="white" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M4.95801 7.08331L8.49967 10.625L12.0413 7.08331H4.95801Z" fill="black"/>
                                 </svg>`},
-                    "contactDetails":{"FullName": `<svg width="22" height="22" viewBox="0 0 13 15" fill="white" xmlns="http://www.w3.org/2000/svg">
+                    "Contact Details":{"FullName": `<svg width="22" height="22" viewBox="0 0 13 15" fill="white" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2.83333 4.50001C2.83333 3.52755 3.21964 2.59492 3.90727 1.90729C4.59491 1.21965 5.52754 0.833344 6.5 0.833344C7.47246 0.833344 8.40509 1.21965 9.09273 1.90729C9.78036 2.59492 10.1667 3.52755 10.1667 4.50001C10.1667 5.47247 9.78036 6.4051 9.09273 7.09273C8.40509 7.78037 7.47246 8.16668 6.5 8.16668C5.52754 8.16668 4.59491 7.78037 3.90727 7.09273C3.21964 6.4051 2.83333 5.47247 2.83333 4.50001ZM0.5 12.1667C0.5 11.2826 0.851189 10.4348 1.47631 9.80965C2.10143 9.18453 2.94928 8.83334 3.83333 8.83334H9.16667C10.0507 8.83334 10.8986 9.18453 11.5237 9.80965C12.1488 10.4348 12.5 11.2826 12.5 12.1667V14.1667H0.5V12.1667Z" fill="black"/>
                                 </svg>`,
                                 "email": `<svg width="22" height="22" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -133,49 +134,56 @@ export default function Aside(){
                                 </svg>`,
                                 "Time": `<svg width="22" height="22" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M7.99967 7.08671V3.50004H6.99967V7.50004L9.82834 10.3287L10.535 9.62204L7.99967 7.08671ZM7.49967 14.1667C3.81767 14.1667 0.833008 11.182 0.833008 7.50004C0.833008 3.81804 3.81767 0.833374 7.49967 0.833374C11.1817 0.833374 14.1663 3.81804 14.1663 7.50004C14.1663 11.182 11.1817 14.1667 7.49967 14.1667Z" fill="black"/>
-                                </svg>`, 
-                                "Timer":`<svg width="22" height="22" viewBox="0 0 13 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4.5 1.50002V0.166687H8.5V1.50002H4.5ZM5.83333 8.83335H7.16667V4.83335H5.83333V8.83335ZM6.5 14.1667C5.67778 14.1667 4.90267 14.0085 4.17467 13.692C3.44667 13.3756 2.81067 12.9449 2.26667 12.4C1.72267 11.8551 1.29222 11.2189 0.975333 10.4914C0.658444 9.7638 0.5 8.98891 0.5 8.16669C0.5 7.34446 0.658444 6.56935 0.975333 5.84135C1.29222 5.11335 1.72267 4.47735 2.26667 3.93335C2.81067 3.38935 3.44689 2.95891 4.17533 2.64202C4.90378 2.32513 5.67867 2.16669 6.5 2.16669C7.18889 2.16669 7.85 2.2778 8.48333 2.50002C9.11667 2.72224 9.71111 3.04446 10.2667 3.46669L11.2 2.53335L12.1333 3.46669L11.2 4.40002C11.6222 4.95558 11.9444 5.55002 12.1667 6.18335C12.3889 6.81669 12.5 7.4778 12.5 8.16669C12.5 8.98891 12.3416 9.76402 12.0247 10.492C11.7078 11.22 11.2773 11.856 10.7333 12.4C10.1893 12.944 9.55311 13.3747 8.82467 13.692C8.09622 14.0094 7.32133 14.1676 6.5 14.1667Z" fill="black"/>
                                 </svg>`}, 
                     "Legal & Consent":{"Terms and Conditions": `<svg width="22" height="22" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M7.99967 7.08671V3.50004H6.99967V7.50004L9.82834 10.3287L10.535 9.62204L7.99967 7.08671ZM7.49967 14.1667C3.81767 14.1667 0.833008 11.182 0.833008 7.50004C0.833008 3.81804 3.81767 0.833374 7.49967 0.833374C11.1817 0.833374 14.1663 3.81804 14.1663 7.50004C14.1663 11.182 11.1817 14.1667 7.49967 14.1667Z" fill="black"/>
                                 </svg>`},
-                    "Media and Structure":{"cover":`<svg width="22" height="22" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13.2997 0.23333C11.9663 0.699996 10.0997 1.16666 7.49967 1.16666C4.89967 1.16666 2.89967 0.63333 1.69967 0.23333C1.29967 0.0333298 0.833008 0.366663 0.833008 0.83333V10.1667C0.833008 10.6333 1.29967 10.9667 1.69967 10.8333C3.09967 10.3667 4.89967 9.83333 7.49967 9.83333C10.0997 9.83333 11.9663 10.3667 13.2997 10.8333C13.7663 10.9667 14.1663 10.6333 14.1663 10.1667V0.83333C14.1663 0.366663 13.6997 0.0333298 13.2997 0.23333ZM7.49967 7.5C5.96634 7.5 4.49967 7.56666 3.16634 7.76666L5.63301 4.83333L6.96634 6.43333L8.83301 4.16666L11.833 7.76666C10.4997 7.56666 9.03301 7.5 7.49967 7.5Z" fill="black"/>
-                                </svg>`, 
+                    "Media and Structure":{
                                 "ending page": `<svg width="22" height="22" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2.89968 1.69999C2.90011 1.27592 3.06887 0.869368 3.36888 0.569656C3.66889 0.269944 4.07561 0.101593 4.49968 0.101593H8.49968C8.92375 0.101593 9.33048 0.269944 9.63049 0.569656C9.9305 0.869368 10.0993 1.27592 10.0997 1.69999H10.8965C11.2147 1.69999 11.52 1.82642 11.745 2.05146C11.9701 2.27651 12.0965 2.58173 12.0965 2.89999V4.10399C12.0965 4.68495 11.8855 5.24614 11.5028 5.68319C11.12 6.12024 10.5916 6.4034 10.0157 6.47999C9.85313 7.21306 9.46542 7.87695 8.90683 8.37873C8.34823 8.88052 7.64672 9.19508 6.90048 9.27839V10.4744H8.50288C8.92723 10.4744 9.3342 10.643 9.63426 10.943C9.93431 11.2431 10.1029 11.65 10.1029 12.0744V12.4744C10.1029 12.5805 10.0607 12.6822 9.98573 12.7572C9.91071 12.8323 9.80897 12.8744 9.70288 12.8744H3.30288C3.1968 12.8744 3.09506 12.8323 3.02004 12.7572C2.94503 12.6822 2.90288 12.5805 2.90288 12.4744V12.0744C2.90288 11.65 3.07146 11.2431 3.37151 10.943C3.67157 10.643 4.07854 10.4744 4.50288 10.4744H6.10048V9.27839C5.35378 9.19509 4.65185 8.88025 4.09307 8.37799C3.53428 7.87573 3.14665 7.21122 2.98448 6.47759C2.40744 6.40091 1.87779 6.11751 1.49382 5.67999C1.10985 5.24246 0.897608 4.68051 0.896484 4.09839V2.89999C0.896484 2.58173 1.02291 2.27651 1.24796 2.05146C1.473 1.82642 1.77822 1.69999 2.09648 1.69999H2.89968ZM10.0997 5.64959C10.4422 5.56096 10.7456 5.36108 10.9622 5.08133C11.1788 4.80158 11.2964 4.45781 11.2965 4.10399V2.89999C11.2965 2.79391 11.2543 2.69216 11.1793 2.61715C11.1043 2.54214 11.0026 2.49999 10.8965 2.49999H10.1005L10.0997 5.64959ZM2.89968 2.49999H2.09728C1.9912 2.49999 1.88946 2.54214 1.81444 2.61715C1.73943 2.69216 1.69728 2.79391 1.69728 2.89999V4.09839C1.69728 4.84239 2.20928 5.46879 2.90128 5.64719L2.89968 2.49999Z" fill="black"/>
                                 </svg>`, 
                                 "welcome page": `<svg width="22" height="22" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.1673 7.5C11.1673 7.99937 11.0653 8.49349 10.8676 8.95204C10.6698 9.41059 10.3805 9.82391 10.0173 10.1667C9.33751 10.8101 8.43667 11.168 7.50065 11.1667C6.52665 11.1667 5.64065 10.7867 4.98398 10.1667C4.62081 9.82391 4.33148 9.41059 4.13373 8.95204C3.93598 8.49349 3.83398 7.99937 3.83398 7.5H11.1673Z" fill="black"/>
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M0.166992 4.16666C0.166992 3.10579 0.58842 2.08837 1.33857 1.33823C2.08871 0.588084 3.10613 0.166656 4.16699 0.166656H10.8337C11.8945 0.166656 12.9119 0.588084 13.6621 1.33823C14.4122 2.08837 14.8337 3.10579 14.8337 4.16666V10.8333C14.8337 11.8942 14.4122 12.9116 13.6621 13.6618C12.9119 14.4119 11.8945 14.8333 10.8337 14.8333H0.166992V4.16666ZM2.00033 7.49999C2.00033 6.0413 2.57979 4.64235 3.61124 3.6109C4.64269 2.57945 6.04164 1.99999 7.50033 1.99999C8.95902 1.99999 10.358 2.57945 11.3894 3.6109C12.4209 4.64235 13.0003 6.0413 13.0003 7.49999C13.0003 8.95868 12.4209 10.3576 11.3894 11.3891C10.358 12.4205 8.95902 13 7.50033 13C6.04164 13 4.64269 12.4205 3.61124 11.3891C2.57979 10.3576 2.00033 8.95868 2.00033 7.49999Z" fill="black"/>
+                                </svg>`},
+                    "One Time Render":{"Timer":`<svg width="22" height="22" viewBox="0 0 13 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4.5 1.50002V0.166687H8.5V1.50002H4.5ZM5.83333 8.83335H7.16667V4.83335H5.83333V8.83335ZM6.5 14.1667C5.67778 14.1667 4.90267 14.0085 4.17467 13.692C3.44667 13.3756 2.81067 12.9449 2.26667 12.4C1.72267 11.8551 1.29222 11.2189 0.975333 10.4914C0.658444 9.7638 0.5 8.98891 0.5 8.16669C0.5 7.34446 0.658444 6.56935 0.975333 5.84135C1.29222 5.11335 1.72267 4.47735 2.26667 3.93335C2.81067 3.38935 3.44689 2.95891 4.17533 2.64202C4.90378 2.32513 5.67867 2.16669 6.5 2.16669C7.18889 2.16669 7.85 2.2778 8.48333 2.50002C9.11667 2.72224 9.71111 3.04446 10.2667 3.46669L11.2 2.53335L12.1333 3.46669L11.2 4.40002C11.6222 4.95558 11.9444 5.55002 12.1667 6.18335C12.3889 6.81669 12.5 7.4778 12.5 8.16669C12.5 8.98891 12.3416 9.76402 12.0247 10.492C11.7078 11.22 11.2773 11.856 10.7333 12.4C10.1893 12.944 9.55311 13.3747 8.82467 13.692C8.09622 14.0094 7.32133 14.1676 6.5 14.1667Z" fill="black"/>
+                                </svg>`,
+                                "Logo": `<svg width="22" height="22" viewBox="0 0 23 23" fill="white" xmlns="http://www.w3.org/2000/svg">
+                                <rect rx="5" fill="#"/>
+                                <path d="M11.5002 8.30939C10.8692 8.30939 10.2523 8.49651 9.72758 8.8471C9.20288 9.19769 8.79393 9.696 8.55244 10.279C8.31095 10.862 8.24777 11.5036 8.37088 12.1225C8.49399 12.7414 8.79787 13.3099 9.24408 13.7561C9.6903 14.2023 10.2588 14.5062 10.8777 14.6293C11.4967 14.7524 12.1382 14.6893 12.7212 14.4478C13.3042 14.2063 13.8025 13.7973 14.1531 13.2726C14.5037 12.7479 14.6908 12.1311 14.6908 11.5C14.6897 10.6541 14.3532 9.84321 13.7551 9.24509C13.157 8.64696 12.3461 8.31046 11.5002 8.30939Z" fill="black"/>
+                                <path d="M16.0807 8.5928C16.8836 8.5928 17.5345 7.94194 17.5345 7.13905C17.5345 6.33617 16.8836 5.6853 16.0807 5.6853C15.2778 5.6853 14.627 6.33617 14.627 7.13905C14.627 7.94194 15.2778 8.5928 16.0807 8.5928Z" fill="black"/>
+                                <path d="M17.8706 8.60001L17.8097 8.46626L17.7125 8.57626C17.4744 8.84666 17.1732 9.05405 16.8356 9.18001L16.7419 9.21439L16.78 9.30595C17.0706 10.0009 17.2197 10.7468 17.2188 11.5C17.2188 14.6538 14.6531 17.2188 11.5 17.2188C8.34687 17.2188 5.78125 14.6538 5.78125 11.5C5.78125 8.34626 8.34625 5.78126 11.5 5.78126C12.3481 5.77949 13.1858 5.96853 13.9509 6.33439L14.0406 6.37501L14.0797 6.28376C14.2222 5.95296 14.4439 5.66232 14.7253 5.43751L14.84 5.34595L14.7097 5.28126C13.7185 4.76574 12.6173 4.4977 11.5 4.50001C7.64031 4.50001 4.5 7.64033 4.5 11.5C4.5 15.3597 7.64031 18.5 11.5 18.5C15.3597 18.5 18.5 15.3597 18.5 11.5C18.5016 10.4993 18.2869 9.51004 17.8706 8.60001Z" fill="black"/>
+                                </svg>`,
+                                "Cover":`<svg width="22" height="22" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.2997 0.23333C11.9663 0.699996 10.0997 1.16666 7.49967 1.16666C4.89967 1.16666 2.89967 0.63333 1.69967 0.23333C1.29967 0.0333298 0.833008 0.366663 0.833008 0.83333V10.1667C0.833008 10.6333 1.29967 10.9667 1.69967 10.8333C3.09967 10.3667 4.89967 9.83333 7.49967 9.83333C10.0997 9.83333 11.9663 10.3667 13.2997 10.8333C13.7663 10.9667 14.1663 10.6333 14.1663 10.1667V0.83333C14.1663 0.366663 13.6997 0.0333298 13.2997 0.23333ZM7.49967 7.5C5.96634 7.5 4.49967 7.56666 3.16634 7.76666L5.63301 4.83333L6.96634 6.43333L8.83301 4.16666L11.833 7.76666C10.4997 7.56666 9.03301 7.5 7.49967 7.5Z" fill="black"/>
                                 </svg>`}}
 
 
-    
-
-    function Duplicate(index) {
-        setQuestions(prev => {
-            const updated = [...prev];
-            const valueToDuplicate = updated[index];
-            updated.splice(index + 1, 0, valueToDuplicate);    
-            return updated;
-        });
-        console.log(index);
-        console.log(Questions);
+    function Duplicate(index)
+    {    
+        // index--;
+        const updated1 = [...Questions];
+        const valueToDuplicate1 = updated1[index];
+        updated1.splice(index + 1, 0, valueToDuplicate1);
+        const updated3 = [...editMode];
+        updated3.splice(index + 1, "0", 0);    
+        setQuestions(updated1);
+        setEditMode(updated3)
+        
+        const updated2 = [...Options];
+        const valueToDuplicate2 = updated2[index];
+        updated2.splice(index + 1, 0, valueToDuplicate2);    
+        setOptions(updated2);
     }
-    
+                             
     function Remove(index) {
-        setQuestions(prev => prev.filter((_, i) => i !== index));
-
-        console.log(index);
-        console.log(Questions);
+        // index--;
+        setQuestions((Questions.filter((_, i) => i !== index)));
+        setEditMode((editMode.filter((_, i) => i !== index)));
+        setOptions ((Options.filter((_, i) => i !== index)));
     }
 
-
-    
-
-    
     function hideFieldofType(st){
         Feild[st].forEach(element => {
             document.getElementById(`feild-${element}-1`).classList.toggle('hidden');
@@ -193,66 +201,179 @@ export default function Aside(){
         });
     }
 
+    function handleAside(n){
+        if(n == 0){
+            setSelectedAside("Fields");
+        }
+        else if(n == 1){
+            setSelectedAside("Design");
+        }
+        else if(n == 2){
+            setSelectedAside("Logic");
+        }
+        else{
+            if(selectedAside == "Collapse"){
+                setSelectedAside(lastSelectedAside);
+            }
+            else{
+                setlastSelectedAside(selectedAside);
+                setSelectedAside("Collapse")
+            }
+        }
+    }
+
     function addQuestion(type){
         console.log(type);
         setQuestions([...Questions, type])
-        // console.log(Questions);
+        setEditMode([...editMode, "0"])
+        if(type === "single selection" || type === "multiple selection" || type === "Dropdown selection"){
+            setOptions([...Options, ["A", "B", "C", "D"]])
+        }
+        else{
+            setOptions([...Options, []]);
+        }
     }
-    // #E2E6FF // 
+
+    function setQuantity(type){
+        if(type === "Logo"){
+            setLogo(Logo == true ? false : true);
+        }
+        if(type === "Cover"){
+            setCover(Cover == true ? false : true);
+        }
+        if(type === "Timer"){
+            setTimer(Timer == true ? false : true);
+        }
+    }
+
+    function ToggleEditOptions(){
+        setTimeout(() => {
+            for(let i = 0;i < Questions.length;i++){
+                let index = i;
+                let element = document.getElementById(`Question-${index}`);
+                // element.onmouseenter=()=>{
+                //     setEditMode(prev => {
+                //         const updated = [...prev];   
+                //         updated[index] = "1";
+                //         return updated; 
+                //     })
+                //     element.style.background = "blue"
+                // }
+                // element.onmouseleave=()=>{
+                //     setEditMode(prev => {
+                //         const updated = [...prev];   
+                //         updated[index] = "0";
+                //         return updated; 
+                //     })
+                //     element.style.background = "transparent"
+                // }
+            }
+        }, 0);
+    }
+
+    useEffect(() => {
+        ToggleEditOptions();
+    }, [Questions]);
+
     return(
     <>
-        <div style={{display:"flex",maxWidth:"100vw"}}>
+        <div style={{display:"flex",maxWidth:"100vw",minHeight:"90vh"}}>
     
-            <div style={{border: "2px solid #d3d3d3", margin:"2vh", marginRight:"0", background:"#f2f4ff", borderRadius:"15px", maxWidth:"27vw", overflow:"hidden"}}>
+            <div style={{border: "2px solid #d3d3d3", margin:"2vh", marginRight:"0", background:"#f2f4ff", borderRadius:"15px", width:"30vw", overflow:"hidden"}}>
                 <div className="flex" style={{minWidth:"0px"}}>
-                    <div style={{minWidth:"100px", paddingTop:"20px", paddingLeft:"20px"}}>
-                        <div style={{minHeight:"70px", cursor:"pointer"}}>feilds</div>
-                        <div style={{minHeight:"70px", cursor:"pointer"}}>design</div>
-                        <div style={{minHeight:"70px", cursor:"pointer"}}>logic</div>
+                    <div style={{minWidth:"80px", paddingTop:"20px", minHeight:"92vh", display:"flex", flexDirection:"column", justifyContent:"space-between"}}>
+                        <div>
+                            <div style={{cursor:"pointer", paddingLeft:"20px"}} onClick={() => {handleAside(0)}}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={"30px"} height={"30px"} fill="#242424"  background="#7850FA" viewBox="0 0 512 512">
+                                    <path d="M411.4 175.5C417.4 185.4 417.5 197.7 411.8 207.8C406.2 217.8 395.5 223.1 384 223.1H192C180.5 223.1 169.8 217.8 164.2 207.8C158.5 197.7 158.6 185.4 164.6 175.5L260.6 15.54C266.3 5.897 276.8 0 288 0C299.2 0 309.7 5.898 315.4 15.54L411.4 175.5zM288 312C288 289.9 305.9 272 328 272H472C494.1 272 512 289.9 512 312V456C512 478.1 494.1 496 472 496H328C305.9 496 288 478.1 288 456V312zM0 384C0 313.3 57.31 256 128 256C198.7 256 256 313.3 256 384C256 454.7 198.7 512 128 512C57.31 512 0 454.7 0 384z"></path>
+                                </svg>
+                                <div style={{minHeight:"50px", marginTop:"10px", width:"50px"}}>feilds</div>
+                            </div>
+                            <div style={{cursor:"pointer", paddingLeft:"20px"}} onClick={() => {handleAside(1)}}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={"30px"} height={"30px"} fill="#242424" background="#7850FA" viewBox="0 0 512 512"><path d="M464 258.2c0 2.7-1 5.2-4.2 8c-3.8 3.1-10.1 5.8-17.8 5.8H344c-53 0-96 43-96 96c0 6.8 .7 13.4 2.1 19.8c3.3 15.7 10.2 31.1 14.4 40.6l0 0c.7 1.6 1.4 3 1.9 4.3c5 11.5 5.6 15.4 5.6 17.1c0 5.3-1.9 9.5-3.8 11.8c-.9 1.1-1.6 1.6-2 1.8c-.3 .2-.8 .3-1.6 .4c-2.9 .1-5.7 .2-8.6 .2C141.1 464 48 370.9 48 256S141.1 48 256 48s208 93.1 208 208c0 .7 0 1.4 0 2.2zm48 .5c0-.9 0-1.8 0-2.7C512 114.6 397.4 0 256 0S0 114.6 0 256S114.6 512 256 512c3.5 0 7.1-.1 10.6-.2c31.8-1.3 53.4-30.1 53.4-62c0-14.5-6.1-28.3-12.1-42c-4.3-9.8-8.7-19.7-10.8-29.9c-.7-3.2-1-6.5-1-9.9c0-26.5 21.5-48 48-48h97.9c36.5 0 69.7-24.8 70.1-61.3zM160 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-64a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm128-64a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm64 64a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"></path></svg>
+                                <div style={{minHeight:"50px", marginTop:"10px", width:"50px"}}>design</div>
+                            </div>
+                            <div style={{cursor:"pointer", paddingLeft:"20px"}} onClick={() => {handleAside(2)}}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={"30px"} height={"30px"} fill="#242424" background="#7850FA" viewBox="0 0 512 512"><path d="M425 31l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39H352c-12.6 0-24.4 5.9-32 16l-46 61.3-30-40 37.6-50.1C298.2 117 324.3 104 352 104h78.1L391 65c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0zM204 322.7l-37.6 50.1C149.8 395 123.7 408 96 408H24c-13.3 0-24-10.7-24-24s10.7-24 24-24H96c12.6 0 24.4-5.9 32-16l46-61.3 30 40zM391 287c9.4-9.4 24.6-9.4 33.9 0l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39H352c-27.7 0-53.8-13-70.4-35.2L128 168c-7.6-10.1-19.4-16-32-16H24c-13.3 0-24-10.7-24-24s10.7-24 24-24H96c27.7 0 53.8 13 70.4 35.2L320 344c7.6 10.1 19.4 16 32 16h78.1l-39-39c-9.4-9.4-9.4-24.6 0-33.9z"></path></svg>
+                                <div style={{minHeight:"50px", marginTop:"10px", width:"50px"}}>logic</div>
+                            </div>
+                        </div>
+                        <div style={{cursor:"pointer", paddingLeft:"10px"}} onClick={() => {handleAside(3)}}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-10">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                            </svg>
+                            <div style={{paddingBottom:"20px"}}></div>
+                            {/* <div style={{minHeight:"50px", marginTop:"10px", width:"50px"}}></div> */}
+                        </div>
                     </div>
-                    <div style={{minWidth:"1px", background:"#d3d3d3", marginRight:"20px"}}>
-                        
-                    </div>
+                    {selectedAside === "Collapse" ? <></> : <div style={{minWidth:"1px", minHeight:"92vh", background:"#d3d3d3"}}></div>}
                     <div>
                         {selectedAside === "Fields" ?
-                            <div id="feilds" style={{height:"90vh", marginTop:"2vh", overflowY:"scroll", scrollbarWidth:"none"}}>
-                                <input type="text" placeholder="Search" style={{background:"#F2F4F9", borderRadius:"8px", outline:"none", paddingLeft:"1.3vw", border:"1px solid #d3d3d3", maxWidth:"200px", cursor:"pointer"}}/>
+                            <div id="feilds" style={{height:"90vh", paddingBottom:"20px", marginLeft:"20px", marginTop:"2vh", overflowY:"scroll"}}>
+                                <input type="text" placeholder="Search" style={{background:"#F2F4F9", borderRadius:"8px", outline:"none", paddingLeft:"1.3vw", border:"1px solid #d3d3d3", maxWidth:"200px", cursor:"pointer", color:"#111"}}/>
                                 <div style={{background:"#F2F4Ff", minHeight:"500px", minWidth:"100px", color:"black"}}>
                                     {feildTypes.map((element) => (
                                         <div key={element} id={`${element}`}>
                                           <button  style={{marginTop:"10px"}} onClick={() => hideFieldofType(`${element}`)}>{element}</button>
-                                          {Feild[element]?.map((ele, idx) => (
+                                          {(element == "One Time Render") ? 
+                                            <>
+                                                {Feilds[element]?.map((ele, idx) => (
+                                                    <>
+                                                        <div>
+                                                            <div key={idx} style={{display:"flex"}}>
+                                                                <div style={{background:"transparent",  maxWidth:"fit-content", alignContent:"center"}}>
+                                                                    <div>
+                                                                        <div id={`feild-${ele}-1`}  dangerouslySetInnerHTML={{ __html: Icon[element][ele]}} style={{width:"28px", height:"28px",alignContent:"center", justifyItems:"center", borderRadius:"5px",background:"#ABB9FF"}}></div>
+                                                                    </div>
+                                                                </div>
+                                                                <button id={`feild-${ele}-2`} style={{ color: "#a1a1a1", textWrap:"wrap", cursor:"pointer", paddingLeft:"10px", alignItems:"center", width:"275px", textAlign:"start", transition:"all 0.5s"}} onClick={() => setQuantity(`${Feilds[element][idx]}`)} className="w-{100%} hover:bg-blue-50 rounded-[5px]">{ele}</button>
+                                                            </div>
+                                                            <br />
+                                                        </div>
+                                                    </>
+                                                ))}
+                                            </> 
+                                            :
+                                            Feilds[element]?.map((ele, idx) => (
                                                 <div>
                                                     <div key={idx} style={{display:"flex"}}>
-                                                        <div style={{background:"transparent",  maxWidth:"fit-content", alignContent:"center"}}>
-                                                            <div>
-                                                                {/* {console.log(element, ele)} */}
-                                                                <div id={`feild-${ele}-1`}  dangerouslySetInnerHTML={{ __html: Icon[element][ele]}} style={{width:"28px", height:"28px",alignContent:"center", justifyItems:"center", borderRadius:"5px",background:"#ABB9FF"}}></div>
+                                                        <button id={`feild-${ele}-2`} style={{display:"flex", color: "#a1a1a1", textWrap:"wrap", cursor:"pointer", paddingLeft:"10px", alignItems:"center", width:"275px", textAlign:"start", transition:"all 0.5s"}} onClick={() => addQuestion(`${Feilds[element][idx]}`)} className="w-{100%} hover:bg-blue-50 rounded-[5px]">
+                                                            <div style={{background:"transparent",  maxWidth:"fit-content", alignContent:"center"}}>
+                                                                <div>
+                                                                    {/* {console.log(element, ele)} */}
+                                                                    <div id={`feild-${ele}-1`}  dangerouslySetInnerHTML={{ __html: Icon[element][ele]}} style={{width:"28px", height:"28px",alignContent:"center", justifyItems:"center", borderRadius:"5px",background:"#ABB9FF"}}></div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <button id={`feild-${ele}-2`} style={{ color: "#a1a1a1", textWrap:"wrap", cursor:"pointer", paddingLeft:"10px", alignItems:"center", width:"275px", textAlign:"start", transition:"all 0.5s"}} onClick={() => addQuestion(`${Feild[element][idx]}`)} className="w-{100%} hover:bg-blue-50 rounded-[5px]">{ele}</button>
+                                                            <div style={{paddingLeft:"10px"}}>{ele}</div>
+                                                        </button>
                                                     </div>
                                                     <br />
                                                 </div>
-                                         ))}
+                                            ))
+                                        }
                                         </div>
                                     ))}
                                 </div>
                             </div>
                              : selectedAside === "Design" ?
                                 <>
-    
-    
-                                </> : <></>}
+
+                                </> 
+                             : selectedAside === "Logic" ? 
+                                <>
+                                
+                                </> 
+                             : 
+                                <>
+
+                                </>
+                            }
                     </div>
                 </div>
             </div>
-            
             <div>        
-                <FoRm ques={Questions} Duplicate={Duplicate} Remove={Remove} />
+                <FoRm editMode={editMode} ques={Questions} Duplicate={Duplicate} Remove={Remove} isLogo={Logo} isCover={Cover} isTimer={Timer} setQuantity={setQuantity} />
             </div>
         </div>
-
-
     </>
 )}

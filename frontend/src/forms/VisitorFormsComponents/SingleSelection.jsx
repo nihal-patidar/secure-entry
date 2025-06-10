@@ -15,7 +15,7 @@ export default function SingleSelect({options, count, type}){
             element.style.borderRadius = "8px";
             selectedImg.style.display="none";
             unSelectedImg.style.display="inline-block";
-        }, 10);
+        }, 0);
     }
     setTimeout(() => {
         let countOpt = 1;
@@ -49,7 +49,7 @@ export default function SingleSelect({options, count, type}){
             countOpt++;
 
         })
-    }, 10);
+    }, 0);
     return (
         <>
             <div style={{display:"flex", padding:"1vh", paddingTop:"2vh"}} id={`question-${count}-head`}>

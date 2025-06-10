@@ -319,3 +319,9 @@ body {
 .visible{
   display: inline-block;
 }
+#feilds{
+  /* scrollbar-color: green;
+  scrollbar-width: 20px;
+  scrollbar-highlight-color: blue; */
+  scrollbar-width: none;
+}
