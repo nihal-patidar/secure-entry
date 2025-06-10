@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Icons } from "../utils/icons";
+import {Icons} from '../../utils/icons'
 
 const MobileMenu = ({ isOpen }) => {
   const [colorTrue, setColorTrue] = useState(null);
