@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 import Logo from "./FormComponents/Logo.jsx";
 import FullName from "./FormComponents/FullName.jsx";
 import Terms from "./FormComponents/TermsAndConditions.jsx";
-import ContactFeild from "./FormComponents/ContactFeilds.jsx"
+import ContactFeild from "./FormComponents/ContactFeilds.jsx";
+import SpecialRendering from "./FormComponents/SpecialRendering.jsx"
 // import QueNav from "./FormComponents/questionNav.jsx";
 
 
@@ -70,7 +71,7 @@ export default function FoRm({ques, Duplicate, Remove, isLogo, isCover, isTimer,
 
     function Question({type, count, placeholder, desc, note, err, index}){
         const QueKey = type == "Logo" || type == "Timer" || type == "Terms and Conditions" || type ==  "Cover" || type ==  "ending page" || type == "welcome page" ? 0 : 1;
-        let tempMaster = master[count]["field_Question"];
+        
         return (
             <div key={`${QueKey}`}>
                 <div  style={{width:"50vw", background:"white", color:"black", minHeight:"20vh", margin:"1vw", borderRadius:"15px"}}>
@@ -79,8 +80,8 @@ export default function FoRm({ques, Duplicate, Remove, isLogo, isCover, isTimer,
                             {DefaultQuestion[type]}
                             <br />
                             <p>
-                                {`${tempMaster}`}
-                                {console.log(tempMaster)}
+                                {/* {`${master[count]["field_Question"]}`}
+                                {console.log(master[count]["field_Question"])} */}
                             </p>
                         </h2>
                         {
@@ -94,7 +95,7 @@ export default function FoRm({ques, Duplicate, Remove, isLogo, isCover, isTimer,
                                                         <SingleSelect master={master} count={count} QType="D" type={type} opts={["A", "B", "C", "D"]}></SingleSelect>
                                                         :
                             type === "special Render over Choise" ? 
-                                                        <SingleSelect master={master} count={count} QType="M" type={type} opts={["A", "B", "C", "D"]}></SingleSelect>
+                                                        <SpecialRendering master={master} count={count} QType="M" type={type} opts={["A", "B", "C", "D"]}></SpecialRendering>
                                                         :
                             type === "FullName" ?
                                                         <FullName master={master} placeholder={placeholder} desc={desc} note={note} err={err} />:
