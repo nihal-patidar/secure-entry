@@ -18,6 +18,18 @@ select:-webkit-autofill {
   background-color: #640d5f; */
 /* } */
 
+
+@layer components{
+  .sidebar-icon{
+    @apply flex items-center h-12 w-full px-4 my-2 
+  hover:text-blue-400 hover:bg-blue-400
+  rounded-lg gap-3 text-left
+  transition-all duration-300;
+
+    }
+}
+
+
 .theme-button {
   background-color: #640d5f;
   color: #ffeb55;
