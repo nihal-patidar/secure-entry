@@ -4,9 +4,9 @@ import FoRm from "./Form.jsx";
 export const DefaultQuestion = {  "Logo": `Choose Logo`,
     "text": `Write your Question`,
     "number": `Write Your Question`,
-    "single selection": `Q Select from below`,
-    "multiple selection": `Q Multi Select from below`,
-    "Dropdown Selection": `Q Dropdown Question`,
+    "single selection": `Select from below`,
+    "multiple selection": `Multi Select from below`,
+    "Dropdown Selection": `Dropdown Question`,
     "special Render over Choise": `Parent Question Which decide further questions`,
     "FullName": `Full Name`,
     "email": `email`,
@@ -22,21 +22,63 @@ export const DefaultQuestion = {  "Logo": `Choose Logo`,
     "ending page": `ending page promo`, 
     "welcome page": `welcome page promo`}
 
-export const PlaceHolders = {  "Logo": `Choose Logo`,
-        "text": `Write your Question`,
-        "number": `Write Your Question`,
-        "single selection": `Q Select from below`,
-        "multiple selection": `Q Multi Select from below`,
-        "Dropdown Selection": `Q Dropdown Question`,
-        "special Render over Choise": `Parent Question Which decide further Questions`,
-        "FullName": `full name`,
+export const DefaultDesc = {  "Logo": `Choose Logo`,
+    "text": `Write your Question`,
+    "number": `Write Your Question`,
+    "single selection": `Select from below`,
+    "multiple selection": `Multi Select from below`,
+    "Dropdown Selection": `Dropdown Question`,
+    "special Render over Choise": `Parent Question Which decide further questions`,
+    "FullName": `Full Name`,
+    "email": `email`,
+    "address": `address`,
+    "Phone no.": `phone number`,
+    "upload image": `Question to Upload an Image`, 
+    "upload file": `Question to Upload an Image`,
+    "Date": `Enter Date`,
+    "Time": `Enter Time`,
+    "Timer": `Enter Timer`,
+    "Terms and Conditions": `Terms and Conditions`,
+    "Cover":`Cover Image`, 
+    "ending page": `ending page promo`, 
+    "welcome page": `welcome page promo`}
+
+export const DefaultNote = {  "Logo": `Choose Logo`,
+    "text": `Write your Question`,
+    "number": `Write Your Question`,
+    "single selection": `Select from below`,
+    "multiple selection": `Multi Select from below`,
+    "Dropdown Selection": `Dropdown Question`,
+    "special Render over Choise": `Parent Question Which decide further questions`,
+    "FullName": `Full Name`,
+    "email": `email`,
+    "address": `address`,
+    "Phone no.": `phone number`,
+    "upload image": `Question to Upload an Image`, 
+    "upload file": `Question to Upload an Image`,
+    "Date": `Enter Date`,
+    "Time": `Enter Time`,
+    "Timer": `Enter Timer`,
+    "Terms and Conditions": `Terms and Conditions`,
+    "Cover":`Cover Image`, 
+    "ending page": `ending page promo`, 
+    "welcome page": `welcome page promo`}
+            
+export const PlaceHolders = {  "Logo": `Add PlaceHolder ...`,
+        "text": `Add PlaceHolder ...`,
+        "number": `Add PlaceHolder ...`,
+        "single selection": `Add PlaceHolder ...`,
+        "multiple selection": `Add PlaceHolder ...`,
+        "Dropdown Selection": `Add PlaceHolder ...`,
+        "special Render over Choise": `Add PlaceHolder ...`,
+        "FullName": ["First Name", "Second Name"],
         "email": `email`,
         "address": `address`,
         "Phone no.": `phone number`,
-        "upload image": `Question to Upload an Image`, 
-        "upload file": `Question to Upload an Image`,
-        "Date": `Enter Date`,
-        "Time": `Enter Time`,
+        "upload image": `Add PlaceHolder ...`, 
+        "upload file": `Add PlaceHolder ...`,
+        "Date": `Add PlaceHolder ...`,
+        "Time": `Add PlaceHolder ...`,
         "Timer": {days: "1", hours: "0", minutes: "0", seconds: "0"},
         "Terms and Conditions": `Terms and Conditions`,
         "Cover":`Cover Image`, 
@@ -45,15 +87,29 @@ export const PlaceHolders = {  "Logo": `Choose Logo`,
 
 
     
-export default function Aside(){
+export default function FormBuilder(){
     const [selectedAside, setSelectedAside] = useState("Fields");
     const [lastSelectedAside, setlastSelectedAside] = useState("Fields");
     const [Questions, setQuestions] = useState([]);
+    const [MasterList, setMasterList] = useState([]);
     const [editMode, setEditMode] = useState([]);
     const [Options, setOptions] = useState([]);
     const [Logo, setLogo] = useState(false);
     const [Timer, setTimer] = useState(false);
     const [Cover, setCover] = useState(false);
+    const [Terms, setTerms] = useState(false);
+    const [emptyForm, setEmptyForm] = useState(true);
+
+    // {emptyForm && setMasterList([{
+    // 	field_index : 0,
+    // 	field_type : "FullName",
+    // 	field_Name : "FullName",
+    //  field_Question : "Full Name",
+    // 	field_desc : "every one has a name. Enter that pls",
+    // 	field_placeholder: "Enter your name",
+	//  field_note : "You must enter First and Lst name both",
+    // 	field_error : ""
+    // }]) && setEmptyForm(false)}
 
     // ["logo", "text", "number", "single selection", "multiple selection", "Dropdown Selection", "special Render over Choise", "FullName", "email", "address", "Phone no.", "upload image", "upload file", "Date", "Time", "Timer", "Terms and Conditions", "cover", "ending page", "welcome page"]
     const [Feilds, setFeilds] = useState({"Essentials":["text", "number", "single selection", "multiple selection", "Dropdown Selection", "special Render over Choise"],
@@ -62,7 +118,7 @@ export default function Aside(){
                                                   "Date & Time":["Date", "Time"], 
                                                   "Legal & Consent":["Terms and Conditions"],
                                                   "Media and Structure":["ending page", "welcome page"],
-                                                  "One Time Render": ["Timer", "Logo", "Cover"]});
+                                                  "One Time Render": ["Timer", "Logo", "Cover", "Terms and Conditions"]});
 
         
     const Feild = {"Essentials":["text", "number", "single selection", "multiple selection", "Dropdown Selection", "special Render over Choise"],
@@ -78,7 +134,6 @@ export default function Aside(){
         "Contact Details",
         "Uploads",
         "Date & Time",
-        "Legal & Consent",
         "Media and Structure",
     ];
 
@@ -135,9 +190,7 @@ export default function Aside(){
                                 "Time": `<svg width="22" height="22" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M7.99967 7.08671V3.50004H6.99967V7.50004L9.82834 10.3287L10.535 9.62204L7.99967 7.08671ZM7.49967 14.1667C3.81767 14.1667 0.833008 11.182 0.833008 7.50004C0.833008 3.81804 3.81767 0.833374 7.49967 0.833374C11.1817 0.833374 14.1663 3.81804 14.1663 7.50004C14.1663 11.182 11.1817 14.1667 7.49967 14.1667Z" fill="black"/>
                                 </svg>`}, 
-                    "Legal & Consent":{"Terms and Conditions": `<svg width="22" height="22" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.99967 7.08671V3.50004H6.99967V7.50004L9.82834 10.3287L10.535 9.62204L7.99967 7.08671ZM7.49967 14.1667C3.81767 14.1667 0.833008 11.182 0.833008 7.50004C0.833008 3.81804 3.81767 0.833374 7.49967 0.833374C11.1817 0.833374 14.1663 3.81804 14.1663 7.50004C14.1663 11.182 11.1817 14.1667 7.49967 14.1667Z" fill="black"/>
-                                </svg>`},
+                    "Legal & Consent":{},
                     "Media and Structure":{
                                 "ending page": `<svg width="22" height="22" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2.89968 1.69999C2.90011 1.27592 3.06887 0.869368 3.36888 0.569656C3.66889 0.269944 4.07561 0.101593 4.49968 0.101593H8.49968C8.92375 0.101593 9.33048 0.269944 9.63049 0.569656C9.9305 0.869368 10.0993 1.27592 10.0997 1.69999H10.8965C11.2147 1.69999 11.52 1.82642 11.745 2.05146C11.9701 2.27651 12.0965 2.58173 12.0965 2.89999V4.10399C12.0965 4.68495 11.8855 5.24614 11.5028 5.68319C11.12 6.12024 10.5916 6.4034 10.0157 6.47999C9.85313 7.21306 9.46542 7.87695 8.90683 8.37873C8.34823 8.88052 7.64672 9.19508 6.90048 9.27839V10.4744H8.50288C8.92723 10.4744 9.3342 10.643 9.63426 10.943C9.93431 11.2431 10.1029 11.65 10.1029 12.0744V12.4744C10.1029 12.5805 10.0607 12.6822 9.98573 12.7572C9.91071 12.8323 9.80897 12.8744 9.70288 12.8744H3.30288C3.1968 12.8744 3.09506 12.8323 3.02004 12.7572C2.94503 12.6822 2.90288 12.5805 2.90288 12.4744V12.0744C2.90288 11.65 3.07146 11.2431 3.37151 10.943C3.67157 10.643 4.07854 10.4744 4.50288 10.4744H6.10048V9.27839C5.35378 9.19509 4.65185 8.88025 4.09307 8.37799C3.53428 7.87573 3.14665 7.21122 2.98448 6.47759C2.40744 6.40091 1.87779 6.11751 1.49382 5.67999C1.10985 5.24246 0.897608 4.68051 0.896484 4.09839V2.89999C0.896484 2.58173 1.02291 2.27651 1.24796 2.05146C1.473 1.82642 1.77822 1.69999 2.09648 1.69999H2.89968ZM10.0997 5.64959C10.4422 5.56096 10.7456 5.36108 10.9622 5.08133C11.1788 4.80158 11.2964 4.45781 11.2965 4.10399V2.89999C11.2965 2.79391 11.2543 2.69216 11.1793 2.61715C11.1043 2.54214 11.0026 2.49999 10.8965 2.49999H10.1005L10.0997 5.64959ZM2.89968 2.49999H2.09728C1.9912 2.49999 1.88946 2.54214 1.81444 2.61715C1.73943 2.69216 1.69728 2.79391 1.69728 2.89999V4.09839C1.69728 4.84239 2.20928 5.46879 2.90128 5.64719L2.89968 2.49999Z" fill="black"/>
@@ -157,31 +210,42 @@ export default function Aside(){
                                 </svg>`,
                                 "Cover":`<svg width="22" height="22" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M13.2997 0.23333C11.9663 0.699996 10.0997 1.16666 7.49967 1.16666C4.89967 1.16666 2.89967 0.63333 1.69967 0.23333C1.29967 0.0333298 0.833008 0.366663 0.833008 0.83333V10.1667C0.833008 10.6333 1.29967 10.9667 1.69967 10.8333C3.09967 10.3667 4.89967 9.83333 7.49967 9.83333C10.0997 9.83333 11.9663 10.3667 13.2997 10.8333C13.7663 10.9667 14.1663 10.6333 14.1663 10.1667V0.83333C14.1663 0.366663 13.6997 0.0333298 13.2997 0.23333ZM7.49967 7.5C5.96634 7.5 4.49967 7.56666 3.16634 7.76666L5.63301 4.83333L6.96634 6.43333L8.83301 4.16666L11.833 7.76666C10.4997 7.56666 9.03301 7.5 7.49967 7.5Z" fill="black"/>
+                                </svg>`,
+                                "Terms and Conditions": `<svg width="22" height="22" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.99967 7.08671V3.50004H6.99967V7.50004L9.82834 10.3287L10.535 9.62204L7.99967 7.08671ZM7.49967 14.1667C3.81767 14.1667 0.833008 11.182 0.833008 7.50004C0.833008 3.81804 3.81767 0.833374 7.49967 0.833374C11.1817 0.833374 14.1663 3.81804 14.1663 7.50004C14.1663 11.182 11.1817 14.1667 7.49967 14.1667Z" fill="black"/>
                                 </svg>`}}
 
 
     function Duplicate(index)
     {    
         // index--;
-        const updated1 = [...Questions];
-        const valueToDuplicate1 = updated1[index];
-        updated1.splice(index + 1, 0, valueToDuplicate1);
-        const updated3 = [...editMode];
-        updated3.splice(index + 1, "0", 0);    
-        setQuestions(updated1);
-        setEditMode(updated3)
+        // const updated1 = [...Questions];
+        // const valueToDuplicate1 = updated1[index];
+        // updated1.splice(index + 1, 0, valueToDuplicate1);
+        // // const updated3 = [...editMode];
+        // // updated3.splice(index + 1, "0", 0);    
+        // setQuestions(updated1);
+        // // setEditMode(updated3)
         
-        const updated2 = [...Options];
-        const valueToDuplicate2 = updated2[index];
-        updated2.splice(index + 1, 0, valueToDuplicate2);    
-        setOptions(updated2);
+        // const updated2 = [...Options];
+        // const valueToDuplicate2 = updated2[index];
+        // updated2.splice(index + 1, 0, valueToDuplicate2);    
+        // setOptions(updated2);
+        
+        
+        const updated3 = [...MasterList];
+        const valueToDuplicate3 = updated3[index];
+        updated3.splice(index + 1, 0, valueToDuplicate3);
+        setMasterList(updated3)
     }
                              
     function Remove(index) {
         // index--;
         setQuestions((Questions.filter((_, i) => i !== index)));
-        setEditMode((editMode.filter((_, i) => i !== index)));
-        setOptions ((Options.filter((_, i) => i !== index)));
+        // setEditMode((editMode.filter((_, i) => i !== index)));
+        // setOptions ((Options.filter((_, i) => i !== index)));
+        setMasterList((MasterList.filter((_, i) => i !== index)));
+
     }
 
     function hideFieldofType(st){
@@ -223,9 +287,20 @@ export default function Aside(){
     }
 
     function addQuestion(type){
-        console.log(type);
+        // console.log(type);
         setQuestions([...Questions, type])
         setEditMode([...editMode, "0"])
+        setMasterList([...MasterList, {
+            "field_index" : 0,
+        	"field_type" : type,
+        	"field_Name" : type,
+            "field_Question" : DefaultQuestion[type],
+        	"field_desc" : DefaultDesc[type],
+        	"field_placeholder": PlaceHolders[type],
+    	    "field_note" : DefaultNote[type],
+        	"field_error" : "",
+            "field_Options" : ["A", "B", "C", "D"]
+        }])
         if(type === "single selection" || type === "multiple selection" || type === "Dropdown selection"){
             setOptions([...Options, ["A", "B", "C", "D"]])
         }
@@ -244,36 +319,57 @@ export default function Aside(){
         if(type === "Timer"){
             setTimer(Timer == true ? false : true);
         }
+        if(type === "Terms and Conditions"){
+            setTerms(Terms == true ? false : true);
+        }
     }
 
-    function ToggleEditOptions(){
-        setTimeout(() => {
-            for(let i = 0;i < Questions.length;i++){
-                let index = i;
-                let element = document.getElementById(`Question-${index}`);
-                // element.onmouseenter=()=>{
-                //     setEditMode(prev => {
-                //         const updated = [...prev];   
-                //         updated[index] = "1";
-                //         return updated; 
-                //     })
-                //     element.style.background = "blue"
-                // }
-                // element.onmouseleave=()=>{
-                //     setEditMode(prev => {
-                //         const updated = [...prev];   
-                //         updated[index] = "0";
-                //         return updated; 
-                //     })
-                //     element.style.background = "transparent"
-                // }
-            }
-        }, 0);
-    }
+    // function ToggleEditOptions(){
+    //     setTimeout(() => {
+    //         for(let i = 0;i < Questions.length;i++){
+    //             let index = i;
+    //             let element = document.getElementById(`Question-${index}`);
+    //             // element.onmouseenter=()=>{
+    //             //     setEditMode(prev => {
+    //             //         const updated = [...prev];   
+    //             //         updated[index] = "1";
+    //             //         return updated; 
+    //             //     })
+    //             //     element.style.background = "blue"
+    //             // }
+    //             // element.onmouseleave=()=>{
+    //             //     setEditMode(prev => {
+    //             //         const updated = [...prev];   
+    //             //         updated[index] = "0";
+    //             //         return updated; 
+    //             //     })
+    //             //     element.style.background = "transparent"
+    //             // }
+    //         }
+    //     }, 0);
+    // }
+    //  FoR FUTURE
 
-    useEffect(() => {
-        ToggleEditOptions();
-    }, [Questions]);
+
+    function setMasterList2(index, prop, val){
+        setMasterList(
+            prev => 
+                {
+                    let updated = [...prev]
+                    
+                    prop === "T" ? updated[index]["field_type"] = val : 
+                    prop === "Q" ? updated[index]["field_Question"] = val : 
+                    prop === "D" ? updated[index]["field_desc"] = val :
+                    prop === "P" ? updated[index]["field_placeholder"] = val :
+                    prop === "N" ? updated[index]["field_note"] = val :
+                    prop === "E" ? updated[index]["field_error"] = val :
+                    prop === "O" ? updated[index]["field_Options"] = val : {};
+
+                    return updated;
+
+                })
+        console.log(MasterList);
+    }
 
     return(
     <>
@@ -372,7 +468,7 @@ export default function Aside(){
                 </div>
             </div>
             <div>        
-                <FoRm editMode={editMode} ques={Questions} Duplicate={Duplicate} Remove={Remove} isLogo={Logo} isCover={Cover} isTimer={Timer} setQuantity={setQuantity} />
+                <FoRm master={MasterList} updateMaster={setMasterList2} ques={Questions} Duplicate={Duplicate} Remove={Remove} isLogo={Logo} isCover={Cover} isTimer={Timer} isTerms={Terms} setQuantity={setQuantity} />
             </div>
         </div>
     </>

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { DefaultQuestion } from "../Aside.jsx";
 
 
 export default function SingleSelect({opts, count, type, QType}){
@@ -13,7 +12,7 @@ export default function SingleSelect({opts, count, type, QType}){
             let editOptions = document.getElementById(`question-${count}-option-${countOpt}-edit`);
             
             element.addEventListener('mouseover', ()=>{
-                element.style.background = "#4bbdff23";
+                element.style.background = "#dbe0f777";
                 editOptions.style.display = "flex";
             });
             element.addEventListener('mouseleave', ()=>{
@@ -90,7 +89,7 @@ export default function SingleSelect({opts, count, type, QType}){
         <div style={{width:"50vw"}}>
 
             {QType === "D" ? 
-                <button id="Drop-btn" style={{width:"25vw", outline:"none", borderRadius:"10px", fontSize:"1.5vw", background:"#eaeaea", textAlign:"start", display:"flex", justifyContent:"space-between", padding:"5px 20px", marginLeft:"3vw"}} onClick={ToggleOptions}>
+                <button id="Drop-btn" style={{width:"25vw", outline:"none", borderRadius:"10px", fontSize:"1.5vw", background:"#dbe0f7aa", border:"1px solid#dbe0f7", textAlign:"start", display:"flex", justifyContent:"space-between", padding:"5px 20px", marginLeft:"3vw"}} onClick={ToggleOptions}>
                     <p>Select</p>
                     <div style={{display: disp === "block" ? "block" : "none"}}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -104,11 +103,11 @@ export default function SingleSelect({opts, count, type, QType}){
                     </div>
                 </button>
             : <></>}
-            <div id={`question-${count}-options`} style={{display: disp === "block" ? "none": "block", margin:"10px 0", width: QType === "D" ? "30vw" : "50vw"}}>
+            <div id={`question-${count}-options`} style={{display: disp === "block" ? "none": "block", margin: QType === "D" ? "10px 3vw" : "10px 0", width: QType === "D" ? "25vw" : "50vw", borderRadius:"10px", border: QType === "D" ? "1px solid rgb(216, 214, 214)" : "none", padding:"20px 0px"}}>
                 {options.map((option, index) => (
-                    <div id={`question-${count}-option-${index}`} style={{display:"flex", paddingLeft:"2vw", width: QType === "D" ? "10vw" : "50vw", alignItems:"center"}}>
+                    <div id={`question-${count}-option-${index}`} style={{display:"flex", paddingLeft: QType === "D" ? "1vw" : "2vw", width: QType === "D" ? "10vw" : "50vw", alignItems:"center"}}>
                         {/* <span style={{padding:"0 30px 0 10px", margin:"10px 0 0 40px"}}>{index}{`]`}</span> */}
-                        <button id={`question-${count}-option-${index}-btn`} style={{alignItems:"center",display:"flex", background:"#fff", marginLeft:"2vw", height:"4.5vh", borderRadius:"8px", width:"50vw", paddingLeft:"1.6vw", paddingRight:"2vw", transition:"all 0.3s"}} >
+                        <button id={`question-${count}-option-${index}-btn`} style={{alignItems:"center",display:"flex", background:"#fff", marginLeft: QType === "D" ? "0" : "2vw", height:"4.5vh", borderRadius:"8px", width:"50vw", paddingLeft:"1.6vw", paddingRight:"2vw", transition:"all 0.3s"}} >
                             <div>
                                 {QType === "S" ?
                                     <div>

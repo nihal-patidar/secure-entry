@@ -1,12 +1,13 @@
-import { DefaultQuestion, PlaceHolders } from "./Aside.jsx";
+import { DefaultQuestion, PlaceHolders } from "./FormBuilder.jsx";
 import img from "./images/DefaultCover.jpg"
 import StartTimer from "./FormComponents/Timer.jsx";
 import SingleSelect from "./FormComponents/SingleSelect.jsx";
 import InputFile from "./FormComponents/InputFile.jsx";
 import { useEffect, useState } from "react";
 import Logo from "./FormComponents/Logo.jsx";
-import DropDown from "./VisitorFormsComponents/dropDown.jsx";
 import FullName from "./FormComponents/FullName.jsx";
+import Terms from "./FormComponents/TermsAndConditions.jsx";
+import ContactFeild from "./FormComponents/ContactFeilds.jsx"
 // import QueNav from "./FormComponents/questionNav.jsx";
 
 
@@ -60,86 +61,67 @@ function AddButton({appendTo}){
 
 
 
-export default function FoRm({ques, Duplicate, Remove, isLogo, isCover, isTimer, setQuantity, editMode}){
-    let count = 1;
 
 
+export default function FoRm({ques, Duplicate, Remove, isLogo, isCover, isTimer, isTerms, setQuantity, master, updateMaster}){
 
-    function Question({type, count}){
+    const [Heading, setHeading] = useState("Form Heading");
+    const [Details, setDetails] = useState("Details");
+
+    function Question({type, count, placeholder, desc, note, err, index}){
         const QueKey = type == "Logo" || type == "Timer" || type == "Terms and Conditions" || type ==  "Cover" || type ==  "ending page" || type == "welcome page" ? 0 : 1;
+        let tempMaster = master[count]["field_Question"];
         return (
             <div key={`${QueKey}`}>
                 <div  style={{width:"50vw", background:"white", color:"black", minHeight:"20vh", margin:"1vw", borderRadius:"15px"}}>
                     <div>
-                        <h2 style={{fontSize:"1.5vw"}}>
+                        <h2 contentEditable="true" style={{fontSize:"1.5vw", outline:"none"}} onInput={(e) => {updateMaster(count, "Q", e.target.textContent)}}>
                             {DefaultQuestion[type]}
+                            <br />
+                            <p>
+                                {`${tempMaster}`}
+                                {console.log(tempMaster)}
+                            </p>
                         </h2>
                         {
                             type === "single selection" ?
-                                                        <SingleSelect count={count} QType="S" type={type} opts={["A", "B", "C", "D"]}></SingleSelect>
+                                                        <SingleSelect master={master} count={count} QType="S" type={type} opts={["A", "B", "C", "D"]}></SingleSelect>
                                                         :
                             type === "multiple selection"?
-                                                        <SingleSelect count={count} QType="M" type={type} opts={["A", "B", "C", "D"]}></SingleSelect>
+                                                        <SingleSelect master={master} count={count} QType="M" type={type} opts={["A", "B", "C", "D"]}></SingleSelect>
                                                         :
                             type === "Dropdown Selection"?
-                                                        <SingleSelect count={count} QType="D" type={type} opts={["A", "B", "C", "D"]}></SingleSelect>
-                                                        :
-                            type === "Logo"?
-                                                        <>
-                                                        <div style={{display:"none"}}>
-                                                            {
-                                                                setTimeout(() => {
-                                                                    addLogo()
-                                                                }, 0)
-                                                            }
-                                                        </div>
-                                                        </>
+                                                        <SingleSelect master={master} count={count} QType="D" type={type} opts={["A", "B", "C", "D"]}></SingleSelect>
                                                         :
                             type === "special Render over Choise" ? 
-                                                        <SingleSelect count={count} QType="M" type={type} opts={["A", "B", "C", "D"]}></SingleSelect>
+                                                        <SingleSelect master={master} count={count} QType="M" type={type} opts={["A", "B", "C", "D"]}></SingleSelect>
                                                         :
                             type === "FullName" ?
-                                                        <FullName/>:
+                                                        <FullName master={master} placeholder={placeholder} desc={desc} note={note} err={err} />:
                             type === "address" ?
-                                                        <input type={`${"text"}`}  style={{marginLeft:"10vh", background:"white", color:"#212121", border:"2px solid #eaeaea", borderRadius:"7px", height:"6vh", width:"60vh", marginTop:"4vh"}}/>
+                                                        <ContactFeild master={master} QType={"A"} placeholder={placeholder} desc={desc} note={note} err={err} />
                                                         :
                             type === "Phone no."?
-                                                        <input type={`${"number"}`}  style={{marginLeft:"10vh", background:"white", color:"#212121", border:"2px solid #eaeaea", borderRadius:"7px", height:"6vh", width:"60vh", marginTop:"4vh"}}/>
+                                                        <ContactFeild master={master} QType={"P"} placeholder={placeholder} desc={desc} note={note} err={err} />
+                                                        :
+                            type === "email"?
+                                                        <ContactFeild master={master} QType={"E"} placeholder={placeholder} desc={desc} note={note} err={err} />
                                                         :
                             type === "upload image"? 
-                                                        <InputFile name="Image"/>
+                                                        <InputFile master={master} name="Image"/>
                                                         :
                             type === "upload file"?
-                                                        <InputFile name="File"/>
-                                                        :
-                            type === "Timer"?
-                                                        <div style={{display:"none"}}>
-                                                            {
-                                                                setTimeout(() => {
-                                                                    addTimer()
-                                                                }, 0)
-                                                            }
-                                                        </div>
-                                                        :
-                            type === "Terms and Conditions"?
-                                                        <input type={`${"text"}`}  style={{marginLeft:"10vh", background:"white", color:"#212121", border:"2px solid #eaeaea", borderRadius:"7px", height:"24vh", width:"60vh", marginTop:"4vh"}}/>
-                                                        :
-                            type === "Cover" ? 
-                                                        <div style={{display:"none"}}>
-                                                            {
-                                                                setTimeout(() => {
-                                                                    addCover()
-                                                                }, 0)
-                                                            }
-                                                        </div>
+                                                        <InputFile master={master} name="File"/>
                                                         :
                             type === "ending page" ? 
                                                         <>
                                                         </>
                                                         : 
-                            type === "welcome page" ? 
-                                                        <>
-                                                        </>
+                            type === "text" ? 
+                                                        <ContactFeild master={master} QType={"T"} placeholder={placeholder} desc={desc} note={note} err={err} />
+                                                        :     
+                            type === "number" ? 
+                                                        <ContactFeild master={master} QType={"N"} placeholder={placeholder} desc={desc} note={note} err={err} />
                                                         :     
                                                         <input type={`${type}`}  style={{marginLeft:"10vh", background:"white", color:"#212121", border:"2px solid #eaeaea", borderRadius:"7px", height:"6vh", width:"60vh", marginTop:"4vh"}}/>
                                                 // <AddButton appendTo={`question-${count}-input`}></AddButton>        
@@ -170,6 +152,10 @@ export default function FoRm({ques, Duplicate, Remove, isLogo, isCover, isTimer,
     function removeLogo(){
         document.getElementById("Logo").classList.add("hidden");
         setQuantity("Logo")
+    }
+    function removeTerms(){
+        document.getElementById("Terms").classList.add("hidden");
+        setQuantity("Terms and Conditions")
     }
 
     return(
@@ -220,24 +206,25 @@ export default function FoRm({ques, Duplicate, Remove, isLogo, isCover, isTimer,
                 }
 
                 <div id="Head-Form" style={{minWidth:"280px"}}>
-                    <h2 contentEditable="true" style={{color:"#000", fontWeight:"bold", outline:"none", textAlign:"center", fontSize:"2.5vw", paddingTop:"40px"}}>Form Heading</h2>
+                    <p id="FormName" onInput={(e) => {setHeading(e.target.textContent)}} contentEditable="true" style={{color:"#000", fontWeight:"bold", outline:"none", textAlign:"center", fontSize:"2.5vw", paddingTop:"40px"}}>{Heading}</p>
                     <div style={{border:"1px dotted black"}}></div>
-                    <p contentEditable="true" style={{outline:"none", textAlign:"center"}}>Details</p>
+                    <p onInput={(e) => {setDetails(e.target.textContent)}} contentEditable="true" style={{outline:"none", textAlign:"center"}}>{Details}</p>
                 </div>
+
                 <div id="Ques">
                     {
-                        ques.map((element, index) => (
+                        master.map((element, index) => (
                             <div>
                                 <div style={{border:"1px solid #eaeaea", borderRadius:"10px", marginTop:"10px"}}>
                                     {
-                                        (Question({type:element, count:{index}})).key == 1 ? (
+                                        (Question({type:element["field_type"], count:{index}})).key == 1 ? (
                                                 <div id={`Question-${index}`} style={{display:"flex", width:"fit-content"}}>
                                                     <div style={{width:"52vw"}}>
                                                         <div style={{minHight:"180px", border:""}}>
                                                           <QueNav dispay={/*editMode[index] == "1" ? */"flex"/* : "none"*/} cnt={index} Duplicate={Duplicate} Remove={Remove} />
                                                         </div>
                                                         <div style={{marginTop:"0px"}}></div>
-                                                        <Question id={`que-container-${index}`} type={`${element}`} count={index}/>
+                                                        <Question id={`que-container-${index}`} type={`${element["field_type"]}`} count={`${index}`} placeholder={element["field_placeholder"]} desc={element["field_desc"]} note={element["field_note"]} err={element["field_error"]} />
                                                     </div>
                                                     <div style={{display:"none",justifyContent:"space-around", flexDirection:"column" ,height:"200px", minWidth:"8vw", alignContent:"center", textAlign:"center"}}>
                                                         <span> Up </span>
@@ -255,6 +242,17 @@ export default function FoRm({ques, Duplicate, Remove, isLogo, isCover, isTimer,
                         ))
                     }
                 </div>
+                {isTerms ? (
+                    <div id="Terms">
+                        <div style={{minHight:"180px", border:"", marginTop:"30px"}}>
+                            <QueNavONETIME Remove={removeTerms}  />
+                        </div>
+                        <Terms />
+                    </div>)
+                    :
+                    <></>    
+                }
+
             </div>    
         </div>
     )
