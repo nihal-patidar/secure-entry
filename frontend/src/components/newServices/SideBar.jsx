@@ -25,11 +25,7 @@ export const SideBar = (props) => {
          {item.icon}
           <h2> {item.label} </h2>
         </div>
-        
-        
-
-
-
+          
       ))}
       <div className={`sidebar-icon cursor-pointer text-xl font-medium flex ${colorTrue === true ? '' : 'bg-[#E2E6FF]'}`}>
         Logout
