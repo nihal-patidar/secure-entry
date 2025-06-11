@@ -27,15 +27,15 @@ import QrGuyImage from './assets/images/QrGuy.jpg';
 import SochRahaHaiImage from './assets/images/SochRahaHai.png';
 
 
-import ServiceWorkSpace from "./pages/ServiceWorkspace";
-import ValidatorWorkSpace from "./pages/ValidatorWorkSpace";
-import ServiceVisitors from "./pages/ServiceVisitors";
-import CreateValidatorForm from "./forms/ValidatorForm";
-import { CreateService } from "./forms/AddService";
-import VisitorFormCreate from "./forms/VisitorForm";
-import { UpdateServiceForm } from "./forms/UpdateService";
-import Profile from "./pages/Profile";
-import StepForTicket from "./pages/StepForTicket";
+// import ServiceWorkSpace from "./pages/ServiceWorkspace";
+// import ValidatorWorkSpace from "./pages/ValidatorWorkSpace";
+// import ServiceVisitors from "./pages/ServiceVisitors";
+// import CreateValidatorForm from "./forms/ValidatorForm";
+// import { CreateService } from "./forms/AddService";
+// import VisitorFormCreate from "./forms/VisitorForm";
+// import { UpdateServiceForm } from "./forms/UpdateService";
+// import Profile from "./pages/Profile";
+// import StepForTicket from "./pages/StepForTicket";
 
 const router = createBrowserRouter([
   {
@@ -121,6 +121,11 @@ const router = createBrowserRouter([
     path: "/form/:formId",
     element: <StepForTicket />,
   },
+  {
+    path: "/just",
+    element: <CreateVisitorForm />,
+  },
+
 ]);
 function App() {
   return (
