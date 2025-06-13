@@ -9,7 +9,7 @@ import ServiceDetails from "../components/services/ServiceDetails";
 import { useForm } from "react-hook-form";
 import api from "../../axiosConfig";
 import { toast } from "react-toastify";
-import Payment from "../components/services/Payment"
+import Payment from "../components/services/Payment";
 import { useNavigate } from "react-router-dom";
 
 export function CreateService() {
@@ -53,7 +53,7 @@ export function CreateService() {
   };
   return (
     <form
-      onSubmit={(event)=>{
+      onSubmit={(event) => {
         event.preventDefault();
         handleSubmit(serviceFormHandler)(event);
       }}
@@ -62,7 +62,7 @@ export function CreateService() {
     >
       <div className="w-full px-10 sm:px-24 py-4 flex flex-col">
         <div className="steps w-full">
-        <h1 className="w-fit mx-auto text-2xl"> Service Details </h1>
+          <h1 className="w-fit mx-auto text-2xl"> Service Details </h1>
           {/* <Stepper
             activeStep={activeStep}
             isLastStep={(value) => setIsLastStep(value)}
@@ -97,18 +97,21 @@ export function CreateService() {
         </div>
         <div className="forms mt-10">
           {/* {activeStep == 0 ? ( */}
-            <ServiceDetails
-              register={register}
-              setServiceImage={setServiceImage}
-            />
+          <ServiceDetails
+            register={register}
+            setServiceImage={setServiceImage}
+          />
           {/* ) : (
             <Payment />
           )} */}
         </div>
-        
       </div>
       <div className="flex justify-around mx-auto w-80 mt-30 sm:mt-40 mb-5">
-        <Button onClick={handlePrev} disabled={isFirstStep} className="theme-button h-10 w-fit hover:bg-[#D91656]">
+        <Button
+          onClick={handlePrev}
+          disabled={isFirstStep}
+          className="theme-button h-10 w-fit hover:bg-[#D91656]"
+        >
           Prev
         </Button>
         <Button
@@ -119,7 +122,12 @@ export function CreateService() {
         >
           Cancel
         </Button>
-        <Button type="submit" className="theme-button h-10 w-fit hover:bg-[#D91656]">Submit</Button>
+        <Button
+          type="submit"
+          className="theme-button h-10 w-fit hover:bg-[#D91656]"
+        >
+          Submit
+        </Button>
 
         {/* {activeStep == 1 ? (
           <Button type="submit" className="theme-button h-10 w-fit hover:bg-[#D91656]">Submit</Button>
@@ -135,7 +143,6 @@ export function CreateService() {
           </Button>
         )} */}
       </div>
-
     </form>
   );
 }
