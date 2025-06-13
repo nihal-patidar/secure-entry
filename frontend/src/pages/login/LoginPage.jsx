@@ -1,9 +1,26 @@
-import React from "react";
-import image from "../../assets/images/QrGuy.jpg";  
-import googlesvg from "../../assets/images/google-color.svg";  
-import { Link } from "react-router-dom"; 
-
+import React, { useState } from "react";
+import image from "../../assets/images/QrGuy.jpg";
+import googlesvg from "../../assets/images/google-color.svg";
+import { Link, useNavigate } from "react-router-dom";
+import { LoginHandle } from "../../api/operations/authAPI";
 function LoginPage() {
+  const [data, setData] = useState({ email: "", password: "" });
+  const [showLoading, setShowLoading] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
+  const handleChange = (e) => {
+    setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await LoginHandle({
+      data,
+      setShowLoading,
+      setUserData,
+      navigate,
+    });
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4 font-sans">
       <div className="flex flex-col md:flex-row  rounded-lg shadow-xl overflow-hidden max-w-4xl w-full">
@@ -20,7 +37,8 @@ function LoginPage() {
             Sign in to your account
           </h2>
 
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
+
             <div>
               <label
                 htmlFor="email"
@@ -30,9 +48,11 @@ function LoginPage() {
               </label>
               <input
                 type="email"
-                id="email"
                 name="email"
+                value={data.email}
+                onChange={handleChange}
                 placeholder="Email"
+                required
                 className="mt-1 block text-black w-full px-4 py-2 border bg-white border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
             </div>
@@ -46,7 +66,7 @@ function LoginPage() {
                   Password
                 </label>
                 <Link
-                  to="/forgot-password" 
+                  to="/forgot-password"
                   className="text-sm text-[#7850FA] hover:text-[#5031a3] font-medium"
                 >
                   forgot password ?
@@ -54,9 +74,11 @@ function LoginPage() {
               </div>
               <input
                 type="password"
-                id="password"
                 name="password"
+                value={data.password}
+                onChange={handleChange}
                 placeholder="Password"
+                required
                 className="bg-white text-black mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
             </div>
@@ -65,7 +87,7 @@ function LoginPage() {
               type="submit"
               className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
             >
-              Login
+              {showLoading ? "Logging in...." : "Login"}
             </button>
           </form>
 
@@ -82,14 +104,15 @@ function LoginPage() {
             type="button"
             className="w-full flex items-center justify-center py-3 px-4 border border-gray-300 rounded-md shadow-sm text-lg font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
           >
-            <img src={googlesvg} alt="Google Icon" className="mr-2 h-5 w-5" /> 
+            <img src={googlesvg} alt="Google Icon" className="mr-2 h-5 w-5" />
             Sign in with Google
           </button>
 
           <p className="text-sm font-medium mt-8 text-center text-gray-600">
             New to Secure Entry ?{" "}
             <Link
-              to="/create-account" 
+              to="/create-account"
+
               className="text-[#7850FA] hover:text-[#5031a3] font-medium"
             >
               Create Account
@@ -102,3 +125,4 @@ function LoginPage() {
 }
 
 export default LoginPage;
+
