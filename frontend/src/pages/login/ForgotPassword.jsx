@@ -12,10 +12,12 @@ const ForgotPassword = () => {
     e.preventDefault();
     setEmailError("");
 
+
     if (!email.trim()) {
       setEmailError("Email cannot be empty.");
       return;
     }
+
     if (!email.includes("@") || !email.includes(".")) {
       setEmailError("Please enter a valid email address.");
       return;
@@ -28,6 +30,7 @@ const ForgotPassword = () => {
     console.log("Sending OTP to:", email);
 
     navigate("/verify-otp-forgot-password");
+
   };
 
   return (
@@ -96,3 +99,4 @@ const ForgotPassword = () => {
 };
 
 export default ForgotPassword;
+

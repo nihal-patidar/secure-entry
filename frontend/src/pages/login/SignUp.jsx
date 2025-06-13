@@ -17,6 +17,7 @@ const FormField = ({
       htmlFor={id}
       className="block text-sm font-medium text-gray-700 mb-1"
     >
+
       {label}
     </label>
     <input
@@ -40,19 +41,19 @@ const FormField = ({
 );
 
 function SignupPage() {
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
+  
   const [data, setData] = useState({ name: "", email: "", password: "" });
   const [userData, setUserData] = useState("");
   const [showLoading, setShowLoading] = useState(false);
   const navigate = useNavigate();
+
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [nameError, setNameError] = useState("");
 
   const handleSendOtp = async (e) => {
+
     e.preventDefault();
 
     setPasswordError("");
@@ -62,12 +63,14 @@ function SignupPage() {
     let hasError = false;
 
     if (!data.name.trim()) {
+
       setNameError("Name cannot be empty.");
       hasError = true;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(data.email)) {
+
       setEmailError("Please enter a valid email address.");
       hasError = true;
     }
@@ -76,6 +79,7 @@ function SignupPage() {
       setPasswordError("Passwords do not match.");
       hasError = true;
     } else if (data.password.length < 8) {
+
       setPasswordError("Password must contain at least 8 characters.");
       hasError = true;
     }
@@ -88,6 +92,7 @@ function SignupPage() {
   const handleChange = (e) => {
     setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4 font-sans">
       <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-xl overflow-hidden max-w-4xl w-full">
@@ -112,6 +117,7 @@ function SignupPage() {
               type="text"
               value={data.name}
               onChange={handleChange}
+
               error={nameError}
               autoComplete="name"
             />
@@ -130,6 +136,7 @@ function SignupPage() {
               type="password"
               value={data.password}
               onChange={handleChange}
+
               error={null}
               autoComplete="new-password"
             />
@@ -165,3 +172,4 @@ function SignupPage() {
 }
 
 export default SignupPage;
+

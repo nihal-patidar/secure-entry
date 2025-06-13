@@ -20,6 +20,7 @@ function LoginPage() {
       navigate,
     });
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4 font-sans">
       <div className="flex flex-col md:flex-row  rounded-lg shadow-xl overflow-hidden max-w-4xl w-full">
@@ -37,6 +38,7 @@ function LoginPage() {
           </h2>
 
           <form className="space-y-6" onSubmit={handleSubmit}>
+
             <div>
               <label
                 htmlFor="email"
@@ -110,6 +112,7 @@ function LoginPage() {
             New to Secure Entry ?{" "}
             <Link
               to="/create-account"
+
               className="text-[#7850FA] hover:text-[#5031a3] font-medium"
             >
               Create Account
@@ -122,3 +125,4 @@ function LoginPage() {
 }
 
 export default LoginPage;
+
