@@ -557,7 +557,38 @@ const getUser = async (req, res) => {
     });
   }
 };
-const forgotPassword = async (req, res) => { }
+const resetPasswordConfirm = async (req, res) => {
+  try {
+    const { token, password } = req.body;
+    const resetToken = await resetPasswordModel.findOne({ token });
+
+    if (!resetToken) {
+      return res.status(400).json({ success: false, msg: "Invalid or expired token" });
+    }
+
+    const user = await userModel.findById(resetToken.user_id);
+    if (!user) {
+      return res.status(400).json({ success: false, msg: "User not found" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashPass = await bcrypt.hash(password, salt);
+
+    user.password = hashPass;
+    await user.save();
+
+    await resetPasswordModel.deleteOne({ _id: resetToken._id }); // remove used token
+
+    return res.status(200).json({ success: true, msg: "Password reset successful" });
+
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ success: false, msg: "Internal server error" });
+  }
+};
+
+
+
 module.exports = {
   userRegistor,
   mailVarification,
@@ -571,4 +602,5 @@ module.exports = {
   mobileOtpSend,
   mobileOtpVerify,
   getUser,
+  resetPasswordConfirm
 };

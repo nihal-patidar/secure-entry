@@ -1,10 +1,22 @@
 import React, { useState } from "react";
 import image from "../../assets/images/QrGuy.jpg";
 import { Link, useNavigate } from "react-router-dom";
+import { signupHandle } from "../../api/operations/authAPI";
 
-const FormField = ({ label, id, type, value, onChange, error, autoComplete }) => (
+const FormField = ({
+  label,
+  id,
+  type,
+  value,
+  onChange,
+  error,
+  autoComplete,
+}) => (
   <div>
-    <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
+    <label
+      htmlFor={id}
+      className="block text-sm font-medium text-gray-700 mb-1"
+    >
       {label}
     </label>
     <input
@@ -28,17 +40,19 @@ const FormField = ({ label, id, type, value, onChange, error, autoComplete }) =>
 );
 
 function SignupPage() {
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  const [data, setData] = useState({ name: "", email: "", password: "" });
+  const [userData, setUserData] = useState("");
+  const [showLoading, setShowLoading] = useState(false);
   const navigate = useNavigate();
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [nameError, setNameError] = useState("");
 
-  const handleSendOtp = (e) => {
+  const handleSendOtp = async (e) => {
     e.preventDefault();
 
     setPasswordError("");
@@ -47,32 +61,33 @@ function SignupPage() {
 
     let hasError = false;
 
-    if (!name.trim()) {
+    if (!data.name.trim()) {
       setNameError("Name cannot be empty.");
       hasError = true;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(data.email)) {
       setEmailError("Please enter a valid email address.");
       hasError = true;
     }
 
-    if (password !== confirmPassword) {
+    if (data.password !== confirmPassword) {
       setPasswordError("Passwords do not match.");
       hasError = true;
-    } else if (password.length < 8) {
+    } else if (data.password.length < 8) {
       setPasswordError("Password must contain at least 8 characters.");
       hasError = true;
     }
 
     if (hasError) return;
 
-    console.log({ name, email, password });
-    
-    navigate("/verify-otp-signup"); 
+    await signupHandle({ data, setShowLoading, setUserData, navigate });
+    // navigate("/verify-otp-signup");
   };
-
+  const handleChange = (e) => {
+    setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4 font-sans">
       <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-xl overflow-hidden max-w-4xl w-full">
@@ -95,8 +110,8 @@ function SignupPage() {
               label="Name"
               id="name"
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={data.name}
+              onChange={handleChange}
               error={nameError}
               autoComplete="name"
             />
@@ -104,8 +119,8 @@ function SignupPage() {
               label="Email"
               id="email"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={data.email}
+              onChange={handleChange}
               error={emailError}
               autoComplete="email"
             />
@@ -113,8 +128,8 @@ function SignupPage() {
               label="Password"
               id="password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={data.password}
+              onChange={handleChange}
               error={null}
               autoComplete="new-password"
             />
