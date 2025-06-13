@@ -12,23 +12,23 @@ const LayoutServices = () => {
     setIsOpen((prev) => !prev);
   };
 
-  return (
-    <>
+  let element = <><>
     <div className="flex z-50">
-      {/*<HamburgerIcon isOpen={isOpen} toggleMenu={toggleMenu} />*/}
+      <HamburgerIcon isOpen={isOpen} toggleMenu={toggleMenu} />
 
       <div className="w-1/4">
-        {/*<TabletMenu className="hidden md:flex lg:hidden" />*/}
-        <SideBar className="hidden lg:flex overflow-clip" />
+        <TabletMenu className="hidden md:flex lg:hidden" />
+        <SideBar className="hidden lg:flex overflow-clip"/>
       </div>
 
-      {/*<MobileMenu isOpen={isOpen} className="flex md:hidden z-50" />*/}
-      
-        
+      <MobileMenu isOpen={isOpen} className="flex md:hidden z-50" />
+
+
     </div>
 
-    </>
-  );
+  </>
+  </>;
+  return element;
 };
 
 export default LayoutServices;

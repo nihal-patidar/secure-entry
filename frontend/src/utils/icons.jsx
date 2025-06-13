@@ -81,4 +81,27 @@ export const Icons = {
       />
     </svg>
   ),
+  logout:(
+      <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={24}
+          height={24}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke={"currentColor"}
+          strokeWidth="1.5"
+          className={""}
+      >
+        <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6A2.25 2.25 0 005.25 5.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15"
+        />
+        <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M18 12h-6m0 0l3-3m-3 3l3 3"
+        />
+      </svg>
+  )
 };

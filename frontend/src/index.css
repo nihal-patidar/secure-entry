@@ -319,3 +319,12 @@ body {
 .btn-fill {
   @apply border-white border-2 bg-[#2C3ED3] rounded-full   text-white font-semibold;
 }
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
