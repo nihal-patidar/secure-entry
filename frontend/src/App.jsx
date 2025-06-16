@@ -22,9 +22,12 @@ import CreateValidatorForm from "./forms/ValidatorForm";
 import { CreateService } from "./forms/AddService";
 import VisitorFormCreate from "./forms/VisitorForm";
 import { UpdateServiceForm } from "./forms/UpdateService";
-import Profile from "./pages/Profile";
+// import Profile from "./pages/Profile";
 import StepForTicket from "./pages/StepForTicket";
-
+import Newprofile from "./pages/profile/Newprofile.jsx";
+import Profileview from "./pages/profile/Profileview.jsx";
+import Profileedit from "./pages/profile/Profileedit.jsx";
+import Servicepage from "./components/newServices/Servicepage.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -52,11 +55,24 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <Profile />,
+        element: (
+            <Auth>
+              <Newprofile/>
+            </Auth>
+        ),
+        children: [
+          {
+            path : "",
+            element : <Profileview/>
+          },
+          {
+            path : "edit",
+            element : <Profileedit/>
+          }]
       },
       {
         path: "services",
-        element: <ServiceWorkSpace />,
+        element: <Servicepage />,
       },
       {
         path: "validators",

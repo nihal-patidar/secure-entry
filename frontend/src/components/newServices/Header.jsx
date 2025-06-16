@@ -1,60 +1,80 @@
-import React from "react";
-const Header = () => {
-  const currentPage = window.location;
+import React, { useContext } from "react";
+import { UserContext } from "../../context/UserContext.jsx";
+import { useLocation, Link } from "react-router-dom";
 
-  return (
-      <header className="z-40 fixed top-4 left-[15%] w-[80%] p-4 rounded-3xl ml-16 bg-[#F2F3F9] border-2 border-[#EAEAEA] shadow-md flex justify-between items-center">
-        {/* Left section: Path + Title */}
-        <div className="flex flex-col gap-1">
+const Header = () => {
+    const location = useLocation();
+    const { userData , image } = useContext(UserContext);
+    const { name } = userData || {};
+
+    return (
+        <header className="z-40 fixed top-4 left-[15%] w-[80%] p-4 rounded-3xl ml-16 bg-[#F2F3F9] border-2 border-[#EAEAEA] shadow-md flex justify-between items-center">
+            {/* Left section: Path + Title */}
+            <div className="flex flex-col gap-1">
         <span className="text-xs">
           <span className="text-[#2C3ED3] font-medium">Location</span>:{" "}
-          {currentPage.pathname}
+            {location.pathname}
         </span>
 
-          <div className="flex items-center gap-2">
-            <button>
-              <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6 text-[#2C3ED3] hover:scale-105 transition-transform"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-              >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+                <div className="flex items-center gap-2">
+                    <button>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-6 h-6 text-[#2C3ED3] hover:scale-105 transition-transform"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+                            />
+                        </svg>
+                    </button>
+
+                    <h1 className="text-2xl font-semibold text-[#2C3ED3] leading-tight">
+                        Services
+                    </h1>
+                </div>
+            </div>
+
+            {/* Right section: User */}
+            <div className="flex items-center gap-[24px]">
+                <button>
+                    <svg
+                        className="bg-[#2C3ED3] p-1 rounded-full"
+                        width="39"
+                        height="39"
+                        viewBox="0 0 39 39"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M31.8335 25.1875L28.876..."
+                            fill="white"
+                        />
+                    </svg>
+                </button>
+
+                <img
+                    src={image || userData?.image}
+                    alt="Profile"
+                    className="h-12 w-12 rounded-full object-cover"
                 />
-              </svg>
-            </button>
 
-            <h1 className="text-2xl font-semibold text-[#2C3ED3] leading-tight">
-              Services
-            </h1>
-          </div>
-        </div>
-
-        {/* Right section: User */}
-        <div className="flex items-center gap-[24px]">
-
-          <button>
-          <svg className="bg-[#2C3ED3] p-1  rounded-full" width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M31.8335 25.1875L28.876 23.075C29.3635 21.32 29.396 19.4187 28.876 17.5175L31.8335 15.4375L29.4773 11.375L26.1785 12.87C24.8948 11.57 23.2698 10.5625 21.3685 10.0912L21.0435 6.5H16.331L16.006 10.0912C14.1048 10.5625 12.4798 11.57 11.196 12.87L7.89726 11.375L5.54101 15.4375L8.49851 17.5175C7.97851 19.4187 8.01101 21.32 8.49851 23.075L5.54101 25.1875L7.89726 29.25L11.196 27.7387C12.4798 29.0225 14.1048 29.9975 16.006 30.5012L16.331 34.125H21.0435L21.3685 30.5012C23.2698 29.9975 24.8948 29.0225 26.1785 27.7387L29.4773 29.25L31.8335 25.1875ZM21.9373 4.875C22.376 4.875 22.7498 5.2 22.7498 5.6225L23.0423 8.9375C24.2773 9.3925 25.3823 10.0587 26.3735 10.855L29.3798 9.44125C29.7535 9.24625 30.2248 9.37625 30.4523 9.75L33.7023 15.4375C33.9298 15.7787 33.7998 16.25 33.4423 16.4937L30.7285 18.395C30.9398 19.695 30.9235 20.9788 30.7285 22.23L33.4423 24.1312C33.7998 24.375 33.9298 24.8462 33.7023 25.1875L30.4523 30.875C30.2248 31.2162 29.7535 31.3462 29.3798 31.1512L26.3735 29.7537C25.3823 30.55 24.2773 31.2 23.0423 31.6875L22.7498 34.9375C22.7498 35.4087 22.376 35.75 21.9373 35.75H15.4373C15.2218 35.75 15.0151 35.6644 14.8627 35.512C14.7104 35.3596 14.6248 35.153 14.6248 34.9375L14.3323 31.6875C13.0973 31.2 11.9923 30.55 11.001 29.7537L7.99476 31.1512C7.62101 31.3462 7.14976 31.2162 6.92226 30.875L3.67226 25.1875C3.44476 24.8462 3.57476 24.375 3.93226 24.1312L6.64601 22.23C6.45101 20.9788 6.43476 19.695 6.64601 18.395L3.93226 16.4937C3.57476 16.25 3.44476 15.7787 3.67226 15.4375L6.92226 9.75C7.14976 9.37625 7.62101 9.24625 7.99476 9.44125L11.001 10.855C11.9923 10.0587 13.0973 9.3925 14.3323 8.9375L14.6248 5.6225C14.6248 5.2 14.9985 4.875 15.4373 4.875H21.9373ZM18.6873 14.625C20.1957 14.625 21.6423 15.2242 22.7089 16.2908C23.7755 17.3574 24.3748 18.8041 24.3748 20.3125C24.3748 21.8209 23.7755 23.2676 22.7089 24.3342C21.6423 25.4008 20.1957 26 18.6873 26C17.1788 26 15.7322 25.4008 14.6656 24.3342C13.599 23.2676 12.9998 21.8209 12.9998 20.3125C12.9998 18.8041 13.599 17.3574 14.6656 16.2908C15.7322 15.2242 17.1788 14.625 18.6873 14.625ZM18.6873 16.25C17.6098 16.25 16.5765 16.678 15.8146 17.4399C15.0528 18.2017 14.6248 19.2351 14.6248 20.3125C14.6248 21.3899 15.0528 22.4233 15.8146 23.1851C16.5765 23.947 17.6098 24.375 18.6873 24.375C19.7647 24.375 20.798 23.947 21.5599 23.1851C22.3218 22.4233 22.7498 21.3899 22.7498 20.3125C22.7498 19.2351 22.3218 18.2017 21.5599 17.4399C20.798 16.678 19.7647 16.25 18.6873 16.25Z" fill="white"/>
-          </svg>
-            </button>
-          <img
-              src="https://preview.redd.it/high-effort-meme-for-you-v0-7mj3pfzkdojb1.png?width=284&format=png&auto=webp&s=bb4e00de1d8d2a784d497f39f99772b13fc1e46c"
-              alt="Profile"
-              className="h-12 w-12 rounded-full object-cover"
-          />
-          <div>
-            <h2 className="text-[#494949] font-semibold text-[18px]">Aman Ahmad</h2>
-            <div className="text-sm text-[#7E7E7E]">admin</div>
-          </div>
-        </div>
-      </header>
-  );
+                <Link to="/home/profile">
+                    <div>
+                        <h2 className="text-[#494949] font-semibold text-[18px]">
+                            {name || "Name is not available"}
+                        </h2>
+                        <div className="text-sm text-[#7E7E7E]">admin</div>
+                    </div>
+                </Link>
+            </div>
+        </header>
+    );
 };
 
 export default Header;

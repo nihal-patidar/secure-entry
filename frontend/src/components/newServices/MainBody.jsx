@@ -5,7 +5,7 @@ import Header from "./Header";
 import { SideBar } from "./SideBar";
 import { TabletMenu } from "./TabletMenu";
 import "../../index.css"; // Import the custom CSS file
-
+import Cards from "./Cards.jsx";
 const MainBody = () => {
     return (
         <div className="flex min-h-screen bg-white">
@@ -49,24 +49,6 @@ const MainBody = () => {
     );
 };
 
-const Cards = () => {
-    return (
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {MockData.length > 0 ? (
-                MockData.map((e) => (
-                    <Card
-                        key={e.id}
-                        eventName={e.eventName}
-                        location={e.location}
-                        time={e.time}
-                        date={e.date}
-                    />
-                ))
-            ) : (
-                <p className="text-gray-500 col-span-full">No events available.</p>
-            )}
-        </section>
-    );
-};
+
 
 export default MainBody;

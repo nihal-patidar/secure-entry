@@ -1,9 +1,7 @@
 "use client";
-import { IMAGE_URL_CARD } from "../constants/Links";
 
 export function Card(props) {
-  const { eventName, location, time, date } = props;
-  const IMAGE_ID = "200";
+  const {image, eventName, location, time, date , price } = props;
 
   return (
       <div className="max-w-xs w-full group/card ">
@@ -11,8 +9,7 @@ export function Card(props) {
           {/* Image Section */}
           <div
               className="bg-cover bg-center rounded-2xl h-[180px] mb-3"
-              style={{
-                backgroundImage: `url(${IMAGE_URL_CARD}/${IMAGE_ID})`,
+              style={{backgroundImage: `url(${image})`,
               }}
           ></div>
 
@@ -73,7 +70,7 @@ export function Card(props) {
             </div>
 
             {/* Price */}
-            <div className="text-[#8B5CF6] font-bold text-lg ml-2">$20</div>
+            <div className="text-[#8B5CF6] font-bold text-lg ml-2">Rs{price}/-</div>
           </div>
         </div>
       </div>
