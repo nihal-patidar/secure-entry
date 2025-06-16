@@ -1,6 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
+import { Pencil } from 'lucide-react';
+import api from '../../../axiosConfig';
 
 const defaultObject = {
     name: null,
@@ -13,12 +15,42 @@ const defaultObject = {
 };
 
 export default function ProfileCard() {
-    const { userData, image } = useContext(UserContext);
+    const { userData, image: contextImage, setUserData } = useContext(UserContext);
+    const [previewImage, setPreviewImage] = useState(null);
 
     const mergedData = {
         ...defaultObject,
         ...userData,
-        image: image || userData?.image || defaultObject.image,
+        image: previewImage || contextImage || userData?.image || defaultObject.image,
+    };
+
+    useEffect(() => {
+        setPreviewImage(contextImage || userData?.image || null);
+    }, [contextImage, userData?.image]);
+
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setPreviewImage(URL.createObjectURL(file)); // For immediate preview
+
+            try {
+                const token = localStorage.getItem("userData");
+                const data = new FormData();
+                data.append("image", file);
+
+                const res = await api.post("/api/update-profile", data, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+
+                setUserData(res.data.userData);
+            } catch (err) {
+                console.error(err);
+                alert(err?.response?.data?.msg || "Failed to update image");
+            }
+        }
     };
 
     return (
@@ -28,13 +60,29 @@ export default function ProfileCard() {
 
                 {/* Profile Top Section */}
                 <div className="bg-white rounded-xl border border-[#DADADA] shadow p-6 flex items-center gap-4 mb-6">
-                    <div className="relative hover:border-2 rounded-full border-blue-100">
+                    <div className="relative w-24 h-24 group">
                         <img
                             src={mergedData.image}
                             alt={mergedData.name}
-                            className="w-20 h-20 rounded-full object-cover"
+                            className="w-24 h-24 rounded-full object-cover border-2 border-blue-200 shadow-md"
+                        />
+                        <label
+                            htmlFor="imageUpload"
+                            className="absolute bottom-0 right-0 bg-purple-500 p-1 rounded-full text-white shadow-lg hover:bg-purple-600 cursor-pointer transition duration-200"
+                            title="Change profile picture"
+                        >
+                            <Pencil className="w-5 h-5" />
+                        </label>
+                        <input
+                            type="file"
+                            id="imageUpload"
+                            name="image"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={handleImageChange}
                         />
                     </div>
+
                     <div>
                         <h2 className="text-xl font-semibold text-black">{mergedData.name}</h2>
                         <p className="text-gray-500">{mergedData.email}</p>

@@ -277,4 +277,11 @@ body {
     linear-gradient(to bottom, #6366f1 1px, transparent 1px);
     background-size: 4rem 4rem;
 }
-
+/* hide-scrollbar.css */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+}

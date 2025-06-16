@@ -44,8 +44,9 @@ const ServiceList = () => {
                         Add Services
                     </button>
                 </div>
-
-                <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <section
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-auto max-h-[70vh] hide-scrollbar px-2"
+                >
                     {services.length > 0 ? (
                         services.map((service) => (
                             <Card

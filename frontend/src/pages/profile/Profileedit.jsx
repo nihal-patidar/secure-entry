@@ -8,13 +8,8 @@ export default function Profileedit() {
     const { object } = useOutletContext();
     const { setUserData } = useContext(UserContext);
     const [formData, setFormData] = useState({ ...object });
-    const [sendImage, setSendImage] = useState(null);
     const { register, handleSubmit } = useForm();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        setSendImage(object.image);
-    }, [object.image]);
 
     const handleChange = (e) => {
         setFormData((prev) => ({
@@ -23,16 +18,8 @@ export default function Profileedit() {
         }));
     };
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setSendImage(file);
-        }
-    };
-
     const handleReset = () => {
         setFormData({ ...object });
-        setSendImage(object.image);
     };
 
     const onSubmitHandler = async () => {
@@ -45,10 +32,6 @@ export default function Profileedit() {
         data.append("phone", formData.phone || "");
         data.append("address", formData.address || "");
         data.append("adhaar", formData.adhaar || "");
-
-        if (sendImage && sendImage instanceof File) {
-            data.append("image", sendImage);
-        }
 
         try {
             const res = await api.post("/api/update-profile", data, {
@@ -86,17 +69,6 @@ export default function Profileedit() {
                             />
                         </div>
                     ))}
-
-                    <div>
-                        <label className="font-medium block mb-1">Profile Image</label>
-                        <input
-                            type="file"
-                            name="image"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                        />
-                    </div>
                 </div>
 
                 <div className="flex justify-end gap-4 mt-6">
@@ -109,7 +81,7 @@ export default function Profileedit() {
                     </button>
                     <button
                         type="submit"
-                        className="px-4 py-2 bg-violet-600 text-white rounded-md hover:bg-violet-700 transition"
+                        className="px-4 py-2 font-bold bg-purple-500 text-white rounded-md hover:bg-violet-700 transition"
                     >
                         Save
                     </button>

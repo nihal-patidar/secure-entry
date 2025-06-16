@@ -7,11 +7,12 @@ export function Card(props) {
       <div className="max-w-xs w-full group/card ">
         <div className="relative h-[420px] rounded-2xl shadow-xl bg-white overflow-hidden p-4 flex flex-col justify-between">
           {/* Image Section */}
-          <div
-              className="bg-cover bg-center rounded-2xl h-[180px] mb-3"
-              style={{backgroundImage: `url(${image})`,
-              }}
-          ></div>
+          <div>
+
+          <img  className="bg-cover bg-center rounded-2xl h-[180px] mb-3 shadow-lg mx-auto object-cover "
+              alt= "image not found"
+              src={image}/>
+          </div>
 
           {/* Event Info */}
           <div className="flex flex-col gap-2 px-1">
