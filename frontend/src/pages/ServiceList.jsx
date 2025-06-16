@@ -1,11 +1,11 @@
 import React, { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card } from "./Card.jsx";
-import { ServiceContext } from "../../context/ServiceContext";
-import api from "../../../axiosConfig";
+import { Card } from "../components/newServices/Card.jsx";
+import { ServiceContext } from "../context/ServiceContext.jsx";
+import api from "../../axiosConfig.js";
 import { toast } from "react-toastify";
 
-const Services = () => {
+const ServiceList = () => {
     const { services, setServices } = useContext(ServiceContext);
     const token = localStorage.getItem("userData");
     const navigate = useNavigate();
@@ -69,6 +69,6 @@ const Services = () => {
     );
 };
 
-export default Services;
+export default ServiceList;
 
 

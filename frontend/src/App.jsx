@@ -1,33 +1,37 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
-import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Auth from "./pages/Auth";
 
-import NewLoginPage from './pages/login/LoginPage';
-import ForgotPassword from './pages/login/ForgotPassword';
-import SignupPage from './pages/login/SignUp';
-import VerifyOTP from './pages/login/VerifyOtp';
-import QrGuyImage from './assets/images/QrGuy.jpg';
-import SochRahaHaiImage from './assets/images/SochRahaHai.png';
-
+import NewLoginPage from "./pages/login/LoginPage";
+import ForgotPassword from "./pages/login/ForgotPassword";
+import SignupPage from "./pages/login/SignUp";
+import VerifyOTP from "./pages/login/VerifyOtp";
+import QrGuyImage from "./assets/images/QrGuy.jpg";
+import SochRahaHaiImage from "./assets/images/SochRahaHai.png";
 
 import ServiceWorkSpace from "./pages/ServiceWorkspace";
+import FormPrev from "./pages/FormPrev.jsx";
+import TicketPrev from "./pages/TicketPrev.jsx"
 import ValidatorWorkSpace from "./pages/ValidatorWorkSpace";
 import ServiceVisitors from "./pages/ServiceVisitors";
-import CreateValidatorForm from "./forms/ValidatorForm";
+import CreateValidatorForm from "./forms/AddValidator.jsx";
 import { CreateService } from "./forms/AddService";
-import VisitorFormCreate from "./forms/VisitorForm";
+import VisitorFormCreate from "./forms/BuildForm.jsx";
 import { UpdateServiceForm } from "./forms/UpdateService";
-// import Profile from "./pages/Profile";
+import ValidatorList from "./pages/ValidatorList";
+import AddValidator from "./forms/AddValidator.jsx";
 import StepForTicket from "./pages/StepForTicket";
 import Newprofile from "./pages/profile/Newprofile.jsx";
 import Profileview from "./pages/profile/Profileview.jsx";
 import Profileedit from "./pages/profile/Profileedit.jsx";
-import Servicepage from "./components/newServices/Servicepage.jsx";
+import ServiceList from "./pages/ServiceList.jsx";
+import ServiceLayout from "./pages/ServiceLayout.jsx";
+import ServiceDetails from "./pages/ServiceDetails.jsx";
+import BuildForm from "./forms/BuildForm.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -56,23 +60,46 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: (
-            <Auth>
-              <Newprofile/>
-            </Auth>
+          <Auth>
+            <Newprofile />
+          </Auth>
         ),
         children: [
           {
-            path : "",
-            element : <Profileview/>
+            path: "",
+            element: <Profileview />,
           },
           {
-            path : "edit",
-            element : <Profileedit/>
-          }]
+            path: "edit",
+            element: <Profileedit />,
+          },
+        ],
       },
       {
         path: "services",
-        element: <Servicepage />,
+        element: <ServiceLayout />,
+        children: [
+          { path: "", element: <ServiceList />},
+          {
+            path: "create",
+            element: <CreateService />,
+          },
+          {
+            path: ":serviceId",
+            element: <ServiceLayout />, // optional if you want a layout for serviceId children
+            children: [
+              { path: "", element: <ServiceDetails />},
+              { path: "update", element: <UpdateServiceForm />},
+              { path: "build-form", element: <BuildForm />},
+              { path: "form-prev", element: <FormPrev />},
+              { path: "ticket-prev", element: <TicketPrev />},
+              { path: "visitors",element: <ServiceVisitors />},
+              { path: "validators",element: <ValidatorList />},
+              { path: "add-validator",element: <AddValidator />},
+
+            ],
+          },
+        ],
       },
       {
         path: "validators",
@@ -82,14 +109,14 @@ const router = createBrowserRouter([
         path: "visitors",
         element: <ServiceVisitors />,
       },
-      {
-        path: "create-validator-form",
-        element: <CreateValidatorForm />,
-      },
-      {
-        path: "create-service",
-        element: <CreateService />,
-      },
+      // {
+        // path: "create-validator-form",
+        // element: <CreateValidatorForm />,
+      // },
+      // {
+      //   path: "create-service",
+      //   element: <CreateService />,
+      // },
       {
         path: "create-visitor-form",
         element: <VisitorFormCreate />,
@@ -101,16 +128,16 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path:"/login",
-    element:<NewLoginPage/>
+    path: "/login",
+    element: <NewLoginPage />,
   },
   {
-    path : "/forgot-password",
-    element: <ForgotPassword/>
+    path: "/forgot-password",
+    element: <ForgotPassword />,
   },
   {
-    path : "/create-account",
-    element : <SignupPage/>
+    path: "/create-account",
+    element: <SignupPage />,
   },
   {
     path: "/verify-otp-signup",
