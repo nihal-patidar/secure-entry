@@ -5,16 +5,17 @@ import api from "../../../axiosConfig.js";
 import { UserContext } from "../../context/UserContext";
 
 export default function Profileedit() {
-    const { object } = useOutletContext();
+    const { object } = useOutletContext(); // profile data from ProfileCard
     const { setUserData } = useContext(UserContext);
     const [formData, setFormData] = useState({ ...object });
-    const { register, handleSubmit } = useForm();
+    const { handleSubmit } = useForm();
     const navigate = useNavigate();
 
     const handleChange = (e) => {
+        const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
-            [e.target.name]: e.target.value,
+            [name]: value,
         }));
     };
 
@@ -25,19 +26,20 @@ export default function Profileedit() {
     const onSubmitHandler = async () => {
         const token = localStorage.getItem("userData");
 
-        const data = new FormData();
-        data.append("name", formData.name);
-        data.append("email", formData.email);
-        data.append("designation", formData.designation || "");
-        data.append("phone", formData.phone || "");
-        data.append("address", formData.address || "");
-        data.append("adhaar", formData.adhaar || "");
+        const data = {
+            name: formData.name,
+            email: formData.email,
+            designation: formData.designation || "",
+            phone: formData.phone || "",
+            address: formData.address || "",
+            adhaar: formData.adhaar || "",
+        };
 
         try {
             const res = await api.post("/api/update-profile", data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    "Content-Type": "multipart/form-data",
+                    "Content-Type": "application/json",
                 },
             });
 
@@ -45,7 +47,7 @@ export default function Profileedit() {
             alert("Profile updated successfully!");
             navigate("/home/profile");
         } catch (err) {
-            console.error(err);
+            console.error("Profile update error:", err);
             alert(err?.response?.data?.msg || "Something went wrong.");
         }
     };
@@ -53,6 +55,7 @@ export default function Profileedit() {
     return (
         <form onSubmit={handleSubmit(onSubmitHandler)}>
             <span className="text-lg font-semibold text-gray-700 mb-6 block">Edit Profile</span>
+
             <div className="flex flex-col gap-6">
                 <div className="grid grid-cols-2 gap-x-12 gap-y-6 text-gray-700">
                     {["name", "designation", "email", "phone", "address", "adhaar"].map((field) => (
@@ -65,6 +68,7 @@ export default function Profileedit() {
                                 name={field}
                                 value={formData[field] || ""}
                                 onChange={handleChange}
+                                required={field === "name" || field === "email"} // validation for name & email
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-violet-200"
                             />
                         </div>

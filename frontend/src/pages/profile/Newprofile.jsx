@@ -18,6 +18,7 @@ export default function ProfileCard() {
     const { userData, image: contextImage, setUserData } = useContext(UserContext);
     const [previewImage, setPreviewImage] = useState(null);
 
+    // Merged data for form display
     const mergedData = {
         ...defaultObject,
         ...userData,
@@ -31,13 +32,23 @@ export default function ProfileCard() {
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            setPreviewImage(URL.createObjectURL(file)); // For immediate preview
+            // Show immediate local preview
+            setPreviewImage(URL.createObjectURL(file));
 
             try {
                 const token = localStorage.getItem("userData");
                 const data = new FormData();
+
+                // Append all required fields
+                data.append("name", userData.name || "");
+                data.append("email", userData.email || "");
+                data.append("designation", userData.designation || "");
+                data.append("phone", userData.phone || "");
+                data.append("address", userData.address || "");
+                data.append("adhaar", userData.adhaar || "");
                 data.append("image", file);
 
+                // Submit to backend
                 const res = await api.post("/api/update-profile", data, {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -45,10 +56,16 @@ export default function ProfileCard() {
                     },
                 });
 
-                setUserData(res.data.userData);
+                // Update global context with new image + bust cache
+                const updatedUser = {
+                    ...res.data.userData,
+                    image: res.data.userData.image + `?t=${Date.now()}`
+                };
+                setUserData(updatedUser);
+                setPreviewImage(updatedUser.image);
             } catch (err) {
                 console.error(err);
-                alert(err?.response?.data?.msg || "Failed to update image");
+                alert(err?.response?.data?.msg || "Failed to update image.");
             }
         }
     };
@@ -61,11 +78,14 @@ export default function ProfileCard() {
                 {/* Profile Top Section */}
                 <div className="bg-white rounded-xl border border-[#DADADA] shadow p-6 flex items-center gap-4 mb-6">
                     <div className="relative w-24 h-24 group">
+                        {/* Profile Image */}
                         <img
                             src={mergedData.image}
                             alt={mergedData.name}
                             className="w-24 h-24 rounded-full object-cover border-2 border-blue-200 shadow-md"
                         />
+
+                        {/* Pencil button triggers hidden input */}
                         <label
                             htmlFor="imageUpload"
                             className="absolute bottom-0 right-0 bg-purple-500 p-1 rounded-full text-white shadow-lg hover:bg-purple-600 cursor-pointer transition duration-200"
@@ -73,6 +93,8 @@ export default function ProfileCard() {
                         >
                             <Pencil className="w-5 h-5" />
                         </label>
+
+                        {/* Hidden file input */}
                         <input
                             type="file"
                             id="imageUpload"
@@ -89,8 +111,8 @@ export default function ProfileCard() {
                     </div>
                 </div>
 
-                {/* Routed children from App.jsx */}
-                <div className="bg-white border border-[#DADADA] rounded-xl w-full shadow p-8 min-h-[400px] w-full">
+                {/* Outlet for child components like Profileedit */}
+                <div className="bg-white border border-[#DADADA] rounded-xl w-full shadow p-8 min-h-[400px]">
                     <Outlet context={{ object: mergedData }} />
                 </div>
             </div>
