@@ -1,0 +1,80 @@
+import React, { useContext } from "react";
+import { UserContext } from "../../context/UserContext.jsx";
+import { useLocation, Link } from "react-router-dom";
+
+const Header = () => {
+    const location = useLocation();
+    const { userData , image } = useContext(UserContext);
+    const { name } = userData || {};
+
+    return (
+        <header className="z-40 fixed top-4 left-[15%] w-[80%] p-4 rounded-3xl ml-16 bg-[#F2F3F9] border-2 border-[#EAEAEA] shadow-md flex justify-between items-center">
+            {/* Left section: Path + Title */}
+            <div className="flex flex-col gap-1">
+        <span className="text-xs">
+          <span className="text-[#2C3ED3] font-medium">Location</span>:{" "}
+            {location.pathname}
+        </span>
+
+                <div className="flex items-center gap-2">
+                    <button>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-6 h-6 text-[#2C3ED3] hover:scale-105 transition-transform"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+                            />
+                        </svg>
+                    </button>
+
+                    <h1 className="text-2xl font-semibold text-[#2C3ED3] leading-tight">
+                        Services
+                    </h1>
+                </div>
+            </div>
+
+            {/* Right section: User */}
+            <div className="flex items-center gap-[24px]">
+                <button>
+                    <svg
+                        className="bg-[#2C3ED3] p-1 rounded-full"
+                        width="39"
+                        height="39"
+                        viewBox="0 0 39 39"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M31.8335 25.1875L28.876..."
+                            fill="white"
+                        />
+                    </svg>
+                </button>
+
+                <img
+                    src={image || userData?.image}
+                    alt="Profile"
+                    className="h-12 w-12 rounded-full object-cover"
+                />
+
+                <Link to="/home/profile">
+                    <div>
+                        <h2 className="text-[#494949] font-semibold text-[18px]">
+                            {name || "Name is not available"}
+                        </h2>
+                        <div className="text-sm text-[#7E7E7E]">admin</div>
+                    </div>
+                </Link>
+            </div>
+        </header>
+    );
+};
+
+export default Header;

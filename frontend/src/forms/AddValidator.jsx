@@ -10,7 +10,7 @@ import { UserContext } from "../context/UserContext";
 import { ServiceContext } from "../context/ServiceContext";
 import { useNavigate } from "react-router-dom";
 
-const CreateValidatorForm = () => {
+const addValidator = () => {
   const { closePopup, setAllValidator } = useContext(dataContext);
   const { userData } = useContext(UserContext);
   let { services, setServices } = useContext(ServiceContext);
@@ -151,4 +151,4 @@ const CreateValidatorForm = () => {
   );
 };
 
-export default CreateValidatorForm;
+export default addValidator;

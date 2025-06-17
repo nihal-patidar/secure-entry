@@ -1,0 +1,122 @@
+export const MockData = [
+  {
+    "id": 1,
+    "eventName": "Tech Innovators Summit 2025",
+    "description": "Industry leaders and tech enthusiasts gather for a day of keynotes and networking.",
+    "date": "2025-06-15",
+    "time": "10:00 AM - 5:00 PM",
+    "location": "Bangalore International Convention Centre",
+    "image": "https://example.com/images/tech-summit.jpg",
+    "tags": ["Technology", "Conference", "Networking"],
+    "registrationLink": "https://example.com/events/tech-summit-2025",
+    "buttonText": "Register Now"
+  },
+  {
+    "id": 2,
+    "eventName": "React Developers Meetup",
+    "description": "A meetup for React devs to share knowledge and build community connections.",
+    "date": "2025-06-20",
+    "time": "6:30 PM - 9:00 PM",
+    "location": "WeWork Koramangala, Bangalore",
+    "image": "https://example.com/images/react-meetup.jpg",
+    "tags": ["React", "Meetup", "Frontend"],
+    "registrationLink": "https://example.com/events/react-meetup",
+    "buttonText": "Join Meetup"
+  },
+  {
+    "id": 3,
+    "eventName": "AI in Healthcare Webinar",
+    "description": "Explore the role of AI in healthcare with leading researchers and practitioners.",
+    "date": "2025-06-25",
+    "time": "4:00 PM - 6:00 PM",
+    "location": "Online (Zoom)",
+    "image": "https://example.com/images/ai-healthcare.jpg",
+    "tags": ["AI", "Healthcare", "Webinar"],
+    "registrationLink": "https://example.com/events/ai-healthcare",
+    "buttonText": "Attend Online"
+  },
+  {
+    "id": 4,
+    "eventName": "Women in Tech Conference",
+    "description": "Celebrating women driving innovation in tech with talks, panels, and workshops.",
+    "date": "2025-07-01",
+    "time": "9:00 AM - 3:00 PM",
+    "location": "Taj Palace, New Delhi",
+    "image": "https://example.com/images/women-tech.jpg",
+    "tags": ["Diversity", "Technology", "Leadership"],
+    "registrationLink": "https://example.com/events/women-tech",
+    "buttonText": "Get Pass"
+  },
+  {
+    "id": 5,
+    "eventName": "Startup Pitch Night",
+    "description": "Watch startups pitch to VCs and get inspired by bold ideas.",
+    "date": "2025-07-05",
+    "time": "5:00 PM - 8:00 PM",
+    "location": "91Springboard, Mumbai",
+    "image": "https://example.com/images/pitch-night.jpg",
+    "tags": ["Startups", "Investment", "Innovation"],
+    "registrationLink": "https://example.com/events/pitch-night",
+    "buttonText": "Reserve Spot"
+  },
+  {
+    "id": 6,
+    "eventName": "Cloud DevOps Bootcamp",
+    "description": "Hands-on workshop for cloud engineers focusing on DevOps tools and best practices.",
+    "date": "2025-07-10",
+    "time": "10:00 AM - 4:00 PM",
+    "location": "Microsoft Reactor, Hyderabad",
+    "image": "https://example.com/images/cloud-bootcamp.jpg",
+    "tags": ["Cloud", "DevOps", "Workshop"],
+    "registrationLink": "https://example.com/events/cloud-bootcamp",
+    "buttonText": "Apply Now"
+  },
+  {
+    "id": 7,
+    "eventName": "Data Science for Beginners",
+    "description": "Introductory webinar covering data analysis, visualization, and machine learning.",
+    "date": "2025-07-12",
+    "time": "3:00 PM - 5:00 PM",
+    "location": "Online (Google Meet)",
+    "image": "https://example.com/images/data-science.jpg",
+    "tags": ["Data Science", "Webinar", "Beginners"],
+    "registrationLink": "https://example.com/events/data-science-basics",
+    "buttonText": "Attend Free"
+  },
+  {
+    "id": 8,
+    "eventName": "Design Thinking Workshop",
+    "description": "Practical workshop on problem solving and creativity using design thinking.",
+    "date": "2025-07-15",
+    "time": "11:00 AM - 2:00 PM",
+    "location": "IIT Madras Research Park, Chennai",
+    "image": "https://example.com/images/design-thinking.jpg",
+    "tags": ["Design", "Innovation", "Workshop"],
+    "registrationLink": "https://example.com/events/design-thinking",
+    "buttonText": "Register"
+  },
+  {
+    "id": 9,
+    "eventName": "Cybersecurity Awareness Day",
+    "description": "Sessions on cybersecurity best practices for individuals and organizations.",
+    "date": "2025-07-18",
+    "time": "9:30 AM - 1:30 PM",
+    "location": "Infosys Campus, Pune",
+    "image": "https://example.com/images/cybersecurity.jpg",
+    "tags": ["Security", "IT", "Awareness"],
+    "registrationLink": "https://example.com/events/cybersecurity-day",
+    "buttonText": "Sign Up"
+  },
+  {
+    "id": 10,
+    "eventName": "Hackathon 2K25",
+    "description": "48-hour coding challenge for students and developers. Prizes up for grabs!",
+    "date": "2025-07-22 - 2025-07-24",
+    "time": "All Day",
+    "location": "BITS Pilani, Goa Campus",
+    "image": "https://example.com/images/hackathon.jpg",
+    "tags": ["Hackathon", "Coding", "Competition"],
+    "registrationLink": "https://example.com/events/hackathon-2k25",
+    "buttonText": "Register Team"
+  }
+]
