@@ -3,9 +3,10 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import api from "../../../axiosConfig.js";
 import { UserContext } from "../../context/UserContext";
+import {toast} from "react-toastify";
 
 export default function Profileedit() {
-    const { object } = useOutletContext(); // profile data from ProfileCard
+    const { object } = useOutletContext();
     const { setUserData } = useContext(UserContext);
     const [formData, setFormData] = useState({ ...object });
     const { handleSubmit } = useForm();
@@ -24,33 +25,44 @@ export default function Profileedit() {
     };
 
     const onSubmitHandler = async () => {
+        // setShowLoading(true); // Optional: if you have a loader
+
         const token = localStorage.getItem("userData");
+        const formDataToSend = new FormData();
 
-        const data = {
-            name: formData.name,
-            email: formData.email,
-            designation: formData.designation || "",
-            phone: formData.phone || "",
-            address: formData.address || "",
-            adhaar: formData.adhaar || "",
-        };
+        if (formData.name) formDataToSend.append("name", formData.name);
+        if (formData.email) formDataToSend.append("email", formData.email);
 
+        const optionalFields = ["designation", "phone", "address", "adhaar"];
+        optionalFields.forEach((key) => {
+            if (formData[key] && formData[key] !== object[key]) {
+                formDataToSend.append(key, formData[key]);
+            }
+        });
+
+        // Log for debugging
+        for (let pair of formDataToSend.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+        }
+        console.info(token);
         try {
-            const res = await api.post("/api/update-profile", data, {
+            const response = await api.post("/api/update-profile", formDataToSend, {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
+                    "Content-Type": "multipart/form-data",
                 },
             });
 
-            setUserData(res.data.userData);
-            alert("Profile updated successfully!");
-            navigate("/home/profile");
-        } catch (err) {
-            console.error("Profile update error:", err);
-            alert(err?.response?.data?.msg || "Something went wrong.");
+            setUserData(response.data.userData);
+
+            toast.success("Profile updated successfully!");
+        } catch (error) {
+            console.error(error);
+            toast(error?.response?.data?.msg || "Profile update failed.");
         }
     };
+
+
 
     return (
         <form onSubmit={handleSubmit(onSubmitHandler)}>
@@ -68,7 +80,7 @@ export default function Profileedit() {
                                 name={field}
                                 value={formData[field] || ""}
                                 onChange={handleChange}
-                                required={field === "name" || field === "email"} // validation for name & email
+                                required={field === "name" || field === "email"}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-violet-200"
                             />
                         </div>
