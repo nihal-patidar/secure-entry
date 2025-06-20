@@ -1,70 +1,81 @@
-export default function StartTimer({time}){
-  const { days = 0, hours = 0, minutes = 0, seconds = 0 } = time;
+import { useRef } from "react";
 
-  
-  const pad = (n) => String(n).padStart(2, "0");
+export default function StartTimer({ time }) {
+  const refs = [useRef(), useRef(), useRef(), useRef()];
 
-  const parts = [];
+  const getValues = () => {
+    return refs.map((ref, i) => {
+      const val = ref.current?.innerText || "0";
+      return parseInt(val.replace(/\D/g, ""), 10) || 0;
+    });
+  };
 
-  if (days > 0 || hours > 0 || minutes > 0 || seconds > 0) {
-    if (days > 0 ) parts.push(pad(days) + " D  ");
-    parts.push(pad(hours) + " H  ");
-    parts.push(pad(minutes) + " M");
-    if(days == 0){parts.push(pad(seconds) + " Seconds");}
-    else{parts[parts.length-1]+= "inutes"}
-  } else {
-    parts.push("00 D  ", "00 H  ", "00 M  ", "00 Seconds");
-  }
+  const normalizeTime = () => {
+    let [d, h, m, s] = getValues();
 
-  let att = []
-  parts.forEach((part) => {
-    att.push(part[3]+part[4])
-    
-  })
+    m += Math.floor(s / 60);
+    s %= 60;
 
+    h += Math.floor(m / 60);
+    m %= 60;
+
+    d += Math.floor(h / 24);
+    h %= 24;
+
+    refs[0].current.innerText = String(d).padStart(2, "0");
+    refs[1].current.innerText = String(h).padStart(2, "0");
+    refs[2].current.innerText = String(m).padStart(2, "0");
+    refs[3].current.innerText = String(s).padStart(2, "0");
+  };
+
+  const handleInput = (e, maxLength) => {
+    const text = e.currentTarget.innerText;
+    const cleaned = text.replace(/\D/g, "");
+    if (text !== cleaned || cleaned.length > maxLength) {
+      e.currentTarget.innerText = cleaned.slice(0, maxLength);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    const allowedKeys = [
+      "Backspace",
+      "ArrowLeft",
+      "ArrowRight",
+      "Delete",
+      "Tab",
+    ];
+    if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
+      e.preventDefault();
+    }
+  };
 
   return (
-    <div style={{display:"flex", justifyContent:"center", maxWidth:"60vw", marginTop:"30px"}}>
-        <div style={containerStyle}>
-            {
-                parts.map((part, index) => (
-                    <div style={{display:"contents"}}>
-                        <span style={timeStyle} contentEditable="true">{part[0]}{part[1]}</span>
-                        <span style={{color:"black", margin:"7px"}} >{att[index][1] !== ' ' ? att[index][1] === 'i' ? "Min" : att[index][1] === 'e' ? "Sec" : "M" : att[index][0]}</span>
-                        {index !== parts.length-1 ? <span style={{margin:"7px 2px"}}> : </span> : <></>}
-                    </div>
-                ))
-            }
-        </div>
-        <p style={{fontSize:"1.2vw", color:"red", opacity:"0.78", marginLeft:"-100px"}}>remaining</p>
+    <div className="flex justify-center mt-8 max-w-[60vw]">
+      <div className="border border-gray-300 rounded-lg text-gray-900 text-2xl font-medium px-4 py-2 flex justify-center items-center">
+        {["Days", "Hours", "Min", "Sec"].map((label, index) => {
+          const maxLength = index === 0 ? 3 : 2;
+          return (
+            <div key={label} className="flex items-center">
+              <span
+                ref={refs[index]}
+                className="px-2 font-mono tracking-wider outline-none min-w-[2ch] text-center"
+                contentEditable
+                suppressContentEditableWarning
+                onInput={(e) => handleInput(e, maxLength)}
+                onKeyDown={handleKeyDown}
+                onBlur={normalizeTime}
+              >
+                {String(time[label.toLowerCase()] || 0).padStart(
+                  index === 0 ? 2 : 2,
+                  "0"
+                )}
+              </span>
+              <span className="text-black mx-1">{label}</span>
+              {index < 3 && <span className="mx-1 text-gray-500">:</span>}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
-};
-
-const containerStyle = {
-    //   display: "inline-block",
-      padding: "5px 0",
-      textAlign: "center",
-      border: "1px solid #eaeaea",
-    //   backgroundColor:,
-     
-      borderRadius: "8px",
-      margin :"0 70px",
-    //   fontFamily: "",
-        width:"80%",
-      fontSize: "1.8rem",
-      color: "#212121"
-      
-    //   boxShadow: "0 0 8px rgba(0,0,0,0.1)"
-};
-const timeStyle = {
-  letterSpacing: "2px",
-    outline :"none",
-    margin:"7px 2px"
-};
-const timeStyleAtt = {
-    letterSpacing: "2px",
-    outline :"none",
-    marginLeft:"10px",
-    zIndex:"-1"
-};
+}
