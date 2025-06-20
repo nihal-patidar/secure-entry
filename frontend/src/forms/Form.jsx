@@ -3,7 +3,7 @@ import img from "./images/DefaultCover.jpg";
 import StartTimer from "./FormComponents/Timer.jsx";
 import SingleSelect from "./FormComponents/SingleSelect.jsx";
 import InputFile from "./FormComponents/InputFile.jsx";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Logo from "./FormComponents/Logo.jsx";
 import FullName from "./FormComponents/FullName.jsx";
 import Terms from "./FormComponents/TermsAndConditions.jsx";
@@ -107,8 +107,46 @@ export default function FoRm({
   updateOptionAmountAtIndex,
   updateOptionDependedFieldsAtIndex,
 }) {
+  //Logic for Cover Image
+  const [previewUrl, setPreviewUrl] = useState(img);
+  const fileInputRef = useRef();
+  const handleClick = () => {
+    fileInputRef.current.click();
+  };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+    }
+  };
+
+
+  //Heading Logic
   const [Heading, setHeading] = useState("Form Heading");
-  const [Details, setDetails] = useState("Details");
+  const [Details, setDetails] = useState("Description");
+  const ref = useRef();
+  const detailsRef = useRef();
+  useEffect(() => {
+    if (detailsRef.current) {
+      detailsRef.current.textContent = Details;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.textContent = Heading;
+    }
+  }, []);
+
+  //Logo Logic
+  useEffect(() => {
+    const deleteBtn = document.getElementById("DeleteLogo");
+    if (deleteBtn) {
+      deleteBtn.onclick = removeLogo;
+    }
+  }, [isLogo]);
+  
 
   function Question({
     type,
@@ -143,138 +181,121 @@ export default function FoRm({
           }}
         >
           <div>
-            {/* <h2
-              contentEditable="true"
-              style={{ fontSize: "1.5vw", outline: "none" }}
-              onInput={(e) => {
-                updateMaster(count, "Q", e.target.textContent);
-              }}
-            >
-              {DefaultQuestion[type]}
-              <br />
-              <p>
-                {`${masterList[count]["field_Question"]}`}
-                                {console.log(masterList[count]["field_Question"])}
-              </p>
-            </h2> */}
-            {
-              type === "single selection" ? (
-                <SingleSelect
-                  masterList={masterList}
-                  count={count}
-                  QType="S"
-                  type={type}
-                  opts={["A", "B", "C", "D"]}
-                ></SingleSelect>
-              ) : type === "multiple selection" ? (
-                <SingleSelect
-                  masterList={masterList}
-                  count={count}
-                  QType="M"
-                  type={type}
-                  opts={["A", "B", "C", "D"]}
-                ></SingleSelect>
-              ) : type === "Dropdown Selection" ? (
-                <SingleSelect
-                  masterList={masterList}
-                  count={count}
-                  QType="D"
-                  type={type}
-                  opts={["A", "B", "C", "D"]}
-                ></SingleSelect>
-              ) : type === "Special Selection" ? (
-                <SpecialRendering
-                  key={element.field_id}
-                  element={element}
-                  updateField={updateMasterList}
-                  updateOptionAtIndex={updateOptionAtIndex}
-                  updateOptionAmountAtIndex={updateOptionAmountAtIndex}
-                  updateOptionDependedFieldsAtIndex={
-                    updateOptionDependedFieldsAtIndex
-                  }
-                  fieldList={masterList
-                    .filter((field) => field.field_id !== element.field_id)
-                    .map((field) => ({
-                      field_name: field.field_name,
-                      field_id: field.field_id,
-                    }))}
-                ></SpecialRendering>
-              ) : type === "FullName" ? (
-                <FullName
-                  masterList={masterList}
-                  placeholder={placeholder}
-                  desc={desc}
-                  note={note}
-                  err={err}
-                />
-              ) : type === "address" ? (
-                <ContactFeild
-                  masterList={masterList}
-                  element={element}
-                  QType={"A"}
-                  placeholder={placeholder}
-                  desc={desc}
-                  note={note}
-                  err={err}
-                />
-              ) : //aaaa
-              type === "Phone no." ? (
-                <ContactFeild
-                  masterList={masterList}
-                  QType={"P"}
-                  placeholder={placeholder}
-                  desc={desc}
-                  note={note}
-                  err={err}
-                />
-              ) : type === "email" ? (
-                <ContactFeild
-                  masterList={masterList}
-                  QType={"E"}
-                  placeholder={placeholder}
-                  desc={desc}
-                  note={note}
-                  err={err}
-                />
-              ) : type === "upload image" ? (
-                <InputFile masterList={masterList} name="Image" />
-              ) : type === "upload file" ? (
-                <InputFile masterList={masterList} name="File" />
-              ) : type === "ending page" ? (
-                <></>
-              ) : type === "text" ? (
-                <TextField
-                  key={element.field_id}
-                  QType="T"
-                  element={element}
-                  updateField={updateMasterList}
-                />
-              ) : type === "number" ? (
-                <ContactFeild
-                  masterList={masterList}
-                  QType={"N"}
-                  placeholder={placeholder}
-                  desc={desc}
-                  note={note}
-                  err={err}
-                />
-              ) : (
-                <input
-                  type={`${type}`}
-                  style={{
-                    marginLeft: "10vh",
-                    background: "white",
-                    color: "#212121",
-                    border: "2px solid #eaeaea",
-                    borderRadius: "7px",
-                    height: "6vh",
-                    width: "60vh",
-                    marginTop: "4vh",
-                  }}
-                />
-              )
-              // <AddButton appendTo={`question-${count}-input`}></AddButton>
-            }
+            {type === "single selection" ? (
+              <SingleSelect
+                masterList={masterList}
+                count={count}
+                QType="S"
+                type={type}
+                opts={["A", "B", "C", "D"]}
+              ></SingleSelect>
+            ) : type === "multiple selection" ? (
+              <SingleSelect
+                masterList={masterList}
+                count={count}
+                QType="M"
+                type={type}
+                opts={["A", "B", "C", "D"]}
+              ></SingleSelect>
+            ) : type === "Dropdown Selection" ? (
+              <SingleSelect
+                masterList={masterList}
+                count={count}
+                QType="D"
+                type={type}
+                opts={["A", "B", "C", "D"]}
+              ></SingleSelect>
+            ) : type === "Special Selection" ? (
+              <SpecialRendering
+                key={element.field_id}
+                element={element}
+                updateField={updateMasterList}
+                updateOptionAtIndex={updateOptionAtIndex}
+                updateOptionAmountAtIndex={updateOptionAmountAtIndex}
+                updateOptionDependedFieldsAtIndex={
+                  updateOptionDependedFieldsAtIndex
+                }
+                fieldList={masterList
+                  .filter((field) => field.field_id !== element.field_id)
+                  .map((field) => ({
+                    field_name: field.field_name,
+                    field_id: field.field_id,
+                  }))}
+              ></SpecialRendering>
+            ) : type === "FullName" ? (
+              <FullName
+                masterList={masterList}
+                placeholder={placeholder}
+                desc={desc}
+                note={note}
+                err={err}
+              />
+            ) : type === "address" ? (
+              <ContactFeild
+                masterList={masterList}
+                element={element}
+                QType={"A"}
+                placeholder={placeholder}
+                desc={desc}
+                note={note}
+                err={err}
+              />
+            ) : //aaaa
+            type === "Phone no." ? (
+              <ContactFeild
+                masterList={masterList}
+                QType={"P"}
+                placeholder={placeholder}
+                desc={desc}
+                note={note}
+                err={err}
+              />
+            ) : type === "email" ? (
+              <ContactFeild
+                masterList={masterList}
+                QType={"E"}
+                placeholder={placeholder}
+                desc={desc}
+                note={note}
+                err={err}
+              />
+            ) : type === "upload image" ? (
+              <InputFile masterList={masterList} name="Image" />
+            ) : type === "upload file" ? (
+              <InputFile masterList={masterList} name="File" />
+            ) : type === "ending page" ? (
+              <></>
+            ) : type === "text" ? (
+              <TextField
+                key={element.field_id}
+                QType="T"
+                element={element}
+                updateField={updateMasterList}
+              />
+            ) : type === "number" ? (
+              <ContactFeild
+                masterList={masterList}
+                QType={"N"}
+                placeholder={placeholder}
+                desc={desc}
+                note={note}
+                err={err}
+              />
+            ) : (
+              <input
+                type={`${type}`}
+                style={{
+                  marginLeft: "10vh",
+                  background: "white",
+                  color: "#212121",
+                  border: "2px solid #eaeaea",
+                  borderRadius: "7px",
+                  height: "6vh",
+                  width: "60vh",
+                  marginTop: "4vh",
+                }}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -295,6 +316,7 @@ export default function FoRm({
     document.getElementById("Cover").classList.toggle("hidden");
   }
   function RemoveCover() {
+    setPreviewUrl(img);
     document.getElementById("Cover").classList.add("hidden");
     setQuantity("Cover");
   }
@@ -335,77 +357,115 @@ export default function FoRm({
           scrollbarWidth: "none",
         }}
       >
-        {isCover ? (
-          <div id="Cover" style={{ width: "100%" }}>
+        {isCover && (
+          <div id="Cover" className="w-full relative group">
+            {/* Banner Image */}
             <img
-              src={img}
-              width={"100%"}
-              style={{
-                maxHeight: "100px",
-                marginTop: "0px",
-                zIndex: "-1",
-                resize: "both",
-              }}
-              alt=""
+              src={previewUrl}
+              alt="Cover"
+              className="w-full max-h-[150px] object-cover z-0"
+              style={{ maxWidth: "1920px" }}
             />
-            <div style={{ maxHight: "1px", zIndex: "1", overflow: "visible" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "end",
-                  overflow: "visible",
-                }}
-              >
+
+            {/* Hover Controls */}
+            <div className="absolute inset-0 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity z-10">
+              <div className="flex items-center space-x-3 bg-white/80 px-4 py-2 rounded-full shadow text-center">
+                {/* Upload Button */}
+                <div className="flex items-center justify-center">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                  <button
+                    onClick={handleClick}
+                    className="flex items-center justify-center"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="34.5 35 25 25"
+                      width="20"
+                      height="20"
+                      className="text-black"
+                    >
+                      <g clipPath="url(#clip0_604_782)">
+                        <path
+                          d="M57.4163 37.0833H36.583V57.9167H48.283C47.7815 56.9514 47.52 55.8795 47.5205 54.7917C47.5205 52.8125 48.3705 51.0313 49.7247 49.7927L43.8747 43.9438L38.6663 49.1521V39.1667H55.333V48.1C56.06 48.2131 56.7636 48.4439 57.4163 48.7833V37.0833Z"
+                          fill="#5D5D5D"
+                        />
+                        <path
+                          d="M51.1663 40.4688C50.4066 40.4688 49.678 40.7706 49.1408 41.3078C48.6036 41.845 48.3018 42.5736 48.3018 43.3333C48.3018 44.0931 48.6036 44.8217 49.1408 45.3589C49.678 45.8961 50.4066 46.1979 51.1663 46.1979C51.9261 46.1979 52.6547 45.8961 53.1919 45.3589C53.7291 44.8217 54.0309 44.0931 54.0309 43.3333C54.0309 42.5736 53.7291 41.845 53.1919 41.3078C52.6547 40.7706 51.9261 40.4688 51.1663 40.4688ZM53.2497 60H55.333V55.8333H59.4997V53.75H55.333V49.5833H53.2497V53.75H49.083V55.8333H53.2497V60Z"
+                          fill="#5D5D5D"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_604_782">
+                          <rect
+                            width="25"
+                            height="25"
+                            fill="white"
+                            transform="translate(34.5 35)"
+                          />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Remove Button */}
                 <button
                   onClick={RemoveCover}
-                  style={{ overflow: "visible", maxHight: "1px" }}
+                  className="flex items-center justify-center"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
-                    class="size-6"
+                    className="w-5 h-5 text-black"
+                    title="Remove Image"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
                     />
                   </svg>
                 </button>
               </div>
             </div>
+
+            {/* Dimension Label */}
+            {previewUrl === img && (
+              <div className="absolute bottom-1 right-2 bg-black/70 text-white text-xs px-2 py-0.5 rounded-sm z-20">
+                1920 × 150 fits the best
+              </div>
+            )}
           </div>
-        ) : (
-          <></>
         )}
 
-        {isLogo ? (
+        {isLogo && (
           <div
             id="Logo"
-            style={{
-              justifySelf: "start",
-              margin: "30px",
-              marginTop: `${isCover ? "-90px" : "70px"}`,
-            }}
+            className={`justify-self-start m-[30px] ${
+              isCover ? "-mt-[90px]" : "mt-[70px]"
+            } z-50 relative`}
           >
-            <Logo name={"Logo"} />
-            <div style={{ display: "none" }}>
-              {setTimeout(() => {
-                document.getElementById("DeleteLogo").onclick = removeLogo;
-              }, 0)}
-            </div>
+            <Logo name="Logo" />
+
+            <div className="hidden"></div>
           </div>
-        ) : (
-          <></>
         )}
 
         {isTimer ? (
           <div id="Timer">
-            <div style={{ minHight: "180px", border: "" }}>
-              {/* <QueNav Remove={RemoveTimer} /> */}
+            <div
+              className="mt-4 py-0"
+              style={{ minHight: "180px", border: "" }}
+            >
               <QueNavONETIME Remove={RemoveTimer} />
             </div>
             <StartTimer time={{ days: 0 }} />
@@ -417,10 +477,13 @@ export default function FoRm({
         <div id="Head-Form" style={{ minWidth: "280px" }}>
           <p
             id="FormName"
+            ref={ref}
             onInput={(e) => {
-              setHeading(e.target.textContent);
+              const value = e.target.textContent;
+              setHeading(value);
             }}
             contentEditable="true"
+            suppressContentEditableWarning={true}
             style={{
               color: "#000",
               fontWeight: "bold",
@@ -429,78 +492,23 @@ export default function FoRm({
               fontSize: "2.5vw",
               paddingTop: "40px",
             }}
-          >
-            {Heading}
-          </p>
+          />
           <div style={{ border: "1px dotted black" }}></div>
           <p
+            ref={detailsRef}
             onInput={(e) => {
               setDetails(e.target.textContent);
             }}
             contentEditable="true"
-            style={{ outline: "none", textAlign: "center" }}
-          >
-            {Details}
-          </p>
+            suppressContentEditableWarning={true}
+            style={{
+              outline: "none",
+              textAlign: "center",
+            }}
+          />
         </div>
 
         <div id="Ques">
-          {/* {masterList.map((element, index) => (
-            <div>
-              <div
-                style={{
-                  border: "1px solid #eaeaea",
-                  borderRadius: "10px",
-                  marginTop: "10px",
-                }}
-              >
-                {Question({ type: element["field_type"], count: { index } })
-                  .key == 1 ? (
-                  <div
-                    id={`Question-${index}`}
-                    style={{ display: "flex", width: "fit-content" }}
-                  >
-                    <div style={{ width: "52vw" }}>
-                      <div style={{ minHight: "180px", border: "" }}>
-                        <QueNav cnt={element.field_id} Duplicate={Duplicate} Remove={Remove} />
-                      </div>
-                      <div style={{ marginTop: "0px" }}></div>
-                      <Question
-                        id={`que-container-${element.field_id}`}
-                        type={element.field_type}
-                        field_id={element.field_id}
-                        index={index}
-                        placeholder={element.field_placeholder}
-                        desc={element.field_desc}
-                        note={element.field_note}
-                        err={element.field_error}
-                      />
-
-                    </div>
-                    <div
-                      style={{
-                        display: "none",
-                        justifyContent: "space-around",
-                        flexDirection: "column",
-                        height: "200px",
-                        minWidth: "8vw",
-                        alignContent: "center",
-                        textAlign: "center",
-                      }}
-                    >
-                      <span> Up </span>
-
-                      <span> Down</span>
-                    </div>
-                  </div>
-                ) : (
-                  <></>
-                )}
-              </div>
-            
-            </div>
-          ))} */}
-
           <div id="Ques">
             {masterList.map((element, index) => {
               const shouldRender = getQueKey(element.field_type) === 1;

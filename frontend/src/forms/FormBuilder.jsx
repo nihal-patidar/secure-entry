@@ -251,46 +251,35 @@ export default function FormBuilder() {
   };
 
   function reindexMasterList(list) {
-  return list.map((item, idx) => ({ ...item, field_index: idx }));
-}
+    return list.map((item, idx) => ({ ...item, field_index: idx }));
+  }
 
-function generateUniqueId() {
-  return `field_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
-}
+  function generateUniqueId() {
+    return `field_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+  }
 
-function Duplicate(field_id) {
-  const index = masterList.findIndex((el) => el.field_id === field_id);
-  if (index === -1) return;
+  function Duplicate(field_id) {
+    const index = masterList.findIndex((el) => el.field_id === field_id);
+    if (index === -1) return;
 
-  const updatedList = [...masterList];
-  const copy = JSON.parse(JSON.stringify(updatedList[index]));
-  copy.field_id = generateUniqueId();
+    const updatedList = [...masterList];
+    const copy = JSON.parse(JSON.stringify(updatedList[index]));
+    copy.field_id = generateUniqueId();
 
-  updatedList.splice(index + 1, 0, copy);
-  setMasterList(reindexMasterList(updatedList));
-}
+    updatedList.splice(index + 1, 0, copy);
+    setMasterList(reindexMasterList(updatedList));
+  }
 
+  function Remove(field_id) {
+    const index = masterList.findIndex((el) => el.field_id === field_id);
+    if (index === -1) return;
 
-
-
-//   function Remove(index) {
-//     // index--;
-//     setQuestions(Questions.filter((_, i) => i !== index));
-//     // setEditMode((editMode.filter((_, i) => i !== index)));
-//     // setOptions ((Options.filter((_, i) => i !== index)));
-//     setMasterList(masterList.filter((_, i) => i !== index));
-//   }
-
-function Remove(field_id) {
-  const index = masterList.findIndex((el) => el.field_id === field_id);
-  if (index === -1) return;
-
-  setMasterList(masterList.filter((el) => el.field_id !== field_id));
-  // If you're using Questions and other states too:
-  // setQuestions(Questions.filter((el) => el.field_id !== field_id));
-  // setEditMode(editMode.filter((_, i) => i !== index));
-  // setOptions(Options.filter((_, i) => i !== index));
-}
+    setMasterList(masterList.filter((el) => el.field_id !== field_id));
+    // If you're using Questions and other states too:
+    // setQuestions(Questions.filter((el) => el.field_id !== field_id));
+    // setEditMode(editMode.filter((_, i) => i !== index));
+    // setOptions(Options.filter((_, i) => i !== index));
+  }
 
   function hideFieldofType(st) {
     Feild[st].forEach((element) => {
@@ -329,104 +318,105 @@ function Remove(field_id) {
     }
   }
 
-function addQuestion(type) {
-  const isSelectable = ["single selection", "multiple selection", "Dropdown selection","Special Selection"].includes(type);
-  const newField = {
-    field_id: generateUniqueId(),
-    field_index: masterList.length,
-    show_field: true,
-    field_type: type,
-    field_name: DefaultQuestion[type],
-    field_desc: DefaultDesc[type],
-    field_placeholder: PlaceHolders[type],
-    field_note: DefaultNote[type],
-    field_error: "",
-    ...(isSelectable && {
-    field_Options: ["A", "B", "C", "D"].map((label) => ({
-      key: label,
-      value: label,
-      depended_field: [],
-      amount: 0
-    }))
-  })
+  function addQuestion(type) {
+    //Add Field
+    const isSelectable = [
+      "single selection",
+      "multiple selection",
+      "Dropdown selection",
+      "Special Selection",
+    ].includes(type);
+    const newField = {
+      field_id: generateUniqueId(),
+      field_index: masterList.length,
+      show_field: true,
+      field_type: type,
+      field_name: DefaultQuestion[type],
+      field_desc: DefaultDesc[type],
+      field_placeholder: PlaceHolders[type],
+      field_note: DefaultNote[type],
+      field_error: "",
+      ...(isSelectable && {
+        field_Options: ["A", "B", "C", "D"].map((label) => ({
+          key: label,
+          value: label,
+          depended_field: [],
+          amount: 0,
+        })),
+      }),
+    };
+    console.log("ds", type);
+    setMasterList([...masterList, newField]);
+  }
+
+  const updateMasterList = (field_id, key, value) => {
+    setMasterList((prev) =>
+      prev.map((field) =>
+        field.field_id === field_id ? { ...field, [key]: value } : field
+      )
+    );
   };
-  console.log("ds",type);
-  setMasterList([...masterList, newField]);
-}
 
-const updateMasterList = (field_id, key, value) => {
-  setMasterList((prev) =>
-    prev.map((field) =>
-      field.field_id === field_id ? { ...field, [key]: value } : field
-    )
-  );
-};
+  const updateOptionAtIndex = (field_id, optionIndex, value) => {
+    setMasterList((prev) =>
+      prev.map((field) => {
+        if (field.field_id !== field_id) return field;
 
-const updateOptionAtIndex = (field_id, optionIndex, value) => {
-  setMasterList((prev) =>
-    prev.map((field) => {
-      if (field.field_id !== field_id) return field;
+        const newOptions = [...field.field_Options];
+        newOptions[optionIndex] = {
+          ...newOptions[optionIndex],
+          value: value, // only update the value field
+        };
 
-      const newOptions = [...field.field_Options];
-      newOptions[optionIndex] = {
-        ...newOptions[optionIndex],
-        value: value  // only update the value field
-      };
+        return {
+          ...field,
+          field_Options: newOptions,
+        };
+      })
+    );
+  };
 
-      return {
-        ...field,
-        field_Options: newOptions,
-      };
-    })
-  );
-};
+  const updateOptionDependedFieldsAtIndex = (
+    field_id,
+    optionIndex,
+    dependedFields
+  ) => {
+    setMasterList((prev) =>
+      prev.map((field) => {
+        if (field.field_id !== field_id) return field;
 
-const updateOptionDependedFieldsAtIndex = (field_id, optionIndex, dependedFields) => {
-  setMasterList((prev) =>
-    prev.map((field) => {
-      if (field.field_id !== field_id) return field;
+        const newOptions = [...field.field_Options];
+        newOptions[optionIndex] = {
+          ...newOptions[optionIndex],
+          depended_field: dependedFields, // update only depended_field
+        };
 
-      const newOptions = [...field.field_Options];
-      newOptions[optionIndex] = {
-        ...newOptions[optionIndex],
-        depended_field: dependedFields  // update only depended_field
-      };
+        return {
+          ...field,
+          field_Options: newOptions,
+        };
+      })
+    );
+  };
 
-      return {
-        ...field,
-        field_Options: newOptions,
-      };
-    })
-  );
-};
+  const updateOptionAmountAtIndex = (field_id, optionIndex, amount) => {
+    setMasterList((prev) =>
+      prev.map((field) => {
+        if (field.field_id !== field_id) return field;
 
-const updateOptionAmountAtIndex = (field_id, optionIndex, amount) => {
-  setMasterList((prev) =>
-    prev.map((field) => {
-      if (field.field_id !== field_id) return field;
+        const newOptions = [...field.field_Options];
+        newOptions[optionIndex] = {
+          ...newOptions[optionIndex],
+          amount: amount, // update only the amount
+        };
 
-      const newOptions = [...field.field_Options];
-      newOptions[optionIndex] = {
-        ...newOptions[optionIndex],
-        amount: amount  // update only the amount
-      };
-
-      return {
-        ...field,
-        field_Options: newOptions,
-      };
-    })
-  );
-};
-
-
-
-
-
-
-
-
-
+        return {
+          ...field,
+          field_Options: newOptions,
+        };
+      })
+    );
+  };
 
   function setQuantity(type) {
     if (type === "Logo") {
@@ -442,32 +432,6 @@ const updateOptionAmountAtIndex = (field_id, optionIndex, amount) => {
       setTerms(Terms == true ? false : true);
     }
   }
-
-  // function ToggleEditOptions(){
-  //     setTimeout(() => {
-  //         for(let i = 0;i < Questions.length;i++){
-  //             let index = i;
-  //             let element = document.getElementById(`Question-${index}`);
-  //             // element.onmouseenter=()=>{
-  //             //     setEditMode(prev => {
-  //             //         const updated = [...prev];
-  //             //         updated[index] = "1";
-  //             //         return updated;
-  //             //     })
-  //             //     element.style.background = "blue"
-  //             // }
-  //             // element.onmouseleave=()=>{
-  //             //     setEditMode(prev => {
-  //             //         const updated = [...prev];
-  //             //         updated[index] = "0";
-  //             //         return updated;
-  //             //     })
-  //             //     element.style.background = "transparent"
-  //             // }
-  //         }
-  //     }, 0);
-  // }
-  //  FoR FUTURE
 
   function setMasterList2(index, prop, val) {
     setMasterList((prev) => {
@@ -621,7 +585,7 @@ const updateOptionAmountAtIndex = (field_id, optionIndex, amount) => {
                 </svg>
                 <div style={{ paddingBottom: "20px" }}></div>
                 {/* <div style={{minHeight:"50px", marginTop:"10px", width:"50px"}}></div> */}
-              </div>
+                              </div>
             </div>
             {selectedAside === "Collapse" ? (
               <></>
@@ -761,7 +725,6 @@ const updateOptionAmountAtIndex = (field_id, optionIndex, amount) => {
                                     }}
                                   >
                                     <div>
-                                      {/* {console.log(element, ele)} */}
                                       <div
                                         id={`feild-${ele}-1`}
                                         dangerouslySetInnerHTML={{
@@ -813,10 +776,12 @@ const updateOptionAmountAtIndex = (field_id, optionIndex, amount) => {
             isTimer={Timer}
             isTerms={Terms}
             setQuantity={setQuantity}
-            updateMasterList = {updateMasterList}
-            updateOptionAtIndex = {updateOptionAtIndex}
+            updateMasterList={updateMasterList}
+            updateOptionAtIndex={updateOptionAtIndex}
             updateOptionAmountAtIndex={updateOptionAmountAtIndex}
-            updateOptionDependedFieldsAtIndex={updateOptionDependedFieldsAtIndex}
+            updateOptionDependedFieldsAtIndex={
+              updateOptionDependedFieldsAtIndex
+            }
           />
         </div>
       </div>
