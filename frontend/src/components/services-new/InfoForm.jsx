@@ -1,0 +1,128 @@
+import React, { useState } from "react";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import eventImg from "../../assets/serviceimg/codekumbh.png";
+import { MapPinIcon } from "@heroicons/react/24/outline";
+import { CalendarDaysIcon } from "@heroicons/react/24/outline";
+import addFiles from "../../assets/images/undraw_add-files_d04y.svg";
+import FormDetails from "./FormDetails";
+
+const InfoForm = (element, index) => {
+  const [formCreated, setFormCreated] = useState(false);
+
+  const handleCreateForm = () => {
+    /* form handle code*/
+    setFormCreated(true);
+  };
+
+  return (
+    <>
+      <div className=" w-full h-fit bg-white border border-[#EAEAEA] rounded-xl  mx-auto  mb-14 ">
+        <div className="infoform w-full h-fit  border-b border-b-[#EDEDED] rounded-t-xl flex">
+          <div className="info w-[50%] pb-6 border-r  border-r-[#EDEDED] ">
+            <img
+              src={element?.service_image_url}
+              alt="eventImg"
+              className="w-full h-48 object-cover rounded-tl-xl"
+            />
+            <div className="p-6">
+              <h3 className="text-[#2D2D2D] text-3xl font-medium mb-5 ">
+                {element.service_name}
+              </h3>
+
+              <div className="flex justify-between divide-x divide-[#D8D8D8] pb-8 border-b border-b-[#D8D8D8]">
+                <div className=" w-[60%]">
+                  <div className="flex gap-2 items-center ">
+                    <CalendarDaysIcon className="w-4 text-[#717171]" />
+                    <p className="text-[#717171]">12 June 2025, 3:00 PM</p>
+                  </div>
+                  <div className="flex gap-2 items-center">
+                    <MapPinIcon className="w-4 text-[#717171]" />
+                    <p className="text-[#717171]">{element.service_address}</p>
+                  </div>
+                </div>
+                <div className="text-center w-1/3">
+                  <p className="text-sm font-semibold tracking-wider text-[#717171] ">
+                    Validity
+                  </p>
+                  <p className="text-secondary text-2xl font-semibold">{element.ticket_validity} Hours</p>
+                </div>
+                <div className="text-center  w-1/3">
+                  <p className="text-sm font-semibold tracking-wider text-[#717171]">
+                    Ticket Price
+                  </p>
+                  <p className="text-secondary text-2xl font-semibold">{element.ticket_price} Rs</p>
+                </div>
+              </div>
+
+              <div className="pt-8 flex divide-x divide-[#D8D8D8]">
+                <div className="text-center w-1/3">
+                  <p className="text-sm font-semibold tracking-wider text-[#717171] ">
+                    Validators
+                  </p>
+                  <p className="text-secondary text-2xl font-semibold">{element.validater_list?.length}</p>
+                </div>
+                <div className="text-center w-1/3">
+                  <p className="text-sm font-semibold tracking-wider text-[#717171] ">
+                    Valid Scans
+                  </p>
+                  <p className="text-secondary text-2xl font-semibold">2</p>
+                </div>
+                <div className="text-center w-1/3">
+                  <p className="text-sm font-semibold tracking-wider text-[#717171] ">
+                    Type
+                  </p>
+                  <p className="text-secondary text-2xl font-semibold">
+                    Ticket
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="form w-[50%]   text-center py-6 px-8">
+            <h3 className="text-[rgb(75,75,75)] text-2xl font-semibold mb-3 ">
+              Form & QR
+            </h3>
+            <hr />
+
+            {!formCreated && (
+              <div className="flex flex-col items-center justify-center text-center py-10">
+                <img src={addFiles} alt="No form" className="w-28 mb-4" />
+                <h2 className="text-2xl font-semibold mb-2">No Form Created</h2>
+                <p className="text-gray-500 text-lg mb-6 px-10">
+                  You can edit details after it's created.
+                </p>
+                <button
+                  className="button-primary "
+                  onClick={() => handleCreateForm()}
+                >
+                  Create Form
+                </button>
+              </div>
+            )}
+
+
+            {formCreated && <FormDetails />}
+
+
+          </div>
+        </div>
+
+        <div className="w-full h-auto   px-12 py-8  rounded-b-xl bg-white">
+          <p className="text-secondary font-semibold mb-2">About Event</p>
+          <p className="text-gray-700 font-light text-lg">
+            It is a 2 day Hackathon in JEC College. Students get a chance to
+            showcase their skills and win exciting prizes alongwith valuable
+            certificates. Build innovative solutions It is a 2 day Hackathon in
+            JEC College. Students get a chance to showcase their skills and win
+            exciting prizes alongwith valuable certificates. Build innovative
+            solutions
+          </p>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default InfoForm;

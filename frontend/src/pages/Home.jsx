@@ -47,6 +47,39 @@ const Home = () => {
     );
 };
 
+// const ProfileCard = () => {
+//   const { userData } = useContext(UserContext);
+//   return (
+//     <div className="flex  h-full w-[160px]    rounded-lg  text-center transform transition-transform duration-300 ease-in-out ">
+//       {/* Profile Picture with Glow Effect */}
+//       <div className="relative w-10 h-10 mx-auto mb-2 overflow-hidden rounded-full border-2 border-white  hover:transition-transform duration-300 ease-in-out">
+//         <img
+//           src={userData?.image} // Replace with your actual image URL
+//           alt="Profile"
+//           className="w-full h-full object-cover"
+//         />
+       
+//       </div>
+
+//       {/* User Name and ID */}
+//       <div>
+//       <h3 className="text-[16px] font-semibold text-[#494949]">{userData?.name}Asad Qureshi</h3>
+//       <p className="text-[10px]   font-medium text-[#7E7E7E]">{userData?.email}asqu8888@gmail.com</p>
+//       </div>
+
+//       {/* View Profile Button with Gradient */}
+//       {/* <div className="flex justify-center mt-2">
+//         <Link to="/home/profile">
+//           <button className="px-4 py-1 text-xs text-white rounded-full border border-[#FFEB55] shadow-md hover:shadow-lg transition-all duration-300 ease-in-out">
+//             View Profile
+//           </button>
+//         </Link>
+//       </div> */}
+//     </div>
+//   );
+// };
+
+
 export default Home;
 
 

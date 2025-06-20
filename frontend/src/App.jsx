@@ -53,6 +53,14 @@ const router = createBrowserRouter([
       </Auth>
     ),
     children: [
+      // {
+      //   path: "servicedetails",
+      //   element: <ServiceDetails/>,
+      // },
+      // {
+      //   path: "visitortable",
+      //   element: <VisitorTable/>,
+      // },
       {
         path: "",
         element: <Dashboard />,

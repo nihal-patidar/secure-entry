@@ -21,6 +21,10 @@ export default withMT({
         laptop: '1440px',   // Custom breakpoint for large laptops
         ultrawide: '1920px' // Custom breakpoint for ultrawide screens
       },
+      colors: {
+        primary: '#2C3ED3',
+        secondary: '#7850FA'
+      },
     },
   },
   plugins: [],

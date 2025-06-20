@@ -11,6 +11,26 @@ select:-webkit-autofill {
     -webkit-text-fill-color: black !important;
 }
 
+/* font family */
+  @font-face {
+    font-family: 'dm-sans';
+    src: url('./fonts/DMSans-Regular.ttf') format('truetype');
+  }
+
+  body, html, *{
+    font-family: 'dm-sans', sans-serif;
+  }
+
+/* font family */
+  @font-face {
+    font-family: 'dm-sans';
+    src: url('./fonts/DMSans-Regular.ttf') format('truetype');
+  }
+
+  body, html, *{
+    font-family: 'dm-sans', sans-serif;
+  }
+
 
 .theme-1 { /*Only for primary*/
     color : #D91656 ;
@@ -280,8 +300,75 @@ body {
 /* hide-scrollbar.css */
 .hide-scrollbar::-webkit-scrollbar {
     display: none;
+}/
+
+/* New changes */
+
+.nav-bg {
+  @apply bg-[#2C3ED3];
+}
+
+.nav-txt {
+  @apply text-[#2C3ED3];
+}
+
+.btn-outline {
+  @apply border-white border-2 bg-transparent rounded-2xl px-4 py-2;
 }
 .hide-scrollbar {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;     /* Firefox */
 }
+.btn-outline-border-black {
+  @apply border-[#ABABAB] border-2 bg-transparent rounded-full;
+}
+.txt-landing-blue {
+  @apply text-[#7850FA];
+}
+.txt-landing {
+  @apply text-[#3C3C3C];
+}
+.btn-fill {
+  @apply border-white border-2 bg-[#2C3ED3] rounded-full   text-white font-semibold;
+}
+
+/*New */
+
+  .button-primary {
+    @apply outline-none inline-flex items-center justify-center px-8 py-2 border border-transparent  text-lg font-medium rounded-full text-white  bg-[#2C3ED3] hover:bg-[#3441b3] active:bg-[#273086] transition-all  ;
+  }
+
+  .button-secondary {
+    @apply outline-none inline-flex items-center justify-center px-6 py-2 border border-transparent    rounded-full text-white  bg-[#7850FA] hover:bg-[#6745d6] active:bg-[#4e34a2] transition-all  ;
+  }
+
+  .button-secondary-outline {
+    @apply outline-none inline-flex items-center justify-center border border-[#7850FA] text-[#7850FA] py-2 px-6 rounded-full hover:bg-[#7850FA] hover:text-white hover:font-medium active:bg-[#6745d6] transition-all
+  }
+
+  /* Scrollbar cutomization */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    
+}
+
+::-webkit-scrollbar-thumb {
+    background: #C8D1FF;
+   
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b4c0fb;
+}
+
+
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+   filter: invert(0.5) sepia(1) saturate(5) hue-rotate(175deg);
+}
+
