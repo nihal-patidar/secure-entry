@@ -21,7 +21,7 @@ import ServiceVisitors from "./pages/ServiceVisitors";
 import CreateValidatorForm from "./forms/AddValidator.jsx";
 import { CreateService } from "./forms/AddService";
 import VisitorFormCreate from "./forms/BuildForm.jsx";
-import { UpdateServiceForm } from "./forms/UpdateService";
+import  UpdateServiceForm  from "./pages/UpdateService";
 import ValidatorList from "./pages/ValidatorList";
 import AddValidator from "./forms/AddValidator.jsx";
 import StepForTicket from "./pages/StepForTicket";
@@ -31,7 +31,10 @@ import Profileedit from "./pages/profile/Profileedit.jsx";
 import ServiceList from "./pages/ServiceList.jsx";
 import ServiceLayout from "./pages/ServiceLayout.jsx";
 import ServiceDetails from "./pages/ServiceDetails.jsx";
-import BuildForm from "./forms/BuildForm.jsx";
+import BuildForm from "./pages/BuildForm.jsx";
+import UpdateForm from "./pages/UpdateForm.jsx";
+import ServiceVisitorsData from "./pages/ServiceVisitorsData.jsx";
+import CreateServiceNew from "./pages/CreateService.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -53,14 +56,6 @@ const router = createBrowserRouter([
       </Auth>
     ),
     children: [
-      // {
-      //   path: "servicedetails",
-      //   element: <ServiceDetails/>,
-      // },
-      // {
-      //   path: "visitortable",
-      //   element: <VisitorTable/>,
-      // },
       {
         path: "",
         element: <Dashboard />,
@@ -89,8 +84,8 @@ const router = createBrowserRouter([
         children: [
           { path: "", element: <ServiceList />},
           {
-            path: "create",
-            element: <CreateService />,
+            path: "addservice",
+            element: <CreateServiceNew />,
           },
           {
             path: ":serviceId",
@@ -99,9 +94,10 @@ const router = createBrowserRouter([
               { path: "", element: <ServiceDetails />},
               { path: "update", element: <UpdateServiceForm />},
               { path: "build-form", element: <BuildForm />},
+              { path: "update-form", element: <UpdateForm/>},
               { path: "form-prev", element: <FormPrev />},
               { path: "ticket-prev", element: <TicketPrev />},
-              { path: "visitors",element: <ServiceVisitors />},
+              { path: "visitors",element: <ServiceVisitorsData/>},
               { path: "validators",element: <ValidatorList />},
               { path: "add-validator",element: <AddValidator />},
 

@@ -300,7 +300,7 @@ body {
 /* hide-scrollbar.css */
 .hide-scrollbar::-webkit-scrollbar {
     display: none;
-}/
+}
 
 /* New changes */
 
@@ -335,15 +335,15 @@ body {
 /*New */
 
   .button-primary {
-    @apply outline-none inline-flex items-center justify-center px-8 py-2 border border-transparent  text-lg font-medium rounded-full text-white  bg-[#2C3ED3] hover:bg-[#3441b3] active:bg-[#273086] transition-all  ;
+    @apply outline-none inline-flex items-center justify-center px-8 py-2 border border-transparent  text-lg font-medium rounded-full text-white  bg-[#2C3ED3] hover:bg-[#3441b3] active:bg-[#273086] transition-all duration-200  ;
   }
 
   .button-secondary {
-    @apply outline-none inline-flex items-center justify-center px-6 py-2 border border-transparent    rounded-full text-white  bg-[#7850FA] hover:bg-[#6745d6] active:bg-[#4e34a2] transition-all  ;
+    @apply outline-none inline-flex items-center justify-center px-6 py-2 border border-transparent    rounded-full text-white  bg-[#7850FA] hover:bg-[#6745d6] active:bg-[#4e34a2] transition-all duration-200  ;
   }
 
   .button-secondary-outline {
-    @apply outline-none inline-flex items-center justify-center border border-[#7850FA] text-[#7850FA] py-2 px-6 rounded-full hover:bg-[#7850FA] hover:text-white hover:font-medium active:bg-[#6745d6] transition-all
+    @apply outline-none inline-flex items-center justify-center border border-[#7850FA] text-[#7850FA] py-2 px-6 rounded-full hover:bg-[#7850FA] hover:text-white hover:font-medium active:bg-[#6745d6] transition-all duration-200
   }
 
   /* Scrollbar cutomization */
@@ -372,3 +372,33 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
    filter: invert(0.5) sepia(1) saturate(5) hue-rotate(175deg);
 }
 
+
+.bouncing-loader {
+  display: flex;
+  justify-content: center;
+}
+
+.bouncing-loader > div {
+  width: 16px;
+  height: 16px;
+  margin: 3px 6px;
+  border-radius: 50%;
+  background-color: #2C3ED3;
+  opacity: 1;
+  animation: bouncing-loader 0.6s infinite alternate;
+}
+
+@keyframes bouncing-loader {
+  to {
+    opacity: 0.1;
+    transform: translateY(-16px);
+  }
+}
+
+.bouncing-loader > div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.bouncing-loader > div:nth-child(3) {
+  animation-delay: 0.4s;
+}

@@ -1,14 +1,38 @@
 import React, { useContext } from "react";
 import { UserContext } from "../../context/UserContext.jsx";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
     const location = useLocation();
     const { userData , image } = useContext(UserContext);
     const { name } = userData || {};
+    const navigate = useNavigate()
+
+    const segments = location.pathname.split("/").filter(Boolean);
+
+  const isMongoId = (str) => /^[a-f0-9]{24}$/i.test(str);
+
+  let label = "Home";
+
+  if (segments.length === 0) {
+    label = "Home";
+  } else {
+    const last = segments[segments.length - 1];
+    const secondLast = segments[segments.length - 2];
+
+    if (isMongoId(last)) {
+      // Ends with an ID — show "Service"
+      label = "Service";
+    } else if (isMongoId(secondLast)) {
+      // Ends with /:id/visitors or /:id/edit — show that last segment
+      label = last;
+    } else {
+      label = last;
+    }
+  }
 
     return (
-        <header className="z-40 fixed top-4 left-[15%] w-[80%] p-4 rounded-3xl ml-16 bg-[#F2F3F9] border-2 border-[#EAEAEA] shadow-md flex justify-between items-center">
+        <header className="fixed top-4 lg:left-80 left-24  right-6 z-40 p-4 rounded-3xl bg-[#F2F3F9] border-2 border-[#EAEAEA] flex justify-between items-center">
             {/* Left section: Path + Title */}
             <div className="flex flex-col gap-1">
         <span className="text-xs">
@@ -17,7 +41,11 @@ const Header = () => {
         </span>
 
                 <div className="flex items-center gap-2">
-                    <button>
+                    <button
+                    onClick={()=>{
+                        navigate(-1)
+                    }}
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="w-6 h-6 text-[#2C3ED3] hover:scale-105 transition-transform"
@@ -35,7 +63,9 @@ const Header = () => {
                     </button>
 
                     <h1 className="text-2xl font-semibold text-[#2C3ED3] leading-tight">
-                        Services
+                        {
+                        label
+                        }
                     </h1>
                 </div>
             </div>
@@ -67,7 +97,7 @@ const Header = () => {
                 <Link to="/home/profile">
                     <div>
                         <h2 className="text-[#494949] font-semibold text-[18px]">
-                            {name || "Name is not available"}
+                            {name || "Loading..."}
                         </h2>
                         <div className="text-sm text-[#7E7E7E]">admin</div>
                     </div>

@@ -1,15 +1,147 @@
 "use client";
 
+import { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { ServiceContext } from "../../context/ServiceContext";
+import api from '../../../axiosConfig'
+import { toast } from "react-toastify";
+
 export function Card(props) {
-  const {image, eventName, location, time, date , price } = props;
+  const {image, id, eventName, location, time, date , price, countVisitors,setCountVisitors } = props;
+
+  let token = localStorage.getItem("userData");
+  const [visitors, setVisitors] = useState({ total: 0, visited: 0, notvisited: 0, visitorData: {"default":"no visitor data"} });
+  
+
+  
+/* Example visitor data */
+  const visitordata = [
+    {
+      Name:"Asad",
+      Email:"Asad@gmail.com",
+      Branch:"CSE",
+      Skill:"Web",
+      Address: "Dhar",
+      School:"Random",
+      Rank:"1",
+      Payment: "Done",
+      Hobby: "Driving"
+    },
+    {
+      Name:"Nikhil",
+      Email:"Nikhil@gmail.com",
+      Branch:"it",
+      Skill:"app",
+      Address: "Badvani",
+      School:"Random",
+      Rank:"2",
+      Payment: "Done",
+      Hobby: "Blank"
+
+    },
+    {
+      Name:"Nagesh",
+      Email:"Nagesh@gmail.com",
+      Branch:"ee",
+      Skill:"blockchain",
+      Address: "Chhatarpur",
+      School:"Random",
+      Rank:"3",
+      Payment: "Done",
+      Hobby: "Blank"
+    },
+    {
+      Name:"Virendra",
+      Email:"Virendra@gmail.com",
+      Branch:"ee",
+      Skill:"blockchain",
+      Address: "Chhatarpur",
+      School:"Random",
+      Rank:"3",
+      Payment: "Done",
+      Hobby: "Blank"
+    },
+    {
+      Name:"Tanay",
+      Email:"Tanay@gmail.com",
+      Branch:"ee",
+      Skill:"blockchain",
+      Address: "Chhatarpur",
+      School:"Random",
+      Rank:"3",
+      Payment: "Done",
+      Hobby: "Blank"
+    },
+    {
+      Name:"Aman",
+      Email:"Aman@gmail.com",
+      Branch:"ee",
+      Skill:"blockchain",
+      Address: "Chhatarpur",
+      School:"Random",
+      Rank:"3",
+      Payment: "Done",
+      Hobby: "Blank"
+    }
+    
+  ]
+
+
+
+     useEffect(() => {
+        api
+          .get(`/visitor/get-visitors/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((res) => {
+            const visitors = res.data?.visitorList;
+  
+            // console.log("Visitors data from fetch: ", visitors)
+  
+            let total = visitors.length;
+            let visited = visitors.filter((visitor) => {
+              return visitor.validation_status;
+            }).length;
+            let notvisited = visitors.filter((visitor) => {
+              return !visitor.validation_status;
+            }).length;
+    
+            setVisitors({ total: total, visited: visited, notvisited: notvisited, visitorData:visitors });
+            
+            setCountVisitors({total:total, visited:visited, notvisited:notvisited})
+            
+          })
+          .catch((err) => {
+            //console.log(err);
+             toast.warning(err.response?.data?.msg || "Failed to fetch visitor data");
+          });
+      }, []);
+  
+  
+  
+// console.log("Count visitors: ",countVisitors)
+
+  const navigate = useNavigate()
+  let visitPercent= Number;
+  countVisitors.total?(
+  visitPercent = (countVisitors.visited*100)/countVisitors.total): (visitPercent=0)
+  
 
   return (
-      <div className="max-w-xs w-full group/card ">
-        <div className="relative h-[420px] rounded-2xl shadow-xl bg-white overflow-hidden p-4 flex flex-col justify-between">
+      <div className="max-w-xs w-full group/card "
+      onClick={()=>{
+        navigate(`/home/services/${id}`
+         ,{state: {visitors:visitors}}
+        )
+      }}
+      >
+        <div className="relative h-[420px] rounded-2xl  bg-white overflow-hidden p-4 flex flex-col justify-between border border-gray-200">
           {/* Image Section */}
           <div>
 
-          <img  className="bg-cover bg-center rounded-2xl h-[180px] mb-3 shadow-lg mx-auto object-cover "
+          <img  className="bg-cover bg-center rounded-2xl h-[180px] mb-3  mx-auto object-cover w-full "
               alt= "image not found"
               src={image}/>
           </div>
@@ -63,11 +195,11 @@ export function Card(props) {
           {/* Progress Bar & Price */}
           <div className="flex items-center justify-between mt-4">
             {/* Progress */}
-            <div className="flex w-4/5">
+            <div className="flex items-center w-3/5">
               <div className=" w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div className="h-full bg-purple-500 w-[55%]"></div>
+                <div className={`h-full bg-purple-500 w-[${visitPercent}%]`}></div>
               </div>
-              <h3 className="text-sm text-black mt-[-4px] font-bold">55%</h3>
+              <h3 className="ml-2 text-sm text-black mt-[-4px] font-bold">{visitPercent}%</h3>
             </div>
 
             {/* Price */}

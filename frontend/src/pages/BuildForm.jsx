@@ -2,7 +2,7 @@ import React from 'react';
 
 const BuildForm = () => {
     return (
-        <div>
+        <div className='w-full text-center font-semibold text-4xl'>
             BuildForm
         </div>
     );

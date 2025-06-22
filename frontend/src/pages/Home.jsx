@@ -32,7 +32,7 @@ const Home = () => {
             {/* Main Content Area */}
             <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
                 {/* Sticky Header */}
-                <div className="sticky top-0 z-10 bg-white shadow-sm pl-4 lg:pl-6 pr-4">
+                <div className="sticky top-0 z-10 bg-white shadow-sm pl-4 lg:pl-6 pr-4 ml-10">
                     <Header />
                 </div>
 

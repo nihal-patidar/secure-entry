@@ -3,7 +3,7 @@ import { CloseCircleOutlined } from "@ant-design/icons";
 import { dataContext } from "../../context/DataState";
 import { Button, Form, Input, Select } from "antd";
 import api from "../../../axiosConfig";
-import welvideo from "../../../public/vedios/to-our-Service.mp4";
+// import welvideo from "../../../public/vedios/to-our-Service.mp4";
 
 import { toast } from "react-toastify";
 import { ServiceContext } from "../../context/ServiceContext";

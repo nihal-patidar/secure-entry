@@ -6,14 +6,36 @@ import { MapPinIcon } from "@heroicons/react/24/outline";
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 import addFiles from "../../assets/images/undraw_add-files_d04y.svg";
 import FormDetails from "./FormDetails";
+import { useNavigate } from "react-router-dom";
 
-const InfoForm = (element, index) => {
+/*
+service_data:
+
+service_address:"JEC"
+service_image_url: "https://storage.googleapis.com/e-validation-2.appspot.com/codekumbh.png"
+service_name: "Codekumbh"
+service_type: "Ticket"
+ticket_price: 0
+ticket_validity: 3
+valid_scans: 1
+validater_list: []
+__v: 0
+_id: "68557705dfa0ab47cb0df6ae"
+*/
+
+const InfoForm = ({serviceId, service}) => {
   const [formCreated, setFormCreated] = useState(false);
+  const [aboutService, setAboutService] = useState("Write about this service in 2-3 lines, (about sections's content will come from Add Service Form, and will be Updated by Update Service Form, This is just for example)")
+
+  const navigate = useNavigate() 
 
   const handleCreateForm = () => {
     /* form handle code*/
+    // navigate(`/home/services/${serviceId}/build-form`)
+
     setFormCreated(true);
   };
+  
 
   return (
     <>
@@ -21,13 +43,13 @@ const InfoForm = (element, index) => {
         <div className="infoform w-full h-fit  border-b border-b-[#EDEDED] rounded-t-xl flex">
           <div className="info w-[50%] pb-6 border-r  border-r-[#EDEDED] ">
             <img
-              src={element?.service_image_url}
+              src={service?.service_image_url}
               alt="eventImg"
               className="w-full h-48 object-cover rounded-tl-xl"
             />
             <div className="p-6">
               <h3 className="text-[#2D2D2D] text-3xl font-medium mb-5 ">
-                {element.service_name}
+                {service.service_name}
               </h3>
 
               <div className="flex justify-between divide-x divide-[#D8D8D8] pb-8 border-b border-b-[#D8D8D8]">
@@ -38,20 +60,20 @@ const InfoForm = (element, index) => {
                   </div>
                   <div className="flex gap-2 items-center">
                     <MapPinIcon className="w-4 text-[#717171]" />
-                    <p className="text-[#717171]">{element.service_address}</p>
+                    <p className="text-[#717171]">{service.service_address}</p>
                   </div>
                 </div>
                 <div className="text-center w-1/3">
                   <p className="text-sm font-semibold tracking-wider text-[#717171] ">
                     Validity
                   </p>
-                  <p className="text-secondary text-2xl font-semibold">{element.ticket_validity} Hours</p>
+                  <p className="text-secondary text-2xl font-semibold">{service.ticket_validity} Hours</p>
                 </div>
                 <div className="text-center  w-1/3">
                   <p className="text-sm font-semibold tracking-wider text-[#717171]">
                     Ticket Price
                   </p>
-                  <p className="text-secondary text-2xl font-semibold">{element.ticket_price} Rs</p>
+                  <p className="text-secondary text-2xl font-semibold">{service.ticket_price} Rs</p>
                 </div>
               </div>
 
@@ -60,20 +82,20 @@ const InfoForm = (element, index) => {
                   <p className="text-sm font-semibold tracking-wider text-[#717171] ">
                     Validators
                   </p>
-                  <p className="text-secondary text-2xl font-semibold">{element.validater_list?.length}</p>
+                  <p className="text-secondary text-2xl font-semibold">{service.validater_list?.length}</p>
                 </div>
                 <div className="text-center w-1/3">
                   <p className="text-sm font-semibold tracking-wider text-[#717171] ">
                     Valid Scans
                   </p>
-                  <p className="text-secondary text-2xl font-semibold">2</p>
+                  <p className="text-secondary text-2xl font-semibold">{service.valid_scans} </p>
                 </div>
                 <div className="text-center w-1/3">
                   <p className="text-sm font-semibold tracking-wider text-[#717171] ">
                     Type
                   </p>
                   <p className="text-secondary text-2xl font-semibold">
-                    Ticket
+                    {service.service_type} 
                   </p>
                 </div>
               </div>
@@ -103,7 +125,14 @@ const InfoForm = (element, index) => {
             )}
 
 
-            {formCreated && <FormDetails />}
+
+            {formCreated && 
+            <FormDetails 
+            serviceId={serviceId} 
+            formData={service.formData}
+            formUrl={service.service_url}
+            formQr={service.service_qr}
+            formId={service._id} />}
 
 
           </div>
@@ -111,14 +140,22 @@ const InfoForm = (element, index) => {
 
         <div className="w-full h-auto   px-12 py-8  rounded-b-xl bg-white">
           <p className="text-secondary font-semibold mb-2">About Event</p>
-          <p className="text-gray-700 font-light text-lg">
-            It is a 2 day Hackathon in JEC College. Students get a chance to
-            showcase their skills and win exciting prizes alongwith valuable
-            certificates. Build innovative solutions It is a 2 day Hackathon in
-            JEC College. Students get a chance to showcase their skills and win
-            exciting prizes alongwith valuable certificates. Build innovative
-            solutions
-          </p>
+          <textarea 
+          
+          className=" text-gray-700 font-light text-lg outline-none bg-transparent  w-full p-3  resize-none overflow-hidden"
+          
+          value={aboutService}
+          onChange={(e)=>{
+            setAboutService(e.target.value)
+            e.target.style.height = "auto"
+            e.target.style.height = `${e.target.scrollHeight}px`
+          }}
+          />
+          
+          
+           
+       
+          
         </div>
       </div>
     </>
