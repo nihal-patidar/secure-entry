@@ -19,24 +19,24 @@ const ServiceVisitorsData = () => {
     
   return (
     <>
-        <div className='h-[720px] w-[95%] bg-[#F2F3F9]  rounded-3xl border border-[#EAEAEA] ml-16 p-2 mt-8 mr-6'>
-            <div className='bg-white border border-[#EAEAEA] h-full w-full px-10 rounded-3xl '>
-                <div className='flex gap-5 text-black px-10 text-lg font-medium h-12 mt-8 mb-8'>
-                    <button className='px-8 py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white active:bg-blue-900'
+        <div className='h-[720px] w-[87%] sm:w-[95%] bg-[#F2F3F9]   rounded-3xl border border-[#EAEAEA] ml-16 p-2 mt-8 '>
+            <div className='bg-white border border-[#EAEAEA] h-full w-full px-0 lg:px-5 rounded-3xl '>
+                <div className='flex gap-1 lg:gap-3  text-black px-0 lg:px-6 text-sm  sm:text-lg font-medium h-12 mt-8 mb-8'>
+                    <button className=' px-3 sm:px-8 py-1 sm:py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white active:border-b-blue-900 sm:active:bg-blue-900'
                     onClick={()=>{
                     setShowAll(true)
                     setShowVisited(false)
                     setShowNotVisited(false)
                     }}
                     >All</button>
-                    <button className='px-8 py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white active:bg-blue-900'
+                    <button className='px-3 sm:px-8 py-1 sm:py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white active:border-b-blue-900 sm:active:bg-blue-900'
                     onClick={()=>{
                     setShowAll(false)
                     setShowVisited(true)
                     setShowNotVisited(false)
                     }}
                     >Visited</button>
-                    <button className='px-8 py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white active:bg-blue-900'
+                    <button className='px-3 sm:px-8 py-1 sm:py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white active:border-b-blue-900 sm:active:bg-blue-900'
                     onClick={()=>{
                     setShowAll(false)
                     setShowVisited(false)
@@ -44,7 +44,9 @@ const ServiceVisitorsData = () => {
                     }}
                     >Not Visited</button>
                     
-                    <button className='px-8 py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white active:bg-blue-900'>Excel</button>
+                    <button className='px-3 sm:px-8 py-1 sm:py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white active:border-b-blue-900 sm:active:bg-blue-900'
+                    
+                    >Excel</button>
                     
                 </div>
                 
@@ -83,7 +85,7 @@ const AllVisitors = ({ visitorData }) => {
      visitorData.map((visitorData) => {
         return visitorList.push(visitorData)
       })
-      console.log("Visitor Data All from map: ", visitorList)
+      // console.log("Visitor Data All from map: ", visitorList)
   return (
     <>
     

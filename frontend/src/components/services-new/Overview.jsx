@@ -25,28 +25,28 @@ const Overview = ({serviceId, visitors}) => {
 
   return (
     <>
-      <div className=" w-full h-[300px] bg-white border border-[#EAEAEA] rounded-xl  mx-auto  mb-14 px-12 py-8 ">
+      <div className=" w-full h-fit bg-white border border-[#EAEAEA] rounded-xl  mx-auto  mb-14 px-12 py-8 ">
         <h3 className='text-[#4b4b4b] text-2xl font-semibold mb-7 text-center'>Overview</h3>
-        <div className='flex gap-12 justify-center h-[35%] mb-9'>
+        <div className='grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 gap-12 place-items-center mx-auto  mb-9'>
             <div className='relative   '  >
-                <img src={totalRegistered} className=' h-full' alt="total registered"  />
-                <p className='absolute top-2 left-8 text-white'>Registered</p>
-                <p className='absolute top-8 left-8 text-3xl font-semibold tracking-wider text-white'>{visitors?.total}</p>
+                <img src={totalRegistered} className=' h-20' alt="total registered"  />
+                <p className='absolute text-sm sm:text-base top-3 sm:top-2 left-8 text-white'>Registered</p>
+                <p className='absolute top-8 left-8 text-2xl sm:text-3xl font-semibold tracking-wider text-white'>{visitors?.total}</p>
             </div>
             <div className='relative   '  >
-                <img src={visited} className=' h-full' alt="total registered"  />
-                <p className='absolute top-2 left-8 text-white'>Visited</p>
-                <p className='absolute top-8 left-8 text-3xl font-semibold tracking-wider text-white'>{visitors?.visited}</p>
+                <img src={visited} className=' h-20' alt="total registered"  />
+                <p className='absolute top-3 sm:top-2 left-8 text-sm sm:text-base text-white'>Visited</p>
+                <p className='absolute top-8 left-8 text-2xl sm:text-3xl font-semibold tracking-wider text-white'>{visitors?.visited}</p>
             </div>
             <div className='relative   '  >
-                <img src={notVisited} className=' h-full' alt="total registered"  />
-                <p className='absolute top-2 left-8 text-white'>Not Visited</p>
-                <p className='absolute top-8 left-8 text-3xl font-semibold tracking-wider text-white'>{visitors?.notvisited}</p>
+                <img src={notVisited} className=' h-20' alt="total registered"  />
+                <p className='absolute top-3 sm:top-2 left-8 text-sm sm:text-base text-white'>Not Visited</p>
+                <p className='absolute top-8 left-8 text-2xl sm:text-3xl font-semibold tracking-wider text-white'>{visitors?.notvisited}</p>
             </div>
             <div className='relative   '  >
-                <img src={errors} className=' h-full' alt="total registered"  />
-                <p className='absolute top-2 left-8 text-white'>Errors</p>
-                <p className='absolute top-8 left-8 text-3xl font-semibold tracking-wider text-white'>0</p>
+                <img src={errors} className=' h-20' alt="total registered"  />
+                <p className='absolute top-3 sm:top-2 left-8 text-sm sm:text-base text-white'>Errors</p>
+                <p className='absolute top-8 left-8 text-2xl sm:text-3xl font-semibold tracking-wider text-white'>0</p>
             </div>
             
         </div>

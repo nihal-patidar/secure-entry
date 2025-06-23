@@ -1,15 +1,15 @@
 "use client";
 
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useMemo, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { ServiceContext } from "../../context/ServiceContext";
 import api from '../../../axiosConfig'
 import { toast } from "react-toastify";
 
-export function Card(props) {
+ function Card(props) {
   const {image, id, eventName, location, time, date , price, countVisitors,setCountVisitors } = props;
 
-  let token = localStorage.getItem("userData");
+  const token = useMemo(() => localStorage.getItem("userData"), []);
   const [visitors, setVisitors] = useState({ total: 0, visited: 0, notvisited: 0, visitorData: {"default":"no visitor data"} });
   
 
@@ -117,8 +117,9 @@ export function Card(props) {
             //console.log(err);
              toast.warning(err.response?.data?.msg || "Failed to fetch visitor data");
           });
-      }, []);
+      }, [id]);
   
+      
   
   
 // console.log("Count visitors: ",countVisitors)
@@ -126,7 +127,7 @@ export function Card(props) {
   const navigate = useNavigate()
   let visitPercent= Number;
   countVisitors.total?(
-  visitPercent = (countVisitors.visited*100)/countVisitors.total): (visitPercent=0)
+  visitPercent = parseFloat((countVisitors.visited*100)/countVisitors.total).toFixed(2)): (visitPercent=0)
   
 
   return (
@@ -195,11 +196,11 @@ export function Card(props) {
           {/* Progress Bar & Price */}
           <div className="flex items-center justify-between mt-4">
             {/* Progress */}
-            <div className="flex items-center w-3/5">
+            <div className="flex-col justify-start items-center w-3/5">
+              <h3 className="ml-2 text-sm text-black mt-[-4px] font-bold">{visitPercent}%</h3>
               <div className=" w-full h-2 bg-gray-200 rounded-full overflow-hidden">
                 <div className={`h-full bg-purple-500 w-[${visitPercent}%]`}></div>
               </div>
-              <h3 className="ml-2 text-sm text-black mt-[-4px] font-bold">{visitPercent}%</h3>
             </div>
 
             {/* Price */}
@@ -209,3 +210,5 @@ export function Card(props) {
       </div>
   );
 }
+
+export default memo(Card)
