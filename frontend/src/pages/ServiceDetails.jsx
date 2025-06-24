@@ -12,24 +12,24 @@ import { ServiceContext } from "../context/ServiceContext.jsx";
 const ServiceDetails = () => {
   const token = useMemo(() => localStorage.getItem("userData"), []);
   const navigate = useNavigate();
-
   const location = useLocation();
   const { visitors } = location.state || {};
   const { serviceId } = useParams();
 
   const { service, setService } = useContext(ServiceContext);
+  const [error, setError] = useState(null);
 
-  const [error, seterror] = useState(null);
-
-  //"/getThisService/:id"
   useEffect(() => {
-    if (
+    const shouldFetch =
       !service ||
-      (service && Object.keys(service).length === 0) ||
-      !(serviceId in service)
-    )
+      Object.keys(service).length === 0 ||
+      !(serviceId in service) ||
+      location.state?.updated;
+
+    if (shouldFetch) {
       fetchService();
-  }, [service]);
+    }
+  }, [serviceId, service, location.state]);
 
   const fetchService = async () => {
     try {
@@ -39,12 +39,22 @@ const ServiceDetails = () => {
         },
       });
 
-      Object.keys(response.data.service_data).length > 0
-        ? setService((prev) => ({
-            ...prev,
-            [serviceId]: response.data.service_data,
-          }))
-        : setService((prev) => ({ ...prev, [serviceId]: -1 }));
+      const data = response?.data?.service_data;
+      if (data && Object.keys(data).length > 0) {
+        setService((prev) => ({
+          ...prev,
+          [serviceId]: data,
+        }));
+      } else {
+        setService((prev) => ({ ...prev, [serviceId]: -1 }));
+      }
+
+      if (location.state?.updated) {
+        // Replace state to remove stale `updated`
+        setTimeout(() => {
+          navigate(location.pathname, { replace: true, state: {} });
+        }, 0);
+      }
 
       console.log("Service details fetched");
     } catch (err) {
@@ -53,72 +63,62 @@ const ServiceDetails = () => {
           message={err.response?.data?.msg || "Failed to fetch service"}
         />
       );
-      seterror(err);
+      setError(err);
     }
   };
-  
+
   const handleUpdateService = () => {
-    navigate(`/home/services/${serviceId}/update`);
+    navigate(`/home/services/${serviceId}/update`, {
+      state: { service, updated: false },
+    });
   };
+
+  const serviceData = service?.[serviceId];
 
   return (
     <>
-      {service &&
-        service[serviceId] &&
-        Object.keys(service[serviceId]).length > 0 &&
-        !error &&
-        !(service[serviceId] == -1) && (
-          <div className="flex absolute right-7 left-12 h-[90%] ml-16  gap-8 mt-8 ">
-            <div className="w-full bg-[#F2F3F9]  rounded-3xl   pt-6 border border-[#EAEAEA]">
-              <div className="flex justify-between align-middle items-center  mb-8 lg:mx-14 mx-7">
-                <h3 className="text-[#5621FF] text-xl md:text-2xl font-medium ">
-                  {service[serviceId].service_name}
-                </h3>
-                <button
-                  onClick={() => {
-                    handleUpdateService();
-                  }}
-                  className="button-primary scale-90 md:scale-100"
-                >
-                  Update
-                </button>
-              </div>
+      {serviceData && Object.keys(serviceData).length > 0 && !error && serviceData !== -1 ? (
+        <div className="flex absolute right-7 left-12 h-[90%] ml-16 gap-8 mt-8">
+          <div className="w-full bg-[#F2F3F9] rounded-3xl pt-6 border border-[#EAEAEA]">
+            <div className="flex justify-between items-center mb-8 lg:mx-14 mx-7">
+              <h3 className="text-[#5621FF] text-xl md:text-2xl font-medium">
+                {serviceData.service_name}
+              </h3>
+              <button
+                onClick={handleUpdateService}
+                className="button-primary scale-90 md:scale-100"
+              >
+                Update
+              </button>
+            </div>
 
-              <div className="w-full h-[85%] overflow-y-scroll lg:px-14 px-3 flex-col  ">
-                <InfoForm serviceId={serviceId} service={service[serviceId]} />
-                <Overview serviceId={serviceId} visitors={visitors} />
-                <AddDataToValid serviceId={serviceId} />
-                <ValidatorDetailsData serviceId={serviceId} />
-              </div>
+            <div className="w-full h-[85%] overflow-y-scroll lg:px-14 px-3 flex flex-col gap-10 items-center">
+              <InfoForm serviceId={serviceId} service={serviceData} />
+              <Overview serviceId={serviceId} visitors={visitors} />
+              <AddDataToValid serviceId={serviceId} />
+              <ValidatorDetailsData serviceId={serviceId} />
             </div>
           </div>
-        )}
-
-      {(!service ||
-        (service && Object.keys(service).length === 0) ||
-        !(serviceId in service)) && (
-        <div className="flex align-middle justify-center absolute right-7 left-12  h-[90%] ml-16 mt-8 bg-[#F2F3F9]  rounded-3xl border border-[#EAEAEA]">
-          <div className="z-10 absolute left-[50%] top-[50%] flex justify-center items-center ">
+        </div>
+      ) : (!service || Object.keys(service).length === 0 || !(serviceId in service)) ? (
+        <div className="flex justify-center items-center absolute right-7 left-12 h-[90%] ml-16 mt-8 bg-[#F2F3F9] rounded-3xl border border-[#EAEAEA]">
+          <div className="z-10 absolute left-[50%] top-[50%] flex justify-center items-center">
             <BouncingDotsLoader />
           </div>
         </div>
-      )}
-
-      {service && service[serviceId] && error && (
-        <div className="flex align-middle justify-center absolute right-7 left-12  h-[90%] ml-16 mt-8 bg-[#F2F3F9]  rounded-3xl border border-[#EAEAEA]">
+      ) : error ? (
+        <div className="flex justify-center items-center absolute right-7 left-12 h-[90%] ml-16 mt-8 bg-[#F2F3F9] rounded-3xl border border-[#EAEAEA]">
           <p className="text-center text-red-500 text-3xl">
             {error?.message || "Something went wrong"}
           </p>
         </div>
-      )}
-
-      {service && service[serviceId] && !error && service[serviceId] == -1 && (
-        <div className="flex align-middle justify-center absolute right-7 left-12  h-[90%] ml-16 mt-8 bg-[#F2F3F9]  rounded-3xl border border-[#EAEAEA]">
+      ) : serviceData === -1 ? (
+        <div className="flex justify-center items-center absolute right-7 left-12 h-[90%] ml-16 mt-8 bg-[#F2F3F9] rounded-3xl border border-[#EAEAEA]">
           <p className="text-center text-gray-500 text-3xl">
             No service details available.
           </p>
         </div>
-      )}
+      ) : null}
     </>
   );
 };

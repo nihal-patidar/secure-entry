@@ -107,7 +107,7 @@ const handleSubmit = async (e) => {
 
 
   return (
-    <div className="mx-auto mt-10 px-4 py-6 rounded-[15px] border bg-white absolute top-[109px] left-[334px] border-gray-300 w-[1160px] max-w-full  shadow-[0px_1px_8.5px_0px_#00000014]">
+    <div className="mx-auto mt-10 px-4 py-6 rounded-[15px] border bg-white absolute top-[60px] left-[120px] border-gray-300 w-[1160px]   shadow-[0px_1px_8.5px_0px_#00000014]">
       <h2 className="text-[26px] font-semibold text-gray-800 mb-1">
         Add Service
       </h2>

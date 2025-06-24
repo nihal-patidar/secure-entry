@@ -31,7 +31,7 @@ const InfoForm = ({serviceId, service}) => {
 
   const handleCreateForm = () => {
     /* form handle code*/
-    // navigate(`/home/services/${serviceId}/build-form`)
+    navigate(`/home/services/${serviceId}/build-form`)
 
     setFormCreated(true);
   };

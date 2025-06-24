@@ -16,8 +16,8 @@ const AddDataToValid = () => {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto px-4 py-6 bg-white rounded-xl shadow-sm border border-gray-200">
-      <div className="text-center mb-4">
+    <div className="w-full h-fit bg-white border border-[#EAEAEA] rounded-xl mx-auto mb-14 px-12 py-8">
+      <div className="text-center mb-6">
         <p className="mb-2 text-sm text-gray-700 font-medium">
           Add selected candidates allowed to register for the event{" "}
           <span className="font-bold">(Optional)</span>
@@ -37,7 +37,7 @@ const AddDataToValid = () => {
       </div>
 
       {/* Divider */}
-      <div className="flex items-center justify-between gap-3 my-4">
+      <div className="flex items-center justify-between gap-3 my-6">
         <div className="flex-1 h-px bg-gray-300"></div>
         <p className="text-sm text-gray-500 whitespace-nowrap">OR</p>
         <div className="flex-1 h-px bg-gray-300"></div>
