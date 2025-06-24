@@ -19,11 +19,11 @@ import TicketPrev from "./pages/TicketPrev.jsx"
 import ValidatorWorkSpace from "./pages/ValidatorWorkSpace";
 import ServiceVisitors from "./pages/ServiceVisitors";
 import CreateValidatorForm from "./forms/AddValidator.jsx";
-import { CreateService } from "./forms/AddService";
+// import { CreateService } from "./forms/AddService";
 import VisitorFormCreate from "./forms/BuildForm.jsx";
 import  UpdateServiceForm  from "./pages/UpdateService";
 import ValidatorList from "./pages/ValidatorList";
-import AddValidator from "./forms/AddValidator.jsx";
+// import AddValidator from "./forms/AddValidator.jsx";
 import StepForTicket from "./pages/StepForTicket";
 import Newprofile from "./pages/profile/Newprofile.jsx";
 import Profileview from "./pages/profile/Profileview.jsx";
@@ -34,7 +34,9 @@ import ServiceDetails from "./pages/ServiceDetails.jsx";
 import BuildForm from "./pages/BuildForm.jsx";
 import UpdateForm from "./pages/UpdateForm.jsx";
 import ServiceVisitorsData from "./pages/ServiceVisitorsData.jsx";
-import CreateServiceNew from "./pages/CreateService.jsx";
+import CreateService from "./pages/CreateService.jsx";
+import { AddValidatorForService } from "./components/services-new/AddValidatorForService.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -85,7 +87,7 @@ const router = createBrowserRouter([
           { path: "", element: <ServiceList />},
           {
             path: "addservice",
-            element: <CreateServiceNew />,
+            element: <CreateService />,
           },
           {
             path: ":serviceId",
@@ -99,7 +101,9 @@ const router = createBrowserRouter([
               { path: "ticket-prev", element: <TicketPrev />},
               { path: "visitors",element: <ServiceVisitorsData/>},
               { path: "validators",element: <ValidatorList />},
-              { path: "add-validator",element: <AddValidator />},
+              { path: "add-validator",element: <AddValidatorForService />},
+             
+
 
             ],
           },

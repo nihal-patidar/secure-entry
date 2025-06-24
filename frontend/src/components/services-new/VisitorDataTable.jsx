@@ -18,10 +18,10 @@ const VisitorDataTable = ({visitorData}) => {
                             (<p className='w-full text-center font-semibold text-4xl my-40'>No Visitor Data</p>)
                         }
 
-                            {/* <th className=' w-[250px] py-4 px-2'>Name</th>
+                            <th className=' w-[250px] py-4 px-2'>Name</th>
                             <th className=' w-[250px] py-4 px-2'>Email</th>
                             <th className=' w-[250px] py-4 px-2'>College</th>
-                            <th className=' w-[250px] py-4 px-2'>Branch</th> */}
+                            <th className=' w-[250px] py-4 px-2'>Branch</th>
                         </tr>
                     </thead>
 
@@ -37,7 +37,7 @@ const VisitorDataTable = ({visitorData}) => {
                             ))
                         }
 
-                        {/* <tr className='border-b border-b-[#ACACAC] '>
+                        <tr className='border-b border-b-[#ACACAC] '>
                             <td className='w-[250px] px-2 py-4 break-words whitespace-normal'>Asad</td>
                             <td className='w-[250px] px-2 py-4 break-words whitespace-normal'>Asad@gmail.com Asad@gmail.com Asad@gmail.com</td>
                             <td className='w-[250px] px-2 py-4 break-words whitespace-normal'>JEC</td>
@@ -51,7 +51,7 @@ const VisitorDataTable = ({visitorData}) => {
                             <td className='w-[250px] px-2 py-4 break-words whitespace-normal'>JEC</td>
                             <td className='w-[250px] px-2 py-4 break-words whitespace-normal'>CSE CSE CSE </td>
                     
-                        </tr> */}
+                        </tr>
                         
                         
                     </tbody>
