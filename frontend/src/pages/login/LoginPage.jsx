@@ -7,17 +7,20 @@ function LoginPage() {
   const [data, setData] = useState({ email: "", password: "" });
   const [showLoading, setShowLoading] = useState(false);
   const [userData, setUserData] = useState(null);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const handleChange = (e) => {
     setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(false)
     await LoginHandle({
       data,
       setShowLoading,
       setUserData,
       navigate,
+      setError
     });
   };
 
@@ -36,6 +39,7 @@ function LoginPage() {
           <h2 className="text-3xl font-semibold text-gray-800 mb-8 text-center md:text-left">
             Sign in to your account
           </h2>
+          
 
           <form className="space-y-6" onSubmit={handleSubmit}>
 
@@ -82,6 +86,11 @@ function LoginPage() {
                 className="bg-white text-black mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
             </div>
+            {
+            error && (
+              <p className="text-red-400 text-center">Invalid Email or Password</p>
+            )
+          }
 
             <button
               type="submit"

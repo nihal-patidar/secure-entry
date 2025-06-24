@@ -40,61 +40,63 @@ const InfoForm = ({serviceId, service}) => {
   return (
     <>
       <div className=" w-full h-fit bg-white border border-[#EAEAEA] rounded-xl  mx-auto  mb-14 ">
-        <div className="infoform w-full h-fit  border-b border-b-[#EDEDED] rounded-t-xl flex">
-          <div className="info w-[50%] pb-6 border-r  border-r-[#EDEDED] ">
+        <div className="infoform w-full h-fit  border-b border-b-[#EDEDED] rounded-t-xl flex lg:flex-row flex-col">
+          <div className="info lg:w-[50%] w-[100%] pb-6 border-r  border-r-[#EDEDED]  ">
+            <div className="bg-blue-400 rounded-tr-xl sm:rounded-tl-xl bg-[url('/blueback.jpg')] bg-cover bg-center">
             <img
               src={service?.service_image_url}
               alt="eventImg"
-              className="w-full h-48 object-cover rounded-tl-xl"
+              className="w-full h-48  object-center object-contain rounded-t-xl sm:rounded-tl-xl "
             />
+            </div>
             <div className="p-6">
-              <h3 className="text-[#2D2D2D] text-3xl font-medium mb-5 ">
+              <h3 className="text-[#2D2D2D] text-2xl sm:text-3xl font-medium mb-5  ">
                 {service.service_name}
               </h3>
 
-              <div className="flex justify-between divide-x divide-[#D8D8D8] pb-8 border-b border-b-[#D8D8D8]">
-                <div className=" w-[60%]">
-                  <div className="flex gap-2 items-center ">
-                    <CalendarDaysIcon className="w-4 text-[#717171]" />
-                    <p className="text-[#717171]">12 June 2025, 3:00 PM</p>
-                  </div>
+              <div className="grid grid-cols-2 gap-10 ultrawide:grid-cols-3 justify-between divide-x divide-[#D8D8D8] pb-8 ">
+                <div className=" text-start ">
                   <div className="flex gap-2 items-center">
+                    <CalendarDaysIcon className="w-4 text-[#717171]" />
+                    <p className="text-[#717171] text-sm sm:text-base">12 June 2025, 3:00 PM</p>
+                  </div>
+                  <div className="flex gap-2 items-center ">
                     <MapPinIcon className="w-4 text-[#717171]" />
-                    <p className="text-[#717171]">{service.service_address}</p>
+                    <p className="text-[#717171] text-sm sm:text-base">{service.service_address}</p>
                   </div>
                 </div>
-                <div className="text-center w-1/3">
-                  <p className="text-sm font-semibold tracking-wider text-[#717171] ">
+                <div className="text-center ">
+                  <p className="text-[12px] sm:text-sm font-semibold tracking-wider text-[#717171] ">
                     Validity
                   </p>
-                  <p className="text-secondary text-2xl font-semibold">{service.ticket_validity} Hours</p>
+                  <p className="text-secondary text-xl sm:text-2xl font-semibold ">{service.ticket_validity} Hours</p>
                 </div>
-                <div className="text-center  w-1/3">
-                  <p className="text-sm font-semibold tracking-wider text-[#717171]">
+                <div className="text-center  ">
+                  <p className="text-[12px] sm:text-sm font-semibold tracking-wider text-[#717171]">
                     Ticket Price
                   </p>
-                  <p className="text-secondary text-2xl font-semibold">{service.ticket_price} Rs</p>
+                  <p className="text-secondary text-xl sm:text-2xl font-semibold">{service.ticket_price} Rs</p>
                 </div>
-              </div>
+              
 
-              <div className="pt-8 flex divide-x divide-[#D8D8D8]">
-                <div className="text-center w-1/3">
-                  <p className="text-sm font-semibold tracking-wider text-[#717171] ">
+              
+                <div className="text-center ">
+                  <p className="text-[12px] sm:text-sm font-semibold tracking-wider text-[#717171] ">
                     Validators
                   </p>
-                  <p className="text-secondary text-2xl font-semibold">{service.validater_list?.length}</p>
+                  <p className="text-secondary text-xl sm:text-2xl font-semibold">{service.validater_list?.length}</p>
                 </div>
-                <div className="text-center w-1/3">
-                  <p className="text-sm font-semibold tracking-wider text-[#717171] ">
+                <div className="text-center ">
+                  <p className="text-[12px] sm:text-sm font-semibold tracking-wider text-[#717171] ">
                     Valid Scans
                   </p>
-                  <p className="text-secondary text-2xl font-semibold">{service.valid_scans} </p>
+                  <p className="text-secondary text-xl sm:text-2xl font-semibold">{service.valid_scans} </p>
                 </div>
-                <div className="text-center w-1/3">
-                  <p className="text-sm font-semibold tracking-wider text-[#717171] ">
+                <div className="text-center">
+                  <p className="text-[12px] sm:text-sm font-semibold tracking-wider text-[#717171] ">
                     Type
                   </p>
-                  <p className="text-secondary text-2xl font-semibold">
+                  <p className="text-secondary text-xl sm:text-2xl font-semibold">
                     {service.service_type} 
                   </p>
                 </div>
@@ -102,7 +104,7 @@ const InfoForm = ({serviceId, service}) => {
             </div>
           </div>
 
-          <div className="form w-[50%]   text-center py-6 px-8">
+          <div className="form lg:w-[50%] w-[100%]  text-center py-6 px-8">
             <h3 className="text-[rgb(75,75,75)] text-2xl font-semibold mb-3 ">
               Form & QR
             </h3>

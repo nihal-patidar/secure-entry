@@ -54,31 +54,31 @@ const QRpreView = ({ formQr }) => {
   // }, [formQr]);
 
   return (
-    <div className="flex justify-center items-center w-full h-28 flex-col">
+    <div className="flex-col justify-center items-center w-full h-full bg-white  ">
       <div className="flex flex-col  w-full">
         {formQr ? (
-          <div className="flex w-2/3 justify-around h-full items-center">
+          <div className="flex justify-around h-full items-center">
             {/* <canvas ref={canvasRef} style={{ display: "none" , padding : "10px" , backgroundColor : "white" }} /> */}
             {/* <div
               style={{ height: "150px", width: "auto" }}
               dangerouslySetInnerHTML={{ __html: formQr }}
             /> */}
-            <Button
+            {/* <Button
               className="theme-button h-10 w-fit hover:bg-[#D91656]"
               onClick={downloadQR}
             >
               Download
-            </Button>
+            </Button> */}
 
             <div
               id="qr-container"
-              className="p-4 pb-2 bg-white rounded-lg w-[180px] mx-auto scale-75 z-0"
+              className="p-1  bg-white rounded-lg w-full mx-auto scale-75 z-0"
             >
               <div
-                style={{ height: "130px", width: "auto" }}
+                style={{ height: "110px", width: "auto" }}
                 dangerouslySetInnerHTML={{ __html: formQr }}
               />
-              <p className="text-center mt-5 text-sm font-semibold text-blue-600">
+              <p className="text-center mt-10 text-sm font-semibold text-blue-600">
                 SecureEntry
               </p>
             </div>

@@ -9,6 +9,10 @@ import "flatpickr/dist/themes/material_blue.css"; // or 'airbnb', 'light', etc.
 import QR from '/QR image.png'
 import QRpreView from "../services/QRpreView.jsx";
 import { useNavigate } from "react-router-dom";
+import html2canvas from "html2canvas";
+
+
+ 
 
 /*
 formData={ele.formData}
@@ -25,14 +29,26 @@ const FormDetails = ({
   formId
   
 }) => {
+
+
   const token = localStorage.getItem("userData");
   const [livedate, setLiveDate] = useState(new Date());
   const [closingdate, setClosingDate] = useState(new Date());
   const [liveeditable, setLiveEditable] = useState(false);
   const [closingeditable, setClosingEditable] = useState(false);
+  
 
   const navigate = useNavigate()
 
+const downloadQR = () => {
+    const qrElement = document.getElementById("qr-container");
+    html2canvas(qrElement, { backgroundColor: "#ffffff" }).then((canvas) => {
+      const link = document.createElement("a");
+      link.href = canvas.toDataURL("image/png");
+      link.download = "secureEntry_qr.png";
+      link.click();
+    });
+  };
 
   
   useEffect(() => {
@@ -58,15 +74,15 @@ const FormDetails = ({
   return (
     <>
     
-      <div className="flex justify-between mt-8 mb-10 px-4">
-        <div>
-          <p className="text-sm font-medium tracking-wider text-[#717171]">
+      <div className="flex laptop:flex-row  gap-3  flex-col justify-between mt-8 mb-10 px-4 ">
+        <div className="laptop:w-[48%] w-full">
+          <p className="text-center text-sm font-medium tracking-wider text-[#717171]">
             Form Live
           </p>
 
           <div
             tabIndex={0}
-            className="flex items-center pr-0 pl-4  border border-[#C8C8C8] rounded-lg  text-secondary text-center  focus-within:ring-2  focus-within:ring-blue-300  "
+            className="flex items-center pr-0 pl-4  border border-[#C8C8C8] rounded-lg  text-secondary text-center  focus-within:ring-2  focus-within:ring-blue-300 w-full "
           >
             <button onClick={() => setLiveEditable(!liveeditable)} className="">
               {liveeditable ? (
@@ -87,18 +103,18 @@ const FormDetails = ({
                 defaultDate: "today",
               }}
               readOnly={!liveeditable}
-              className="font-semibold focus:outline-none p-2 bg-transparent"
+              className="font-semibold focus:outline-none p-2 pr-6 bg-transparent w-full"
             />
           </div>
         </div>
-        <div>
-          <p className="text-sm font-medium tracking-wider text-[#717171]">
-            Form Live
+        <div className="laptop:w-[48%] w-full"> 
+          <p className="text-center text-sm font-medium tracking-wider text-[#717171]">
+            Form Closing
           </p>
 
           <div
             tabIndex={0}
-            className="flex items-center pr-0 pl-4  border border-[#C8C8C8] rounded-lg  text-secondary text-center  focus-within:ring-2  focus-within:ring-blue-300  "
+            className="flex w-full items-center pr-0 pl-4  border border-[#C8C8C8] rounded-lg  text-secondary text-center  focus-within:ring-2  focus-within:ring-blue-300  "
           >
             <button
               onClick={() => setClosingEditable(!closingeditable)}
@@ -122,39 +138,42 @@ const FormDetails = ({
                 defaultDate: "today",
               }}
               readOnly={!closingeditable}
-              className="font-semibold focus:outline-none p-2 bg-transparent"
+              className="font-semibold focus:outline-none p-2 pr-6 bg-transparent w-full"
             />
           </div>
         </div>
       </div>
 
-      <div className="qrpart flex justify-around items-center   ">
-              <div className="w-[50%] ">
-                <div className="w-36 h-fit m-auto mb-3 flex-col items-center justify-center border-2 border-gray-400 p-1">
+      <div className="qrpart flex flex-col laptop:flex-row  justify-around items-   ">
+              <div className="laptop:w-[50%] flex-col w-full  ">
+                <div className="w-fit h-[170px] m-auto mb-3 flex-col items-center justify-center border-2  border-gray-400 p-1 ">
                     {/* <img className="m-auto" width="120px"  src={QR} alt="" /> */}
                     <QRpreView formQr={formQr} />
-                    <span className="text-secondary text-sm ">SecureEntry</span>
+                    {/* <span className="text-secondary text-sm ">SecureEntry</span> */}
                 </div>
-                <button className="button-secondary mb-3">Download QR</button>
-                <p className="text-[#545454] text-sm">*Note : QR code to fill the form</p>
+                <button onClick={downloadQR} className="button-secondary mb-3">Download QR</button>
+                <p className="text-[#545454] text-sm ">*Note : QR code to fill the form</p>
               </div>
 
-              <div className=" w-[50%] p-5 px-7 font-semibold text-lg tracking-wide">
+              <div className=" laptop:w-[50%] w-full p-5 px-7 font-semibold tracking-wide ">
                 <button
                 onClick={()=>{
                   navigate(`/home/services/${serviceId}/update-form`)
                 }}
-                className="button-secondary-outline   mb-3 w-full">Update Form</button>
+                className="w-full mb-3 
+    button-secondary-outline lg:text-sm  md:text-sm sm:text-sm  ultrawide:text-base whitespace-nowrap">Update Form</button>
                 <button
                 onClick={()=>{
                   navigate(`/home/services/${serviceId}/form-prev`)
                 }}
-                className="button-secondary-outline   mb-3 w-full ">Preview Form</button>
+                className="w-full mb-3 
+    button-secondary-outline lg:text-sm  md:text-sm sm:text-sm  ultrawide:text-base whitespace-nowrap">Preview Form</button>
                 <button
                 onClick={()=>{
                   navigate(`/home/services/${serviceId}/ticket-prev`)
                 }}
-                className="button-secondary-outline   mb-3 w-full">Customize Ticket</button>
+                className="w-full mb-3 
+    button-secondary-outline lg:text-sm  md:text-sm sm:text-sm  ultrawide:text-base whitespace-nowrap">Customize Ticket</button>
               </div>
       </div>
     

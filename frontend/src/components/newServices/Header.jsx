@@ -32,10 +32,10 @@ const Header = () => {
   }
 
     return (
-        <header className="fixed top-4 lg:left-80 left-24  right-6 z-40 p-4 rounded-3xl bg-[#F2F3F9] border-2 border-[#EAEAEA] flex justify-between items-center">
+        <header className="fixed top-4 md:left-80 left-28 right-6 z-40 p-4 rounded-3xl bg-[#F2F3F9] border-2 border-[#EAEAEA] flex justify-between items-center">
             {/* Left section: Path + Title */}
             <div className="flex flex-col gap-1">
-        <span className="text-xs">
+        <span className="lg:text-xs text-[8px]">
           <span className="text-[#2C3ED3] font-medium">Location</span>:{" "}
             {location.pathname}
         </span>
@@ -62,7 +62,7 @@ const Header = () => {
                         </svg>
                     </button>
 
-                    <h1 className="text-2xl font-semibold text-[#2C3ED3] leading-tight">
+                    <h1 className="sm:text-xl xl:text-2xl  font-semibold text-[#2C3ED3] leading-tight">
                         {
                         label
                         }
@@ -71,12 +71,11 @@ const Header = () => {
             </div>
 
             {/* Right section: User */}
-            <div className="flex items-center gap-[24px]">
+            <div className="flex items-center gap-[6px] lg:gap-[10px] xl:gap-[24px] ">
                 <button>
                     <svg
-                        className="bg-[#2C3ED3] p-1 rounded-full"
-                        width="39"
-                        height="39"
+                        className="bg-[#2C3ED3] p-1 rounded-full xl:h-12 xl:w-12 h-8 w-8"
+                        
                         viewBox="0 0 39 39"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -91,12 +90,12 @@ const Header = () => {
                 <img
                     src={image || userData?.image}
                     alt="Profile"
-                    className="h-12 w-12 rounded-full object-cover"
+                    className="xl:h-12 xl:w-12 h-8 w-8 rounded-full object-cover"
                 />
 
                 <Link to="/home/profile">
-                    <div>
-                        <h2 className="text-[#494949] font-semibold text-[18px]">
+                    <div className="hidden sm:block  sm:text-[12px] lg:text-[14px] xl:text-[18px]">
+                        <h2 className="text-[#494949] font-semibold hidden sm:block  sm:text-[12px] lg:text-[14px] xl:text-[18px]">
                             {name || "Loading..."}
                         </h2>
                         <div className="text-sm text-[#7E7E7E]">admin</div>

@@ -5,6 +5,10 @@ import { SideBar } from "../components/newServices/SideBar.jsx";
 import { TabletMenu } from "../components/newServices/TabletMenu.jsx";
 import Header from "../components/newServices/Header.jsx";
 
+const SIDEBAR_WIDTH = 180;
+const TABLET_MENU_WIDTH = 64;
+const HEADER_HEIGHT = 60;
+
 const Home = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
@@ -18,33 +22,39 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="flex min-h-screen bg-white">
-            {/* Desktop Sidebar */}
-            <div className="hidden lg:block w-64 min-w-[256px] sticky top-0 h-screen z-10 bg-white border-r border-gray-300 overflow-y-auto">
-                <SideBar />
-            </div>
+    <div className="h-screen w-screen overflow-hidden bg-white">
+      {/* Header */}
+      <div className="fixed top-0 left-80  right-0 h-[60px] bg-white z-30 shadow-sm px-4 flex items-center">
+        <Header />
+      </div>
 
-            {/* Mobile/Tablet Sidebar */}
-            <div className="block lg:hidden fixed top-0 left-0 h-full w-16 z-10 bg-white border-r border-gray-300">
-                <TabletMenu />
-            </div>
-
-            {/* Main Content Area */}
-            <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-                {/* Sticky Header */}
-                <div className="sticky top-0 z-10 bg-white shadow-sm pl-4 lg:pl-6 pr-4 ml-10">
-                    <Header />
-                </div>
-
-                {/* Cards Section */}
-                    <div className={'mt-24'}>
-                        <Outlet />
-                    </div>
-
-                </div>
-
+      {/* Sidebar */}
+      {!isMobile && (
+        <div className="fixed top-0 left-0 w-[180px] h-[calc(100vh-60px)] bg-black text-white z-20 border-r border-gray-300 overflow-y-auto">
+          <SideBar />
         </div>
-    );
+      )}
+
+      {/* Mobile Menu */}
+      {isMobile && (
+        <div className="fixed top-0 left-0 h-full w-16 z-30 bg-white border-r border-gray-300">
+          <TabletMenu />
+        </div>
+      )}
+
+      {/* Main Content Area */}
+      <div
+        className={`absolute top-[60px] ${
+          isMobile ? "left-[0px]" : "left-[210px]"
+        } right-0 bottom-0 bg-gray-50 overflow-hidden`}
+      >
+        {/* Inner content wrapper to prevent unwanted scrolling */}
+        <div className="h-full w-full overflow-hidden p-12">
+          <Outlet />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 // const ProfileCard = () => {
