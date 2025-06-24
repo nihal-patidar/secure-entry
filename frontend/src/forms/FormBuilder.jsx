@@ -2,95 +2,57 @@ import { useState, useEffect } from "react";
 import FoRm from "./Form.jsx";
 
 export const DefaultQuestion = {
-  Logo: `Choose Logo`,
-  text: `Write your Question`,
-  number: `Write Your Question`,
-  "single selection": `Select from below`,
-  "multiple selection": `Multi Select from below`,
-  "Dropdown Selection": `Dropdown Question`,
-  "Special Selection": `Parent Question Which decide further questions`,
-  FullName: `Full Name`,
-  email: `email`,
-  address: `address`,
-  "Phone no.": `phone number`,
-  "upload image": `Question to Upload an Image`,
-  "upload file": `Question to Upload an Image`,
-  Date: `Enter Date`,
-  Time: `Enter Time`,
-  Timer: `Enter Timer`,
-  "Terms and Conditions": `Terms and Conditions`,
-  Cover: `Cover Image`,
-  "ending page": `ending page promo`,
-  "welcome page": `welcome page promo`,
+  Logo: "Choose Logo",
+  text: "Enter Field Name",
+  number: "Enter Field Name",
+  "single selection": "Select from below",
+  "multiple selection": "Multi Select from below",
+  "Dropdown Selection": "Dropdown Question",
+  "Special Selection": "Parent Question Which decide further questions",
+  FullName: "Full Name",
+  email: "Enter Email",
+  address: "Enter Address",
+  "Phone no.": "Phone number",
+  "upload image": "Question to Upload an Image",
+  "upload file": "Question to Upload a File",
+  Date: "Enter Date",
+  Time: "Enter Time",
+  Timer: "Enter Timer",
+  "Terms and Conditions": "Terms and Conditions",
+  Cover: "Cover Image",
+  "ending page": "Ending page promo",
+  "welcome page": "Welcome page promo",
 };
 
 export const DefaultDesc = {
-  Logo: `Choose Logo`,
-  text: `Write your Question`,
-  number: `Write Your Question`,
-  "single selection": `Select from below`,
-  "multiple selection": `Multi Select from below`,
-  "Dropdown Selection": `Dropdown Question`,
-  "Special Selection": `Parent Question Which decide further questions`,
-  FullName: `Full Name`,
-  email: `email`,
-  address: `address`,
-  "Phone no.": `phone number`,
-  "upload image": `Question to Upload an Image`,
-  "upload file": `Question to Upload an Image`,
-  Date: `Enter Date`,
-  Time: `Enter Time`,
-  Timer: `Enter Timer`,
-  "Terms and Conditions": `Terms and Conditions`,
-  Cover: `Cover Image`,
-  "ending page": `ending page promo`,
-  "welcome page": `welcome page promo`,
+  ...DefaultQuestion, // same structure, values reused
 };
 
 export const DefaultNote = {
-  Logo: `Choose Logo`,
-  text: `Write your Question`,
-  number: `Write Your Question`,
-  "single selection": `Select from below`,
-  "multiple selection": `Multi Select from below`,
-  "Dropdown Selection": `Dropdown Question`,
-  "Special Selection": `Parent Question Which decide further questions`,
-  FullName: `Full Name`,
-  email: `email`,
-  address: `address`,
-  "Phone no.": `phone number`,
-  "upload image": `Question to Upload an Image`,
-  "upload file": `Question to Upload an Image`,
-  Date: `Enter Date`,
-  Time: `Enter Time`,
-  Timer: `Enter Timer`,
-  "Terms and Conditions": `Terms and Conditions`,
-  Cover: `Cover Image`,
-  "ending page": `ending page promo`,
-  "welcome page": `welcome page promo`,
+  ...DefaultQuestion, // same structure, values reused
 };
 
 export const PlaceHolders = {
-  Logo: `Add PlaceHolder ...`,
-  text: `Add PlaceHolder ...`,
-  number: `Add PlaceHolder ...`,
-  "single selection": `Add PlaceHolder ...`,
-  "multiple selection": `Add PlaceHolder ...`,
-  "Dropdown Selection": `Add PlaceHolder ...`,
-  "Special Selection": `Add PlaceHolder ...`,
+  Logo: "Add PlaceHolder ...",
+  text: "Add PlaceHolder ...",
+  number: "Add PlaceHolder ...",
+  "single selection": "Add PlaceHolder ...",
+  "multiple selection": "Add PlaceHolder ...",
+  "Dropdown Selection": "Add PlaceHolder ...",
+  "Special Selection": "Add PlaceHolder ...",
   FullName: ["First Name", "Second Name"],
-  email: `email`,
-  address: `address`,
-  "Phone no.": `phone number`,
-  "upload image": `Add PlaceHolder ...`,
-  "upload file": `Add PlaceHolder ...`,
-  Date: `Add PlaceHolder ...`,
-  Time: `Add PlaceHolder ...`,
+  email: "email",
+  address: "address",
+  "Phone no.": "phone number",
+  "upload image": "Add PlaceHolder ...",
+  "upload file": "Add PlaceHolder ...",
+  Date: "Add PlaceHolder ...",
+  Time: "Add PlaceHolder ...",
   Timer: { days: "1", hours: "0", minutes: "0", seconds: "0" },
-  "Terms and Conditions": `Terms and Conditions`,
-  Cover: `Cover Image`,
-  "ending page": `ending page promo`,
-  "welcome page": `welcome page promo`,
+  "Terms and Conditions": "Terms and Conditions",
+  Cover: "Cover Image",
+  "ending page": "Ending page promo",
+  "welcome page": "Welcome page promo",
 };
 
 export default function FormBuilder() {
@@ -460,111 +422,72 @@ export default function FormBuilder() {
 
   return (
     <>
-      <div style={{ display: "flex", maxWidth: "100vw", minHeight: "90vh" }}>
-        <div
-          style={{
-            border: "2px solid #d3d3d3",
-            margin: "2vh",
-            marginRight: "0",
-            background: "#f2f4ff",
-            borderRadius: "15px",
-            width: "30vw",
-            overflow: "hidden",
-          }}
-        >
-          <div className="flex" style={{ minWidth: "0px" }}>
-            <div
-              style={{
-                minWidth: "80px",
-                paddingTop: "20px",
-                minHeight: "92vh",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-              }}
-            >
+      <div className="flex max-w-[100vw] min-h-[90vh]">
+        <div className="border-2 border-[#d3d3d3] m-[2vh] mr-0 bg-[#f2f4ff] rounded-[15px] w-[30vw] overflow-hidden">
+          <div className="flex min-w-0">
+            <div className="min-w-[80px] pt-[20px] min-h-[92vh] flex flex-col justify-between">
               <div>
                 <div
-                  style={{ cursor: "pointer", paddingLeft: "20px" }}
+                  className="cursor-pointer pl-[20px]"
                   onClick={() => {
                     handleAside(0);
                   }}
                 >
+                  {/* SVG */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width={"30px"}
-                    height={"30px"}
+                    width="30"
+                    height="30"
                     fill="#242424"
                     background="#7850FA"
                     viewBox="0 0 512 512"
                   >
-                    <path d="M411.4 175.5C417.4 185.4 417.5 197.7 411.8 207.8C406.2 217.8 395.5 223.1 384 223.1H192C180.5 223.1 169.8 217.8 164.2 207.8C158.5 197.7 158.6 185.4 164.6 175.5L260.6 15.54C266.3 5.897 276.8 0 288 0C299.2 0 309.7 5.898 315.4 15.54L411.4 175.5zM288 312C288 289.9 305.9 272 328 272H472C494.1 272 512 289.9 512 312V456C512 478.1 494.1 496 472 496H328C305.9 496 288 478.1 288 456V312zM0 384C0 313.3 57.31 256 128 256C198.7 256 256 313.3 256 384C256 454.7 198.7 512 128 512C57.31 512 0 454.7 0 384z"></path>
+                    <path d="M411.4 175.5C417.4 185.4 417.5 197.7 411.8 207.8C406.2 217.8 395.5 223.1 384 223.1H192C180.5 223.1 169.8 217.8 164.2 207.8C158.5 197.7 158.6 185.4 164.6 175.5L260.6 15.54C266.3 5.897 276.8 0 288 0C299.2 0 309.7 5.898 315.4 15.54L411.4 175.5zM288 312C288 289.9 305.9 272 328 272H472C494.1 272 512 289.9 512 312V456C512 478.1 494.1 496 472 496H328C305.9 496 288 478.1 288 456V312zM0 384C0 313.3 57.31 256 128 256C198.7 256 256 313.3 256 384C256 454.7 198.7 512 128 512C57.31 512 0 454.7 0 384z" />
                   </svg>
-                  <div
-                    style={{
-                      minHeight: "50px",
-                      marginTop: "10px",
-                      width: "50px",
-                    }}
-                  >
-                    feilds
-                  </div>
+                  <div className="min-h-[50px] mt-[10px] w-[50px]">feilds</div>
                 </div>
+
                 <div
-                  style={{ cursor: "pointer", paddingLeft: "20px" }}
+                  className="cursor-pointer pl-[20px]"
                   onClick={() => {
                     handleAside(1);
                   }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width={"30px"}
-                    height={"30px"}
+                    width="30"
+                    height="30"
                     fill="#242424"
                     background="#7850FA"
                     viewBox="0 0 512 512"
                   >
-                    <path d="M464 258.2c0 2.7-1 5.2-4.2 8c-3.8 3.1-10.1 5.8-17.8 5.8H344c-53 0-96 43-96 96c0 6.8 .7 13.4 2.1 19.8c3.3 15.7 10.2 31.1 14.4 40.6l0 0c.7 1.6 1.4 3 1.9 4.3c5 11.5 5.6 15.4 5.6 17.1c0 5.3-1.9 9.5-3.8 11.8c-.9 1.1-1.6 1.6-2 1.8c-.3 .2-.8 .3-1.6 .4c-2.9 .1-5.7 .2-8.6 .2C141.1 464 48 370.9 48 256S141.1 48 256 48s208 93.1 208 208c0 .7 0 1.4 0 2.2zm48 .5c0-.9 0-1.8 0-2.7C512 114.6 397.4 0 256 0S0 114.6 0 256S114.6 512 256 512c3.5 0 7.1-.1 10.6-.2c31.8-1.3 53.4-30.1 53.4-62c0-14.5-6.1-28.3-12.1-42c-4.3-9.8-8.7-19.7-10.8-29.9c-.7-3.2-1-6.5-1-9.9c0-26.5 21.5-48 48-48h97.9c36.5 0 69.7-24.8 70.1-61.3zM160 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-64a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm128-64a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm64 64a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"></path>
+                    <path d="M464 258.2c0 2.7-1 5.2-4.2 8c-3.8 3.1-10.1 5.8-17.8 5.8H344c-53 0-96 43-96 96c0 6.8 .7 13.4 2.1 19.8c3.3 15.7 10.2 31.1 14.4 40.6l0 0c.7 1.6 1.4 3 1.9 4.3c5 11.5 5.6 15.4 5.6 17.1c0 5.3-1.9 9.5-3.8 11.8c-.9 1.1-1.6 1.6-2 1.8c-.3 .2-.8 .3-1.6 .4c-2.9 .1-5.7 .2-8.6 .2C141.1 464 48 370.9 48 256S141.1 48 256 48s208 93.1 208 208c0 .7 0 1.4 0 2.2zm48 .5c0-.9 0-1.8 0-2.7C512 114.6 397.4 0 256 0S0 114.6 0 256S114.6 512 256 512c3.5 0 7.1-.1 10.6-.2c31.8-1.3 53.4-30.1 53.4-62c0-14.5-6.1-28.3-12.1-42c-4.3-9.8-8.7-19.7-10.8-29.9c-.7-3.2-1-6.5-1-9.9c0-26.5 21.5-48 48-48h97.9c36.5 0 69.7-24.8 70.1-61.3zM160 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-64a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm128-64a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm64 64a32 32 0 1 0 0-64 32 32 0 1 0 0 64z" />
                   </svg>
-                  <div
-                    style={{
-                      minHeight: "50px",
-                      marginTop: "10px",
-                      width: "50px",
-                    }}
-                  >
-                    design
-                  </div>
+                  <div className="min-h-[50px] mt-[10px] w-[50px]">design</div>
                 </div>
+
                 <div
-                  style={{ cursor: "pointer", paddingLeft: "20px" }}
+                  className="cursor-pointer pl-[20px]"
                   onClick={() => {
                     handleAside(2);
                   }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width={"30px"}
-                    height={"30px"}
+                    width="30"
+                    height="30"
                     fill="#242424"
                     background="#7850FA"
                     viewBox="0 0 512 512"
                   >
-                    <path d="M425 31l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39H352c-12.6 0-24.4 5.9-32 16l-46 61.3-30-40 37.6-50.1C298.2 117 324.3 104 352 104h78.1L391 65c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0zM204 322.7l-37.6 50.1C149.8 395 123.7 408 96 408H24c-13.3 0-24-10.7-24-24s10.7-24 24-24H96c12.6 0 24.4-5.9 32-16l46-61.3 30 40zM391 287c9.4-9.4 24.6-9.4 33.9 0l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39H352c-27.7 0-53.8-13-70.4-35.2L128 168c-7.6-10.1-19.4-16-32-16H24c-13.3 0-24-10.7-24-24s10.7-24 24-24H96c27.7 0 53.8 13 70.4 35.2L320 344c7.6 10.1 19.4 16 32 16h78.1l-39-39c-9.4-9.4-9.4-24.6 0-33.9z"></path>
+                    <path d="M425 31l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39H352c-12.6 0-24.4 5.9-32 16l-46 61.3-30-40 37.6-50.1C298.2 117 324.3 104 352 104h78.1L391 65c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0zM204 322.7l-37.6 50.1C149.8 395 123.7 408 96 408H24c-13.3 0-24-10.7-24-24s10.7-24 24-24H96c12.6 0 24.4-5.9 32-16l46-61.3 30 40zM391 287c9.4-9.4 24.6-9.4 33.9 0l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39H352c-27.7 0-53.8-13-70.4-35.2L128 168c-7.6-10.1-19.4-16-32-16H24c-13.3 0-24-10.7-24-24s10.7-24 24-24H96c27.7 0 53.8 13 70.4 35.2L320 344c7.6 10.1 19.4 16 32 16h78.1l-39-39c-9.4-9.4-9.4-24.6 0-33.9z" />
                   </svg>
-                  <div
-                    style={{
-                      minHeight: "50px",
-                      marginTop: "10px",
-                      width: "50px",
-                    }}
-                  >
-                    logic
-                  </div>
+                  <div className="min-h-[50px] mt-[10px] w-[50px]">logic</div>
                 </div>
               </div>
+
               <div
-                style={{ cursor: "pointer", paddingLeft: "10px" }}
+                className="cursor-pointer pl-[10px]"
                 onClick={() => {
                   handleAside(3);
                 }}
@@ -573,197 +496,101 @@ export default function FormBuilder() {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="black"
-                  class="size-10"
+                  className="w-10 h-10"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M15.75 19.5 8.25 12l7.5-7.5"
                   />
                 </svg>
-                <div style={{ paddingBottom: "20px" }}></div>
-                {/* <div style={{minHeight:"50px", marginTop:"10px", width:"50px"}}></div> */}
-                              </div>
+                <div className="pb-[20px]"></div>
+              </div>
             </div>
             {selectedAside === "Collapse" ? (
               <></>
             ) : (
-              <div
-                style={{
-                  minWidth: "1px",
-                  minHeight: "92vh",
-                  background: "#d3d3d3",
-                }}
-              ></div>
+              <div className="min-w-[1px] min-h-[92vh] bg-[#d3d3d3]"></div>
             )}
+            
             <div>
-              {selectedAside === "Fields" ? (
+              {selectedAside === "Fields" && (
                 <div
                   id="feilds"
-                  style={{
-                    height: "90vh",
-                    paddingBottom: "20px",
-                    marginLeft: "20px",
-                    marginTop: "2vh",
-                    overflowY: "scroll",
-                  }}
+                  className="h-[90vh] ml-[20px] mt-[2vh] overflow-y-auto pb-6 pr-2"
                 >
+                  {/* Search Input */}
                   <input
                     type="text"
                     placeholder="Search"
-                    style={{
-                      background: "#F2F4F9",
-                      borderRadius: "8px",
-                      outline: "none",
-                      paddingLeft: "1.3vw",
-                      border: "1px solid #d3d3d3",
-                      maxWidth: "200px",
-                      cursor: "pointer",
-                      color: "#111",
-                    }}
+                    className="bg-[#F2F4F9] rounded-[8px] outline-none pl-4 py-1.5 border border-[#d3d3d3] max-w-[200px] text-[#111] mb-4"
                   />
-                  <div
-                    style={{
-                      background: "#F2F4Ff",
-                      minHeight: "500px",
-                      minWidth: "100px",
-                      color: "black",
-                    }}
-                  >
-                    {feildTypes.map((element) => (
-                      <div key={element} id={`${element}`}>
-                        <button
-                          style={{ marginTop: "10px" }}
-                          onClick={() => hideFieldofType(`${element}`)}
-                        >
-                          {element}
-                        </button>
-                        {element == "One Time Render" ? (
-                          <>
-                            {Feilds[element]?.map((ele, idx) => (
-                              <>
-                                <div>
-                                  <div key={idx} style={{ display: "flex" }}>
-                                    <div
-                                      style={{
-                                        background: "transparent",
-                                        maxWidth: "fit-content",
-                                        alignContent: "center",
-                                      }}
-                                    >
-                                      <div>
-                                        <div
-                                          id={`feild-${ele}-1`}
-                                          dangerouslySetInnerHTML={{
-                                            __html: Icon[element][ele],
-                                          }}
-                                          style={{
-                                            width: "28px",
-                                            height: "28px",
-                                            alignContent: "center",
-                                            justifyItems: "center",
-                                            borderRadius: "5px",
-                                            background: "#ABB9FF",
-                                          }}
-                                        ></div>
-                                      </div>
-                                    </div>
-                                    <button
-                                      id={`feild-${ele}-2`}
-                                      style={{
-                                        color: "#a1a1a1",
-                                        textWrap: "wrap",
-                                        cursor: "pointer",
-                                        paddingLeft: "10px",
-                                        alignItems: "center",
-                                        width: "275px",
-                                        textAlign: "start",
-                                        transition: "all 0.5s",
-                                      }}
-                                      onClick={() =>
-                                        setQuantity(`${Feilds[element][idx]}`)
-                                      }
-                                      className="w-{100%} hover:bg-blue-50 rounded-[5px]"
-                                    >
-                                      {ele}
-                                    </button>
-                                  </div>
-                                  <br />
-                                </div>
-                              </>
-                            ))}
-                          </>
-                        ) : (
-                          Feilds[element]?.map((ele, idx) => (
-                            <div>
-                              <div key={idx} style={{ display: "flex" }}>
-                                <button
-                                  id={`feild-${ele}-2`}
-                                  style={{
-                                    display: "flex",
-                                    color: "#a1a1a1",
-                                    textWrap: "wrap",
-                                    cursor: "pointer",
-                                    paddingLeft: "10px",
-                                    alignItems: "center",
-                                    width: "275px",
-                                    textAlign: "start",
-                                    transition: "all 0.5s",
-                                  }}
-                                  onClick={() =>
-                                    addQuestion(`${Feilds[element][idx]}`)
+
+                  {/* All Field Groups */}
+                  <div className="text-black">
+                    {feildTypes.map((section) => (
+                      <div key={section} id={section} className="mb-6">
+                        {/* Section Title */}
+                        <div className="text-sm font-medium text-gray-500 mb-2">
+                          {section}
+                        </div>
+
+                        {/* Field Items */}
+                        <div className="flex flex-col gap-2">
+                          {Feilds[section]?.map((field, idx) => {
+                            const iconHTML = Icon[section]?.[field] || "";
+
+                            return (
+                              <button
+                                key={idx}
+                                id={`feild-${field}-btn`}
+                                onClick={() => {
+                                  if (section === "One Time Render") {
+                                    setQuantity(field);
+                                  } else {
+                                    addQuestion(field);
                                   }
-                                  className="w-{100%} hover:bg-blue-50 rounded-[5px]"
-                                >
-                                  <div
-                                    style={{
-                                      background: "transparent",
-                                      maxWidth: "fit-content",
-                                      alignContent: "center",
-                                    }}
-                                  >
-                                    <div>
-                                      <div
-                                        id={`feild-${ele}-1`}
-                                        dangerouslySetInnerHTML={{
-                                          __html: Icon[element][ele],
-                                        }}
-                                        style={{
-                                          width: "28px",
-                                          height: "28px",
-                                          alignContent: "center",
-                                          justifyItems: "center",
-                                          borderRadius: "5px",
-                                          background: "#ABB9FF",
-                                        }}
-                                      ></div>
-                                    </div>
-                                  </div>
-                                  <div style={{ paddingLeft: "10px" }}>
-                                    {ele}
-                                  </div>
-                                </button>
-                              </div>
-                              <br />
-                            </div>
-                          ))
-                        )}
+                                }}
+                                className={`flex items-center gap-3 px-2 py-2 rounded-md transition-all text-sm`}
+                              >
+                                {/* Icon */}
+                                <div
+                                  id={`feild-${field}-icon`}
+                                  className="w-6 h-6 flex items-center justify-center bg-indigo-100 rounded-md"
+                                  dangerouslySetInnerHTML={{ __html: iconHTML }}
+                                ></div>
+
+                                {/* Label */}
+                                <span>{field}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
-              ) : selectedAside === "Design" ? (
-                <></>
-              ) : selectedAside === "Logic" ? (
-                <></>
-              ) : (
-                <></>
+              )}
+
+              {selectedAside === "Design" && (
+                <div className="ml-[20px] mt-[2vh] text-gray-500">
+                  {/* Optional placeholder or content */}
+                  Design section coming soon...
+                </div>
+              )}
+
+              {selectedAside === "Logic" && (
+                <div className="ml-[20px] mt-[2vh] text-gray-500">
+                  {/* Optional placeholder or content */}
+                  Logic section coming soon...
+                </div>
               )}
             </div>
           </div>
         </div>
+
         <div>
           <FoRm
             masterList={masterList}

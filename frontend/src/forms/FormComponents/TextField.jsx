@@ -41,7 +41,9 @@ const TextField = ({ QType, element, updateField }) => {
 
       {/* Main input field */}
       <input
-        type={QType === "A" || QType === "E" || QType === "T" ? "text" : "number"}
+        type={
+          QType === "A" || QType === "E" || QType === "T" ? "text" : "number"
+        }
         name="field_placeholder"
         placeholder="Enter Text"
         value={fieldData.field_placeholder}
@@ -53,9 +55,7 @@ const TextField = ({ QType, element, updateField }) => {
 
       {/* Error message */}
       {fieldData.field_error && (
-        <p className="text-red-600 text-sm mt-1">
-          {fieldData.field_error}
-        </p>
+        <p className="text-red-600 text-sm mt-1">{fieldData.field_error}</p>
       )}
 
       {/* Note / requirements */}
