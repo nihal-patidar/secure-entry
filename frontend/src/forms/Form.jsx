@@ -2,6 +2,8 @@ import { DefaultQuestion, PlaceHolders } from "./FormBuilder.jsx";
 import img from "./images/DefaultCover.jpg";
 import StartTimer from "./FormComponents/Timer.jsx";
 import SingleSelect from "./FormComponents/SingleSelect.jsx";
+import MultiSelect from "./FormComponents/MultiSelect.jsx";
+import DropDown from "./FormComponents/DropDown.jsx";
 import InputFile from "./FormComponents/InputFile.jsx";
 import { useEffect, useState, useRef } from "react";
 import Logo from "./FormComponents/Logo.jsx";
@@ -121,7 +123,6 @@ export default function FoRm({
     }
   };
 
-
   //Heading Logic
   const [Heading, setHeading] = useState("Form Heading");
   const [Details, setDetails] = useState("Description");
@@ -146,7 +147,6 @@ export default function FoRm({
       deleteBtn.onclick = removeLogo;
     }
   }, [isLogo]);
-  
 
   function Question({
     type,
@@ -170,16 +170,7 @@ export default function FoRm({
 
     return (
       <div key={`${QueKey}`}>
-        <div
-          style={{
-            width: "50vw",
-            background: "white",
-            color: "black",
-            minHeight: "",
-            margin: "1vw",
-            borderRadius: "15px",
-          }}
-        >
+        <div className="w-[50vw] bg-white text-black min-h-fit m-[1vw] rounded-[15px]">
           <div>
             {type === "single selection" ? (
               <SingleSelect
@@ -188,23 +179,23 @@ export default function FoRm({
                 QType="S"
                 type={type}
                 opts={["A", "B", "C", "D"]}
-              ></SingleSelect>
+              />
             ) : type === "multiple selection" ? (
-              <SingleSelect
+              <MultiSelect
                 masterList={masterList}
                 count={count}
                 QType="M"
                 type={type}
                 opts={["A", "B", "C", "D"]}
-              ></SingleSelect>
+              />
             ) : type === "Dropdown Selection" ? (
-              <SingleSelect
+              <DropDown
                 masterList={masterList}
                 count={count}
                 QType="D"
                 type={type}
                 opts={["A", "B", "C", "D"]}
-              ></SingleSelect>
+              />
             ) : type === "Special Selection" ? (
               <SpecialRendering
                 key={element.field_id}
@@ -221,7 +212,7 @@ export default function FoRm({
                     field_name: field.field_name,
                     field_id: field.field_id,
                   }))}
-              ></SpecialRendering>
+              />
             ) : type === "FullName" ? (
               <FullName
                 masterList={masterList}
@@ -234,17 +225,16 @@ export default function FoRm({
               <ContactFeild
                 masterList={masterList}
                 element={element}
-                QType={"A"}
+                QType="A"
                 placeholder={placeholder}
                 desc={desc}
                 note={note}
                 err={err}
               />
-            ) : //aaaa
-            type === "Phone no." ? (
+            ) : type === "Phone no." ? (
               <ContactFeild
                 masterList={masterList}
-                QType={"P"}
+                QType="P"
                 placeholder={placeholder}
                 desc={desc}
                 note={note}
@@ -253,7 +243,7 @@ export default function FoRm({
             ) : type === "email" ? (
               <ContactFeild
                 masterList={masterList}
-                QType={"E"}
+                QType="E"
                 placeholder={placeholder}
                 desc={desc}
                 note={note}
@@ -275,7 +265,7 @@ export default function FoRm({
             ) : type === "number" ? (
               <ContactFeild
                 masterList={masterList}
-                QType={"N"}
+                QType="N"
                 placeholder={placeholder}
                 desc={desc}
                 note={note}
@@ -283,17 +273,8 @@ export default function FoRm({
               />
             ) : (
               <input
-                type={`${type}`}
-                style={{
-                  marginLeft: "10vh",
-                  background: "white",
-                  color: "#212121",
-                  border: "2px solid #eaeaea",
-                  borderRadius: "7px",
-                  height: "6vh",
-                  width: "60vh",
-                  marginTop: "4vh",
-                }}
+                type={type}
+                className="ml-[10vh] mt-[4vh] bg-white text-[#212121] border-[2px] border-[#eaeaea] rounded-[7px] h-[6vh] w-[60vh]"
               />
             )}
           </div>
@@ -440,7 +421,7 @@ export default function FoRm({
 
             {/* Dimension Label */}
             {previewUrl === img && (
-              <div className="absolute bottom-1 right-2 bg-black/70 text-white text-xs px-2 py-0.5 rounded-sm z-20">
+              <div className="absolute bottom-1 right-2 bg-black/70 text-white text-xs px-2 py-0.5 rounded-sm z-20 opacity-0 group-hover:opacity-100 transition-opacity">
                 1920 × 150 fits the best
               </div>
             )}
@@ -515,20 +496,14 @@ export default function FoRm({
 
               return (
                 <div key={element.field_id}>
-                  <div
-                    style={{
-                      border: "1px solid #eaeaea",
-                      borderRadius: "10px",
-                      marginTop: "10px",
-                    }}
-                  >
+                  <div className="border border-[#eaeaea] rounded-[10px] mt-[10px] bg-white">
                     {shouldRender && (
                       <div
                         id={`Question-${element.field_id}`}
-                        style={{ display: "flex", width: "fit-content" }}
+                        className="flex w-fit"
                       >
-                        <div style={{ width: "52vw" }}>
-                          <div style={{ minHeight: "180px" }}>
+                        <div className="w-[52vw]">
+                          <div className="min-h-[10px]">
                             <QueNav
                               cnt={element.field_id}
                               Duplicate={Duplicate}
@@ -549,17 +524,7 @@ export default function FoRm({
                           />
                         </div>
 
-                        <div
-                          style={{
-                            display: "none",
-                            justifyContent: "space-around",
-                            flexDirection: "column",
-                            height: "200px",
-                            minWidth: "8vw",
-                            alignContent: "center",
-                            textAlign: "center",
-                          }}
-                        >
+                        <div className="hidden justify-around flex-col h-[200px] min-w-[8vw] items-center text-center">
                           <span>Up</span>
                           <span>Down</span>
                         </div>
