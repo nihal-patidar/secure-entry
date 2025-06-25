@@ -13,8 +13,7 @@ import {
 } from "react-icons/md";
 import { FaQrcode } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { apiConnector } from "../api/apiconnector";
-import { eventEndpoints } from "../api/apis";
+import api from "../../axiosConfig"; // make sure your axios baseURL is configured here
 
 const UpdateService = () => {
   const { serviceId } = useParams();
@@ -24,17 +23,17 @@ const UpdateService = () => {
   const serviceData = state?.service?.[serviceId];
 
   const [formData, setFormData] = useState({
-    imageFile: null,
-    eventName: serviceData?.service_name || "",
-    eventAddress: serviceData?.event_address || "",
-    eventDate: serviceData?.event_date || "",
-    eventTime: serviceData?.event_time || "",
-    validScans: serviceData?.valid_scans || "",
-    aboutEvent: serviceData?.about_event || "",
-    serviceType: serviceData?.service_type || "",
-    ticketValidity: serviceData?.ticket_validity || "",
-    ticketPrice: serviceData?.ticket_price || "",
-    paymentOption: serviceData?.payment_option || "Paid",
+    service_image_url: null,
+    service_name: serviceData?.service_name || "",
+    service_address: serviceData?.service_address || "",
+    service_date: serviceData?.service_date || "",
+    service_time: serviceData?.service_time || "",
+    valid_scans: serviceData?.valid_scans || "",
+    service_discription: serviceData?.service_discription || "",
+    service_type: serviceData?.service_type || "",
+    ticket_validity: serviceData?.ticket_validity || "",
+    ticket_price: serviceData?.ticket_price || "",
+    paymentOption: serviceData?.paymentOption || "Paid",
   });
 
   const handleChange = (e) => {
@@ -48,53 +47,41 @@ const UpdateService = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setFormData((prev) => ({ ...prev, imageFile: file }));
-  };
-
-  const resetForm = () => {
-    setFormData({
-      imageFile: null,
-      eventName: "",
-      eventAddress: "",
-      eventDate: "",
-      eventTime: "",
-      validScans: "",
-      aboutEvent: "",
-      serviceType: "",
-      ticketValidity: "",
-      ticketPrice: "",
-      paymentOption: "Paid",
-    });
+    setFormData((prev) => ({ ...prev, service_image_url: file }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const token = localStorage.getItem("userData");
     if (!token) return toast.error("Token missing. Please log in again.");
 
-    const { imageFile, ...rest } = formData;
-    const formPayload = new FormData();
-    if (imageFile) formPayload.append("image", imageFile);
-    formPayload.append("data", JSON.stringify(rest));
-
     try {
-      await apiConnector(
-        "PUT",
-        eventEndpoints.UPDATE_SERVICE(serviceId),
-        formPayload,
-        {
+      const formPayload = new FormData();
+
+      const { service_image_url, ...rest } = formData;
+
+      if (service_image_url instanceof File) {
+        formPayload.append("image", service_image_url);
+      }
+
+      formPayload.append("data", JSON.stringify(rest));
+
+      await api.put(`/service/updateService/${serviceId}`, formPayload, {
+        headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
-        }
-      );
+        },
+      });
+
       toast.success("Service updated successfully!");
-      resetForm();
-      navigate(`/home/services/${serviceId}`, { state: { updated: true } });
+      navigate("/home/services");
     } catch (err) {
       console.error("Error updating service:", err);
-      toast.error(err.response?.data?.msg || "Update failed.");
+      toast.warning(err.response?.data?.msg || "Update failed.");
     }
   };
+
 
   return (
     <div className="mx-auto mt-10 px-4 py-6 rounded-[15px] border bg-white absolute top-[60px] left-[120px] border-gray-300 w-[1160px] shadow-[0px_1px_8.5px_0px_#00000014]">
@@ -130,20 +117,20 @@ const UpdateService = () => {
             <div className="flex flex-col gap-[30px] w-full">
               <div className="flex flex-col md:flex-row gap-4">
                 <InputWithIcon
-                  label="Event Name"
+                  label="Service Name"
                   icon={<MdEvent />}
-                  placeholder="Enter Event Name"
-                  name="eventName"
-                  value={formData.eventName}
+                  placeholder="Enter Service Name"
+                  name="service_name"
+                  value={formData.service_name}
                   onChange={handleChange}
                   required
                 />
                 <InputWithIcon
-                  label="Event Address"
+                  label="Service Address"
                   icon={<MdLocationOn />}
                   placeholder="Enter Address"
-                  name="eventAddress"
-                  value={formData.eventAddress}
+                  name="service_address"
+                  value={formData.service_address}
                   onChange={handleChange}
                   required
                 />
@@ -151,20 +138,20 @@ const UpdateService = () => {
 
               <div className="flex flex-col md:flex-row gap-4">
                 <InputWithIcon
-                  label="Event Date"
+                  label="Service Date"
                   icon={<MdEvent />}
                   type="date"
-                  name="eventDate"
-                  value={formData.eventDate}
+                  name="service_date"
+                  value={formData.service_date}
                   onChange={handleChange}
                   required
                 />
                 <InputWithIcon
-                  label="Event Time"
+                  label="Service Time"
                   icon={<MdAccessTime />}
                   type="time"
-                  name="eventTime"
-                  value={formData.eventTime}
+                  name="service_time"
+                  value={formData.service_time}
                   onChange={handleChange}
                   required
                 />
@@ -175,17 +162,17 @@ const UpdateService = () => {
                   label="Valid Scans"
                   icon={<FaQrcode />}
                   placeholder="No. of Scans"
-                  name="validScans"
-                  value={formData.validScans}
+                  name="valid_scans"
+                  value={formData.valid_scans}
                   onChange={handleChange}
                   required
                 />
                 <InputWithIcon
-                  label="About Event"
+                  label="Service Description"
                   icon={<MdInfo />}
-                  placeholder="Enter Details About Event"
-                  name="aboutEvent"
-                  value={formData.aboutEvent}
+                  placeholder="Enter Service Description"
+                  name="service_discription"
+                  value={formData.service_discription}
                   onChange={handleChange}
                   required
                 />
@@ -214,7 +201,7 @@ const UpdateService = () => {
                       className="peer hidden"
                     />
                     <div className="w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center peer-checked:border-transparent peer-checked:bg-[#2C3ED3] transition-all duration-200">
-                      <MdCheck className="text-white text-md " />
+                      <MdCheck className="text-white text-md" />
                     </div>
                     <span className="text-base text-gray-700">{option}</span>
                   </label>
@@ -226,8 +213,8 @@ const UpdateService = () => {
               label="Ticket Price"
               icon={<MdAttachMoney />}
               placeholder="Enter Ticket Price"
-              name="ticketPrice"
-              value={formData.ticketPrice}
+              name="ticket_price"
+              value={formData.ticket_price}
               onChange={handleChange}
               disabled={formData.paymentOption === "Free"}
               required
@@ -235,16 +222,16 @@ const UpdateService = () => {
 
             <SelectField
               label="Service Type (Ticket, Pass, Badge)"
-              name="serviceType"
-              value={formData.serviceType}
+              name="service_type"
+              value={formData.service_type}
               onChange={handleChange}
               options={["Ticket", "Pass", "Badge"]}
               required
             />
             <SelectField
               label="Ticket Validity (3h, 12h, 1, 7, 15, 31)"
-              name="ticketValidity"
-              value={formData.ticketValidity}
+              name="ticket_validity"
+              value={formData.ticket_validity}
               onChange={handleChange}
               options={["3h", "12h", "1", "7", "15", "31"]}
               required
