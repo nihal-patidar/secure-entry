@@ -1,10 +1,33 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
-import NotFound from "./pages/NotFound";
-import RegistrationPage from "./pages/RegistrationPage";
-import Home from "./pages/Home";
-import Dashboard from "./pages/Dashboard";
-import Auth from "./pages/Auth";
+// <<<<<<< HEAD
+// import { createBrowserRouter, RouterProvider } from "react-router-dom";
+// import LandingPage from "./pages/LandingPage";
+// import NotFound from "./pages/NotFound";
+// import RegistrationPage from "./pages/RegistrationPage";
+// import Home from "./pages/Home";
+// import Dashboard from "./pages/Dashboard";
+// import Auth from "./pages/Auth";
+// =======
+
+import { createBrowserRouter,RouterProvider } from 'react-router-dom'
+import LandingPage from './pages/LandingPage';
+import NotFound from './pages/NotFound';
+import LoginPage from './pages/LoginPage';
+import RegistrationPage from './pages/RegistrationPage';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+import Auth from './pages/Auth';
+// import ServiceWorkSpace from './pages/ServiceWorkspace';
+// import ValidatorWorkSpace from './pages/ValidatorWorkSpace';
+import ServiceVisitors from './pages/ServiceVisitors';
+// import CreateValidatorForm from './forms/ValidatorForm';
+import { CreateService } from './forms/AddService';
+// import VisitorFormCreate from './forms/VisitorForm';
+import { UpdateServiceForm } from './forms/UpdateService';
+import Profile from './pages/Profile'
+import StepForTicket from './pages/StepForTicket';
+import CreateVisitorForm from './forms/CreateVisitorForm.jsx';
+
+// >>>>>>> piyush
 
 import NewLoginPage from "./pages/login/LoginPage";
 import ForgotPassword from "./pages/login/ForgotPassword";
@@ -13,18 +36,19 @@ import VerifyOTP from "./pages/login/VerifyOtp";
 import QrGuyImage from "./assets/images/QrGuy.jpg";
 import SochRahaHaiImage from "./assets/images/SochRahaHai.png";
 
+// <<<<<<< HEAD
 import ServiceWorkSpace from "./pages/ServiceWorkspace";
 import FormPrev from "./pages/FormPrev.jsx";
 import TicketPrev from "./pages/TicketPrev.jsx"
 import ValidatorWorkSpace from "./pages/ValidatorWorkSpace";
-import ServiceVisitors from "./pages/ServiceVisitors";
-import CreateValidatorForm from "./forms/AddValidator.jsx";
+// import ServiceVisitors from "./pages/ServiceVisitors";
+// import CreateValidatorForm from "./forms/AddValidator.jsx";
 // import { CreateService } from "./forms/AddService";
-import VisitorFormCreate from "./forms/BuildForm.jsx";
-import  UpdateServiceForm  from "./pages/UpdateService";
+// import VisitorFormCreate from "./forms/BuildForm.jsx";
+// import  UpdateServiceForm  from "./pages/UpdateService";
 import ValidatorList from "./pages/ValidatorList";
 // import AddValidator from "./forms/AddValidator.jsx";
-import StepForTicket from "./pages/StepForTicket";
+// import StepForTicket from "./pages/StepForTicket";
 import Newprofile from "./pages/profile/Newprofile.jsx";
 import Profileview from "./pages/profile/Profileview.jsx";
 import Profileedit from "./pages/profile/Profileedit.jsx";
@@ -34,8 +58,19 @@ import ServiceDetails from "./pages/ServiceDetails.jsx";
 import BuildForm from "./pages/BuildForm.jsx";
 import UpdateForm from "./pages/UpdateForm.jsx";
 import ServiceVisitorsData from "./pages/ServiceVisitorsData.jsx";
-import CreateService from "./pages/CreateService.jsx";
+// import CreateService from "./pages/CreateService.jsx";
 import { AddValidatorForService } from "./components/services-new/AddValidatorForService.jsx";
+// =======
+// import ServiceWorkSpace from "./pages/ServiceWorkspace";
+// import ValidatorWorkSpace from "./pages/ValidatorWorkSpace";
+// import ServiceVisitors from "./pages/ServiceVisitors";
+// import CreateValidatorForm from "./forms/ValidatorForm";
+// import { CreateService } from "./forms/AddService";
+// import VisitorFormCreate from "./forms/VisitorForm";
+// import { UpdateServiceForm } from "./forms/UpdateService";
+// import Profile from "./pages/Profile";
+// import StepForTicket from "./pages/StepForTicket";
+// >>>>>>> piyush
 
 const router = createBrowserRouter([
   {
@@ -51,6 +86,7 @@ const router = createBrowserRouter([
     element: <RegistrationPage />,
   },
   {
+
     path: "/home",
     element: (
       <Auth>
@@ -95,7 +131,7 @@ const router = createBrowserRouter([
             children: [
               { path: "", element: <ServiceDetails />},
               { path: "update", element: <UpdateServiceForm />},
-              { path: "build-form", element: <BuildForm />},
+              { path: "build-form", element: <CreateVisitorForm />},
               { path: "update-form", element: <UpdateForm/>},
               { path: "form-prev", element: <FormPrev />},
               { path: "ticket-prev", element: <TicketPrev />},
@@ -122,10 +158,10 @@ const router = createBrowserRouter([
       //   path: "create-service",
       //   element: <CreateService />,
       // },
-      {
-        path: "create-visitor-form",
-        element: <VisitorFormCreate />,
-      },
+      // {
+      //   path: "create-visitor-form",
+      //   element: <VisitorFormCreate />,
+      // },
       {
         path: "update-service-data",
         element: <UpdateServiceForm />,
@@ -156,6 +192,11 @@ const router = createBrowserRouter([
     path: "/form/:formId",
     element: <StepForTicket />,
   },
+  {
+    path: "/just",
+    element: <CreateVisitorForm />,
+  },
+
 ]);
 function App() {
   return (

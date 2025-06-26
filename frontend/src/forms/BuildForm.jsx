@@ -96,7 +96,7 @@ const VisitorFormCreate = () => {
   const [fieldDataType, setFieldDataType] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const service_id = location.state.service_id || null;
+  const service_id = (location.state && location.state.service_id) || null;
 
   const keywords = [
     {
