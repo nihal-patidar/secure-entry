@@ -25,7 +25,6 @@ _id: "68557705dfa0ab47cb0df6ae"
 
 const InfoForm = ({serviceId, service}) => {
   const [formCreated, setFormCreated] = useState(false);
-  const [aboutService, setAboutService] = useState("Write about this service in 2-3 lines, (about sections's content will come from Add Service Form, and will be Updated by Update Service Form, This is just for example)")
 
   const navigate = useNavigate() 
 
@@ -142,22 +141,7 @@ const InfoForm = ({serviceId, service}) => {
 
         <div className="w-full h-auto   px-12 py-8  rounded-b-xl bg-white">
           <p className="text-secondary font-semibold mb-2">About Event</p>
-          <textarea 
-          
-          className=" text-gray-700 font-light text-lg outline-none bg-transparent  w-full p-3  resize-none overflow-hidden"
-          
-          value={aboutService}
-          onChange={(e)=>{
-            setAboutService(e.target.value)
-            e.target.style.height = "auto"
-            e.target.style.height = `${e.target.scrollHeight}px`
-          }}
-          />
-          
-          
-           
-       
-          
+          <p>{service?.service_discription}</p>   
         </div>
       </div>
     </>
