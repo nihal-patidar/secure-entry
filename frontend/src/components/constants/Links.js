@@ -1,0 +1,1 @@
+export const IMAGE_URL_CARD = "https://picsum.photos/200";

@@ -7,6 +7,8 @@ var admin = require("firebase-admin");
 const bucket = admin.storage().bucket();
 
 const addValidator = async (req, res) => {
+  const parsedData = JSON.parse(req.body.validatorData);
+  console.log("validator data", parsedData);
   try {
     let id = req.params.id;
     console.log("addValidator called !!!");
@@ -44,7 +46,7 @@ const addValidator = async (req, res) => {
           imageUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
           console.log("service image url !!!", imageUrl);
 
-          var newValidator = new validatorModel({ ...req.body.validatorData , validator_image_url : imageUrl });
+          var newValidator = new validatorModel({ ...parsedData , service_id : id , validator_image_url : imageUrl });
 
           newValidator.save().then((result) => {
             console.log("newValidator saved to Database !!!");

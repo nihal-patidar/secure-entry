@@ -1,28 +1,36 @@
-import React, { useState } from 'react'; 
-import { Link, useNavigate } from "react-router-dom"; 
-import image from "../../assets/images/QrGuy.jpg"; 
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import image from "../../assets/images/QrGuy.jpg";
+import { forgotPasswordHandle } from "../../api/operations/authAPI";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState('');
-
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [showLoading, setShowLoading] = useState(false);
   const handleSendOtp = (e) => {
     e.preventDefault();
-    setEmailError(''); 
+    setEmailError("");
+
 
     if (!email.trim()) {
       setEmailError("Email cannot be empty.");
       return;
     }
-    if (!email.includes('@') || !email.includes('.')) { 
+
+    if (!email.includes("@") || !email.includes(".")) {
       setEmailError("Please enter a valid email address.");
       return;
     }
-
+    forgotPasswordHandle({
+      email,
+      setShowLoading,
+      navigate,
+    });
     console.log("Sending OTP to:", email);
-    
-    navigate("/verify-otp-forgot-password"); 
+
+    navigate("/verify-otp-forgot-password");
+
   };
 
   return (
@@ -43,7 +51,7 @@ const ForgotPassword = () => {
           <p className="text-gray-600 mb-8 text-center md:text-left">
             We'll send you OTP on your email
           </p>
-            
+
           <form className="space-y-6" onSubmit={handleSendOtp}>
             <div>
               <label
@@ -66,19 +74,19 @@ const ForgotPassword = () => {
                 <p className="text-red-500 text-sm mt-1">{emailError}</p>
               )}
             </div>
-            
+
             <button
               type="submit"
               className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
             >
-              Send OTP
+              {showLoading ? "Sending OTP ... " : "Send OTP"}
             </button>
           </form>
 
           <p className="text-sm font-medium mt-8 text-center text-gray-600">
             Remembered the password?{" "}
             <Link
-              to="/login" 
+              to="/login"
               className="text-[#7850FA] hover:text-[#5031a3] font-medium"
             >
               Login
@@ -91,3 +99,4 @@ const ForgotPassword = () => {
 };
 
 export default ForgotPassword;
+

@@ -1,3 +1,8 @@
+// <<<<<<< TanaySharma
+// const BASE_URL = "http://localhost:3000";
+// const BASE_URL = "https://secure-entry-f5go.onrender.com";
+// const BASE_URL = "https://secure-entry-1.onrender.com"
+// =======
 // const BASE_URL = "http://localhost:3000";
 // const BASE_URL = "https://secure-entry-f5go.onrender.com";
 const BASE_URL = "https://secure-entry-1.onrender.com"
