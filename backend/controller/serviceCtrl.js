@@ -10,7 +10,8 @@ const bucket = admin.storage().bucket();
 const addService = async (req, res) => {
   try {
     let id = req.user.user._id;
-    console.log("service/addService body data", req.body.data);
+    const parsedData = JSON.parse(req.body.data);
+    console.log("service/addService body data", parsedData);
 
     if (req.file != undefined) {
       console.log("image file found !!!");
@@ -42,7 +43,7 @@ const addService = async (req, res) => {
           console.log("service image url !!!", imageUrl);
 
           var newService = new serviceModel({
-            ...req.body.data,
+            ...parsedData,
             service_image_url: imageUrl,
           });
           //   console.log("");

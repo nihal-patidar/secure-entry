@@ -155,7 +155,7 @@ export const AddValidatorForService = () => {
                 name="mobile_number"
                 value={formData.mobile_number}
                 onChange={changeHandler}
-                required
+                // required
                 pattern="[0-9]{10}"
                 maxLength={10}
                 placeholder="Enter Mobile Number"
@@ -221,7 +221,7 @@ export const AddValidatorForService = () => {
                 name="validator_address"
                 value={formData.validator_address}
                 onChange={changeHandler}
-                required
+                // required
                 placeholder="Enter Address"
                 className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md placeholder-gray-400 text-sm focus:outline-none"
               />
@@ -240,7 +240,7 @@ export const AddValidatorForService = () => {
                 name="aadhar_number"
                 value={formData.aadhar_number}
                 onChange={changeHandler}
-                required
+                // required
                 pattern="[0-9]{12}"
                 maxLength={12}
                 placeholder="Enter Aadhar Number"

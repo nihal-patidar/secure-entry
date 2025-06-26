@@ -27,7 +27,7 @@ const CreateService = () => {
     service_type: "",
     ticket_validity: "",
     ticket_price: "",
-    paymentOption: "Paid",
+    payment_option: "Paid",
   });
 
   const serviceTypes = ["Ticket", "Pass", "Badge"];
@@ -40,7 +40,7 @@ const CreateService = () => {
   };
 
   const handleRadioChange = (value) => {
-    setFormData((prev) => ({ ...prev, paymentOption: value }));
+    setFormData((prev) => ({ ...prev, payment_option: value }));
   };
 
   const handleImageChange = (e) => {
@@ -60,7 +60,7 @@ const CreateService = () => {
       service_type: "",
       ticket_validity: "",
       ticket_price: "",
-      paymentOption: "Paid",
+      payment_option: "Paid",
     });
   };
 
@@ -84,6 +84,7 @@ const CreateService = () => {
   formPayload.append("data", JSON.stringify(rest));
 
   try {
+    console.log("formpayload",formPayload);
     const res = await api.put(`/service/addService`, formPayload, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -205,9 +206,9 @@ const CreateService = () => {
                   <label key={opt} className="flex items-center gap-3 cursor-pointer">
                     <input
                       type="radio"
-                      name="paymentOption"
+                      name="payment_option"
                       value={opt}
-                      checked={formData.paymentOption === opt}
+                      checked={formData.payment_option === opt}
                       onChange={() => handleRadioChange(opt)}
                       className="peer hidden"
                     />
@@ -227,7 +228,7 @@ const CreateService = () => {
               name="ticket_price"
               value={formData.ticket_price}
               onChange={handleChange}
-              disabled={formData.paymentOption === "Free"}
+              disabled={formData.payment_option === "Free"}
               required
             />
 

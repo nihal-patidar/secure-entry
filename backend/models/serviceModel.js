@@ -1,70 +1,80 @@
 
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-
 const ServiceSchema = new Schema({
-    service_name:{
-     type:String,
-     require:true
+    service_name: {
+        type: String,
+        required: true
     },
-    service_type:{
-     type:String,
-     require:true
+    service_type: {
+        type: String,
+        required: true
     },
-    service_address:{
-        type:String,
-        require:true
+    service_address: {
+        type: String,
+        required: true
     },
-    ticket_price:{
-     type:Number,
-     require:true
+    service_date: {
+        type: String,  // could also be Date, but you're sending it as string
+        required: true
     },
-    valid_scans:{
-     type:Number,
-     require:true
+    service_time: {
+        type: String,  // assuming HH:mm format
+        required: true
     },
-    account_number:{
-        type:Number,
-        require:true
+    ticket_price: {
+        type: String, // using String to accept "" and later convert to Number if needed
+        required: false
     },
-    accrount_holder_name:{
-        type:String,
-        require:true
+    valid_scans: {
+        type: String,  // also coming as a string in req.body
+        required: true
     },
-    bank_name:{
-        type:String,
-        require:true
+    service_discription: {
+        type: String,
+        required: true
     },
-    ifsc_number:{
-        type:String,
-        require:true
+    ticket_validity: {
+        type: String,  // same: sent as string from frontend
+        required: true
     },
-    service_discription:{
-        type:String,
-        require:true
+    payment_option: {
+        type: String,  // "Free" or "Paid"
+        required: true
     },
-    
-    ticket_validity:{
-     type:Number,
-     require:true
+    account_number: {
+        type: Number,
+        required: false
     },
-    validater_list:{
-     type:Array,
-     default: []
+    accrount_holder_name: {
+        type: String,
+        required: false
     },
-    form_structure:{
-     type:Object
+    bank_name: {
+        type: String,
+        required: false
     },
-    service_qr:{
-     type:String
+    ifsc_number: {
+        type: String,
+        required: false
     },
-    service_url:{
-        type:String
+    validater_list: {
+        type: Array,
+        default: []
     },
-    service_image_url:{
+    form_structure: {
+        type: Object
+    },
+    service_qr: {
         type: String
+    },
+    service_url: {
+        type: String
+    },
+    service_image_url: {
+        type: String,
+        default: null
     }
- });
-
+}, { timestamps: true });
 
 module.exports= mongoose.model("Service",ServiceSchema);

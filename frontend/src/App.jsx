@@ -102,9 +102,6 @@ const router = createBrowserRouter([
               { path: "visitors",element: <ServiceVisitorsData/>},
               { path: "validators",element: <ValidatorList />},
               { path: "add-validator",element: <AddValidatorForService />},
-             
-
-
             ],
           },
         ],

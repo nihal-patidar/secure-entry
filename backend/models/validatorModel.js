@@ -1,47 +1,41 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const ValidatorSchema = new Schema({
-    validator_name : {
+// const ValidatorSchema = new Schema({
+const ValidatorSchema = new mongoose.Schema({
+    validator_name: {
         type: String,
         required: true
     },
-    validator_image_url : {
-        type : String,
-        required : true
-    },
-    validator_email : {
+    validator_image_url: {
         type: String,
         required: true
     },
-    password : {
-        type: String,
-        required : true
-    },
-    mobile_number : {
+    validator_email: {
         type: String,
         required: true
     },
-    aadhar_number : {
+    validator_password: {
         type: String,
-        // required: true
+        required: true
     },
-    validator_address : {
+    mobile_number: {
+        type: String
+    },
+    aadhar_number: {
+        type: String
+    },
+    validator_address: {
+        type: String
+    },
+    service_id: {
         type: String,
-        // required: true
+        required: true
     },
-    service_id : {
-        type : String,
-        required : true
-    },
-    validator_id : {
-        type : String,
-    },
-    
-    validator_password : {
-            type: String
-        },
-    })
+    validator_id: {
+        type: String
+    }
+});
 
 
 module.exports= mongoose.model("Validator",ValidatorSchema);
