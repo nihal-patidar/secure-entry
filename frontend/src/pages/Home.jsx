@@ -5,6 +5,10 @@ import { SideBar } from "../components/newServices/SideBar.jsx";
 import { TabletMenu } from "../components/newServices/TabletMenu.jsx";
 import Header from "../components/newServices/Header.jsx";
 
+const SIDEBAR_WIDTH = 180;
+const TABLET_MENU_WIDTH = 64;
+const HEADER_HEIGHT = 60;
+
 const Home = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
@@ -18,34 +22,73 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="flex min-h-screen bg-white">
-            {/* Desktop Sidebar */}
-            <div className="hidden lg:block w-64 min-w-[256px] sticky top-0 h-screen z-10 bg-white border-r border-gray-300 overflow-y-auto">
-                <SideBar />
-            </div>
+    <div className="h-screen w-screen overflow-hidden bg-white">
+      {/* Header */}
+      <div className="fixed top-0 left-80  right-0 h-[60px] bg-white z-30 shadow-sm px-4 flex items-center">
+        <Header />
+      </div>
 
-            {/* Mobile/Tablet Sidebar */}
-            <div className="block lg:hidden fixed top-0 left-0 h-full w-16 z-10 bg-white border-r border-gray-300">
-                <TabletMenu />
-            </div>
-
-            {/* Main Content Area */}
-            <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-                {/* Sticky Header */}
-                <div className="sticky top-0 z-10 bg-white shadow-sm pl-4 lg:pl-6 pr-4">
-                    <Header />
-                </div>
-
-                {/* Cards Section */}
-                    <div className={'mt-24'}>
-                        <Outlet />
-                    </div>
-
-                </div>
-
+      {/* Sidebar */}
+      {!isMobile && (
+        <div className="fixed top-0 left-0 w-[180px] h-[calc(100vh-60px)] bg-black text-white z-20 border-r border-gray-300 overflow-y-auto">
+          <SideBar />
         </div>
-    );
+      )}
+
+      {/* Mobile Menu */}
+      {isMobile && (
+        <div className="fixed top-0 left-0 h-full w-16 z-30 bg-white border-r border-gray-300">
+          <TabletMenu />
+        </div>
+      )}
+
+      {/* Main Content Area */}
+      <div
+        className={`absolute top-[60px] ${
+          isMobile ? "left-[0px]" : "left-[210px]"
+        } right-0 bottom-0 bg-gray-50 overflow-hidden`}
+      >
+        {/* Inner content wrapper to prevent unwanted scrolling */}
+        <div className="h-full w-full overflow-hidden p-12">
+          <Outlet />
+        </div>
+      </div>
+    </div>
+  );
 };
+
+// const ProfileCard = () => {
+//   const { userData } = useContext(UserContext);
+//   return (
+//     <div className="flex  h-full w-[160px]    rounded-lg  text-center transform transition-transform duration-300 ease-in-out ">
+//       {/* Profile Picture with Glow Effect */}
+//       <div className="relative w-10 h-10 mx-auto mb-2 overflow-hidden rounded-full border-2 border-white  hover:transition-transform duration-300 ease-in-out">
+//         <img
+//           src={userData?.image} // Replace with your actual image URL
+//           alt="Profile"
+//           className="w-full h-full object-cover"
+//         />
+       
+//       </div>
+
+//       {/* User Name and ID */}
+//       <div>
+//       <h3 className="text-[16px] font-semibold text-[#494949]">{userData?.name}Asad Qureshi</h3>
+//       <p className="text-[10px]   font-medium text-[#7E7E7E]">{userData?.email}asqu8888@gmail.com</p>
+//       </div>
+
+//       {/* View Profile Button with Gradient */}
+//       {/* <div className="flex justify-center mt-2">
+//         <Link to="/home/profile">
+//           <button className="px-4 py-1 text-xs text-white rounded-full border border-[#FFEB55] shadow-md hover:shadow-lg transition-all duration-300 ease-in-out">
+//             View Profile
+//           </button>
+//         </Link>
+//       </div> */}
+//     </div>
+//   );
+// };
+
 
 export default Home;
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 function TicketPrev(props) {
     return (
-        <div>
+        <div className='w-full text-center font-semibold text-4xl'>
             TicketPrev
         </div>
     );

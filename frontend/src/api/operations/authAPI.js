@@ -8,7 +8,8 @@ export const LoginHandle = async ({
   data,
   setShowLoading,
   setUserData,
-  navigate
+  navigate,
+  setError
 }) => {
   //console.log("i am logining working");
   setShowLoading((prev) => !prev);
@@ -28,13 +29,15 @@ export const LoginHandle = async ({
       //console.log("userdata: ",response.data.userData);
       toast.success("User Data Fetched");
     }).catch((err) => {
+      
       navigate('/login');
     })
     toast.success("Login Successfully!");
   }).catch((error) => {
     setShowLoading((prev) => !prev);
-    //console.log("error data", error.response.data);
-    //   toast.warning(error.response.data.msg);
+    // console.log("error data", error.response.data.msg);
+      // toast.warning(error.response.data.msg);
+      setError(error)
   })
 }
 export const signupHandle = async ({
