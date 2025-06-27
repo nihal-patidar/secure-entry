@@ -9,7 +9,7 @@ export default function DropDown({ options, name, lable, discription, align }) {
                 <p style={{fontSize:"14px", paddingLeft:"10px", marginBottom:"6px"}}>{discription}</p>
             </div>
             <div>
-            <button className='noOutline' style={{alignContent:"start", minWidth:"260px"}} onClick={() => {
+            <button style={{alignContent:"start", minWidth:"260px", outline:"none"}} onClick={() => {
                         document.querySelector(`.dropDown-${name}`).classList.toggle('hidden');
                     }}>
                 <button

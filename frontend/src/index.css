@@ -189,8 +189,9 @@ body {
     margin-left: 10px;
 }
 
-
-
+.a{
+  color: #d7f3fa;
+}
 .popup-window {
     position: absolute;
     background-color: rgba(221, 228, 231, 0.716);
@@ -332,6 +333,7 @@ body {
   @apply border-white border-2 bg-[#2C3ED3] rounded-full   text-white font-semibold;
 }
 
+/* <<<<<<< HEAD */
 /*New */
 
   .button-primary {
@@ -440,4 +442,22 @@ input::-webkit-textfield-decoration-container {
 .hide-scrollbar {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+/* ======= */
+}
+
+.DontTouch button{
+  display:none;
+}
+.DontTouch image{
+  resize: none;
+}
+.visible{
+  display: inline-block;
+}
+#feilds{
+  /* scrollbar-color: green;
+  scrollbar-width: 20px;
+  scrollbar-highlight-color: blue; */
+  scrollbar-width: none;
+/* >>>>>>> piyush */
 }
