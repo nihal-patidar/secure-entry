@@ -249,7 +249,7 @@ export default function FormBuilder() {
                                 </svg>`,
     },
   };
-
+  const [len, Setlen] = useState(90)
   function reindexMasterList(list) {
     return list.map((item, idx) => ({ ...item, field_index: idx }));
   }
@@ -310,10 +310,12 @@ export default function FormBuilder() {
       setSelectedAside("Logic");
     } else {
       if (selectedAside == "Collapse") {
+        Setlen(50);
         setSelectedAside(lastSelectedAside);
       } else {
         setlastSelectedAside(selectedAside);
         setSelectedAside("Collapse");
+        Setlen(0);
       }
     }
   }
@@ -433,6 +435,7 @@ export default function FormBuilder() {
     }
   }
 
+
   function setMasterList2(index, prop, val) {
     setMasterList((prev) => {
       let updated = [...prev];
@@ -460,25 +463,50 @@ export default function FormBuilder() {
 
   return (
     <>
-      <div className="flex max-w-[100vw] min-h-[90vh]">
-        <div className="border-2 border-[#d3d3d3] m-[2vh] mr-0 bg-[#f2f4ff] rounded-[15px] w-[30vw] overflow-hidden">
+      <div className={`flex max-w-[90vw] min-h-[90vh]`}>
+
+
+      <div className={"border-2 max-w-[len] border-[#d3d3d3] m-[2vh] mr-0 bg-[#f2f4ff] rounded-[15px] w-[30vw] overflow-hidden"}>
+
           <div className="flex min-w-0">
-            <div className="min-w-[80px] pt-[20px] min-h-[92vh] flex flex-col justify-between">
-              <div>
-                <div
-                  className="cursor-pointer pl-[20px]"
-                  onClick={() => {
-                    handleAside(0);
-                  }}
-                >
-                  {/* SVG */}
+            <div className={`max-w-[90px] pt-[0px] min-h-[92vh] flex flex-col gap-4`}>
+              <div
+                  className="cursor-pointer pl-[10px] group transition duration-200"
+                  onClick={() => handleAside(3)}
+              >
+                <div className="mt-0 w-10 h-10  w-full shadow-md group-hover:shadow-xl group-hover:scale-105 transition-all duration-200 flex items-center justify-center border border-gray-300">
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="30"
-                    height="30"
-                    fill="#242424"
-                    background="#7850FA"
-                    viewBox="0 0 512 512"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="black"
+                      className="w-6 h-6 group-hover:stroke-indigo-600 transition duration-200"
+                  >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.75 19.5 8.25 12l7.5-7.5"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+
+              <div className="flex flex-col gap-4">
+                <div
+                    className="cursor-pointer pl-[20px]"
+                    onClick={() => {
+                      handleAside(0);
+                    }}
+                >
+                  <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="30"
+                      height="30"
+                      fill="#242424"
+                      background="#7850FA"
+                      viewBox="0 0 512 512"
                   >
                     <path d="M411.4 175.5C417.4 185.4 417.5 197.7 411.8 207.8C406.2 217.8 395.5 223.1 384 223.1H192C180.5 223.1 169.8 217.8 164.2 207.8C158.5 197.7 158.6 185.4 164.6 175.5L260.6 15.54C266.3 5.897 276.8 0 288 0C299.2 0 309.7 5.898 315.4 15.54L411.4 175.5zM288 312C288 289.9 305.9 272 328 272H472C494.1 272 512 289.9 512 312V456C512 478.1 494.1 496 472 496H328C305.9 496 288 478.1 288 456V312zM0 384C0 313.3 57.31 256 128 256C198.7 256 256 313.3 256 384C256 454.7 198.7 512 128 512C57.31 512 0 454.7 0 384z" />
                   </svg>
@@ -486,18 +514,18 @@ export default function FormBuilder() {
                 </div>
 
                 <div
-                  className="cursor-pointer pl-[20px]"
-                  onClick={() => {
-                    handleAside(1);
-                  }}
+                    className="cursor-pointer pl-[20px]"
+                    onClick={() => {
+                      handleAside(1);
+                    }}
                 >
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="30"
-                    height="30"
-                    fill="#242424"
-                    background="#7850FA"
-                    viewBox="0 0 512 512"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="30"
+                      height="30"
+                      fill="#242424"
+                      background="#7850FA"
+                      viewBox="0 0 512 512"
                   >
                     <path d="M464 258.2c0 2.7-1 5.2-4.2 8c-3.8 3.1-10.1 5.8-17.8 5.8H344c-53 0-96 43-96 96c0 6.8 .7 13.4 2.1 19.8c3.3 15.7 10.2 31.1 14.4 40.6l0 0c.7 1.6 1.4 3 1.9 4.3c5 11.5 5.6 15.4 5.6 17.1c0 5.3-1.9 9.5-3.8 11.8c-.9 1.1-1.6 1.6-2 1.8c-.3 .2-.8 .3-1.6 .4c-2.9 .1-5.7 .2-8.6 .2C141.1 464 48 370.9 48 256S141.1 48 256 48s208 93.1 208 208c0 .7 0 1.4 0 2.2zm48 .5c0-.9 0-1.8 0-2.7C512 114.6 397.4 0 256 0S0 114.6 0 256S114.6 512 256 512c3.5 0 7.1-.1 10.6-.2c31.8-1.3 53.4-30.1 53.4-62c0-14.5-6.1-28.3-12.1-42c-4.3-9.8-8.7-19.7-10.8-29.9c-.7-3.2-1-6.5-1-9.9c0-26.5 21.5-48 48-48h97.9c36.5 0 69.7-24.8 70.1-61.3zM160 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-64a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm128-64a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm64 64a32 32 0 1 0 0-64 32 32 0 1 0 0 64z" />
                   </svg>
@@ -505,59 +533,38 @@ export default function FormBuilder() {
                 </div>
 
                 <div
-                  className="cursor-pointer pl-[20px]"
-                  onClick={() => {
-                    handleAside(2);
-                  }}
+                    className="cursor-pointer pl-[20px]"
+                    onClick={() => {
+                      handleAside(2);
+                    }}
                 >
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="30"
-                    height="30"
-                    fill="#242424"
-                    background="#7850FA"
-                    viewBox="0 0 512 512"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="30"
+                      height="30"
+                      fill="#242424"
+                      background="#7850FA"
+                      viewBox="0 0 512 512"
                   >
                     <path d="M425 31l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39H352c-12.6 0-24.4 5.9-32 16l-46 61.3-30-40 37.6-50.1C298.2 117 324.3 104 352 104h78.1L391 65c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0zM204 322.7l-37.6 50.1C149.8 395 123.7 408 96 408H24c-13.3 0-24-10.7-24-24s10.7-24 24-24H96c12.6 0 24.4-5.9 32-16l46-61.3 30 40zM391 287c9.4-9.4 24.6-9.4 33.9 0l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39H352c-27.7 0-53.8-13-70.4-35.2L128 168c-7.6-10.1-19.4-16-32-16H24c-13.3 0-24-10.7-24-24s10.7-24 24-24H96c27.7 0 53.8 13 70.4 35.2L320 344c7.6 10.1 19.4 16 32 16h78.1l-39-39c-9.4-9.4-9.4-24.6 0-33.9z" />
                   </svg>
                   <div className="min-h-[50px] mt-[10px] w-[50px]">logic</div>
                 </div>
               </div>
-
-              <div
-                className="cursor-pointer pl-[10px]"
-                onClick={() => {
-                  handleAside(3);
-                }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="black"
-                  className="w-10 h-10"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 19.5 8.25 12l7.5-7.5"
-                  />
-                </svg>
-                <div className="pb-[20px]"></div>
-              </div>
             </div>
+
+
             {selectedAside === "Collapse" ? (
               <></>
             ) : (
               <div className="min-w-[1px] min-h-[92vh] bg-[#d3d3d3]"></div>
             )}
-            
+
             <div>
               {selectedAside === "Fields" && (
                 <div
                   id="feilds"
-                  className="h-[90vh] ml-[20px] mt-[2vh] overflow-y-auto pb-6 pr-2"
+                  className="h-[90vh] ml-[18px] mt-[2vh] overflow-y-auto pb-6 pr-2"
                 >
                   {/* Search Input */}
                   <input
@@ -591,7 +598,7 @@ export default function FormBuilder() {
                                     addQuestion(field);
                                   }
                                 }}
-                                className={`flex items-center gap-3 px-2 py-2 rounded-md transition-all text-sm`}
+                                className={`flex items-center gap-3 px-2 py-2  rounded-md transition-all text-sm `}
                               >
                                 {/* Icon */}
                                 <div
@@ -601,7 +608,7 @@ export default function FormBuilder() {
                                 ></div>
 
                                 {/* Label */}
-                                <span>{field}</span>
+                                <span >{field}</span>
                               </button>
                             );
                           })}
