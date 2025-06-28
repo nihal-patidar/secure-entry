@@ -39,7 +39,7 @@ const ServiceList = () => {
         if (services && services.length === 0) {
         fetchServices();
         }
-    }, [services,token]);
+    }, [services,token,setServices]);
 
     const fetchServices = async () => {
         try {
@@ -65,7 +65,7 @@ const ServiceList = () => {
 
     const handleAddService = () => {
         // navigate("/home/create-service"); // Navigate to add service page
-        navigate("/home/services/addservice")
+        navigate("/home/services/add-service")
     };
     // console.log(services);
     return (

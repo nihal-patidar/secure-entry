@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import api from "../../axiosConfig";
 import { ServiceContext } from "../context/ServiceContext";
 import BouncingDotsLoader from "../components/small/BouncingDotsLoader";
+import { Button } from "@material-tailwind/react";
 
 const UpdateService = () => {
   const { serviceId } = useParams();
@@ -43,7 +44,7 @@ const UpdateService = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (!serviceData){
+    if (!serviceData) {
       toast.error("Error in Data");
       return;
     }
@@ -96,14 +97,19 @@ const UpdateService = () => {
 
       const payload = {
         ...formData,
-        ticket_price: formData.paymentOption === "Free" ? "0" : formData.ticket_price,
+        ticket_price:
+          formData.paymentOption === "Free" ? "0" : formData.ticket_price,
       };
 
-      const res = await api.put(`/service/updateService/${serviceId}`, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await api.put(
+        `/service/updateService/${serviceId}`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const updated = res.data?.serviceData;
       if (!updated || !updated._id) {
@@ -126,6 +132,34 @@ const UpdateService = () => {
     }
   };
 
+  const handleDelete = async () => {
+    //console.log("current service id", currentServiceFormId);
+    const token = localStorage.getItem("userData");
+    if (!token) return toast.error("Token missing. Please log in again.");
+
+    await api
+      .post(`/service/deleteService/${serviceId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        navigate("/home/services");
+        // setService((prev) => prev.filter((item) => item._id !== serviceId));
+        // window.location.reload();
+        setService((prev) => {
+          const updatedServices = { ...prev };
+          delete updatedServices[serviceId];
+          return updatedServices;
+        });
+      })
+      .catch((err) => {
+        //console.log(err.response.data);
+        toast.warning(err.response.data.msg);
+      });
+    // closePopup("updateServiceForm");
+  };
+
   if (!serviceData) {
     return (
       <div className="flex justify-center items-center h-[90vh]">
@@ -135,8 +169,12 @@ const UpdateService = () => {
   }
   return (
     <div className="absolute top-[109px] left-[134px] w-[1160px] h-[559px] rounded-[15px] border border-gray-300 px-[44px] py-[23px] bg-white flex flex-col gap-[24px] overflow-hidden">
-      <h2 className="text-[26px] font-semibold text-gray-800">Update Service</h2>
-      <p className="text-sm text-gray-500 -mt-2">Edit the form and update your service</p>
+      <h2 className="text-[26px] font-semibold text-gray-800">
+        Update Service
+      </h2>
+      <p className="text-sm text-gray-500 -mt-2">
+        Edit the form and update your service
+      </p>
 
       <div className="flex-grow hide-scrollbar overflow-y-auto pr-2">
         <form onSubmit={handleSubmit}>
@@ -144,7 +182,9 @@ const UpdateService = () => {
             {/* Left */}
             <div className="flex flex-col gap-6 max-w-[662px] md:w-[66%]">
               <div className="flex flex-col gap-2 w-full">
-                <p className="text-sm text-gray-700 font-medium">Upload an Image</p>
+                <p className="text-sm text-gray-700 font-medium">
+                  Upload an Image
+                </p>
                 {!previewImage ? (
                   <div className="flex justify-center">
                     <label className="relative flex items-center justify-center w-full h-[180px] px-5 border-2 border-dashed border-indigo-300 bg-indigo-100 rounded-[10px] cursor-pointer text-center">
@@ -231,10 +271,15 @@ const UpdateService = () => {
             {/* Right */}
             <div className="flex flex-col justify-end gap-[30px] w-full md:w-[34%]">
               <div className="flex flex-col gap-2">
-                <span className="text-base font-medium text-gray-700">Payment Option</span>
+                <span className="text-base font-medium text-gray-700">
+                  Payment Option
+                </span>
                 <div className="flex gap-6">
                   {["Paid", "Free"].map((opt) => (
-                    <label key={opt} className="flex items-center gap-3 cursor-pointer">
+                    <label
+                      key={opt}
+                      className="flex items-center gap-3 cursor-pointer"
+                    >
                       <input
                         type="radio"
                         name="paymentOption"
@@ -289,6 +334,12 @@ const UpdateService = () => {
           </div>
 
           <div className="mt-6 text-center bg-white pt-2 pb-1">
+            <Button
+              className="theme-button h-10 w-fit hover:bg-[#D91656]"
+              onClick={handleDelete}
+            >
+              Delete
+            </Button>
             <button
               type="submit"
               disabled={isSubmitting}
