@@ -12,10 +12,10 @@ import SignupPage from "./pages/login/SignUp";
 import VerifyOTP from "./pages/login/VerifyOtp";
 import QrGuyImage from "./assets/images/QrGuy.jpg";
 import SochRahaHaiImage from "./assets/images/SochRahaHai.png";
-
+import Ticket from "./utils/Ticket.jsx";
 import ServiceWorkSpace from "./pages/ServiceWorkspace";
 import FormPrev from "./pages/FormPrev.jsx";
-import TicketPrev from "./pages/TicketPrev.jsx"
+import TicketPrev from "./pages/TicketPrev.jsx";
 import ValidatorWorkSpace from "./pages/ValidatorWorkSpace";
 import ServiceVisitors from "./pages/ServiceVisitors";
 import CreateValidatorForm from "./forms/AddValidator.jsx";
@@ -79,7 +79,7 @@ const router = createBrowserRouter([
         path: "services",
         element: <ServiceLayout />,
         children: [
-          { path: "", element: <ServiceList />},
+          { path: "", element: <ServiceList /> },
           {
             path: "create",
             element: <CreateService />,
@@ -88,15 +88,14 @@ const router = createBrowserRouter([
             path: ":serviceId",
             element: <ServiceLayout />, // optional if you want a layout for serviceId children
             children: [
-              { path: "", element: <ServiceDetails />},
-              { path: "update", element: <UpdateServiceForm />},
-              { path: "build-form", element: <BuildForm />},
-              { path: "form-prev", element: <FormPrev />},
-              { path: "ticket-prev", element: <TicketPrev />},
-              { path: "visitors",element: <ServiceVisitors />},
-              { path: "validators",element: <ValidatorList />},
-              { path: "add-validator",element: <AddValidator />},
-
+              { path: "", element: <ServiceDetails /> },
+              { path: "update", element: <UpdateServiceForm /> },
+              { path: "build-form", element: <BuildForm /> },
+              { path: "form-prev", element: <FormPrev /> },
+              { path: "ticket-prev", element: <TicketPrev /> },
+              { path: "visitors", element: <ServiceVisitors /> },
+              { path: "validators", element: <ValidatorList /> },
+              { path: "add-validator", element: <AddValidator /> },
             ],
           },
         ],
@@ -110,8 +109,8 @@ const router = createBrowserRouter([
         element: <ServiceVisitors />,
       },
       // {
-        // path: "create-validator-form",
-        // element: <CreateValidatorForm />,
+      // path: "create-validator-form",
+      // element: <CreateValidatorForm />,
       // },
       // {
       //   path: "create-service",
@@ -124,6 +123,10 @@ const router = createBrowserRouter([
       {
         path: "update-service-data",
         element: <UpdateServiceForm />,
+      },
+      {
+        path: "ticket",
+        element: <Ticket />,
       },
     ],
   },
