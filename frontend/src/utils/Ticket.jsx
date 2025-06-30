@@ -48,10 +48,10 @@ export default function EventTicket({
             {/* Event Details Section */}
             <div className="relative flex justify-between w-full">
               <div className="bg-[#8326d4]">
-                <div className="relative w-8 h-8 bg-[url('./assets/Ellipse44.png')] bg-center z-50"></div>
+                <div className="relative w-8 h-8 bg-[url('./assets/images/Ellipse44.png')] bg-center z-50"></div>
               </div>
               <div className="bg-[#8326d4]">
-                <div className="relative w-8 h-8 bg-[url('./assets/Ellipse44.png')] bg-center z-50"></div>
+                <div className="relative w-8 h-8 bg-[url('./assets/images/Ellipse44.png')] bg-center z-50"></div>
               </div>
             </div>
             <div className="px-8 py-8 pb-6">
@@ -133,10 +133,10 @@ export default function EventTicket({
             </div>
             <div className="relative flex justify-between w-full ">
               <div className="bg-[#8326d4]">
-                <div className="relative rounded-full w-8 h-8 bg-[url('./assets/Ellipse44.png')] bg-center z-50"></div>
+                <div className="relative rounded-full w-8 h-8 bg-[url('./assets/images/Ellipse44.png')] bg-center z-50"></div>
               </div>
               <div className="bg-[#8326d4]">
-                <div className="relative w-8 h-8 bg-[url('./assets/Ellipse44.png')] bg-center z-50"></div>
+                <div className="relative w-8 h-8 bg-[url('./assets/images/Ellipse44.png')] bg-center z-50"></div>
               </div>
             </div>
 
