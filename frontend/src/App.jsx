@@ -122,7 +122,7 @@ const router = createBrowserRouter([
         children: [
           { path: "", element: <ServiceList />},
           {
-            path: "addservice",
+            path: "create",
             element: <CreateService />,
           },
           {
