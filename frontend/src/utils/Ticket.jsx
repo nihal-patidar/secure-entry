@@ -1,5 +1,7 @@
 import { ArrowLeft, Settings, MapPin, Calendar, Clock } from "lucide-react";
-import {useNavigate } from "react-router-dom";
+import html2canvas from "html2canvas";
+
+ import { useLocation, Link, useNavigate } from "react-router-dom";
 
 export default function EventTicket({
   eventName = "Event Name",
@@ -14,9 +16,21 @@ export default function EventTicket({
   description = "A 36 Hour held by Jabalpur Engineering college. Showcase your programming skills and innovative ideas.",
 }) {
   const navigate = useNavigate();
-  const handleNavigationButton = () => {
+   const handleNavigationButton = () => {
     navigate(-1);
   };
+
+  const handleDownload = () => {
+    const ticket = document.getElementById("ticket")
+    html2canvas(ticket).then((canvas) => {
+      const link = document.createElement("a")
+      link.download = 'ticket.png'
+      link.href = canvas.toDataURL()
+      link.click()
+    })
+  }
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-700 via-purple-600  to-blue-500 p-4 flex flex-col">
@@ -40,20 +54,18 @@ export default function EventTicket({
       </div>
 
       {/* Ticket Card Container */}
-      <div className="flex-1 flex items-center justify-center">
+      <div >
+        <div className="flex-1 flex items-center justify-center">
         <div className="relative w-full max-w-sm">
-
+          <div id="ticket">
           {/* Main Ticket Card */}
-          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden relative">
+          <div className="bg-white  shadow-2xl overflow-hidden relative">
             {/* Event Details Section */}
             <div className="relative flex justify-between w-full">
-              <div className="bg-[#8326d4]">
-                <div className="relative w-8 h-8 bg-[url('./assets/images/Ellipse44.png')] bg-center z-50"></div>
-              </div>
-              <div className="bg-[#8326d4]">
-                <div className="relative w-8 h-8 bg-[url('./assets/images/Ellipse44.png')] bg-center z-50"></div>
-              </div>
-            </div>
+              {/* <div className="bg-[#8326d4]"> */}
+                {/* <div className="relative w-8 h-8 bg-[url('./assets/Ellipse44.png')] bg-center z-50"></div> */}
+<div className="relative w-12 h-12 z-50 -m-3 -top-3 -left-3 rounded-full bg-[#8326d4]"></div>              {/* </div> */}
+<div className="relative w-12 h-12 z-50 -m-3 -top-3 -right-3 rounded-full bg-[#8326d4]"></div>            </div>
             <div className="px-8 py-8 pb-6">
               <div className="text-center mb-8">
                 <h1 className="text-3xl font-bold text-gray-800 mb-2 leading-tight">
@@ -124,33 +136,33 @@ export default function EventTicket({
               </div>
 
               <div className="text-2xl font-bold text-gray-800 mb-6 tracking-[0.3em] font-mono">
-             QR Code
+                A1B2C3
               </div>
 
               <p className="text-gray-500 text-sm leading-relaxed px-2 font-medium">
                 {description}
               </p>
             </div>
-            <div className="relative flex justify-between w-full ">
-              <div className="bg-[#8326d4]">
-                <div className="relative rounded-full w-8 h-8 bg-[url('./assets/images/Ellipse44.png')] bg-center z-50"></div>
-              </div>
-              <div className="bg-[#8326d4]">
-                <div className="relative w-8 h-8 bg-[url('./assets/images/Ellipse44.png')] bg-center z-50"></div>
-              </div>
+            <div className="relative flex justify-between w-full">
+              {/* <div className="bg-[#8326d4]"> */}
+                {/* <div className="relative w-8 h-8 bg-[url('./assets/Ellipse44.png')] bg-center z-50"></div> */}
+                <div className="relative w-12 h-12 z-50 -m-3 -bottom-3 -left-3 rounded-full bg-[#8326d4]"></div>
+              {/* </div> */}
+             <div className="relative w-12 h-12 z-50 -m-3 -bottom-3 -right-3 rounded-full bg-[#8326d4]"></div>
             </div>
 
             {/* Bottom decorative elements */}
           </div>
         </div>
       </div>
-
+</div>
+      </div>
       {/* Action Buttons */}
       <div className="flex gap-4 mt-8 max-w-sm mx-auto w-full">
         <button className="flex-1 bg-transparent border-2 border-white/80 text-white py-4 px-6 rounded-xl font-semibold hover:bg-white hover:text-purple-600 transition-all duration-300 backdrop-blur-sm hover:shadow-lg">
           Share Ticket
         </button>
-        <button className="flex-1 bg-white text-purple-600 py-4 px-6 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl">
+        <button onClick={handleDownload} className="flex-1  bg-white text-purple-600 py-4 px-6 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl">
           Download Ticket
         </button>
       </div>
