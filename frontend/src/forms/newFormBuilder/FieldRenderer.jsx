@@ -15,6 +15,7 @@ import PhoneNumberField from "./fields/Phone";
 import Date from "./fields/Date";
 import TimeField from "./fields/Time";
 import InputFile from "./fields/InputField";
+import SpecialRendering from "./fields/SpecialRendering";
 
 // Field type to component mapping
 const fieldComponents = {
@@ -36,6 +37,7 @@ const fieldComponents = {
   Time: TimeField,
   "Upload Image" : InputFile,
   "Upload File" : InputFile,
+  "Payment Fields" : SpecialRendering
 };
 
 const FieldRenderer = ({
@@ -49,14 +51,11 @@ const FieldRenderer = ({
 }) => {
   const FieldComponent = fieldComponents[field.type];
 
-  // Skip Preview item
   if (field.field_type === "Preview") return null;
 
-  // Unknown field type
   if (!FieldComponent) {
     return null;
   }
-
   // Handle one-time rendered components
   if (["Cover", "Logo", "Timer", "Terms & Conditions"].includes(field.type)) {
     return (
@@ -67,7 +66,7 @@ const FieldRenderer = ({
         isBuilder={isBuilder}
         index={index}
         hasCover={hasCover}
-        isPreview={!isBuilder} // ✅ preview mode
+        isPreview={!isBuilder} 
       />
     );
   }

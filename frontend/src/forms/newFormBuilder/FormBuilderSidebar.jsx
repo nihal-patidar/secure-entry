@@ -21,7 +21,8 @@ import {
   GalleryVertical,
   ScanEye,
   Eye,
-  CloudUpload ,
+  CloudUpload,
+  IndianRupee,
 } from "lucide-react";
 
 const FormBuilderSidebar = ({ onFieldSelect, activeTab, setActiveTab }) => {
@@ -57,8 +58,7 @@ const FormBuilderSidebar = ({ onFieldSelect, activeTab, setActiveTab }) => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMobile, isSidebarOpen]);
 
   const toggleSection = (section) => {
@@ -109,6 +109,7 @@ const FormBuilderSidebar = ({ onFieldSelect, activeTab, setActiveTab }) => {
         { name: "Dropdown Selection", icon: ChevronDown },
         { name: "Upload File", icon: CloudUpload },
         { name: "Upload Image", icon: CloudUpload },
+        { name: "Payment Fields", icon: IndianRupee },
       ],
     },
     {
@@ -152,7 +153,9 @@ const FormBuilderSidebar = ({ onFieldSelect, activeTab, setActiveTab }) => {
       <div
         className={`sidebar-container ${isMobile ? "fixed" : "relative"} ${
           isMobile && !isSidebarOpen ? "-translate-x-full" : "translate-x-0"
-        } ${isMobile ? "z-40" : "z-auto"} w-80 bg-gray-50 border-r border-gray-200 h-screen flex transition-transform duration-300 ease-in-out`}
+        } ${
+          isMobile ? "z-40" : "z-auto"
+        } w-80 bg-gray-50 border-r border-gray-200 h-screen flex transition-transform duration-300 ease-in-out`}
       >
         {/* Left vertical tab panel */}
         <div className="w-20 bg-white border-r border-gray-200 flex flex-col items-center py-4 mt-2">
@@ -202,9 +205,7 @@ const FormBuilderSidebar = ({ onFieldSelect, activeTab, setActiveTab }) => {
                     onClick={() => toggleSection(section.title)}
                     className="w-full flex items-center justify-between p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
                   >
-                    <span className="font-medium text-sm">
-                      {section.title}
-                    </span>
+                    <span className="font-medium text-sm">{section.title}</span>
                     {collapsedSections[section.title] ? (
                       <ChevronRight className="w-4 h-4" />
                     ) : (
@@ -218,21 +219,22 @@ const FormBuilderSidebar = ({ onFieldSelect, activeTab, setActiveTab }) => {
                         const IconComponent = item.icon;
                         const isBlinking = blinkingItem === item.name;
 
+                        const isPayment = item.name === "Payment Fields";
+                        const baseClass = isPayment
+                          ? "bg-[#EAF1FF] text-[#2C3ED3] hover:bg-[#DBE8FF]"
+                          : isBlinking
+                          ? "bg-deep-purple-50 animate-pulse"
+                          : "hover:bg-gray-100";
+
                         return (
                           <button
                             key={item.name}
                             onClick={() => handleItemClick(item.name)}
-                            className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${
-                              isBlinking
-                                ? "bg-deep-purple-50 animate-pulse"
-                                : "hover:bg-gray-100"
-                            }`}
+                            className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${baseClass}`}
                           >
                             <IconComponent
                               className={`w-4 h-4 ${
-                                isBlinking
-                                  ? "text-[#2C3ED]"
-                                  : "text-gray-500"
+                                isPayment ? "text-[#2C3ED3]" : "text-gray-500"
                               }`}
                             />
                             <span className="text-sm">{item.name}</span>

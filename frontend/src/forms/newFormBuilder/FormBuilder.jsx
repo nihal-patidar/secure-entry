@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FormBuilderSidebar from "./FormBuilderSidebar";
 import FormCanvas from "./FormCanvas";
-import PreviewCanvas from "./PreviewCanvas"; 
+import PreviewCanvas from "./PreviewCanvas";
 
 const FormBuilder = () => {
   const [formConfig, setFormConfig] = useState({
@@ -9,8 +9,8 @@ const FormBuilder = () => {
     description: "Form Description",
     fields: [],
   });
-
-  const [activeTab, setActiveTab] = useState("Fields"); 
+  const [formKey, setFormKey] = useState(0);
+  const [activeTab, setActiveTab] = useState("Fields");
 
   const addField = (type) => {
     if (["Cover", "Logo", "Timer", "Terms & Conditions"].includes(type)) {
@@ -96,7 +96,12 @@ const FormBuilder = () => {
       {activeTab === "Fields" ? (
         <FormCanvas formConfig={formConfig} setFormConfig={setFormConfig} />
       ) : (
-        <PreviewCanvas formConfig={formConfig} />
+        <PreviewCanvas
+          key={formKey}
+          formConfig={formConfig}
+          setFormConfig={setFormConfig}
+          triggerRerender={() => setFormKey((prev) => prev + 1)}
+        />
       )}
     </div>
   );
