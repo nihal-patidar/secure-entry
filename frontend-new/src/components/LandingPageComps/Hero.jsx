@@ -1,6 +1,8 @@
 import React from "react";
 import { Ticket, ScanLine, ArrowRight } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
+// import  img1 from "../../../public/Images/iPhone-Frame-PNG-Photo.png"
+// import  anim1 from  "../../../public/Images/iPhone-Frame-PNG-Photo.png";
 export default function Hero() {
   const navigate = useNavigate();
   return (
@@ -85,13 +87,13 @@ export default function Hero() {
         {/* Right photo + video */}
         <div className="relative max-w-[300px] h-[600px] mx-auto transform -translate-x-2  lg:translate-x-[30%]">
           <img
-            src="Video-landing.gif"
+            src="/Images/Video-landing.gif"
             alt="Screen Animation"
             className="absolute w-[14rem] h-[29rem] top-[2.5rem] left-[2rem] object-cover rounded-lg z-0"
           />
 
           <img
-            src="iPhone-Frame-PNG-Photo.png"
+            src="/Images/iPhone-Frame-PNG-Photo.png"
             alt="Phone Frame"
             className="w-full h-full object-contain z-10 relative"
           />
