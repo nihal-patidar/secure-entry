@@ -1,45 +1,40 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { MdOutlinePeople } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
-import { apiConnector } from "../../api/apiconnector";
-import { validatorEndpoints } from "../../api/apis";
 import { toast } from "react-toastify";
-import { UserContext } from "../../context/UserContext";
+import api from "../../../axiosConfig";
 
 const ValidatorDetailsData = () => {
-  const { userData } = useContext(UserContext);
-  const [users, setUsers] = useState(userData || []);
+  const [validators, setValidators] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showPasswords, setShowPasswords] = useState({});
   const { serviceId } = useParams();
-  const token = localStorage.getItem("userData");
+  const token = localStorage.getItem("userData")?.token;
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchValidators = async () => {
+      setLoading(true);
       try {
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
+        const res = await api.get(`/validator/getValidators/${serviceId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-        const res = await apiConnector(
-          "GET",
-          validatorEndpoints.GET_VALIDATORS(serviceId),
-          null,
-          headers
-        );
+        console.log("Fetched Validators: ", res.data.validators);
 
         if (Array.isArray(res?.data?.validators)) {
-          setUsers(res.data.validators);
+          setValidators(res.data.validators);
         } else {
-          setUsers([]);
+          setValidators([]);
           toast.warning("No validators found.");
         }
       } catch (error) {
         console.error("Error fetching validators:", error);
-        setUsers([]);
         toast.error("Failed to fetch validator list.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -47,8 +42,8 @@ const ValidatorDetailsData = () => {
   }, [serviceId, token]);
 
   const handleDelete = (indexToDelete) => {
-    const updatedUsers = users.filter((_, index) => index !== indexToDelete);
-    setUsers(updatedUsers);
+    const updatedValidators = validators.filter((_, index) => index !== indexToDelete);
+    setValidators(updatedValidators);
     const updatedShowPasswords = { ...showPasswords };
     delete updatedShowPasswords[indexToDelete];
     setShowPasswords(updatedShowPasswords);
@@ -66,7 +61,7 @@ const ValidatorDetailsData = () => {
   };
 
   return (
-    <div className="w-full h-fit bg-white border border-[#EAEAEA] rounded-xl mx-auto mb-14 px-12 py-8">
+    <div className="w-full h-fit bg-white border border-[#EAEAEA] rounded-xl mx-auto mb-14 px-6 md:px-12 py-8">
       <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">Validators</h2>
 
       <div className="overflow-x-auto border border-gray-300 rounded-lg max-h-72 overflow-y-auto">
@@ -81,30 +76,22 @@ const ValidatorDetailsData = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-300">
-            {Array.isArray(users) && users.length > 0 ? (
-              users.map((user, index) => (
-                <tr key={index}>
-                  <td className="px-4 py-2">{user.name}</td>
-                  <td className="px-4 py-2">{user.email}</td>
-                  <td className="px-4 py-2">
-                    <div className="flex items-center">
-                      <span className="break-all tracking-wide">
-                        {showPasswords[index]
-                          ? user.password
-                          : "*".repeat(user.password?.length || 8)}
-                      </span>
-                      <button
-                        onClick={() => togglePasswordVisibility(index)}
-                        className="ml-2 text-black hover:text-gray-600 cursor-pointer"
-                        aria-label={`Toggle password visibility for ${user.name}`}
-                      >
-                        {showPasswords[index] ? (
-                          <AiOutlineEyeInvisible size={20} />
-                        ) : (
-                          <AiOutlineEye size={20} />
-                        )}
-                      </button>
-                    </div>
+            {loading ? (
+              <tr>
+                <td colSpan="5" className="text-center py-4 text-gray-500">
+                  Loading...
+                </td>
+              </tr>
+            ) : validators.length > 0 ? (
+              validators.map((user, index) => (
+                <tr key={user._id}>
+                  <td className="px-4 py-2">{user.validator_name}</td>
+                  <td className="px-4 py-2">{user.validator_email}</td>
+                  <td className="px-4 py-2 flex items-center gap-2 text-gray-500">
+                    {showPasswords[index] ? user.validator_password : "••••••••"}
+                    <button onClick={() => togglePasswordVisibility(index)}>
+                      {showPasswords[index] ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                    </button>
                   </td>
                   <td className="px-4 py-2">
                     <button

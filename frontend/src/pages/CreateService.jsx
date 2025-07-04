@@ -8,6 +8,7 @@ import {
   MdCheck,
 } from "react-icons/md";
 import { FaQrcode } from "react-icons/fa";
+import { RxCross2 } from "react-icons/rx";
 import UploadImage from "../components/small/UploadImage";
 import InputWithIcon from "../components/small/InputWithIcon";
 import SelectField from "../components/small/SelectField";
@@ -70,6 +71,11 @@ const CreateService = () => {
     }
   };
 
+  const removeFile = () => {
+    setFormData((prev) => ({ ...prev, service_image_url: null }));
+    setPreviewImage(null);
+  };
+
   const resetForm = () => {
     console.log("🧹 Resetting form...");
     setFormData({
@@ -112,7 +118,8 @@ const CreateService = () => {
 
       const cleanData = {
         ...rest,
-        ticket_price: formData.payment_option === "Free" ? "0" : formData.ticket_price,
+        ticket_price:
+          formData.payment_option === "Free" ? "0" : formData.ticket_price,
       };
 
       console.log("🧼 Clean data to send:", cleanData);
@@ -172,11 +179,12 @@ const CreateService = () => {
     }
   };
 
-
   return (
     <div className="absolute top-[109px] left-[134px] w-[1160px] h-[559px] rounded-[15px] border border-gray-300 px-[44px] py-[23px] bg-white flex flex-col gap-[24px] overflow-hidden">
       <h2 className="text-[26px] font-semibold text-gray-800">Add Service</h2>
-      <p className="text-sm text-gray-500 -mt-2">Fill this form to add a new service</p>
+      <p className="text-sm text-gray-500 -mt-2">
+        Fill this form to add a new service
+      </p>
 
       <div className="flex-grow hide-scrollbar overflow-y-auto pr-2">
         <form onSubmit={handleSubmit}>
@@ -184,7 +192,9 @@ const CreateService = () => {
             {/* Left */}
             <div className="flex flex-col gap-6 max-w-[662px] md:w-[66%]">
               <div className="flex flex-col gap-2 w-full">
-                <p className="text-sm text-gray-700 font-medium">Upload an Image</p>
+                <p className="text-sm text-gray-700 font-medium">
+                  Upload an Image
+                </p>
                 {!previewImage ? (
                   <div className="flex justify-center">
                     <label className="relative flex items-center justify-center w-full h-[180px] px-5 border-2 border-dashed border-indigo-300 bg-indigo-100 rounded-[10px] cursor-pointer text-center">
@@ -198,12 +208,19 @@ const CreateService = () => {
                     </label>
                   </div>
                 ) : (
-                  <div className="flex justify-center items-center w-full h-[180px]">
+                  <div className="flex justify-center items-center w-full h-[180px] relative">
                     <img
                       src={previewImage}
                       alt="Preview"
                       className="max-h-[160px] object-contain rounded-lg border"
                     />
+                    <button
+                      onClick={removeFile}
+                      className="absolute top-2 right-2  bg-red-50 hover:bg-red-100 text-red-400 text-sm p-1 rounded-full transition"
+                      title="Remove file"
+                    >
+                      <RxCross2 size={18} />
+                    </button>
                   </div>
                 )}
               </div>
@@ -277,10 +294,15 @@ const CreateService = () => {
             {/* Right */}
             <div className="flex flex-col justify-end gap-[30px] w-full md:w-[34%]">
               <div className="flex flex-col gap-2">
-                <span className="text-base font-medium text-gray-700">Payment Option</span>
+                <span className="text-base font-medium text-gray-700">
+                  Payment Option
+                </span>
                 <div className="flex gap-6">
                   {["Paid", "Free"].map((opt) => (
-                    <label key={opt} className="flex items-center gap-3 cursor-pointer">
+                    <label
+                      key={opt}
+                      className="flex items-center gap-3 cursor-pointer"
+                    >
                       <input
                         type="radio"
                         name="payment_option"

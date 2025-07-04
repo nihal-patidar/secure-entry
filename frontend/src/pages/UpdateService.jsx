@@ -11,6 +11,7 @@ import {
   MdAttachMoney,
   MdCheck,
 } from "react-icons/md";
+import { RxCross2 } from "react-icons/rx";
 import { FaQrcode } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../../axiosConfig";
@@ -86,6 +87,11 @@ const UpdateService = () => {
     }
   };
 
+  const removeFile = () => {
+    setFormData((prev) => ({ ...prev, service_image_url: null }));
+    setPreviewImage(null);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -132,33 +138,7 @@ const UpdateService = () => {
     }
   };
 
-  const handleDelete = async () => {
-    //console.log("current service id", currentServiceFormId);
-    const token = localStorage.getItem("userData");
-    if (!token) return toast.error("Token missing. Please log in again.");
-
-    await api
-      .post(`/service/deleteService/${serviceId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(() => {
-        navigate("/home/services");
-        // setService((prev) => prev.filter((item) => item._id !== serviceId));
-        // window.location.reload();
-        setService((prev) => {
-          const updatedServices = { ...prev };
-          delete updatedServices[serviceId];
-          return updatedServices;
-        });
-      })
-      .catch((err) => {
-        //console.log(err.response.data);
-        toast.warning(err.response.data.msg);
-      });
-    // closePopup("updateServiceForm");
-  };
+  
 
   if (!serviceData) {
     return (
@@ -198,12 +178,19 @@ const UpdateService = () => {
                     </label>
                   </div>
                 ) : (
-                  <div className="flex justify-center items-center w-full h-[180px]">
+                  <div className="flex justify-center items-center w-full h-[180px] relative">
                     <img
                       src={previewImage}
                       alt="Preview"
                       className="max-h-[160px] object-contain rounded-lg border"
                     />
+                    <button
+                      onClick={removeFile}
+                      className="absolute top-2 right-2  bg-red-50 hover:bg-red-100 text-red-400 text-sm p-1 rounded-full transition"
+                      title="Remove file"
+                    >
+                      <RxCross2 size={18} />
+                    </button>
                   </div>
                 )}
               </div>
@@ -334,12 +321,6 @@ const UpdateService = () => {
           </div>
 
           <div className="mt-6 text-center bg-white pt-2 pb-1">
-            <Button
-              className="theme-button h-10 w-fit hover:bg-[#D91656]"
-              onClick={handleDelete}
-            >
-              Delete
-            </Button>
             <button
               type="submit"
               disabled={isSubmitting}
