@@ -71,7 +71,7 @@ const ServiceList = () => {
     return (
         <>
         
-            <div className="flex-1 absolute right-7 left-12 px-4 pb-12 h-[90%] bg-[#F2F3F9] border border-[#EAEAEA] rounded-3xl mt-8 ml-16 lg:ml-16 ">
+            <div className="flex-1 absolute right-7 left-12 px-4 pb-12 bottom-10 top-10 bg-[#F2F3F9] border border-[#EAEAEA] rounded-3xl mt-8 ml-16 lg:ml-16 ">
                 {/* Section Header */}
                 <div className="sticky top-0 z-10 flex items-center justify-between mt-6 mb-5 px-2 sm:px-6 py-3  ">
                     <h1 className="text-[#4B4B4B]  text-xl md:text-2xl font-medium ">Services</h1>
@@ -82,9 +82,9 @@ const ServiceList = () => {
                         Add Services
                     </button>
                 </div>
-                <div className="max-h-[90%] px-2 w-full relative  z-30 ">
+                <div className="absolute  bottom-10 top-24  px-2 w-full   z-30 ">
                     {(!services || ((services && services.length === 0))) && (
-                    <div className="z-10 absolute left-[50%] top-[80%] flex justify-center items-center h-[300px] ">
+                    <div className="z-10  left-[50%] top-[80%] flex justify-center items-center h-[300px] ">
                         <BouncingDotsLoader/>
                     </div>
                     )}
@@ -99,7 +99,7 @@ const ServiceList = () => {
 
 
                 <section
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 overflow-y-auto max-h-[65vh] hide-scrollbar px-2"
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 overflow-y-auto absolute top-0 bottom-0 hide-scrollbar px-2 pr-10"
                 >
 
                     

@@ -121,6 +121,7 @@ function Card(props) {
           total: total,
           visited: visited,
           notvisited: notvisited,
+          // visitorData: visitordata, 
           visitorData: visitors,
         });
 
