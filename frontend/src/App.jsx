@@ -32,6 +32,8 @@ import ServiceList from "./pages/ServiceList.jsx";
 import ServiceLayout from "./pages/ServiceLayout.jsx";
 import ServiceDetails from "./pages/ServiceDetails.jsx";
 import BuildForm from "./forms/BuildForm.jsx";
+import VisitorForm from "./forms/VisitorForm/VistTheForm.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -44,8 +46,11 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <RegistrationPage />,
+  },  
+  {
+    path: "/visitor",
+    element: <VisitorForm />,
   },
-  
   {
     path: "/home",
     element: (
