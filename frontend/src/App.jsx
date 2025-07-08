@@ -50,8 +50,9 @@ import { AddValidatorForService } from "./components/services-new/AddValidatorFo
 
 
 
-// import BuildForm from "./forms/BuildForm.jsx";
 import VisitorForm from "./forms/VisitorForm/VistTheForm.jsx";
+import AttendanceSheet from './components/services-new/AttendanceSheet.jsx';
+
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
   {
     path: "/visitor",
     element: <VisitorForm />,
+  },
+  {
+    path:"/attendance",
+    element: <AttendanceSheet/>
   },
   {
     path: "/login",

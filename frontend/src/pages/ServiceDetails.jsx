@@ -128,7 +128,7 @@ const ServiceDetails = () => {
   // === Conditional Rendering ===
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center absolute right-7 left-12 h-[90%] ml-16 mt-8 bg-[#F2F3F9] rounded-3xl border border-[#EAEAEA]">
+      <div className="flex justify-center items-center absolute right-7 left-12 bottom-10 top-10 ml-16 mt-8 bg-[#F2F3F9] rounded-3xl border border-[#EAEAEA]">
         <div className="z-10 absolute left-[50%] top-[50%] flex justify-center items-center">
           <BouncingDotsLoader />
         </div>
@@ -138,7 +138,7 @@ const ServiceDetails = () => {
 
   if (error) {
     return (
-      <div className="flex justify-center items-center absolute right-7 left-12 h-[90%] ml-16 mt-8 bg-[#F2F3F9] rounded-3xl border border-[#EAEAEA]">
+      <div className="flex justify-center items-center absolute right-7 left-12 bottom-10 top-10 ml-16 mt-8 bg-[#F2F3F9] rounded-3xl border border-[#EAEAEA]">
         <p className="text-center text-red-500 text-3xl">
           {error?.message || "Something went wrong"}
         </p>
@@ -148,7 +148,7 @@ const ServiceDetails = () => {
 
   if (serviceData === -1) {
     return (
-      <div className="flex justify-center items-center absolute right-7 left-12 h-[90%] ml-16 mt-8 bg-[#F2F3F9] rounded-3xl border border-[#EAEAEA]">
+      <div className="flex justify-center items-center absolute right-7 left-12 bottom-10 top-10 ml-16 mt-8 bg-[#F2F3F9] rounded-3xl border border-[#EAEAEA]">
         <p className="text-center text-gray-500 text-3xl">
           No service details available.
         </p>
@@ -158,15 +158,14 @@ const ServiceDetails = () => {
 
   // === Main Render ===
   return (
-    <>
-    <div className="flex absolute right-7 left-12 h-[90%] ml-16 gap-8 mt-8">
+    <div className="flex absolute right-7 left-12 bottom-10 top-10 ml-16 gap-8 mt-8">
       <div className="w-full bg-[#F2F3F9] rounded-3xl pt-6 border border-[#EAEAEA]">
         <div className="flex justify-between items-center mb-8 lg:mx-14 mx-7">
           <h3 className="text-[#5621FF] text-xl md:text-2xl font-medium">
             {serviceData.service_name}
           </h3>
 
-          <div className="relative inline-block text-left" >
+          <div className="relative inline-block text-left">
             <button
               onClick={() => setShowMenu((prev) => !prev)}
               className="text-2xl p-2 rounded-full hover:bg-gray-100 transition"
@@ -186,39 +185,36 @@ const ServiceDetails = () => {
                   Update
                 </button>
                 <button
-  onClick={() => {
-    setShowMenu(false);
-    setShowModal(true); // ✅ this opens modal
-  }}
-  className="block w-full text-left px-10 py-2 text-md text-red-600 font-medium hover:bg-gray-200"
->
-  Delete
-</button>
-
+                  onClick={() => {
+                    setShowMenu(false);
+                    setShowModal(true); // ✅ this opens modal
+                  }}
+                  className="block w-full text-left px-10 py-2 text-md text-red-600 font-medium hover:bg-gray-200"
+                >
+                  Delete
+                </button>
               </div>
             )}
           </div>
         </div>
 
-        <div className="w-full h-[85%] overflow-y-scroll lg:px-14 px-3 flex flex-col gap-10 items-center">
+        <div className="w-full absolute bottom-6 top-24 overflow-y-scroll lg:px-14 px-3 flex flex-col gap-10 items-center">
           <InfoForm serviceId={serviceId} service={serviceData} />
           <Overview serviceId={serviceId} visitors={visitors} />
           <AddDataToValid serviceId={serviceId} />
           <ValidatorDetailsData serviceId={serviceId} />
         </div>
       </div>
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-[9999]  backdrop-blur-0  bg-opacity-50">
+          <ConfirmationModal
+            serviceName={serviceData?.service_name}
+            onCancel={() => setShowModal(false)}
+            onConfirm={handleDelete}
+          />
+        </div>
+      )}
     </div>
-
-   {showModal && (
-  <div className="fixed inset-0 flex items-center justify-center z-[9999]  backdrop-blur-0  bg-opacity-50">
-    <ConfirmationModal
-      serviceName={serviceData?.service_name} 
-      onCancel={() => setShowModal(false)}
-      onConfirm={handleDelete}
-    />
-  </div>
-)}
-    </>
   );
 };
 

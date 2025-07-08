@@ -388,3 +388,27 @@ input::-webkit-textfield-decoration-container {
 }
 
 
+/* //checkbox */
+.custom-checkbox {
+  background-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  vertical-align: middle;
+}
+
+.custom-checkbox:checked::before {
+  content: '✔';
+  position: absolute;
+  font-size: 0.875rem; /* slightly smaller */
+  color: #2C3ED3; /* blue-600 */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1;
+  font-weight: bold;
+}
+
+/* button ripple effect */
+
