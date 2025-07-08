@@ -41,7 +41,7 @@ const MainBody = () => {
                         className="px-6 pb-6 overflow-y-auto hide-scrollbar"
                         style={{ maxHeight: "calc(100vh - 220px)" }}
                     >
-                        <Cards />
+                        <Cards  />
                     </div>
                 </div>
             </div>

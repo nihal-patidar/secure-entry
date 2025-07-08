@@ -8,6 +8,8 @@ import AddDataToValid from "../components/services-new/AddDataToValid.jsx";
 import ValidatorDetailsData from "../components/services-new/ValidatorDetailsData.jsx";
 import BouncingDotsLoader from "../components/small/BouncingDotsLoader.jsx";
 import { ServiceContext } from "../context/ServiceContext.jsx";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import ConfirmationModal from "../components/ConfirmationModal.jsx";
 
 const ServiceDetails = () => {
   const token = useMemo(() => localStorage.getItem("userData"), []);
@@ -15,10 +17,12 @@ const ServiceDetails = () => {
   const location = useLocation();
   const { visitors } = location.state || {};
   const { serviceId } = useParams();
+  const [showModal, setShowModal] = useState(false);
 
   const { service, setService } = useContext(ServiceContext);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showMenu, setShowMenu] = useState(false);
 
   const serviceData = service?.[serviceId];
 
@@ -90,8 +94,35 @@ const ServiceDetails = () => {
   const handleUpdateService = () => {
     console.log("📝 Navigating to update page for:", serviceId);
     navigate(`/home/services/${serviceId}/update`, {
-      state: { service, updated: false },
+      state: { service, updated: true },
     });
+  };
+  const handleDelete = async () => {
+    //console.log("current service id", currentServiceFormId);
+    const token = localStorage.getItem("userData");
+    if (!token) return toast.error("Token missing. Please log in again.");
+
+    await api
+      .post(`/service/deleteService/${serviceId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        navigate("/home/services", { state: { updated: true } });
+        // setService((prev) => prev.filter((item) => item._id !== serviceId));
+        // window.location.reload();
+        setService((prev) => {
+          const updatedServices = { ...prev };
+          delete updatedServices[serviceId];
+          return updatedServices;
+        });
+      })
+      .catch((err) => {
+        //console.log(err.response.data);
+        toast.warning(err.response.data.msg);
+      });
+    // closePopup("updateServiceForm");
   };
 
   // === Conditional Rendering ===
@@ -127,18 +158,46 @@ const ServiceDetails = () => {
 
   // === Main Render ===
   return (
+    <>
     <div className="flex absolute right-7 left-12 h-[90%] ml-16 gap-8 mt-8">
       <div className="w-full bg-[#F2F3F9] rounded-3xl pt-6 border border-[#EAEAEA]">
         <div className="flex justify-between items-center mb-8 lg:mx-14 mx-7">
           <h3 className="text-[#5621FF] text-xl md:text-2xl font-medium">
             {serviceData.service_name}
           </h3>
-          <button
-            onClick={handleUpdateService}
-            className="button-primary scale-90 md:scale-100"
-          >
-            Update
-          </button>
+
+          <div className="relative inline-block text-left" >
+            <button
+              onClick={() => setShowMenu((prev) => !prev)}
+              className="text-2xl p-2 rounded-full hover:bg-gray-100 transition"
+            >
+              <PiDotsThreeOutlineVerticalFill />
+            </button>
+
+            {showMenu && (
+              <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-md z-50 ">
+                <button
+                  onClick={() => {
+                    setShowMenu(false);
+                    handleUpdateService();
+                  }}
+                  className="block w-full text-left px-10 py-2 text-md font-medium hover:bg-gray-200"
+                >
+                  Update
+                </button>
+                <button
+  onClick={() => {
+    setShowMenu(false);
+    setShowModal(true); // ✅ this opens modal
+  }}
+  className="block w-full text-left px-10 py-2 text-md text-red-600 font-medium hover:bg-gray-200"
+>
+  Delete
+</button>
+
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="w-full h-[85%] overflow-y-scroll lg:px-14 px-3 flex flex-col gap-10 items-center">
@@ -149,6 +208,17 @@ const ServiceDetails = () => {
         </div>
       </div>
     </div>
+
+   {showModal && (
+  <div className="fixed inset-0 flex items-center justify-center z-[9999]  backdrop-blur-0  bg-opacity-50">
+    <ConfirmationModal
+      serviceName={serviceData?.service_name} 
+      onCancel={() => setShowModal(false)}
+      onConfirm={handleDelete}
+    />
+  </div>
+)}
+    </>
   );
 };
 

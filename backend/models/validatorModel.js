@@ -9,7 +9,6 @@ const ValidatorSchema = new mongoose.Schema({
     },
     validator_image_url: {
         type: String,
-        required: true
     },
     validator_email: {
         type: String,

@@ -50,31 +50,31 @@ const InfoForm = ({serviceId, service}) => {
             </div>
             <div className="p-6">
               <h3 className="text-[#2D2D2D] text-2xl sm:text-3xl font-medium mb-5  ">
-                {service.service_name}
+                {service?.service_name}
               </h3>
 
               <div className="grid grid-cols-2 gap-10 ultrawide:grid-cols-3 justify-between divide-x divide-[#D8D8D8] pb-8 ">
                 <div className=" text-start ">
                   <div className="flex gap-2 items-center">
                     <CalendarDaysIcon className="w-4 text-[#717171]" />
-                    <p className="text-[#717171] text-sm sm:text-base">12 June 2025, 3:00 PM</p>
+                    <p className="text-[#717171] text-sm sm:text-base">{service?.service_date }  {} {service?.service_time}</p>
                   </div>
                   <div className="flex gap-2 items-center ">
                     <MapPinIcon className="w-4 text-[#717171]" />
-                    <p className="text-[#717171] text-sm sm:text-base">{service.service_address}</p>
+                    <p className="text-[#717171] text-sm sm:text-base">{service?.service_address}</p>
                   </div>
                 </div>
                 <div className="text-center ">
                   <p className="text-[12px] sm:text-sm font-semibold tracking-wider text-[#717171] ">
                     Validity
                   </p>
-                  <p className="text-secondary text-xl sm:text-2xl font-semibold ">{service.ticket_validity} Hours</p>
+                  <p className="text-secondary text-xl sm:text-2xl font-semibold ">{service?.ticket_validity} Hours</p>
                 </div>
                 <div className="text-center  ">
                   <p className="text-[12px] sm:text-sm font-semibold tracking-wider text-[#717171]">
                     Ticket Price
                   </p>
-                  <p className="text-secondary text-xl sm:text-2xl font-semibold">{service.ticket_price} Rs</p>
+                  <p className="text-secondary text-xl sm:text-2xl font-semibold">{service?.ticket_price} Rs</p>
                 </div>
               
 
@@ -83,7 +83,7 @@ const InfoForm = ({serviceId, service}) => {
                   <p className="text-[12px] sm:text-sm font-semibold tracking-wider text-[#717171] ">
                     Validators
                   </p>
-                  <p className="text-secondary text-xl sm:text-2xl font-semibold">{service.validater_list?.length}</p>
+                  <p className="text-secondary text-xl sm:text-2xl font-semibold">{service.validater_list.length}</p>
                 </div>
                 <div className="text-center ">
                   <p className="text-[12px] sm:text-sm font-semibold tracking-wider text-[#717171] ">
