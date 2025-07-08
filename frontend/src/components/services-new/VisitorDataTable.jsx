@@ -100,7 +100,7 @@ const VisitorDataTable = ({visitorData}) => {
 
 export default VisitorDataTable
 
-const SelectOperations = () => {
+export const SelectOperations = () => {
 
   return (
     <>

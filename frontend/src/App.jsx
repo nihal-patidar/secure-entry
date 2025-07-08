@@ -60,6 +60,7 @@ import UpdateForm from "./pages/UpdateForm.jsx";
 import ServiceVisitorsData from "./pages/ServiceVisitorsData.jsx";
 // import CreateService from "./pages/CreateService.jsx";
 import { AddValidatorForService } from "./components/services-new/AddValidatorForService.jsx";
+import AttendanceSheet from './components/services-new/AttendanceSheet.jsx';
 // =======
 // import ServiceWorkSpace from "./pages/ServiceWorkspace";
 // import ValidatorWorkSpace from "./pages/ValidatorWorkSpace";
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
     element: <RegistrationPage />,
   },
   {
+    path:"/attendance",
+    element: <AttendanceSheet/>
+  },
+  {
 
     path: "/home",
     element: (
@@ -94,6 +99,7 @@ const router = createBrowserRouter([
       </Auth>
     ),
     children: [
+      
       {
         path: "",
         element: <Dashboard />,
