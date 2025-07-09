@@ -33,6 +33,9 @@ select:-webkit-autofill {
     font-family: 'dm-sans', sans-serif;
   }
 
+ #root {
+  zoom: 0.8;
+}
 
 body {
     width: 100%;
