@@ -164,7 +164,8 @@ const downloadQR = () => {
     button-secondary-outline lg:text-sm  md:text-sm sm:text-sm  ultrawide:text-base whitespace-nowrap">Update Form</button>
                 <button
                 onClick={()=>{
-                  navigate(`/home/services/${serviceId}/form-prev`)
+                  // navigate(`/home/services/${serviceId}/form-prev`)
+                  navigate(`/form/${serviceId}`)
                 }}
                 className="w-full mb-3 
     button-secondary-outline lg:text-sm  md:text-sm sm:text-sm  ultrawide:text-base whitespace-nowrap">Preview Form</button>

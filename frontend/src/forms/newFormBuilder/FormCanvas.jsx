@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import FieldRenderer from "./FieldRenderer";
+import api from "../../../axiosConfig";
+import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 
 const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
+  const [serviceId, setServiceId] = useState();
+  const params = useParams();
+
+  useEffect(() => {
+    if (params.serviceId) {
+      setServiceId(params.serviceId);
+    }
+  }, []);
+
   const updateFormTitle = (title) => {
     setFormConfig((prev) => ({ ...prev, title }));
   };
@@ -51,6 +63,27 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
     (f) => !["Cover", "Logo", "Timer", "Terms & Conditions"].includes(f.type)
   );
 
+  const handleSaveForm = async () => {
+    try {
+      let token = localStorage.getItem("userData");
+      console.log(serviceId,token,formConfig);
+      if (serviceId && formConfig && token) {
+        let data = formConfig;
+        const response = await api.post(`/service/addForm/${serviceId}`, data, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response) {
+          toast.success("Login Successfully!");
+        }
+      }
+    } catch (err) {
+      console.log("err", err);
+    } finally {
+    }
+  };
+
   return (
     <div className="flex-1 overflow-y-auto p-4 ">
       <div className="bg-white rounded-lg shadow-sm max-w-6xl mx-auto">
@@ -60,7 +93,9 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
             <FieldRenderer
               field={coverField}
               onUpdate={(updates) => updateField(coverField.id, updates)}
-              onRemove={isPreview ? undefined : () => removeField(coverField.id)}
+              onRemove={
+                isPreview ? undefined : () => removeField(coverField.id)
+              }
               isBuilder={!isPreview}
             />
           )}
@@ -81,7 +116,9 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
             <FieldRenderer
               field={timerField}
               onUpdate={(updates) => updateField(timerField.id, updates)}
-              onRemove={isPreview ? undefined : () => removeField(timerField.id)}
+              onRemove={
+                isPreview ? undefined : () => removeField(timerField.id)
+              }
               isBuilder={!isPreview}
             />
           )}
@@ -124,7 +161,9 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
                   index={index}
                   onUpdate={(updates) => updateField(field.id, updates)}
                   onRemove={isPreview ? undefined : () => removeField(field.id)}
-                  onDuplicate={isPreview ? undefined : () => duplicateField(field, index)}
+                  onDuplicate={
+                    isPreview ? undefined : () => duplicateField(field, index)
+                  }
                   isBuilder={!isPreview}
                 />
               ))}
@@ -132,10 +171,19 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
                 <FieldRenderer
                   field={termsField}
                   onUpdate={(updates) => updateField(termsField.id, updates)}
-                  onRemove={isPreview ? undefined : () => removeField(termsField.id)}
+                  onRemove={
+                    isPreview ? undefined : () => removeField(termsField.id)
+                  }
                   isBuilder={!isPreview}
                 />
               )}
+              <button
+                type="submit"
+                onClick={handleSaveForm}
+                className="bg-[#2F44FF] m-auto hover:bg-[#1e2fd6] text-white font-semibold px-6 py-2 active:bg-[#2F44FF] rounded-lg flex items-center justify-center transition duration-200"
+              >
+                Save & Exit
+              </button>
             </div>
           ) : (
             <div className="text-center py-12 text-gray-500">

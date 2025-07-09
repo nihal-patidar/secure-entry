@@ -1,8 +1,8 @@
 export const BASE_URL_PRODUCTION = "https://secure-entry-1.onrender.com";
 export const BASE_URL_DEVELOPMENT = "http://localhost:3000";
 
-export const BASE_URL = BASE_URL_DEVELOPMENT ;
-// export const BASE_URL = BASE_URL_PRODUCTION ;
+// export const BASE_URL = BASE_URL_DEVELOPMENT ;
+export const BASE_URL = BASE_URL_PRODUCTION ;
 
 
 export const APP_NAME = "MyApp";

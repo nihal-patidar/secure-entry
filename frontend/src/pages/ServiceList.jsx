@@ -53,8 +53,10 @@ const ServiceList = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (response.data.services.length > 0)
+      if (response.data.services.length > 0){
         setServices(response.data.services);
+        console.log(response.data.services);
+      }
       else {
         setServices([-1]);
         toast.warning("No Services Available");

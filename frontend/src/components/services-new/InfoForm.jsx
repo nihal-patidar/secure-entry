@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import eventImg from "../../assets/serviceimg/codekumbh.png";
@@ -25,7 +25,13 @@ _id: "68557705dfa0ab47cb0df6ae"
 
 const InfoForm = ({serviceId, service}) => {
   const [formCreated, setFormCreated] = useState(false);
+  
+  useEffect(()=>{
+    if(service?.form_structure){
+      setFormCreated(true);
 
+    }
+  })
   const navigate = useNavigate() 
 
   const handleCreateForm = () => {

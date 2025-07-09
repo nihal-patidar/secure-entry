@@ -25,7 +25,7 @@ const Services = () => {
         },
       })
       .then((response) => {
-        //console.log("services Data -- ", response.data.services);
+        console.log("services Data -- ", response.data.services);
         //console.log("services fetched request");
         setServices(response.data.services);
         //console.log(response.data.services);

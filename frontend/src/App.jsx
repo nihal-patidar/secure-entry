@@ -50,7 +50,8 @@ import { AddValidatorForService } from "./components/services-new/AddValidatorFo
 
 
 
-import VisitorForm from "./forms/VisitorForm/VistTheForm.jsx";
+// import VisitorForm from "./forms/VisitorForm/VistTheForm.jsx";
+import VisitorForm from './forms/newFormBuilder/VisitorForm.jsx';
 import AttendanceSheet from './components/services-new/AttendanceSheet.jsx';
 
 
@@ -67,10 +68,10 @@ const router = createBrowserRouter([
     path: "/create-account",
     element: <SignupPage />,
   },  
-  {
-    path: "/visitor",
-    element: <VisitorForm />,
-  },
+  // {
+  //   path: "/visitor",
+  //   element: <VisitorForm />,
+  // },
   {
     path:"/attendance",
     element: <AttendanceSheet/>
@@ -126,8 +127,13 @@ const router = createBrowserRouter([
   },
   {
     path: "/form/:formId",
-    element: <StepForTicket />,
+    element: <VisitorForm />,
   },
+
+  // {
+  //   path: "/form/:formId",
+  //   element: <StepForTicket />,
+  // },
 
 ]);
 function App() {
