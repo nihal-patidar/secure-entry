@@ -145,7 +145,7 @@ const ServiceList = () => {
             </p>
           )}
 
-          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 overflow-y-auto max-h-[65vh] hide-scrollbar px-2">
+          {/* <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 overflow-y-auto max-h-[65vh] hide-scrollbar px-2">
             {services &&
               !error &&
               services.length > 0 &&
@@ -164,7 +164,7 @@ const ServiceList = () => {
                   setCountVisitors={setCountVisitorsHandler}
                 />
               ))}
-          </section>
+          </section> */}
         {/* </div> */}
       {/* </div> */}
     </>
