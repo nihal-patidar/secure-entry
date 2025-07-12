@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import FormBuilderSidebar from "./FormBuilderSidebar";
 import FormCanvas from "./FormCanvas";
 import PreviewCanvas from "./PreviewCanvas";
-import { id } from "zod/v4/locales";
+import { useParams } from "react-router-dom";
+import api from "../../../axiosConfig";
+// import { id } from "zod/v4/locales";
 
 const FormBuilder = () => {
   const [formConfig, setFormConfig] = useState({
@@ -12,6 +14,27 @@ const FormBuilder = () => {
   });
   const [formKey, setFormKey] = useState(0);
   const [activeTab, setActiveTab] = useState("Fields");
+  const params = useParams();
+
+  useEffect(() => {
+    let formId = params.serviceId ;
+    if (!formId) return;
+
+    const fetchFormData = async () => {
+      try {
+        const response = await api.get(`/service/getStructure/${formId}`);
+        console.log("response data",response.data)
+        if(response.data?.form_structure){
+          setFormConfig(response.data.form_structure);
+
+        }
+      } catch (error) {
+        console.error("Failed to fetch form structure:", error);
+      }
+    };
+
+    fetchFormData();
+  }, []);
 
   const addField = (type, idd = formConfig.fields.length) => {
     console.log("Adding field of type:", type, idd, "final formCOnfig:" , formConfig);

@@ -53,6 +53,7 @@ import { AddValidatorForService } from "./components/services-new/AddValidatorFo
 // import VisitorForm from "./forms/VisitorForm/VistTheForm.jsx";
 import VisitorForm from './forms/newFormBuilder/VisitorForm.jsx';
 import AttendanceSheet from './components/services-new/AttendanceSheet.jsx';
+import TicketForm from './forms/newFormBuilder/TicketForm.jsx';
 
 
 const router = createBrowserRouter([
@@ -101,7 +102,7 @@ const router = createBrowserRouter([
               { path: "", element: <ServiceDetails />},
               { path: "update", element: <UpdateService />},
               { path: "build-form", element: <CreateVisitorForm />},
-              { path: "update-form", element: <UpdateForm/>},
+              { path: "update-form", element: <CreateVisitorForm/>},
               { path: "form-prev", element: <FormPrev />},
               { path: "ticket-prev", element: <TicketPrev />},
               { path: "visitors",element: <ServiceVisitorsData/>},
@@ -128,7 +129,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/form/:formId",
-    element: <VisitorForm />,
+    element: <TicketForm />,
   },
 
   // {

@@ -1,24 +1,37 @@
 import React, { useState } from "react";
 
-const FullName = ({ onRemove, isPreview = false, field = {}, onUpdate }) => {
+const FullName = ({
+  onRemove,
+  isPreview = false,
+  field = {},
+  onUpdate,
+  register, // ✅ used in preview mode only
+}) => {
   const [firstName, setFirstName] = useState(field.firstName || "");
   const [lastName, setLastName] = useState(field.lastName || "");
   const [note, setNote] = useState(field.note || "");
   const [description, setDescription] = useState(field.description || "Full Name");
   const [firstNameLabel, setFirstNameLabel] = useState(field.firstNameLabel || "First Name");
   const [lastNameLabel, setLastNameLabel] = useState(field.lastNameLabel || "Last Name");
-  const [firstNamePlaceholder, setFirstNamePlaceholder] = useState(field.firstNamePlaceholder || "Enter your first name");
-  const [lastNamePlaceholder, setLastNamePlaceholder] = useState(field.lastNamePlaceholder || "Enter your last name");
+  const [firstNamePlaceholder, setFirstNamePlaceholder] = useState(
+    field.firstNamePlaceholder || "Enter your first name"
+  );
+  const [lastNamePlaceholder, setLastNamePlaceholder] = useState(
+    field.lastNamePlaceholder || "Enter your last name"
+  );
 
   const handleChange = (setter, key) => (e) => {
     setter(e.target.value);
     if (onUpdate) onUpdate({ ...field, [key]: e.target.value });
   };
 
+  // Used to create unique field names for registration
+  const fieldKey = field.description || "Full Name";
+
   return (
     <div className="w-full relative group bg-white rounded-lg ">
       <div className="max-w-3xl mx-auto relative bg-white px-8 rounded-lg space-y-4">
-        {/* Description / Heading with optional red asterisk */}
+        {/* Heading / Description */}
         {isPreview ? (
           <div className="text-black text-lg font-medium">
             {description}
@@ -34,69 +47,61 @@ const FullName = ({ onRemove, isPreview = false, field = {}, onUpdate }) => {
           />
         )}
 
-        {/* First + Last Name */}
+        {/* First and Last Name Fields */}
         <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
           {/* First Name */}
           <div className="flex flex-col w-full sm:w-1/2">
-            {isPreview ? (
-              <label className="text-sm font-semibold text-gray-600 bg-white mb-1">
-                {firstNameLabel}
-              </label>
+            <label className="text-sm font-semibold text-gray-600 bg-white mb-1">
+              {firstNameLabel}
+            </label>
+            {/* {isPreview ? ( */}
+            {isPreview && typeof register === "function" ? (
+              <input
+                {...register(`${fieldKey}_first`)} // ✅ Register for react-hook-form
+                type="text"
+                placeholder={firstNamePlaceholder}
+                className="border border-gray-400 rounded-lg px-4 py-2 outline-none bg-white"
+              />
             ) : (
-              <input
-                type="text"
-                value={firstNameLabel}
-                onChange={handleChange(setFirstNameLabel, "firstNameLabel")}
-                className="text-sm font-semibold text-gray-600 bg-white mb-1 outline-none rounded px-1 py-0.5"
-              />
-            )}
-            <input
-              value={firstName}
-              onChange={handleChange(setFirstName, "firstName")}
-              type="text"
-              placeholder={firstNamePlaceholder}
-              className="border border-gray-400 rounded-lg px-4 py-2 outline-none bg-white"
-            />
-            {!isPreview && (
-              <input
-                type="text"
-                value={firstNamePlaceholder}
-                onChange={handleChange(setFirstNamePlaceholder, "firstNamePlaceholder")}
-                className="text-xs text-gray-400 bg-white mt-1 outline-none rounded px-1 py-0.5"
-                placeholder="Enter placeholder"
-              />
+              <>
+               
+                <input
+                  value={firstName}
+                  onChange={handleChange(setFirstName, "firstName")}
+                  type="text"
+                  placeholder={firstNamePlaceholder}
+                  className="border border-gray-400 rounded-lg px-4 py-2 outline-none bg-white"
+                />
+            
+              </>
             )}
           </div>
 
           {/* Last Name */}
           <div className="flex flex-col w-full sm:w-1/2">
-            {isPreview ? (
-              <label className="text-sm font-semibold text-gray-600 mb-1">
-                {lastNameLabel}
-              </label>
+            <label className="text-sm font-semibold text-gray-600 mb-1">
+              {lastNameLabel}
+            </label>
+            {isPreview && typeof register === "function" ? (
+            // {isPreview ? (
+              <input
+                {...register(`${fieldKey}_last`)} // ✅ Register for react-hook-form
+                type="text"
+                placeholder={lastNamePlaceholder}
+                className="border border-gray-400 rounded-lg px-4 py-2 outline-none bg-white"
+              />
             ) : (
-              <input
-                type="text"
-                value={lastNameLabel}
-                onChange={handleChange(setLastNameLabel, "lastNameLabel")}
-                className="text-sm font-semibold text-gray-600 bg-white mb-1 outline-none rounded px-1 py-0.5"
-              />
-            )}
-            <input
-              value={lastName}
-              onChange={handleChange(setLastName, "lastName")}
-              type="text"
-              placeholder={lastNamePlaceholder}
-              className="border border-gray-400 rounded-lg px-4 py-2 outline-none bg-white"
-            />
-            {!isPreview && (
-              <input
-                type="text"
-                value={lastNamePlaceholder}
-                onChange={handleChange(setLastNamePlaceholder, "lastNamePlaceholder")}
-                className="text-xs text-gray-400 mt-1 outline-none bg-white rounded px-1 py-0.5"
-                placeholder="Enter placeholder"
-              />
+              <>
+               
+                <input
+                  value={lastName}
+                  onChange={handleChange(setLastName, "lastName")}
+                  type="text"
+                  placeholder={lastNamePlaceholder}
+                  className="border border-gray-400 rounded-lg px-4 py-2 outline-none bg-white"
+                />
+               
+              </>
             )}
           </div>
         </div>

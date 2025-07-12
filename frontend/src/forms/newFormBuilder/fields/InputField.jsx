@@ -1,3 +1,4 @@
+// ✅ InputFile.jsx with register support
 import React, { useRef, useState } from "react";
 
 const InputFile = ({
@@ -5,26 +6,14 @@ const InputFile = ({
   isPreview = false,
   field = {},
   onUpdate,
+  register
 }) => {
   const inputRef = useRef();
   const [fileName, setFileName] = useState(field.fileName || "");
   const [description, setDescription] = useState(field.description || name);
   const [note, setNote] = useState(field.note || "");
 
-  // Extract type from name ("Upload File" or "Upload Image")
   const type = name.split(" ")[1] || "File";
-
-  const handleFileClick = () => {
-    inputRef.current?.click();
-  };
-
-  const handleFileChange = (event) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setFileName(file.name);
-      onUpdate?.({ ...field, fileName: file.name });
-    }
-  };
 
   const handleChange = (setter, key) => (e) => {
     setter(e.target.value);
@@ -34,8 +23,6 @@ const InputFile = ({
   return (
     <div className="w-full relative group bg-white rounded-lg">
       <div className="max-w-3xl mx-auto bg-white px-8 rounded-lg space-y-4">
-
-        {/* Description Heading with optional red asterisk */}
         {isPreview ? (
           <div className="text-black text-lg font-medium">
             {description}
@@ -51,9 +38,8 @@ const InputFile = ({
           />
         )}
 
-        {/* File/Image Upload Box */}
         <div
-          onClick={handleFileClick}
+          onClick={() => inputRef.current?.click()}
           className={`w-full flex items-center justify-between px-4 py-3 border-2 border-dashed rounded-lg transition duration-200 ${
             isPreview
               ? "border-gray-200 bg-white cursor-pointer hover:border-blue-400"
@@ -66,13 +52,19 @@ const InputFile = ({
           <span className="text-blue-600 font-medium">Browse</span>
           <input
             type="file"
+            {...(isPreview && register ? register(field.description || "Upload File") : {})}
             ref={inputRef}
-            onChange={handleFileChange}
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                setFileName(file.name);
+                onUpdate?.({ ...field, fileName: file.name });
+              }
+            }}
             className="hidden"
           />
         </div>
 
-        {/* Note */}
         {isPreview ? (
           note && <div className="text-xs text-gray-400 mt-1">{note}</div>
         ) : (

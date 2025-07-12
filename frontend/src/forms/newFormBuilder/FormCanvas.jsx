@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import FieldRenderer from "./FieldRenderer";
 import api from "../../../axiosConfig";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PaymentField from "./fields/PaymentField";
 
 const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
   const [serviceId, setServiceId] = useState();
   const params = useParams();
+  const navigate = useNavigate();
   const coverField = formConfig.fields.find((f) => f.type === "Cover");
   const logoField = formConfig.fields.find((f) => f.type === "Logo");
   const timerField = formConfig.fields.find((f) => f.type === "Timer");
@@ -80,7 +81,8 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
           },
         });
         if (response) {
-          toast.success("Login Successfully!");
+          toast.success("Form Successfully Created !");
+          navigate(-1);
         }
       }
     } catch (err) {
