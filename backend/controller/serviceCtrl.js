@@ -90,11 +90,14 @@ const addService = async (req, res) => {
 
 const createForm = async (req, res) => {
   let id = req.params.id;
+  // let formData = req.body ;
+  // console.log("form-data",data);
+
   try {
     let typeNumber = 5;
     let errorCorrectionLevel = "M";
     let mode = "Byte";
-    let text = `https://e-ticket-srt.netlify.app/form/${id}`;
+    let text = `https://secure-entry-new.netlify.app/form/${id}`;
     let size = 4;
     let mar = 0;
 
@@ -109,7 +112,7 @@ const createForm = async (req, res) => {
     // Generate QR code as SVG
     var svg = qr.createSvgTag({ cellSize: size, margin: mar });
     svg = svg.replace("\\", "");
-    let formData = req.body.formData;
+    let formData = req.body;
     let data = await serviceModel
       .findByIdAndUpdate(
         { _id: id },
@@ -194,6 +197,30 @@ const getThisService = async (req, res) => {
       success: false,
       err: err,
       msg: "Services Not Found!",
+    });
+  }
+};
+
+const getFormStructure = async (req, res) => {
+  console.log("getFormData called");
+  let id = req.params.id;
+  if (id == undefined) {
+    return res.status(400).json({
+      success: false,
+      msg: "FormData Not Found!",
+    });
+  }
+  try {
+    let serviceData = await serviceModel.findOne({ _id: id }).exec();
+    return res.status(200).json({
+      success: true,
+      form_structure : serviceData.form_structure,
+    });
+  } catch (err) {
+    return res.status(400).json({
+      success: false,
+      err: err,
+      msg: "FormData Not Found!",
     });
   }
 };
@@ -303,4 +330,5 @@ module.exports = {
   getThisService,
   updateService,
   deleteService,
+  getFormStructure
 };
