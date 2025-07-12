@@ -181,7 +181,7 @@ const FormBuilderSidebar = ({ onFieldSelect, activeTab, setActiveTab }) => {
         </div>
 
         {/* Right panel */}
-        <div className="flex-1 flex flex-col pb-24 mt-2">
+        <div className="flex-1 flex flex-col pb-0 mt-2">
           <div className="p-4 border-b border-gray-200">
             <div className="flex items-center justify-between">
               <h2 className="font-semibold text-gray-900">{activeTab}</h2>
@@ -215,7 +215,7 @@ const FormBuilderSidebar = ({ onFieldSelect, activeTab, setActiveTab }) => {
 
                   {!collapsedSections[section.title] && (
                     <div className="ml-2 mt-1">
-                      {section.items.map((item) => {
+                      {section.items.map((item, index) => {
                         const IconComponent = item.icon;
                         const isBlinking = blinkingItem === item.name;
 
@@ -227,18 +227,36 @@ const FormBuilderSidebar = ({ onFieldSelect, activeTab, setActiveTab }) => {
                           : "hover:bg-gray-100";
 
                         return (
-                          <button
-                            key={item.name}
-                            onClick={() => handleItemClick(item.name)}
-                            className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${baseClass}`}
-                          >
-                            <IconComponent
-                              className={`w-4 h-4 ${
-                                isPayment ? "text-[#2C3ED3]" : "text-gray-500"
-                              }`}
-                            />
-                            <span className="text-sm">{item.name}</span>
-                          </button>
+                          <div>
+                            {
+                              !item.name === "Payment Fields" ?
+                                <button
+                                  key={item.name}
+                                  onClick={() => handleItemClick(item.name)}
+                                  className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${baseClass}`}
+                                >
+                                  <IconComponent
+                                    className={`w-4 h-4 ${
+                                      isPayment ? "text-[#2C3ED3]" : "text-gray-500"
+                                    }`}
+                                  />
+                                  <span className="text-sm">{item.name}</span>
+                                </button>
+                                :
+                                <button
+                                  key={item.name}
+                                  onClick={() => handleItemClick(item.name, index)}
+                                  className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${baseClass}`}
+                                >
+                                  <IconComponent
+                                    className={`w-4 h-4 ${
+                                      isPayment ? "text-[#2C3ED3]" : "text-gray-500"
+                                    }`}
+                                  />
+                                  <span className="text-sm">{item.name}</span>
+                                </button>
+                              }
+                          </div>
                         );
                       })}
                     </div>

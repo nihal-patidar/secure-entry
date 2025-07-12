@@ -48,6 +48,7 @@ const FieldRenderer = ({
   isBuilder = true,
   hasCover = false,
   onDuplicate,
+  fieldList
 }) => {
   const FieldComponent = fieldComponents[field.type];
 
@@ -156,6 +157,7 @@ const FieldRenderer = ({
         isBuilder={isBuilder}
         index={index}
         isPreview={!isBuilder} // ✅ passed to all field components
+        fieldList={fieldList}
       />
     </div>
   );

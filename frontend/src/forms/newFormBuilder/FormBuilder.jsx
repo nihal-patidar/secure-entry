@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FormBuilderSidebar from "./FormBuilderSidebar";
 import FormCanvas from "./FormCanvas";
 import PreviewCanvas from "./PreviewCanvas";
+import { id } from "zod/v4/locales";
 
 const FormBuilder = () => {
   const [formConfig, setFormConfig] = useState({
@@ -12,8 +13,40 @@ const FormBuilder = () => {
   const [formKey, setFormKey] = useState(0);
   const [activeTab, setActiveTab] = useState("Fields");
 
-  const addField = (type) => {
+  const addField = (type, idd = formConfig.fields.length) => {
+    console.log("Adding field of type:", type, idd, "final formCOnfig:" , formConfig);
+    
+    if ("Payment Fields" === type) { 
+      setFormConfig((prev) => {
+        if (type === "Payment Fields") {
+          console.log("Adding payment field with id:", idd);
+          const newPaymentFeild = {
+            id: idd || Date.now().toString(),
+            type,
+            label: "Extra Payment Field",
+            required: false,
+            placeholder: `Enter ${type.toLowerCase()}`,
+            value: "",
+            amount:"",
+            options:[ { value:"A",id:`${idd}A`}, {value:"B",id:`${idd}B`}, {value:"C",id:`${idd}C`} ]
+          }
+          console.log("New payment field:", newPaymentFeild);
+          return {
+            ...prev,
+            fields: [
+              ...prev.fields,
+              newPaymentFeild,
+            ],
+          };
+        }
+
+        return {
+          ...prev,}
+      });
+      return ;
+    }
     if (["Cover", "Logo", "Timer", "Terms & Conditions"].includes(type)) {
+      
       setFormConfig((prev) => {
         const exists = prev.fields.some((f) => f.type === type);
         const newField = { id: Date.now().toString(), type };
@@ -66,9 +99,10 @@ const FormBuilder = () => {
             ],
           };
         }
-
+        
         return prev;
       });
+      return ;
     } else {
       const newField = {
         id: Date.now().toString(),
@@ -86,7 +120,7 @@ const FormBuilder = () => {
   };
 
   return (
-    <div className="flex h-screen text-black bg-gray-100 ml-10 pb-24">
+    <div className="flex h-screen text-black bg-gray-100 ml-10 pb-3">
       <FormBuilderSidebar
         onFieldSelect={addField}
         activeTab={activeTab}
