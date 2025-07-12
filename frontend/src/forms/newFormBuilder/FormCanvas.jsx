@@ -3,10 +3,25 @@ import FieldRenderer from "./FieldRenderer";
 import api from "../../../axiosConfig";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
+import PaymentField from "./fields/PaymentField";
 
 const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
   const [serviceId, setServiceId] = useState();
   const params = useParams();
+  const coverField = formConfig.fields.find((f) => f.type === "Cover");
+  const logoField = formConfig.fields.find((f) => f.type === "Logo");
+  const timerField = formConfig.fields.find((f) => f.type === "Timer");
+  const paymentFields = formConfig.fields.filter((f) => f.type === "Payment Fields");
+  const termsField = formConfig.fields.find(
+    (f) => f.type === "Terms & Conditions"
+  );
+  const otherFields = formConfig.fields.filter(
+    (f) => !["Cover", "Logo", "Timer", "Terms & Conditions", "Payment Fields"].includes(f.type)
+  );
+
+  const otherPlusPaymentFields = formConfig.fields.filter(
+    (f) => !["Cover", "Logo", "Timer", "Terms & Conditions"].includes(f.type)
+  );
 
   useEffect(() => {
     if (params.serviceId) {
@@ -53,16 +68,6 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
     });
   };
 
-  const coverField = formConfig.fields.find((f) => f.type === "Cover");
-  const logoField = formConfig.fields.find((f) => f.type === "Logo");
-  const timerField = formConfig.fields.find((f) => f.type === "Timer");
-  const termsField = formConfig.fields.find(
-    (f) => f.type === "Terms & Conditions"
-  );
-  const otherFields = formConfig.fields.filter(
-    (f) => !["Cover", "Logo", "Timer", "Terms & Conditions"].includes(f.type)
-  );
-
   const handleSaveForm = async () => {
     try {
       let token = localStorage.getItem("userData");
@@ -83,6 +88,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
     } finally {
     }
   };
+
 
   return (
     <div className="flex-1 overflow-y-auto p-4 ">
@@ -152,7 +158,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
           </div>
 
           {/* Other Fields */}
-          {otherFields.length > 0 || timerField || coverField || logoField ? (
+          {otherFields.length > 0 && (
             <div className="space-y-6">
               {otherFields.map((field, index) => (
                 <FieldRenderer
@@ -161,22 +167,47 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
                   index={index}
                   onUpdate={(updates) => updateField(field.id, updates)}
                   onRemove={isPreview ? undefined : () => removeField(field.id)}
-                  onDuplicate={
-                    isPreview ? undefined : () => duplicateField(field, index)
-                  }
+                  onDuplicate={isPreview ? undefined : () => duplicateField(field, index)}
                   isBuilder={!isPreview}
                 />
               ))}
-              {termsField && (
-                <FieldRenderer
-                  field={termsField}
-                  onUpdate={(updates) => updateField(termsField.id, updates)}
-                  onRemove={
-                    isPreview ? undefined : () => removeField(termsField.id)
-                  }
-                  isBuilder={!isPreview}
+            </div>
+          )}
+
+          {
+            paymentFields.length && (
+              <div style={{display:""}}>
+              {
+              paymentFields.map((field, index) => (
+                <>
+                  <div style={{height:"50px"}}></div>
+                    <PaymentField field={field} handleUserFills={setFormConfig} fieldList={otherPlusPaymentFields} fieldInd={index} fieldId={index}  paymentFields={paymentFields}/>
+                  </>
+                ))
+              }
+              {termsField ? <div style={{height:"4vw"}}></div> :<div style={{height:"7vw"}}></div>}
+              </div>
+            )
+          }
+          {
+            (!otherFields) && !paymentFields.length &&
+            <div className="text-center py-12 text-gray-500">
+              <p>Click on fields from the sidebar to add them to your form</p>
+              <p>Leave a space in fields you don't want in your Final Form</p>
+            </div>
+          }
+
+          {termsField && (
+            <div className="space-y-6">
+              <FieldRenderer
+                field={termsField}
+                onUpdate={(updates) => updateField(termsField.id, updates)}
+                onRemove={isPreview ? undefined : () => removeField(termsField.id)}
+                isBuilder={!isPreview}
                 />
-              )}
+                <div className="h-10"></div>
+            </div>
+            )}
               <button
                 type="submit"
                 onClick={handleSaveForm}
@@ -184,13 +215,6 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
               >
                 Save & Exit
               </button>
-            </div>
-          ) : (
-            <div className="text-center py-12 text-gray-500">
-              <p>Click on fields from the sidebar to add them to your form</p>
-              <p>Leave a space in fields you don't want in your Final Form</p>
-            </div>
-          )}
         </div>
       </div>
     </div>

@@ -1,7 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import FieldRenderer from "./FieldRenderer";
-
+import PaymentField from "./fields/PaymentField"
 const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender}) => {
+
+  const [userFills, setUserFills] = useState();
 
   const sanitizedFields = formConfig.fields.filter(
     (field) =>
@@ -21,13 +23,20 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender}) => {
     const coverField = sanitizedFields.find((f) => f.type === "Cover");
     const logoField = sanitizedFields.find((f) => f.type === "Logo");
     const timerField = sanitizedFields.find((f) => f.type === "Timer");
-    const termsField = sanitizedFields.find(
+    const paymentFields = formConfig.fields.filter((f) => f.type === "Payment Fields");
+    const termsField = formConfig.fields.find(
       (f) => f.type === "Terms & Conditions"
     );
-    
-    const otherFields = sanitizedFields.filter(
+    const otherFields = formConfig.fields.filter(
+      (f) => !["Cover", "Logo", "Timer", "Terms & Conditions", "Payment Fields"].includes(f.type)
+    );
+  
+    const otherPlusPaymentFields = formConfig.fields.filter(
       (f) => !["Cover", "Logo", "Timer", "Terms & Conditions"].includes(f.type)
     );
+
+
+
     console.log("Data bitch", sanitizedFields);
     
   return (
@@ -62,6 +71,19 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender}) => {
                 isBuilder={false}
               />
             ))}
+            {paymentFields.length && (
+                      <div style={{display:""}}>
+                        {                            
+                          paymentFields.map((field, index) => (
+                            <>
+                              <div style={{height:"50px"}}></div>
+                                <PaymentField field={field} isPreview={true} onUpdate={setFormConfig} fieldList={otherPlusPaymentFields} fieldInd={index} fieldId={index} paymentFields={paymentFields}/>
+                              </>
+                            ))
+                          }
+                          {termsField ? <div style={{height:"4vw"}}></div> :<div style={{height:"7vw"}}></div>}
+                          </div>
+                        )}
             {termsField && (
               <FieldRenderer field={termsField} isBuilder={false} />
             )}

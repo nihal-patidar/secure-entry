@@ -72,6 +72,7 @@ const router = createBrowserRouter([
   //   path: "/visitor",
   //   element: <VisitorForm />,
   // },
+  { path: "build-form", element: <CreateVisitorForm />},
   {
     path:"/attendance",
     element: <AttendanceSheet/>
