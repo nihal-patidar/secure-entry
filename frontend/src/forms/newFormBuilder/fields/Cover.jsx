@@ -1,7 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import img from "../../../assets/DefaultCover.jpg";
 
-const Cover = ({ onRemove, isBuilder = true, field, onUpdate }) => {
+const Cover = ({ 
+  onRemove, 
+  isBuilder = true, 
+  field, 
+  onUpdate,
+  register // ✅ added register prop for consistency
+}) => {
   const [previewUrl, setPreviewUrl] = useState(field?.previewUrl || img);
   const fileInputRef = useRef();
 
@@ -25,6 +31,9 @@ const Cover = ({ onRemove, isBuilder = true, field, onUpdate }) => {
       }
     }
   };
+
+  // Used to create unique field names for registration (if needed in future)
+  const fieldKey = field?.description || "Cover";
 
   return (
     <div id="Cover" className="w-full relative group">

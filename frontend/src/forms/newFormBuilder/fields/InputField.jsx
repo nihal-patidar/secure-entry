@@ -5,6 +5,7 @@ const InputFile = ({
   isPreview = false,
   field = {},
   onUpdate,
+  register, // ✅ used in preview mode only
 }) => {
   const inputRef = useRef();
   const [fileName, setFileName] = useState(field.fileName || "");
@@ -13,6 +14,9 @@ const InputFile = ({
 
   // Extract type from name ("Upload File" or "Upload Image")
   const type = name.split(" ")[1] || "File";
+
+  // Used to create unique field names for registration
+  const fieldKey = field.description || description || name;
 
   const handleFileClick = () => {
     inputRef.current?.click();
@@ -52,25 +56,37 @@ const InputFile = ({
         )}
 
         {/* File/Image Upload Box */}
-        <div
-          onClick={handleFileClick}
-          className={`w-full flex items-center justify-between px-4 py-3 border-2 border-dashed rounded-lg transition duration-200 ${
-            isPreview
-              ? "border-gray-200 bg-white cursor-pointer hover:border-blue-400"
-              : "border-gray-300 bg-gray-50 cursor-pointer hover:border-blue-500"
-          }`}
-        >
-          <span className="text-gray-500 text-sm truncate max-w-[70%]">
-            {fileName ? `Selected: ${fileName}` : `Click to choose ${type}`}
-          </span>
-          <span className="text-blue-600 font-medium">Browse</span>
-          <input
-            type="file"
-            ref={inputRef}
-            onChange={handleFileChange}
-            className="hidden"
-          />
-        </div>
+        {isPreview && typeof register === "function" ? (
+          // React Hook Form registered file input
+          <div className="w-full">
+            <input
+              {...register(fieldKey)} // ✅ Register for react-hook-form
+              type="file"
+              className="w-full px-4 py-3 border-2 border-dashed border-gray-200 rounded-lg bg-white cursor-pointer hover:border-blue-400 transition duration-200 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+            />
+          </div>
+        ) : (
+          // Interactive file upload for builder/non-preview mode
+          <div
+            onClick={handleFileClick}
+            className={`w-full flex items-center justify-between px-4 py-3 border-2 border-dashed rounded-lg transition duration-200 ${
+              isPreview
+                ? "border-gray-200 bg-white cursor-pointer hover:border-blue-400"
+                : "border-gray-300 bg-gray-50 cursor-pointer hover:border-blue-500"
+            }`}
+          >
+            <span className="text-gray-500 text-sm truncate max-w-[70%]">
+              {fileName ? `Selected: ${fileName}` : `Click to choose ${type}`}
+            </span>
+            <span className="text-blue-600 font-medium">Browse</span>
+            <input
+              type="file"
+              ref={inputRef}
+              onChange={handleFileChange}
+              className="hidden"
+            />
+          </div>
+        )}
 
         {/* Note */}
         {isPreview ? (

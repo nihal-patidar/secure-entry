@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-const TextField = ({ onUpdate, field = {}, isPreview = false }) => {
+const TextField = ({ 
+  onUpdate, 
+  field = {}, 
+  isPreview = false,
+  register // ✅ added register prop for react-hook-form
+}) => {
   const [localField, setLocalField] = useState({
     name: field?.name || '',
     type: field?.type || 'text',
@@ -30,6 +35,9 @@ const TextField = ({ onUpdate, field = {}, isPreview = false }) => {
       ? 'placeholder : ' + localField.placeholder
       : localField.placeholder;
 
+  // Used to create unique field names for registration
+  const fieldKey = field.label || "TextField";
+
   return (
     <div className="w-full relative group bg-white rounded-lg">
       <div className="max-w-3xl mx-auto bg-white px-8 rounded-lg space-y-2">
@@ -50,15 +58,26 @@ const TextField = ({ onUpdate, field = {}, isPreview = false }) => {
         )}
 
         {/* Input */}
-        <input
-          type={localField.type}
-          name={localField.name}
-          value={localField.value}
-          onChange={(e) => handleFieldChange('value', e.target.value)}
-          placeholder={localField.placeholder}
-          required={localField.required}
-          className="w-full px-4 py-2 border bg-white border-gray-300 rounded-md focus:outline-none text-sm"
-        />
+        {isPreview && typeof register === "function" ? (
+          <input
+            {...register(fieldKey)} // ✅ Register for react-hook-form
+            type={localField.type}
+            name={localField.name}
+            placeholder={localField.placeholder}
+            required={localField.required}
+            className="w-full px-4 py-2 border bg-white border-gray-300 rounded-md focus:outline-none text-sm"
+          />
+        ) : (
+          <input
+            type={localField.type}
+            name={localField.name}
+            value={localField.value}
+            onChange={(e) => handleFieldChange('value', e.target.value)}
+            placeholder={localField.placeholder}
+            required={localField.required}
+            className="w-full px-4 py-2 border bg-white border-gray-300 rounded-md focus:outline-none text-sm"
+          />
+        )}
 
         {/* Placeholder & Note */}
         {isPreview ? (

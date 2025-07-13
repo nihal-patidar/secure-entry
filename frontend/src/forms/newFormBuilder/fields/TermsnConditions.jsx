@@ -6,6 +6,7 @@ const Terms = ({
   isBuilder = true,
   onRemove,
   onUpdate,
+  register, // ✅ used in preview mode only
 }) => {
   const [accepted, setAccepted] = useState(false);
   const [termsText, setTermsText] = useState(
@@ -15,6 +16,9 @@ const Terms = ({
     field?.checkboxLabel || "I accept the terms and conditions"
   );
   const [title, setTitle] = useState(field?.title || "Terms and Conditions");
+
+  // Used to create unique field names for registration
+  const fieldKey = field.title || "Terms and Conditions";
 
   useEffect(() => {
     if (isBuilder && onUpdate) {
@@ -48,30 +52,68 @@ const Terms = ({
 
         {/* Checkbox + Label */}
         <div className="flex items-start space-x-3">
-          <button
-            onClick={toggleAccepted}
-            className={`h-5 w-5 mt-1 border border-gray-400 rounded flex items-center justify-center ${
-              accepted ? "bg-blue-600" : "bg-transparent"
-            }`}
-            aria-label="Accept Terms"
-          >
-            {accepted && (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                className="w-3.5 h-3.5 text-white"
+          {!isBuilder && typeof register === "function" ? (
+            // Preview mode with register - use hidden input for form registration
+            <>
+              <input
+                {...register(`${fieldKey}_accepted`)} // ✅ Register for react-hook-form
+                type="checkbox"
+                className="hidden"
+                checked={accepted}
+                onChange={toggleAccepted}
+              />
+              <button
+                onClick={toggleAccepted}
+                className={`h-5 w-5 mt-1 border border-gray-400 rounded flex items-center justify-center ${
+                  accepted ? "bg-blue-600" : "bg-transparent"
+                }`}
+                aria-label="Accept Terms"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            )}
-          </button>
+                {accepted && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    className="w-3.5 h-3.5 text-white"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                )}
+              </button>
+            </>
+          ) : (
+            // Builder mode or preview without register
+            <button
+              onClick={toggleAccepted}
+              className={`h-5 w-5 mt-1 border border-gray-400 rounded flex items-center justify-center ${
+                accepted ? "bg-blue-600" : "bg-transparent"
+              }`}
+              aria-label="Accept Terms"
+            >
+              {accepted && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="currentColor"
+                  className="w-3.5 h-3.5 text-white"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              )}
+            </button>
+          )}
 
           {isBuilder ? (
             <span

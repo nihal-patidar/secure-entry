@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 
-export default function SingleSelectOption({ field = {}, isPreview = false, onUpdate }) {
+export default function SingleSelectOption({ 
+  field = {}, 
+  isPreview = false, 
+  onUpdate,
+  register // ✅ added register prop for react-hook-form
+}) {
   const [options, setOptions] = useState(field.options || ["A", "B", "C"]);
   const [selectedOption, setSelectedOption] = useState(field.selected ?? -1);
   const [fieldName, setFieldName] = useState(field.label || "Single Select Question");
@@ -65,9 +70,17 @@ export default function SingleSelectOption({ field = {}, isPreview = false, onUp
   };
 
   const handleSelect = (index) => {
-    if (isPreview) return;
+    if (isPreview) {
+      // In preview mode, don't modify the field prop directly
+      // Let react-hook-form handle the value
+      return;
+    }
+    // In builder mode, update local state
     setSelectedOption(index);
   };
+
+  // Used to create unique field names for registration
+  const fieldKey = field.label || "SingleSelectQuestion";
 
   return (
     <div className="w-full relative group bg-white rounded-lg ">
@@ -107,29 +120,46 @@ export default function SingleSelectOption({ field = {}, isPreview = false, onUp
               <div className="flex items-center justify-between border border-gray-200 rounded-md p-3 hover:border-gray-300 transition">
                 <div className="flex items-center gap-3">
                   {/* Radio Circle */}
-                  <div
-                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center cursor-pointer ${
-                      (isPreview ? field.selected : selectedOption) === index
-                        ? "bg-blue-600 border-blue-600"
-                        : "border-gray-300 hover:border-blue-400"
-                    }`}
-                    onClick={() => handleSelect(index)}
-                  >
-                    {(isPreview ? field.selected : selectedOption) === index && (
-                      <div className="w-2 h-2 bg-white rounded-full" />
-                    )}
-                  </div>
-
-                  {/* Option Text */}
-                  {isPreview ? (
-                    <div className="text-sm font-medium text-gray-800">{option}</div>
+                  {isPreview && typeof register === "function" ? (
+                    <label className="flex items-center gap-3 cursor-pointer">
+                      <input
+                        {...register(fieldKey)} // ✅ Register for react-hook-form
+                        type="radio"
+                        value={index}
+                        className="sr-only"
+                      />
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center`}>
+                        {/* Visual radio button styling will be controlled by the actual radio input */}
+                      </div>
+                      <div className="text-sm font-medium text-gray-800">{option}</div>
+                    </label>
                   ) : (
-                    <input
-                      type="text"
-                      value={option}
-                      onChange={(e) => updateOption(index, e.target.value)}
-                      className="text-sm font-medium text-gray-800 bg-transparent outline-none border-b border-transparent focus:border-gray-300 px-1 py-0.5"
-                    />
+                    <>
+                      <div
+                        className={`w-5 h-5 rounded-full border-2 flex items-center justify-center cursor-pointer ${
+                          (isPreview ? field.selected : selectedOption) === index
+                            ? "bg-blue-600 border-blue-600"
+                            : "border-gray-300 hover:border-blue-400"
+                        }`}
+                        onClick={() => handleSelect(index)}
+                      >
+                        {(isPreview ? field.selected : selectedOption) === index && (
+                          <div className="w-2 h-2 bg-white rounded-full" />
+                        )}
+                      </div>
+
+                      {/* Option Text */}
+                      {isPreview ? (
+                        <div className="text-sm font-medium text-gray-800">{option}</div>
+                      ) : (
+                        <input
+                          type="text"
+                          value={option}
+                          onChange={(e) => updateOption(index, e.target.value)}
+                          className="text-sm font-medium text-gray-800 bg-transparent outline-none border-b border-transparent focus:border-gray-300 px-1 py-0.5"
+                        />
+                      )}
+                    </>
                   )}
                 </div>
 

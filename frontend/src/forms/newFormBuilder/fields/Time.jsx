@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Clock } from "lucide-react";
 
-const TimeField = ({ field = {}, isBuilder = true, onUpdate }) => {
+const TimeField = ({ 
+  field = {}, 
+  isBuilder = true, 
+  onUpdate,
+  register, // ✅ used in preview mode only
+}) => {
   const [formData, setFormData] = useState({
     label: field.label || "Enter Time",
     time: field.time || "",
     note: field.note || "Note/Instruction (If any)",
     required: field.required || false,
   });
+
+  // Used to create unique field names for registration
+  const fieldKey = field.label || "Enter Time";
 
   useEffect(() => {
     if (isBuilder) {
@@ -50,13 +58,21 @@ const TimeField = ({ field = {}, isBuilder = true, onUpdate }) => {
 
         {/* Time Picker with Clock Icon */}
         <div className="relative w-full">
-          <input
-            type="time"
-            name="time"
-            value={isBuilder ? formData.time : field.time || ""}
-            onChange={(e) => handleChange("time", e.target.value)}
-            className="w-full px-4 py-2 pr-10 border border-gray-300 bg-white text-black rounded-md focus:outline-none text-sm"
-          />
+          {!isBuilder && typeof register === "function" ? (
+            <input
+              {...register(`${fieldKey}_time`)} // ✅ Register for react-hook-form
+              type="time"
+              className="w-full px-4 py-2 pr-10 border border-gray-300 bg-white text-black rounded-md focus:outline-none text-sm"
+            />
+          ) : (
+            <input
+              type="time"
+              name="time"
+              value={isBuilder ? formData.time : field.time || ""}
+              onChange={(e) => handleChange("time", e.target.value)}
+              className="w-full px-4 py-2 pr-10 border border-gray-300 bg-white text-black rounded-md focus:outline-none text-sm"
+            />
+          )}
           <div className="absolute right-11 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">
             <Clock className="w-4 h-4" />
           </div>

@@ -1,9 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import FieldRenderer from "./FieldRenderer";
 import PaymentField from "./fields/PaymentField"
+
+
+
+/*
+
+
+
+For Preview we need to use userFill not the origional form config
+
+
+*/
+
+
+
 const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender}) => {
 
-  const [userFills, setUserFills] = useState();
+  const [userFills, setUserFills] = useState(formConfig);
 
   const sanitizedFields = formConfig.fields.filter(
     (field) =>
@@ -27,7 +41,7 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender}) => {
     const termsField = formConfig.fields.find(
       (f) => f.type === "Terms & Conditions"
     );
-    const otherFields = formConfig.fields.filter(
+    const otherFields = userFills.fields.filter(
       (f) => !["Cover", "Logo", "Timer", "Terms & Conditions", "Payment Fields"].includes(f.type)
     );
   
@@ -38,12 +52,13 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender}) => {
 
 
     console.log("Data bitch", sanitizedFields);
+    console.log("Data UserFills", userFills);
     
   return (
     <div className="flex-1 overflow-y-auto p-4">
       <div className="bg-white rounded-lg shadow-sm max-w-6xl mx-auto">
         <div className="p-4">
-          {coverField && <FieldRenderer field={coverField} isBuilder={false} />}
+          {coverField && <FieldRenderer field={coverField} isBuilder={false} onUpdate={setUserFills} />}
           {logoField && (
             <FieldRenderer
               field={logoField}
@@ -51,7 +66,7 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender}) => {
               hasCover={!!coverField}
             />
           )}
-          {timerField && <FieldRenderer field={timerField} isBuilder={false} />}
+          {timerField && <FieldRenderer field={timerField} isBuilder={false} onUpdate={setUserFills} />}
 
           <div className="p-6 border-b border-gray-100">
             <h1 className="text-4xl font-bold text-center">
@@ -69,6 +84,7 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender}) => {
                 field={field}
                 index={index}
                 isBuilder={false}
+                onUpdate={setUserFills}
               />
             ))}
             {paymentFields.length && (
@@ -77,7 +93,7 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender}) => {
                           paymentFields.map((field, index) => (
                             <>
                               <div style={{height:"50px"}}></div>
-                                <PaymentField field={field} isPreview={true} onUpdate={setFormConfig} fieldList={otherPlusPaymentFields} fieldInd={index} fieldId={index} paymentFields={paymentFields}/>
+                                <PaymentField field={field} isPreview={true} onUpdate={setUserFills} fieldList={otherPlusPaymentFields} fieldInd={index} fieldId={index} paymentFields={paymentFields}/>
                               </>
                             ))
                           }
@@ -85,7 +101,7 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender}) => {
                           </div>
                         )}
             {termsField && (
-              <FieldRenderer field={termsField} isBuilder={false} />
+              <FieldRenderer field={termsField} onUpdate={setUserFills} isBuilder={false} />
             )}
           </div>
         </div>

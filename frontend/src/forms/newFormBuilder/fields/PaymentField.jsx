@@ -198,7 +198,8 @@ export default function SpecialSelectOption({
   updateOptionDependedFieldsAtIndex,
   updateOptionAmountAtIndex,
   paymentFields,
-  fieldId
+  fieldId,
+  register // ✅ used in preview mode only
 }) {
   const [options, setOptions] = useState(field.options || [ { value:"A",id:`${fieldId}A`}, {value:"B",id:`${fieldId}B`}, {value:"C",id:`${fieldId}C`} ]);
   const [selectedOptions, setSelectedOptions] = useState(field.selected || []);
@@ -209,6 +210,9 @@ export default function SpecialSelectOption({
   const [showAddFieldPopup, setShowAddFieldPopup] = useState(false);
   const [showPaymentPopup, setShowPaymentPopup] = useState(false);
   const [currentOptionIndex, setCurrentOptionIndex] = useState(null);
+
+  // Used to create unique field names for registration
+  const fieldKey = field.label || "Special Select Question";
 
   // Initialize field_Options if it doesn't exist
   const [fieldOptions, setFieldOptions] = useState(() => {
@@ -458,52 +462,77 @@ export default function SpecialSelectOption({
           {/* {isPreview ? (<>{field.options}</>):(<>{options.length}</>)} */}
           {(field.options ? field.options || [] : options).map((optionObj, index) => (
             <div key={optionObj.id} className="relative">{
-                            console.log("Payment Fields", paymentFields[0].options[0].value)}
+                            console.log("Payment Fields", paymentFields && paymentFields[0] && paymentFields[0].options && paymentFields[0].options[0] && paymentFields[0].options[0].value)}
                             <div className="hidden">{option = optionObj.value}{console.log(optionObj)}</div>
               <div className="flex items-center justify-between border border-gray-200 rounded-md p-3 hover:border-gray-300 transition">
                 <div className="flex items-center gap-3">
-                  {/* Selection Input */}
-                  {isMultiSelect ? (
-                    <div
-                      className={`w-5 h-5 rounded-sm border-2 flex items-center justify-center cursor-pointer ${
-                        selectedOptions.includes(index)
-                          ? "bg-blue-600 border-blue-600"
-                          : "border-gray-300 hover:border-blue-400"
-                      }`}
-                      onClick={() => toggleOption(index)}
-                    >
-                      {selectedOptions.includes(index) && (
-                        <svg
-                          className="w-3 h-3 text-white"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      )}
-                    </div>
+                  {/* Selection Input with react-hook-form registration */}
+                  {isPreview && typeof register === "function" ? (
+                    // Multi-select mode in preview with registration
+                    isMultiSelect ? (
+                      <input
+                        {...register(`${fieldKey}_option_${index}`)}
+                        type="checkbox"
+                        className="w-5 h-5 rounded-sm border-2 border-gray-300 text-blue-600 focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    ) : (
+                      // Single-select mode in preview with registration
+                      <input
+                        {...register(`${fieldKey}_selection`)}
+                        type="radio"
+                        value={optionObj.value}
+                        className="w-5 h-5 border-2 border-gray-300 text-blue-600 focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    )
                   ) : (
-                    <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center cursor-pointer ${
-                        selectedOptions.includes(index)
-                          ? "bg-blue-600 border-blue-600"
-                          : "border-gray-300 hover:border-blue-400"
-                      }`}
-                      onClick={() => toggleOption(index)}
-                    >
-                      {selectedOptions.includes(index) && (
-                        <div className="w-2 h-2 bg-white rounded-full"></div>
-                      )}
-                    </div>
+                    // Builder mode or preview without registration - custom controls
+                    isMultiSelect ? (
+                      <div
+                        className={`w-5 h-5 rounded-sm border-2 flex items-center justify-center cursor-pointer ${
+                          selectedOptions.includes(index)
+                            ? "bg-blue-600 border-blue-600"
+                            : "border-gray-300 hover:border-blue-400"
+                        }`}
+                        onClick={() => toggleOption(index)}
+                      >
+                        {selectedOptions.includes(index) && (
+                          <svg
+                            className="w-3 h-3 text-white"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        )}
+                      </div>
+                    ) : (
+                      <div
+                        className={`w-5 h-5 rounded-full border-2 flex items-center justify-center cursor-pointer ${
+                          selectedOptions.includes(index)
+                            ? "bg-blue-600 border-blue-600"
+                            : "border-gray-300 hover:border-blue-400"
+                        }`}
+                        onClick={() => toggleOption(index)}
+                      >
+                        {selectedOptions.includes(index) && (
+                          <div className="w-2 h-2 bg-white rounded-full"></div>
+                        )}
+                      </div>
+                    )
                   )}
 
                   {/* Option Text */}
                   {isPreview ? (
-                    <div className="text-sm font-medium text-gray-700">{optionObj.value}</div>
+                    <label 
+                      htmlFor={isMultiSelect ? `${fieldKey}_option_${index}` : `${fieldKey}_selection`}
+                      className="text-sm font-medium text-gray-700 cursor-pointer"
+                    >
+                      {optionObj.value}
+                    </label>
                   ) : (
                     <input
                       type="text"

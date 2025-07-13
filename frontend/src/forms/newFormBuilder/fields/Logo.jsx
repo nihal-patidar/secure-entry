@@ -7,11 +7,16 @@ const Logo = ({
   isBuilder = true,
   field = {},
   onUpdate,
+  register, // ✅ used in preview mode only
+  isPreview = false, // ✅ added to distinguish preview mode
 }) => {
   const inputRef = useRef();
 
   const previewUrl = field.previewUrl || null;
   const logoPos = typeof field.logoPos === "number" ? field.logoPos : 0;
+
+  // Used to create unique field names for registration
+  const fieldKey = field.name || name || "Logo";
 
   const addLogo = () => inputRef.current?.click();
 
@@ -173,12 +178,24 @@ const Logo = ({
         )}
       </div>
 
-      <input
-        type="file"
-        ref={inputRef}
-        onChange={handleChange}
-        className="hidden"
-      />
+      {/* File Input */}
+      {isPreview && typeof register === "function" ? (
+        // React Hook Form registered file input (hidden but functional)
+        <input
+          {...register(fieldKey)} // ✅ Register for react-hook-form
+          type="file"
+          className="hidden"
+          accept="image/*"
+        />
+      ) : (
+        // Original file input for builder mode
+        <input
+          type="file"
+          ref={inputRef}
+          onChange={handleChange}
+          className="hidden"
+        />
+      )}
     </div>
   );
 };

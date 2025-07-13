@@ -35,9 +35,9 @@ const fieldComponents = {
   "Terms & Conditions": Terms,
   Date: Date,
   Time: TimeField,
-  "Upload Image" : InputFile,
-  "Upload File" : InputFile,
-  "Payment Fields" : SpecialRendering
+  "Upload Image": InputFile,
+  "Upload File": InputFile,
+  "Payment Fields": SpecialRendering,
 };
 
 const FieldRenderer = ({
@@ -48,7 +48,8 @@ const FieldRenderer = ({
   isBuilder = true,
   hasCover = false,
   onDuplicate,
-  fieldList
+  fieldList,
+  register
 }) => {
   const FieldComponent = fieldComponents[field.type];
 
@@ -67,7 +68,7 @@ const FieldRenderer = ({
         isBuilder={isBuilder}
         index={index}
         hasCover={hasCover}
-        isPreview={!isBuilder} 
+        isPreview={!isBuilder}
       />
     );
   }
@@ -156,8 +157,10 @@ const FieldRenderer = ({
         onUpdate={onUpdate}
         isBuilder={isBuilder}
         index={index}
-        isPreview={!isBuilder} // ✅ passed to all field components
+        hasCover={hasCover}
+        isPreview={!isBuilder}
         fieldList={fieldList}
+        {...(!isBuilder ? { register } : {})} // ✅ Pass only if isPreview
       />
     </div>
   );
