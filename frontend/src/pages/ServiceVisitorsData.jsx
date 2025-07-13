@@ -22,14 +22,14 @@ const ServiceVisitorsData = () => {
         },
       })
       .then((res) => {
-        console.log("sre", res);
-        // const visitors = res.data?.visitorList;
+        const visitors = res.data?.visitorList;
         // console.log("visitors",visitors);
-        // if(visitors){
-        //   setVisitorList(visitors);
-        // }
+        console.log("VisitorList", visitors);
+        if(visitors){
+          setVisitorList(visitors);
+        }
       });
-  });
+  },[]);
   // console.log("Visitor Data: ", visitorData)   //array of objects
   // console.log(Object.keys(visitorData[0] ))
 
