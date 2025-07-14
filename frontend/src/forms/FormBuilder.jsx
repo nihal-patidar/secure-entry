@@ -347,7 +347,7 @@ export default function FormBuilder() {
         })),
       }),
     };
-    console.log("ds", type);
+    // console.log("ds", type);
     setMasterList([...masterList, newField]);
   }
 
@@ -458,7 +458,7 @@ export default function FormBuilder() {
 
       return updated;
     });
-    console.log(MasterList);
+    // console.log(MasterList);
   }
 
   return (

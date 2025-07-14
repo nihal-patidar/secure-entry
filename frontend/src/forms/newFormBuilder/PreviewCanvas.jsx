@@ -15,7 +15,7 @@ For Preview we need to use userFill not the origional form config
 
 
 
-const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender}) => {
+const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender, addField}) => {
 
   const [userFills, setUserFills] = useState(formConfig);
 
@@ -51,8 +51,8 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender}) => {
 
 
 
-    console.log("Data bitch", sanitizedFields);
-    console.log("Data UserFills", userFills);
+    // console.log("Data bitch", sanitizedFields);
+    // console.log("Data UserFills", userFills);
     
   return (
     <div className="flex-1 overflow-y-auto p-4">
@@ -93,7 +93,7 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender}) => {
                           paymentFields.map((field, index) => (
                             <>
                               <div style={{height:"50px"}}></div>
-                                <PaymentField field={field} isPreview={true} onUpdate={setUserFills} fieldList={otherPlusPaymentFields} fieldInd={index} fieldId={index} paymentFields={paymentFields}/>
+                                <PaymentField field={field} isPreview={true} onUpdate={setUserFills} fieldList={otherPlusPaymentFields} fieldInd={index} fieldId={index} paymentFields={paymentFields} addField={addField}/>
                               </>
                             ))
                           }

@@ -74,7 +74,7 @@ const VisitorForm = ({ setVisitorData, setActiveStep, amount , setAmount,service
         orderId,
       };
 
-      console.log("payload visitor data",payload)
+      // console.log("payload visitor data",payload)
 
       const config = image
         ? { headers: { "Content-Type": "multipart/form-data" } }
@@ -90,7 +90,7 @@ const VisitorForm = ({ setVisitorData, setActiveStep, amount , setAmount,service
       setActiveStep?.(1);
       toast.success("Visitor Data Successfully Added !!!");
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.warning("Error submitting form");
     }
   };
@@ -102,7 +102,8 @@ const VisitorForm = ({ setVisitorData, setActiveStep, amount , setAmount,service
   const sanitizedFields = formConfig?.fields.filter(
     (field) =>
       !(field.label === "" && field.placeholder === "Enter " && field.required === false && field.type === "" && field.value === "") &&
-      !(field.type === "Logo" && (!field.previewUrl || field.previewUrl === "null"))
+      !(field.type === "Logo" && (!field.previewUrl || field.previewUrl === "null")) &&
+      !(field?.special !== undefined)
   );
 
   const coverField = sanitizedFields?.find((f) => f.type === "Cover");

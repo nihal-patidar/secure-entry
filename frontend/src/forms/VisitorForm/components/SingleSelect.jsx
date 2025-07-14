@@ -11,14 +11,14 @@ export default function SingleSelectOption({ field = {}, handleUserFills, master
         prev2.push(prev[i]);
     }
 
-    console.log("Master Length", master.length);
+    // console.log("Master Length", master.length);
     let cnt = 0;
     for(let i = 0;i < master.length;i++){
-        console.log("pass", i);
-        console.log(master[i].isSpecial ? master[i].special.id : "NOT FOUND1 ");
-        // console.log("pass2");
-        console.log(field.options[index]?.id);
-        // console.log("pass3");
+        // console.log("pass", i);
+        // console.log(master[i].isSpecial ? master[i].special.id : "NOT FOUND1 ");
+        // // console.log("pass2");
+        // console.log(field.options[index]?.id);
+        // // console.log("pass3");
         if(master[i].isSpecial ? (master[i].special.id == field.options[index]?.id) : 0){
             prev2.push(master[i]);
         }
@@ -26,7 +26,7 @@ export default function SingleSelectOption({ field = {}, handleUserFills, master
             // prev2.push(master[i]);
             cnt++;
         }
-        else if(master[i].isSpecial){console.log("I am not the error bro.")}
+        else if(master[i].isSpecial){// console.log("I am not the error bro.")}
     }
 
     let start = fieldInd+1;
@@ -42,10 +42,10 @@ export default function SingleSelectOption({ field = {}, handleUserFills, master
   let isPreview = false;
   const handleSelect = (index) => {
     setSelectedOption(index);
-    // console.log(index, selectedOption, field.options[selectedOption]?.value)
+    // // console.log(index, selectedOption, field.options[selectedOption]?.value)
     const option = field[index];
     if( typeof option === "string") {
-        // console.log("string")
+        // // console.log("string")
     } else{
         handleUserFills(prev => concat(prev, index))
     }   
@@ -169,4 +169,4 @@ export default function SingleSelectOption({ field = {}, handleUserFills, master
       </div>
     </div>
   );
-}
+}}

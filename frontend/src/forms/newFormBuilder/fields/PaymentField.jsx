@@ -1,36 +1,19 @@
 import { useState, useEffect } from "react";
+import FormBuilderSidebar from "./FieldOpts"
+import Operation from "antd/es/transfer/operation";
 
-// AddFieldPopUp Component
 const AddFieldPopUp = ({
   onClose,
-  fieldList,
-  updateOptionDependedFieldsAtIndex,
+  addField,
+  selectedFields,
   fieldId,
-  currentOptionIndex,
-  element,
+  optionId,
+  setSelectedFields
 }) => {
-  const [selectedFields, setSelectedFields] = useState(
-    element?.field_Options?.[currentOptionIndex]?.depended_field || []
-  );
-
-  const handleSelectField = (field) => {
-    if (!selectedFields.find((f) => f.id === field.id)) {
-      setSelectedFields((prev) => [...prev, field]);
-    }
-  };
-
-  const handleRemoveField = (id) => {
-    setSelectedFields((prev) => prev.filter((f) => f.id !== id));
-  };
-
-  const handleSetFields = () => {
-    updateOptionDependedFieldsAtIndex(fieldId, currentOptionIndex, selectedFields);
-    onClose();
-  };
-
+  // console.log(addField);
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-[18px] border border-[#EAEAEA] w-[880px] h-[420px] p-6 relative shadow-xl flex flex-col">
+      <div className="bg-white rounded-[18px] border border-[#EAEAEA] w-[800px] h-[620px] p-6 relative shadow-xl flex flex-col">
         <button
           className="absolute top-3 right-3 text-gray-400 hover:text-black text-xl"
           onClick={onClose}
@@ -42,69 +25,17 @@ const AddFieldPopUp = ({
           Add fields to show if this option is selected
         </h2>
 
-        <div className="flex gap-6 h-[300px]">
-          {/* Left: Master Field List */}
-          <div className="w-1/2 border-r border-gray-300 pr-4 overflow-y-auto">
-            <h3 className="text-sm font-semibold text-gray-700 mb-2">Available Fields</h3>
-            <ul className="space-y-2">
-              {/* {console.log(fieldList)} */}
-              {fieldList ? (
-                fieldList.map((field) => {
-                  if (field.id !== fieldId) {
-                    return (
-                      <li
-                        key={field.id}
-                        className="cursor-pointer text-sm text-gray-800 bg-gray-100 px-3 py-2 rounded-md hover:bg-gray-200 transition"
-                        onClick={() => handleSelectField(field)}
-                      >
-                        {field.label}
-                      </li>
-                    );
-                  }
-                  return null;
-                })
-              ) : (
-                <li className="text-gray-500 italic text-sm">
-                  No fields available</li>
-              )}
-            </ul>
-          </div>
+        <div className="flex gap-16 h-[600px]" style={{justifyContent:"center"}}>
+          <FormBuilderSidebar onFieldSelect={addField} setSelectedFields={setSelectedFields} idd={`${fieldId}${optionId}`} qId={fieldId} oId={optionId}>
+            {/* {console.log(" "," ","idd :", `${fieldId}${optionId}` ," ", "fieldId", fieldId," ", "optionID", optionId," ")} */}
+          </FormBuilderSidebar>
+          <div className="w-80 p-4" style={{background:"#fafafa"}}>
+            selected
+            <div>
 
-          {/* Right: Selected Fields */}
-          <div className="w-1/2 pl-4 overflow-y-auto">
-            <h3 className="text-sm font-semibold text-gray-700 mb-2">Selected Fields</h3>
-            <ul className="space-y-2 pr-2">
-              {selectedFields.length > 0 ? (
-                selectedFields.map((field) => (
-                  <li
-                    key={field.id}
-                    className="flex items-center justify-between text-sm bg-blue-50 text-blue-900 px-3 py-2 rounded-md"
-                  >
-                    <span>{field.label}</span>
-                    <button
-                      onClick={() => handleRemoveField(field.id)}
-                      className="text-red-500 hover:text-red-700 text-sm"
-                      title="Remove"
-                    >
-                      ✕
-                    </button>
-                  </li>
-                ))
-              ) : (
-                <li className="text-gray-500 italic text-sm">No fields selected</li>
-              )}
-            </ul>
+            </div>
           </div>
-        </div>
-
-        <div className="flex justify-center mt-4">
-          <button
-            onClick={handleSetFields}
-            className="text-white px-10 py-2 text-sm font-medium rounded-full bg-blue-700 hover:bg-blue-800 transition-all"
-          >
-            Set Fields
-          </button>
-        </div>
+         </div>
 
         <p className="text-[12px] text-gray-500 italic text-center mt-3">
           <span className="font-semibold">*Note:</span> These fields will be displayed only when this option is selected by the user. Duplicate fields are not allowed.
@@ -199,7 +130,8 @@ export default function SpecialSelectOption({
   updateOptionAmountAtIndex,
   paymentFields,
   fieldId,
-  register // ✅ used in preview mode only
+  register, // ✅ used in preview mode only
+  addField
 }) {
   const [options, setOptions] = useState(field.options || [ { value:"A",id:`${fieldId}A`}, {value:"B",id:`${fieldId}B`}, {value:"C",id:`${fieldId}C`} ]);
   const [selectedOptions, setSelectedOptions] = useState(field.selected || []);
@@ -376,6 +308,8 @@ export default function SpecialSelectOption({
   };
 
   const toggleActionDropdown = (index) => {
+
+    {console.log("Field Options[0] . selectedFields", field.options[0].selectedFields.fields)}
     setActiveDropdown(activeDropdown === index ? null : index);
   };
 
@@ -394,7 +328,15 @@ export default function SpecialSelectOption({
   const elementForPopup = {
     field_Options: fieldOptions
   };
-  let option;
+
+  // let option;
+
+  // function setSelectedFields(xyz, selectedFields){
+  //   console.log("Selected Fields in AddFieldPopUp:", xyz);
+  //   console.log(":", selectedFields);
+  //   selectedFields = xyz(selectedFields);
+  // }
+  
 
   return (
     <div className="w-full relative group bg-white rounded-lg">
@@ -410,7 +352,7 @@ export default function SpecialSelectOption({
           </>
         ) : (
           <>
-            {console.log("Payment Fis", field)}
+            {/* {console.log("Payment Fis", field)} */}
             <input
               className="text-black text-lg font-medium w-full bg-white outline-none px-1 py-0.5"
               type="text"
@@ -461,9 +403,11 @@ export default function SpecialSelectOption({
         <div className="space-y-3">
           {/* {isPreview ? (<>{field.options}</>):(<>{options.length}</>)} */}
           {(field.options ? field.options || [] : options).map((optionObj, index) => (
-            <div key={optionObj.id} className="relative">{
-                            console.log("Payment Fields", paymentFields && paymentFields[0] && paymentFields[0].options && paymentFields[0].options[0] && paymentFields[0].options[0].value)}
-                            <div className="hidden">{option = optionObj.value}{console.log(optionObj)}</div>
+            <div key={optionObj.id} className="relative">
+              <div className="hidden">
+                              {/* {console.log("Payment Fields", paymentFields && paymentFields[0] && paymentFields[0].options && paymentFields[0].options[0] && paymentFields[0].options[0].value)} */}
+                            {/* {option = optionObj.value}{console.log(optionObj)} */}
+                            </div>
               <div className="flex items-center justify-between border border-gray-200 rounded-md p-3 hover:border-gray-300 transition">
                 <div className="flex items-center gap-3">
                   {/* Selection Input with react-hook-form registration */}
@@ -645,7 +589,13 @@ export default function SpecialSelectOption({
           fieldId={field.id}
           currentOptionIndex={currentOptionIndex}
           element={elementForPopup}
-        />
+          addField={addField}
+          selectedFields={field.options[currentOptionIndex].selectedFields.fields}
+          optionId={currentOptionIndex}
+          setSelectedFields={onUpdate}
+          
+          >
+          </AddFieldPopUp>
       )}
 
       {showPaymentPopup && (

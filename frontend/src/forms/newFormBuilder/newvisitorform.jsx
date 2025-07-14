@@ -28,7 +28,7 @@ const VisitorForm = ({ setVisitorData, setActiveStep,amount , setAmount,serviceD
 
         const serviceRes = await api.get(`/service/getThisService/${formId}`);
         setServiceData(serviceRes.data.service_data);
-        console.log("serviceData", serviceRes.data.service_data);
+        // console.log("serviceData", serviceRes.data.service_data);
         setAmount(serviceRes.data?.amount || 0);
       } catch (error) {
         toast.error("Failed to fetch form or service data");
@@ -73,7 +73,7 @@ const VisitorForm = ({ setVisitorData, setActiveStep,amount , setAmount,serviceD
         orderId,
       };
 
-      console.log("payload visitor data",payload)
+      // console.log("payload visitor data",payload)
 
       const config = image
         ? { headers: { "Content-Type": "multipart/form-data" } }
@@ -89,7 +89,7 @@ const VisitorForm = ({ setVisitorData, setActiveStep,amount , setAmount,serviceD
       setActiveStep?.(1);
       toast.success("Visitor Data Successfully Added !!!");
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.warning("Error submitting form");
     }
   };

@@ -12,7 +12,7 @@ const InputFile = ({ name }) => {
     const file = event.target.files?.[0];
     if (file) {
       setFileName(file.name);
-      console.log(`Selected ${name}:`, file.name);
+      // console.log(`Selected ${name}:`, file.name);
     }
   };
 

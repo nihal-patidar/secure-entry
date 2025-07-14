@@ -87,7 +87,7 @@ export default function VisitorForm({master}){
         for(let i = 0;i < master.length;i++){
             if(!master[i].isSpecial)setUserFills(prev => [...prev, master[i]]);
         }
-        console.log(userFills, master)}
+        // console.log(userFills, master)}
     
     ,[userFills]);
         let padLeft = 0;

@@ -13,7 +13,7 @@ const Logo = ({ name }) => {
   const handleChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      console.log(`Selected ${name}:`, file.name);
+      // console.log(`Selected ${name}:`, file.name);
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewUrl(reader.result);
@@ -177,7 +177,7 @@ export default Logo;
 //   const handleChange = (event) => {
 //     const file = event.target.files[0];
 //     if (file) {
-//       console.log(`Selected ${name}:`, file.name);
+//       // console.log(`Selected ${name}:`, file.name);
 //       const reader = new FileReader(); // ✅ NEW
 //       reader.onloadend = () => {
 //         setPreviewUrl(reader.result); // ✅ NEW

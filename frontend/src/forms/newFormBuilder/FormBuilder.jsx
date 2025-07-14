@@ -23,7 +23,7 @@ const FormBuilder = () => {
     const fetchFormData = async () => {
       try {
         const response = await api.get(`/service/getStructure/${formId}`);
-        console.log("response data",response.data)
+        // console.log("response data",response.data)
         if(response.data?.form_structure){
           setFormConfig(response.data.form_structure);
 
@@ -37,23 +37,35 @@ const FormBuilder = () => {
   }, []);
 
   const addField = (type, idd = formConfig.fields.length) => {
-    console.log("Adding field of type:", type, idd, "final formCOnfig:" , formConfig);
+    // console.log("Adding field of type:", type, idd, "final formCOnfig:" , formConfig);
     
     if ("Payment Fields" === type) { 
       setFormConfig((prev) => {
         if (type === "Payment Fields") {
-          console.log("Adding payment field with id:", idd);
+          // console.log("Adding payment field with id:", idd);
           const newPaymentFeild = {
-            id: idd || Date.now().toString(),
+            id: idd || 0,
             type,
             label: "Extra Payment Field",
             required: false,
             placeholder: `Enter ${type.toLowerCase()}`,
             value: "",
             amount:"",
-            options:[ { value:"A",id:`${idd}A`}, {value:"B",id:`${idd}B`}, {value:"C",id:`${idd}C`} ]
+            options:[ { value:"A",id:`${idd}A`, selectedFields:{
+              title: "Form Heading",
+              description: "Form Description",
+              fields: [],
+            }}, {value:"B",id:`${idd}B`, selectedFields:{
+              title: "Form Heading",
+              description: "Form Description",
+              fields: [],
+            }}, {value:"C",id:`${idd}C`, selectedFields:{
+              title: "Form Heading",
+              description: "Form Description",
+              fields: [],
+            }} ],
           }
-          console.log("New payment field:", newPaymentFeild);
+          // console.log("New payment field:", newPaymentFeild);
           return {
             ...prev,
             fields: [
@@ -142,6 +154,134 @@ const FormBuilder = () => {
     }
   };
 
+
+  const addSpecialField = (setSelectedFields, type, idd = formConfig.fields.length) => {
+    // console.log("Adding special field of type:", type, idd, "final formCOnfig:" , formConfig);
+    
+    setSelectedFields((prev) => {
+      console.log("Prev: ",prev, "Type:", type);
+      return [...prev, "xyz"];
+    })
+
+    if ("Payment Fields" === type) { 
+      setSelectedFields((prev) => {
+        if (type === "Payment Fields") {
+          // console.log("Adding payment field with id:", idd);
+          const newPaymentFeild = {
+            id: idd || Date.now().toString(),
+            type,
+            label: "Extra Payment Field",
+            required: false,
+            placeholder: `Enter ${type.toLowerCase()}`,
+            value: "",
+            amount:"",
+            options:[ { value:"A",id:`${idd}A`, selectedFields:{
+              title: "Form Heading",
+              description: "Form Description",
+              fields: [],
+            }}, {value:"B",id:`${idd}B`, selectedFields:{
+              title: "Form Heading",
+              description: "Form Description",
+              fields: [],
+            }}, {value:"C",id:`${idd}C`, selectedFields:{
+              title: "Form Heading",
+              description: "Form Description",
+              fields: [],
+            }} ],
+            special: 1
+          }
+          // console.log("Prev :", prev);
+          return {
+            ...prev,
+            fields: [
+              ...prev.fields,
+              newPaymentFeild,
+            ],
+          };
+        }
+
+        return {
+          ...prev,}
+      });
+      return ;
+    }
+
+
+    if (["Cover", "Logo", "Timer", "Terms & Conditions"].includes(type)) {
+      
+      setSelectedFields((prev) => {
+        const exists = prev.fields.some((f) => f.type === type);
+        const newField = { id: idd || Date.now().toString(), type, special: 1 };
+
+        let fields = [...prev.fields];
+        if (exists) {
+          return {
+            ...prev,
+            fields: fields.filter((f) => f.type !== type),
+          };
+        }
+
+        const coverIndex = fields.findIndex((f) => f.type === "Cover");
+        const logoIndex = fields.findIndex((f) => f.type === "Logo");
+        const timerIndex = fields.findIndex((f) => f.type === "Timer");
+
+        if (type === "Cover") {
+          return {
+            ...prev,
+            fields: [newField, ...fields.filter((f) => f.type !== "Cover")],
+          };
+        }
+
+        if (type === "Logo") {
+          if (coverIndex !== -1) {
+            fields.splice(coverIndex + 1, 0, newField);
+          } else {
+            fields.unshift(newField);
+          }
+          return { ...prev, fields };
+        }
+
+        if (type === "Timer") {
+          if (logoIndex !== -1) {
+            fields.splice(logoIndex + 1, 0, newField);
+          } else if (coverIndex !== -1) {
+            fields.splice(coverIndex + 1, 0, newField);
+          } else {
+            fields.unshift(newField);
+          }
+          return { ...prev, fields };
+        }
+
+        if (type === "Terms & Conditions") {
+          return {
+            ...prev,
+            fields: [
+              ...fields.filter((f) => f.type !== "Terms & Conditions"),
+              newField,
+            ],
+          };
+        }
+        
+        return prev;
+      });
+      return ;
+    } else {
+      const newField = {
+        id: idd || Date.now().toString(),
+        type,
+        label: type,
+        required: false,
+        placeholder: `Enter ${type.toLowerCase()}`,
+        value: "",
+        special: 1
+      };
+      setSelectedFields((prev) => ({
+        ...prev,
+        fields: [...prev.fields, newField],
+      }));
+    }
+  };
+
   return (
     <div className="flex h-screen text-black bg-gray-100 ml-10 pb-3">
       <FormBuilderSidebar
@@ -151,7 +291,7 @@ const FormBuilder = () => {
       />
 
       {activeTab === "Fields" ? (
-        <FormCanvas formConfig={formConfig} setFormConfig={setFormConfig} />
+        <FormCanvas formConfig={formConfig} onUpdate={setFormConfig} setFormConfig={setFormConfig} addField={addSpecialField} />
       ) : (
         <PreviewCanvas
           key={formKey}
