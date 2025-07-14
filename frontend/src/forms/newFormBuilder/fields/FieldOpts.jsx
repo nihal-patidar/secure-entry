@@ -76,7 +76,9 @@ const FormBuilderSidebar = ({ onFieldSelect, activeTab, setSelectedFields, idd, 
 
   const handleItemClick = (item) => {
     setBlinkingItem(item);
-    {if (onFieldSelect) onFieldSelect(setSelectedFields, item, idd);}
+    {if (onFieldSelect) {
+      // onFieldSelect(setSelectedFields, item, idd);
+    }}
     if (isMobile) setIsSidebarOpen(false);
 
     setTimeout(() => {

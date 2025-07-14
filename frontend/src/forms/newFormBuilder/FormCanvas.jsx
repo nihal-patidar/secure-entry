@@ -14,6 +14,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false, addField }) 
   const logoField = formConfig.fields.find((f) => f.type === "Logo");
   const timerField = formConfig.fields.find((f) => f.type === "Timer");
   const paymentFields = formConfig.fields.filter((f) => f.type === "Payment Fields");
+  console.log("form config",formConfig, paymentFields)
   const termsField = formConfig.fields.find(
     (f) => f.type === "Terms & Conditions"
   );
@@ -29,7 +30,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false, addField }) 
     if (params.serviceId) {
       setServiceId(params.serviceId);
     }
-  }, []);
+  }, [params]);
 
   const updateFormTitle = (title) => {
     setFormConfig((prev) => ({ ...prev, title }));
@@ -184,7 +185,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false, addField }) 
               paymentFields.map((field, index) => (
                 <>
                   <div style={{height:"50px"}}></div>
-                    <PaymentField field={field} handleUserFills={setFormConfig} fieldList={otherPlusPaymentFields} fieldInd={index} fieldId={index}  paymentFields={paymentFields} addField={addField}/>
+                    <PaymentField field={field} fieldId={index} onUpdate={setFormConfig}/>
                   </>
                 ))
               }

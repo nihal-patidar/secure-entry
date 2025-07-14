@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import FormBuilderSidebar from "./FieldOpts"
 import Operation from "antd/es/transfer/operation";
+import {X} from "lucide-react";
 
 const AddFieldPopUp = ({
   onClose,
@@ -10,7 +11,6 @@ const AddFieldPopUp = ({
   optionId,
   setSelectedFields
 }) => {
-  // console.log(addField);
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-[18px] border border-[#EAEAEA] w-[800px] h-[620px] p-6 relative shadow-xl flex flex-col">
@@ -26,16 +26,12 @@ const AddFieldPopUp = ({
         </h2>
 
         <div className="flex gap-16 h-[600px]" style={{justifyContent:"center"}}>
-          <FormBuilderSidebar onFieldSelect={addField} setSelectedFields={setSelectedFields} idd={`${fieldId}${optionId}`} qId={fieldId} oId={optionId}>
-            {/* {console.log(" "," ","idd :", `${fieldId}${optionId}` ," ", "fieldId", fieldId," ", "optionID", optionId," ")} */}
-          </FormBuilderSidebar>
+          <FormBuilderSidebar onFieldSelect={addField} setSelectedFields={setSelectedFields} idd={`${fieldId}${optionId}`} qId={fieldId} oId={optionId} />
           <div className="w-80 p-4" style={{background:"#fafafa"}}>
             selected
-            <div>
-
-            </div>
+            <div></div>
           </div>
-         </div>
+        </div>
 
         <p className="text-[12px] text-gray-500 italic text-center mt-3">
           <span className="font-semibold">*Note:</span> These fields will be displayed only when this option is selected by the user. Duplicate fields are not allowed.
@@ -45,7 +41,6 @@ const AddFieldPopUp = ({
   );
 };
 
-// SetPaymentPopUp Component
 const SetPaymentPopUp = ({
   onClose,
   fieldId,
@@ -60,7 +55,8 @@ const SetPaymentPopUp = ({
 
   const handleSetPayment = () => {
     if (amount === "") {
-      onClose(); return;
+      onClose(); 
+      return;
     }
 
     const num = Number(amount);
@@ -120,20 +116,29 @@ const SetPaymentPopUp = ({
   );
 };
 
-// Main Component
 export default function SpecialSelectOption({ 
   field = {}, 
   isPreview = false, 
   onUpdate,
-  fieldList = [],
-  updateOptionDependedFieldsAtIndex,
-  updateOptionAmountAtIndex,
-  paymentFields,
+  // updateOptionDependedFieldsAtIndex,
+  // updateOptionAmountAtIndex,
+  // paymentFields,
   fieldId,
-  register, // ✅ used in preview mode only
-  addField
+  register, 
+  isBuilder= true,
+  onUpdateReq,
+  onDuplicate,
+  onRemove
 }) {
-  const [options, setOptions] = useState(field.options || [ { value:"A",id:`${fieldId}A`}, {value:"B",id:`${fieldId}B`}, {value:"C",id:`${fieldId}C`} ]);
+  // Initialize options properly - use field.options if available, otherwise default
+  const [options, setOptions] = useState(() => {
+    return field.options || [
+      { value: "A", id: `${fieldId}A` },
+      { value: "B", id: `${fieldId}B` },
+      { value: "C", id: `${fieldId}C` }
+    ];
+  });
+  
   const [selectedOptions, setSelectedOptions] = useState(field.selected || []);
   const [fieldName, setFieldName] = useState(field.label || "Special Select Question");
   const [description, setDescription] = useState(field.description || "Description");
@@ -142,85 +147,73 @@ export default function SpecialSelectOption({
   const [showAddFieldPopup, setShowAddFieldPopup] = useState(false);
   const [showPaymentPopup, setShowPaymentPopup] = useState(false);
   const [currentOptionIndex, setCurrentOptionIndex] = useState(null);
+  const [tempField, setTempField] = useState(field)
 
   // Used to create unique field names for registration
   const fieldKey = field.label || "Special Select Question";
 
-  // Initialize field_Options if it doesn't exist
+  // Initialize field_Options properly
   const [fieldOptions, setFieldOptions] = useState(() => {
     if (field.field_Options) return field.field_Options;
-    return options.map((_, index) => ({
+    return options.map(() => ({
       depended_field: [],
       amount: 0
     }));
   });
 
+  // Update options state when field.options changes (for preview mode)
+  useEffect(() => {
+    if (field.options && field.options.length > 0) {
+      setOptions(field.options);
+    }
+  }, [field.options]);
+
   // Sync changes in builder mode
+
+
+  function save(){
+    onUpdate(prev => {
+      console.log(prev)
+      return {
+        ...prev, 
+        fields: prev.fields.map((f) => 
+          f.id === fieldId ? {  ...tempField } : f
+        )
+      };
+    })}
+
   useEffect(() => {
     if (!isPreview && onUpdate) {
-      onUpdate({
+      // onUpdate((prev) => {
+      //   return {
+      //     ...prev, fields : [
+      //       prev.fields.map((field) => {
+      //         console.log("field", field.id, fieldId);
+      //         return field.id === fieldId ? {
+      //           label: fieldName,
+      //           description,
+      //           options: options,
+      //           selected: selectedOptions,
+      //           isMultiSelect,
+      //           field_Options: fieldOptions,
+      //           id: fieldId
+      //         }
+      //         :
+      //         field}
+      //       )]
+      //     }
+      //   });
+      setTempField({...tempField,
         label: fieldName,
         description,
         options: options,
         selected: selectedOptions,
         isMultiSelect,
-        field_Options: fieldOptions,
-      });
+      })
     }
-  }, [fieldName, description, options, selectedOptions, isMultiSelect, fieldOptions]);
+  }, [fieldName, description, options, selectedOptions, isMultiSelect, fieldOptions, isPreview]);
 
-  // Update fieldOptions when options change
-  useEffect(() => {
-    setFieldOptions(prev => {
-      const newFieldOptions = [...prev];
-      // Add new option configs if options were added
-      while (newFieldOptions.length < options.length) {
-        newFieldOptions.push({
-          depended_field: [],
-          amount: 0
-        });
-      }
-      // Remove option configs if options were removed
-      if (newFieldOptions.length > options.length) {
-        newFieldOptions.splice(options.length);
-      }
-      return newFieldOptions;
-    });
-  }, [options.length]);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!event.target.closest('.action-dropdown')) {
-        setActiveDropdown(null);
-      }
-    };
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
-
-  // Functions to update field options
-  const updateOptionDependedFields = (fieldId, optionIndex, dependedFields) => {
-    setFieldOptions(prev => {
-      const newFieldOptions = [...prev];
-      if (!newFieldOptions[optionIndex]) {
-        newFieldOptions[optionIndex] = { depended_field: [], amount: 0 };
-      }
-      newFieldOptions[optionIndex].depended_field = dependedFields;
-      return newFieldOptions;
-    });
-  };
-
-  const updateOptionAmount = (fieldId, optionIndex, amount) => {
-    setFieldOptions(prev => {
-      const newFieldOptions = [...prev];
-      if (!newFieldOptions[optionIndex]) {
-        newFieldOptions[optionIndex] = { depended_field: [], amount: 0 };
-      }
-      newFieldOptions[optionIndex].amount = amount;
-      return newFieldOptions;
-    });
-  };
+  
 
   const moveUp = (index) => {
     if (index === 0) return;
@@ -253,7 +246,8 @@ export default function SpecialSelectOption({
   const duplicateOption = (index) => {
     setOptions(prev => {
       const newOptions = [...prev];
-      newOptions.splice(index + 1, 0, prev[index]);
+      const duplicatedOption = { ...prev[index], id: `${fieldId}${Date.now()}` };
+      newOptions.splice(index + 1, 0, duplicatedOption);
       return newOptions;
     });
     setFieldOptions(prev => {
@@ -283,18 +277,28 @@ export default function SpecialSelectOption({
   const updateOption = (index, value) => {
     setOptions(prev => {
       const newOptions = [...prev];
-      newOptions[index] = value;
+      newOptions[index] = { ...newOptions[index], value };
       return newOptions;
     });
+    console.log("updatedOtion:", options)
+  };
+
+  const addOption = () => {
+    const newIndex = options.length;
+    const newOption = { 
+      value: `Option ${newIndex + 1}`, 
+      id: `${fieldId}${Date.now()}` 
+    };
+    setOptions(prev => [...prev, newOption]);
   };
 
   const toggleOption = (index) => {
+    // console.log(index);
     if (isMultiSelect) {
       setSelectedOptions(prev =>
         prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]
       );
     } else {
-      // Single select - only one option can be selected
       setSelectedOptions(prev => 
         prev.includes(index) ? [] : [index]
       );
@@ -303,13 +307,10 @@ export default function SpecialSelectOption({
 
   const handleSelectTypeChange = (type) => {
     setIsMultiSelect(type === 'multi');
-    // Clear selections when switching modes
     setSelectedOptions([]);
   };
 
   const toggleActionDropdown = (index) => {
-
-    {console.log("Field Options[0] . selectedFields", field.options[0].selectedFields.fields)}
     setActiveDropdown(activeDropdown === index ? null : index);
   };
 
@@ -324,30 +325,20 @@ export default function SpecialSelectOption({
     }
   };
 
-  // Create element prop for popups
   const elementForPopup = {
     field_Options: fieldOptions
   };
 
-  // let option;
-
-  // function setSelectedFields(xyz, selectedFields){
-  //   console.log("Selected Fields in AddFieldPopUp:", xyz);
-  //   console.log(":", selectedFields);
-  //   selectedFields = xyz(selectedFields);
-  // }
-  
-
   return (
     <div className="w-full relative group bg-white rounded-lg">
+      
       {/* Top Controls */}
       {isBuilder && (
         <div className="flex justify-between items-center mb-3">
           <span className="text-sm font-medium text-gray-700"></span>
           <div className="flex space-x-2 opacity-0 group-hover:opacity-100">
-            {/* Toggle Required */}
             <button
-              onClick={() => onUpdate({ required: !field.required })}
+              onClick={() => onUpdateReq({ required: !field.required })}
               className={`transition-all ${
                 field.required
                   ? "text-green-600 hover:text-green-800"
@@ -380,7 +371,6 @@ export default function SpecialSelectOption({
               </svg>
             </button>
 
-            {/* Duplicate */}
             <button
               onClick={() => onDuplicate(field)}
               className="text-gray-400 hover:text-blue-500 transition-all"
@@ -401,8 +391,7 @@ export default function SpecialSelectOption({
                 />
               </svg>
             </button>
-
-            {/* Remove */}
+            
             <button
               onClick={onRemove}
               className="text-gray-400 hover:text-red-500 transition-all"
@@ -419,14 +408,13 @@ export default function SpecialSelectOption({
         {isPreview ? (
           <>
             <div className="text-lg font-medium text-black bg-white">
-              {field.label || "Special Select Question"}
+              {fieldName}
               {field.required && <span className="text-red-500 ml-1">*</span>}
             </div>
-            <div className="text-sm text-gray-500">{field.description}</div>
+            <div className="text-sm text-gray-500">{description}</div>
           </>
         ) : (
           <>
-            {/* {console.log("Payment Fis", field)} */}
             <input
               className="text-black text-lg font-medium w-full bg-white outline-none px-1 py-0.5"
               type="text"
@@ -441,6 +429,7 @@ export default function SpecialSelectOption({
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Description"
             />
+            <p style={{fontWeight:"bold"}}>remember this is most crucial and complex fieldof the form there a save button you need to press when completed editingthis field just below add options button</p>
           </>
         )}
 
@@ -475,18 +464,12 @@ export default function SpecialSelectOption({
 
         {/* Options List */}
         <div className="space-y-3">
-          {/* {isPreview ? (<>{field.options}</>):(<>{options.length}</>)} */}
-          {(field.options ? field.options || [] : options).map((optionObj, index) => (
+          {options.map((optionObj, index) => (
             <div key={optionObj.id} className="relative">
-              <div className="hidden">
-                              {/* {console.log("Payment Fields", paymentFields && paymentFields[0] && paymentFields[0].options && paymentFields[0].options[0] && paymentFields[0].options[0].value)} */}
-                            {/* {option = optionObj.value}{console.log(optionObj)} */}
-                            </div>
               <div className="flex items-center justify-between border border-gray-200 rounded-md p-3 hover:border-gray-300 transition">
                 <div className="flex items-center gap-3">
                   {/* Selection Input with react-hook-form registration */}
                   {isPreview && typeof register === "function" ? (
-                    // Multi-select mode in preview with registration
                     isMultiSelect ? (
                       <input
                         {...register(`${fieldKey}_option_${index}`)}
@@ -494,7 +477,6 @@ export default function SpecialSelectOption({
                         className="w-5 h-5 rounded-sm border-2 border-gray-300 text-blue-600 focus:ring-blue-500 focus:border-blue-500"
                       />
                     ) : (
-                      // Single-select mode in preview with registration
                       <input
                         {...register(`${fieldKey}_selection`)}
                         type="radio"
@@ -503,7 +485,6 @@ export default function SpecialSelectOption({
                       />
                     )
                   ) : (
-                    // Builder mode or preview without registration - custom controls
                     isMultiSelect ? (
                       <div
                         className={`w-5 h-5 rounded-sm border-2 flex items-center justify-center cursor-pointer ${
@@ -582,28 +563,28 @@ export default function SpecialSelectOption({
                             d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                             clipRule="evenodd"
                           />
-                          </svg>
-                        </button>
+                        </svg>
+                      </button>
 
-                        {/* Dropdown Menu */}
-                        {activeDropdown === index && (
-                          <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-10 min-w-[120px]">
-                            <button
-                              onClick={() => handleAction('Add Payment', index)}
-                              className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#2F44FF] transition"
-                            >
-                              Add Payment
-                            </button>
-                            <button
-                              onClick={() => handleAction('Add Field', index)}
-                              className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#2F44FF] transition border-t border-gray-100"
-                            >
-                              Add Field
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                      {/* Dropdown Menu */}
+                      {activeDropdown === index && (
+                        <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-10 min-w-[120px]">
+                          <button
+                            onClick={() => handleAction('Add Payment', index)}
+                            className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#2F44FF] transition"
+                          >
+                            Add Payment
+                          </button>
+                          <button
+                            onClick={() => handleAction('Add Field', index)}
+                            className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#2F44FF] transition border-t border-gray-100"
+                          >
+                            Add Field
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   {/* Builder Controls */}
                   {!isPreview && (
@@ -612,6 +593,7 @@ export default function SpecialSelectOption({
                         onClick={() => moveUp(index)}
                         disabled={index === 0}
                         className="text-gray-500 hover:text-gray-600 disabled:opacity-40"
+                        title="Move Up"
                       >
                         ↑
                       </button>
@@ -619,12 +601,14 @@ export default function SpecialSelectOption({
                         onClick={() => moveDown(index)}
                         disabled={index === options.length - 1}
                         className="text-gray-500 hover:text-gray-600 disabled:opacity-40"
+                        title="Move Down"
                       >
                         ↓
                       </button>
                       <button
                         onClick={() => duplicateOption(index)}
                         className="text-gray-500 hover:text-gray-600"
+                        title="Duplicate"
                       >
                         ⧉
                       </button>
@@ -632,6 +616,7 @@ export default function SpecialSelectOption({
                         onClick={() => removeOption(index)}
                         disabled={options.length <= 1}
                         className="text-gray-500 hover:text-red-500 disabled:opacity-40"
+                        title="Remove"
                       >
                         ✕
                       </button>
@@ -646,12 +631,16 @@ export default function SpecialSelectOption({
         {/* Add Option Button (Builder Only) */}
         {!isPreview && (
           <button
-            onClick={() => setOptions(prev => [...prev, `Option ${prev.length + 1}`])}
+            onClick={addOption}
             className="w-full border-2 border-dashed border-gray-300 hover:border-[#2F44FF] text-gray-500 hover:text-[#2F44FF] py-3 rounded-md transition font-medium"
           >
             + Add Option
           </button>
         )}
+      </div>
+
+      <div onClick={save}>
+        Save
       </div>
 
       {/* Popups */}
@@ -664,12 +653,10 @@ export default function SpecialSelectOption({
           currentOptionIndex={currentOptionIndex}
           element={elementForPopup}
           addField={addField}
-          selectedFields={field.options[currentOptionIndex].selectedFields.fields}
+          selectedFields={field.options?.[currentOptionIndex]?.selectedFields?.fields || []}
           optionId={currentOptionIndex}
           setSelectedFields={onUpdate}
-          
-          >
-          </AddFieldPopUp>
+        />
       )}
 
       {showPaymentPopup && (

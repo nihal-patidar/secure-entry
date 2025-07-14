@@ -93,7 +93,7 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender, addField}) 
                           paymentFields.map((field, index) => (
                             <>
                               <div style={{height:"50px"}}></div>
-                                <PaymentField field={field} isPreview={true} onUpdate={setUserFills} fieldList={otherPlusPaymentFields} fieldInd={index} fieldId={index} paymentFields={paymentFields} addField={addField}/>
+                                <PaymentField field={field} isPreview={true} onUpdate={setUserFills} fieldList={otherPlusPaymentFields} fieldInd={index} fieldId={index} paymentFields={paymentFields} addField={addField} isBuilder={false}/>
                               </>
                             ))
                           }
