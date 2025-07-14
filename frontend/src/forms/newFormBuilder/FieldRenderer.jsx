@@ -14,7 +14,7 @@ import Terms from "./fields/TermsnConditions";
 import PhoneNumberField from "./fields/Phone";
 import Date from "./fields/Date";
 import TimeField from "./fields/Time";
-import InputFile from "./fields/InputField";
+import InputFile from "./fields/InputFile";
 // import SpecialRendering from "./fields/SpecialRendering";
 
 // Field type to component mapping
