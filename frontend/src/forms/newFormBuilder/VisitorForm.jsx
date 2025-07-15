@@ -10,7 +10,7 @@ import { Button } from "@material-tailwind/react";
 import BouncingDotsLoader from "../../components/small/BouncingDotsLoader";
 import { toast } from "react-toastify";
 
-const VisitorForm = ({ setVisitorData, setActiveStep,amount , setAmount,serviceData,setServiceData }) => {
+const VisitorForm = ({ setVisitorData, setActiveStep, amount , setAmount,serviceData,setServiceData }) => {
   const { formId } = useParams();
   const [formConfig, setFormConfig] = useState(null);
   const [image, setImage] = useState(null);
@@ -40,6 +40,7 @@ const VisitorForm = ({ setVisitorData, setActiveStep,amount , setAmount,serviceD
 
   const onSubmit = async (data) => {
     // Merge first and last name fields
+    console.log("Data submitted:", data);
     const visitorData = { ...data };
     Object.keys(data).forEach((key) => {
       if (key.endsWith("_first")) {
@@ -73,7 +74,7 @@ const VisitorForm = ({ setVisitorData, setActiveStep,amount , setAmount,serviceD
         orderId,
       };
 
-      console.log("payload visitor data",payload)
+      // console.log("payload visitor data",payload)
 
       const config = image
         ? { headers: { "Content-Type": "multipart/form-data" } }
@@ -89,7 +90,7 @@ const VisitorForm = ({ setVisitorData, setActiveStep,amount , setAmount,serviceD
       setActiveStep?.(1);
       toast.success("Visitor Data Successfully Added !!!");
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.warning("Error submitting form");
     }
   };
@@ -101,7 +102,8 @@ const VisitorForm = ({ setVisitorData, setActiveStep,amount , setAmount,serviceD
   const sanitizedFields = formConfig?.fields.filter(
     (field) =>
       !(field.label === "" && field.placeholder === "Enter " && field.required === false && field.type === "" && field.value === "") &&
-      !(field.type === "Logo" && (!field.previewUrl || field.previewUrl === "null"))
+      !(field.type === "Logo" && (!field.previewUrl || field.previewUrl === "null")) &&
+      !(field?.special !== undefined)
   );
 
   const coverField = sanitizedFields?.find((f) => f.type === "Cover");

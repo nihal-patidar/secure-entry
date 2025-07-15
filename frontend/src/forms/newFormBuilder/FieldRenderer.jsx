@@ -14,8 +14,8 @@ import Terms from "./fields/TermsnConditions";
 import PhoneNumberField from "./fields/Phone";
 import Date from "./fields/Date";
 import TimeField from "./fields/Time";
-import InputFile from "./fields/InputField";
-import SpecialRendering from "./fields/SpecialRendering";
+import InputFile from "./fields/InputFile";
+// import SpecialRendering from "./fields/SpecialRendering";
 
 // Field type to component mapping
 const fieldComponents = {
@@ -37,7 +37,7 @@ const fieldComponents = {
   Time: TimeField,
   "Upload Image": InputFile,
   "Upload File": InputFile,
-  "Payment Fields": SpecialRendering,
+  "Payment Fields": "",
 };
 
 const FieldRenderer = ({

@@ -4,8 +4,9 @@ import api from "../../../axiosConfig";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import PaymentField from "./fields/PaymentField";
+// import { add } from "date-fns";
 
-const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
+const FormCanvas = ({ formConfig, setFormConfig, isPreview = false, addField }) => {
   const [serviceId, setServiceId] = useState();
   const params = useParams();
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
   const logoField = formConfig.fields.find((f) => f.type === "Logo");
   const timerField = formConfig.fields.find((f) => f.type === "Timer");
   const paymentFields = formConfig.fields.filter((f) => f.type === "Payment Fields");
+  console.log("form config",formConfig, paymentFields)
   const termsField = formConfig.fields.find(
     (f) => f.type === "Terms & Conditions"
   );
@@ -28,7 +30,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
     if (params.serviceId) {
       setServiceId(params.serviceId);
     }
-  }, []);
+  }, [params]);
 
   const updateFormTitle = (title) => {
     setFormConfig((prev) => ({ ...prev, title }));
@@ -72,7 +74,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
   const handleSaveForm = async () => {
     try {
       let token = localStorage.getItem("userData");
-      console.log(serviceId,token,formConfig);
+      // console.log(serviceId,token,formConfig);
       if (serviceId && formConfig && token) {
         let data = formConfig;
         const response = await api.post(`/service/addForm/${serviceId}`, data, {
@@ -81,12 +83,12 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
           },
         });
         if (response) {
-          toast.success("Form Successfully Created !");
+          toast.success("Login Successfully!");
           navigate(-1);
         }
       }
     } catch (err) {
-      console.log("err", err);
+      // console.log("err", err);
     } finally {
     }
   };
@@ -183,7 +185,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
               paymentFields.map((field, index) => (
                 <>
                   <div style={{height:"50px"}}></div>
-                    <PaymentField field={field} handleUserFills={setFormConfig} fieldList={otherPlusPaymentFields} fieldInd={index} fieldId={index}  paymentFields={paymentFields}/>
+                    <PaymentField field={field} fieldId={index} onUpdate={setFormConfig}/>
                   </>
                 ))
               }
