@@ -5,11 +5,9 @@ import {X} from "lucide-react";
 
 const AddFieldPopUp = ({
   onClose,
-  addField,
-  selectedFields,
   fieldId,
   optionId,
-  setSelectedFields
+  onUpdate
 }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -26,7 +24,7 @@ const AddFieldPopUp = ({
         </h2>
 
         <div className="flex gap-16 h-[600px]" style={{justifyContent:"center"}}>
-          <FormBuilderSidebar onFieldSelect={addField} setSelectedFields={setSelectedFields} idd={`${fieldId}${optionId}`} qId={fieldId} oId={optionId} />
+          <FormBuilderSidebar onUpdate={onUpdate} qId={fieldId} oId={optionId} />
           <div className="w-80 p-4" style={{background:"#fafafa"}}>
             selected
             <div></div>
@@ -43,15 +41,24 @@ const AddFieldPopUp = ({
 
 const SetPaymentPopUp = ({
   onClose,
-  fieldId,
-  currentOptionIndex,
-  updateOptionAmountAtIndex,
-  element
+  element,
+  onUpdate,
+  qId, 
+  oId,
+  currentOptionIndex
 }) => {
+  let prevAmt;
+  onUpdate(prev => {
+    prev.fields.map(f => {
+      f.id === qId ? prevAmt = f.options[currentOptionIndex].amount : {}
+    })
+    return prev;
+  })
   const [amount, setAmount] = useState(
-    element?.field_Options?.[currentOptionIndex]?.amount ?? ""
+    prevAmt
   );
   const [error, setError] = useState("");
+
 
   const handleSetPayment = () => {
     if (amount === "") {
@@ -61,7 +68,22 @@ const SetPaymentPopUp = ({
 
     const num = Number(amount);
     if (!isNaN(num) && num >= 0) {
-      updateOptionAmountAtIndex(fieldId, currentOptionIndex, num);
+      // updateOptionAmountAtIndex(fieldId, currentOptionIndex, num);
+      onUpdate(prev => {
+        console.log(prev)
+        return {
+          ...prev, 
+          fields: prev.fields.map((f) => 
+            f.id === qId ? { 
+              ...f,
+              options: f.options.map((o, ind) => 
+                currentOptionIndex === ind ? {...o, amount} : o
+              )
+            } : f
+          )
+        };
+      })
+  
       onClose();
     } else {
       setError("* Please enter a valid non-negative number");
@@ -85,7 +107,7 @@ const SetPaymentPopUp = ({
         <h2 className="text-black text-xl font-semibold mb-6 flex items-center gap-2">
           Current Amount:
           <span className="bg-green-100 text-green-700 font-bold px-3 py-1 rounded-xl shadow-sm border border-green-300">
-            ₹ {element?.field_Options?.[currentOptionIndex]?.amount ?? 0}
+            ₹ {prevAmt}
           </span>
         </h2>
 
@@ -287,7 +309,13 @@ export default function SpecialSelectOption({
     const newIndex = options.length;
     const newOption = { 
       value: `Option ${newIndex + 1}`, 
-      id: `${fieldId}${Date.now()}` 
+      id: `${fieldId}${Date.now()}` , 
+      amount: 0,
+      selectedFields:{
+        title: "Form Heading",
+        description: "Form Description",
+        fields: [],
+      }
     };
     setOptions(prev => [...prev, newOption]);
   };
@@ -311,6 +339,7 @@ export default function SpecialSelectOption({
   };
 
   const toggleActionDropdown = (index) => {
+    save();
     setActiveDropdown(activeDropdown === index ? null : index);
   };
 
@@ -429,7 +458,7 @@ export default function SpecialSelectOption({
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Description"
             />
-            <p style={{fontWeight:"bold"}}>remember this is most crucial and complex fieldof the form there a save button you need to press when completed editingthis field just below add options button</p>
+            <p style={{fontWeight:"bold"}}>remember this is most crucial and complex field of the form there is a save button you need to press when completed editing this field just below add options button</p>
           </>
         )}
 
@@ -647,25 +676,20 @@ export default function SpecialSelectOption({
       {showAddFieldPopup && (
         <AddFieldPopUp
           onClose={() => setShowAddFieldPopup(false)}
-          fieldList={fieldList}
-          updateOptionDependedFieldsAtIndex={updateOptionDependedFields}
           fieldId={field.id}
-          currentOptionIndex={currentOptionIndex}
-          element={elementForPopup}
-          addField={addField}
-          selectedFields={field.options?.[currentOptionIndex]?.selectedFields?.fields || []}
           optionId={currentOptionIndex}
-          setSelectedFields={onUpdate}
+          onUpdate={onUpdate}
         />
       )}
 
       {showPaymentPopup && (
         <SetPaymentPopUp
           onClose={() => setShowPaymentPopup(false)}
-          fieldId={field.id}
-          currentOptionIndex={currentOptionIndex}
-          updateOptionAmountAtIndex={updateOptionAmount}
           element={elementForPopup}
+          // oId={currentOptionIndex}
+          currentOptionIndex={currentOptionIndex}
+          qId={field.id}
+          onUpdate={onUpdate}
         />
       )}
     </div>

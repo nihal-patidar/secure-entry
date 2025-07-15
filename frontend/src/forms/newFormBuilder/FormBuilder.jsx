@@ -51,15 +51,15 @@ const FormBuilder = () => {
             placeholder: `Enter ${type.toLowerCase()}`,
             value: "",
             amount:"",
-            options:[ { value:"A",id:`${idd}A`, selectedFields:{
+            options:[ { value:"A",id:`${idd}A`, amount: 0, selectedFields:{
               title: "Form Heading",
               description: "Form Description",
               fields: [],
-            }}, {value:"B",id:`${idd}B`, selectedFields:{
+            }}, {value:"B",id:`${idd}B`, amount: 0, selectedFields:{
               title: "Form Heading",
               description: "Form Description",
               fields: [],
-            }}, {value:"C",id:`${idd}C`, selectedFields:{
+            }}, {value:"C",id:`${idd}C`, amount: 0, selectedFields:{
               title: "Form Heading",
               description: "Form Description",
               fields: [],

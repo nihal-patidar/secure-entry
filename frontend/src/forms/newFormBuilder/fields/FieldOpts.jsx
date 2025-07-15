@@ -25,7 +25,7 @@ import {
   IndianRupee,
 } from "lucide-react";
 
-const FormBuilderSidebar = ({ onFieldSelect, activeTab, setSelectedFields, idd, qId, oId }) => {
+const FormBuilderSidebar = ({ onUpdate, idd, qId, oId }) => {
   const [blinkingItem, setBlinkingItem] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -35,44 +35,7 @@ const FormBuilderSidebar = ({ onFieldSelect, activeTab, setSelectedFields, idd, 
     "Date & Time": false,
     "Legal & Consent": false,
   });
-  // console.log(onFieldSelect)
-
-  useEffect(() => {
-    const checkScreenSize = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-      if (!mobile) setIsSidebarOpen(false);
-    };
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-    return () => window.removeEventListener("resize", checkScreenSize);
-  }, []);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        isMobile &&
-        isSidebarOpen &&
-        !event.target.closest(".sidebar-container")
-      ) {
-        setIsSidebarOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isMobile, isSidebarOpen]);
-
-  // const handleItemClick = (item) => {
-  //   setBlinkingItem(item);
-  //   if (onFieldSelect) onFieldSelect(item);
-  //   if (isMobile) setIsSidebarOpen(false);
-
-  //   setTimeout(() => {
-  //     setBlinkingItem(null);
-  //   }, 300);
-  // };
-
-
+  let activeTab = "Field"
 
   const handleItemClick = (item) => {
     setBlinkingItem(item);
@@ -88,11 +51,28 @@ const FormBuilderSidebar = ({ onFieldSelect, activeTab, setSelectedFields, idd, 
 
   const handlePayClick = (item) => {
     setBlinkingItem(item);
-    setSelectedFields((prev) => {
+    onUpdate((prev) => {
       console.log(prev)
-      prev.fields.filter((field) => {field})
+      return {
+        ...prev,
+        fields: fields.map(field => {
+          field.id === qId ?
+          {...field,
+            options:[...options, { 
+                              value:item,
+                              id:`${qId}${oId}`,
+                              amount: 0,
+                              selectedFields:{
+                                title: "Form Heading",
+                                description: "Form Description",
+                                fields: [],
+                              }
+            }]
+          }
+          : field
+        })}
     })
-  //  {console.log(" "," ","idd :", `${fId}${oId}` ," ", "fieldId", fId," ", "optionId", oId," ")} 
+
     if (isMobile) setIsSidebarOpen(false);
 
     setTimeout(() => {
@@ -147,20 +127,7 @@ const FormBuilderSidebar = ({ onFieldSelect, activeTab, setSelectedFields, idd, 
 
   return (
     <>
-      {/* {isMobile && (
-        <button
-          onClick={toggleSidebar}
-          className="fixed top-4 left-4 z-50 p-2 bg-white rounded-lg shadow-lg border border-gray-200 md:hidden"
-        >
-          {isSidebarOpen ? (
-            <X className="w-6 h-6 text-gray-600" />
-          ) : (
-            <Menu className="w-6 h-6 text-gray-600" />
-          )}
-        </button>
-      )} */}
-
-      {isMobile && isSidebarOpen && (
+      {(
         <div className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden" ></div>
       )}
 
@@ -171,63 +138,13 @@ const FormBuilderSidebar = ({ onFieldSelect, activeTab, setSelectedFields, idd, 
           isMobile ? "z-40" : "z-auto"
         } w-80 bg-gray-50 border-r border-gray-200 h-[490px] flex transition-transform duration-300 ease-in-out`}
       >
-
-        {/* Left vertical tab panel
-        <div className="w-20 bg-white border-r border-gray-200 flex flex-col items-center py-4 mt-2">
-          {tabs.map((tab) => {
-            const IconComponent = tab.icon;
-            const isActive = activeTab === tab.name;
-
-            return (
-              <button
-                key={tab.name}
-                onClick={() => handleTabClick(tab.name)}
-                className={`w-16 h-16 rounded-lg flex flex-col items-center justify-center mb-4 transition-colors ${
-                  isActive
-                    ? "bg-[#2C3Ed3] text-white"
-                    : "text-gray-600 hover:bg-gray-100"
-                }`}
-              >
-                <IconComponent className="w-5 h-5 mb-1" />
-                <span className="text-xs font-medium">{tab.name}</span>
-              </button>
-            );
-          })}
-        </div> */}
-
-        {/* Right panel */}
-        {/* <div className="flex-1 flex flex-col pb-0 mt-2">
-          <div className="p-4 border-b border-gray-200">
-            <div className="flex items-center justify-between">
-              <h2 className="font-semibold text-gray-900">{activeTab}</h2>
-              {isMobile && (
-                <button
-                  onClick={toggleSidebar}
-                  className="p-1 text-gray-500 hover:text-gray-700"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              )}
-            </div>
-          </div> */}
           <div className="flex-1 p-4" style={{overflowY:"scroll", maxHeight:"1000px"}}>
           Select Field types
             {/* Field rendering */}
             {
               fieldsData.map((section) => (
                 <div key={section.title} className="mb-4">
-                  {/* <button
-                    onClick={() => toggleSection(section.title)}
-                    className="w-full flex items-center justify-between p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-                  >
-                    <span className="font-medium text-sm">{section.title}</span>
-                    {collapsedSections[section.title] ? (
-                      <ChevronRight className="w-4 h-4" />
-                    ) : (
-                      <ChevronDown className="w-4 h-4" />
-                    )}
-                  </button> */}
-
+                  
                   {(
                     <div className="ml-2 mt-1">
                       {section.items.map((item, index) => {
@@ -260,7 +177,7 @@ const FormBuilderSidebar = ({ onFieldSelect, activeTab, setSelectedFields, idd, 
                                 :
                                 <button
                                   key={item.name}
-                                  onClick={() => handlePayClick(item.name, index)}
+                                  onClick={() => handlePayClick(item.name)}
                                   className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${baseClass}`}
                                 >
                                   <IconComponent

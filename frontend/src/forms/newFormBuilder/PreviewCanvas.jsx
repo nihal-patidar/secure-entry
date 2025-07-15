@@ -41,7 +41,7 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender, addField}) 
     const termsField = formConfig.fields.find(
       (f) => f.type === "Terms & Conditions"
     );
-    const otherFields = userFills.fields.filter(
+    const otherFields = formConfig.fields.filter(
       (f) => !["Cover", "Logo", "Timer", "Terms & Conditions", "Payment Fields"].includes(f.type)
     );
   
