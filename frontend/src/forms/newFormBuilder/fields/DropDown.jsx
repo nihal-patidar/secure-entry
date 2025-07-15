@@ -6,6 +6,7 @@ export default function DropdownSelectOption({
   field = {},
   onUpdate,
   isBuilder = true,
+  register, // ✅ used in preview mode only
 }) {
   const [options, setOptions] = useState(field?.options || opts);
   const [selectedOption, setSelectedOption] = useState(0);
@@ -16,6 +17,9 @@ export default function DropdownSelectOption({
   const [description, setDescription] = useState(
     field?.description || "Description"
   );
+
+  // Used to create unique field names for registration
+  const fieldKey = field.label || fieldName || "Dropdown Question";
 
   // Update external state if in builder mode
   const updateField = (newState) => {
@@ -124,46 +128,70 @@ export default function DropdownSelectOption({
         {/* Dropdown */}
         <div>
           <div className="relative">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="w-full bg-white border border-gray-300 rounded-md px-4 py-3 text-left text-gray-800 hover:border-gray-400 focus:outline-none"
-            >
-              <div className="flex items-center justify-between">
-                <span>{options[selectedOption] || "Select an option"}</span>
-                <svg
-                  className={`w-5 h-5 text-gray-400 transition-transform ${
-                    isOpen ? "rotate-180" : ""
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </div>
-            </button>
-
-            {isOpen && (
-              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto">
+            {isPreview && typeof register === "function" ? (
+              // React Hook Form registered select
+              <select
+                {...register(fieldKey)} // ✅ Register for react-hook-form
+                className="w-full bg-white border border-gray-300 rounded-md px-4 py-3 text-gray-800 hover:border-gray-400 focus:outline-none appearance-none"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
+                  backgroundPosition: 'right 0.5rem center',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: '1.5em 1.5em',
+                }}
+              >
+                <option value="">Select an option</option>
                 {options.map((option, index) => (
-                  <button
-                    key={index}
-                    onClick={() => selectOption(index)}
-                    className={`w-full px-4 py-2 text-left text-sm transition-colors ${
-                      selectedOption === index
-                        ? "bg-blue-50 text-blue-700"
-                        : "hover:bg-gray-50 text-gray-800"
-                    }`}
-                  >
+                  <option key={index} value={option}>
                     {option}
-                  </button>
+                  </option>
                 ))}
-              </div>
+              </select>
+            ) : (
+              // Interactive dropdown for builder/non-preview mode
+              <>
+                <button
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="w-full bg-white border border-gray-300 rounded-md px-4 py-3 text-left text-gray-800 hover:border-gray-400 focus:outline-none"
+                >
+                  <div className="flex items-center justify-between">
+                    <span>{options[selectedOption] || "Select an option"}</span>
+                    <svg
+                      className={`w-5 h-5 text-gray-400 transition-transform ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+                </button>
+
+                {isOpen && (
+                  <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto">
+                    {options.map((option, index) => (
+                      <button
+                        key={index}
+                        onClick={() => selectOption(index)}
+                        className={`w-full px-4 py-2 text-left text-sm transition-colors ${
+                          selectedOption === index
+                            ? "bg-blue-50 text-blue-700"
+                            : "hover:bg-gray-50 text-gray-800"
+                        }`}
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

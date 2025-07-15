@@ -1,7 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
 import { X } from "lucide-react";
 
-const Timer = ({ field, onUpdate, isBuilder = true, onRemove }) => {
+const Timer = ({ 
+  field, 
+  onUpdate, 
+  isBuilder = true, 
+  onRemove,
+  register, // ✅ used in preview mode only
+}) => {
   const refs = [useRef(), useRef(), useRef(), useRef()];
 
   const [timeData, setTimeData] = useState({
@@ -10,6 +16,9 @@ const Timer = ({ field, onUpdate, isBuilder = true, onRemove }) => {
     minutes: field?.defaultValue?.minutes || 0,
     seconds: field?.defaultValue?.seconds || 0,
   });
+
+  // Used to create unique field names for registration
+  const fieldKey = field?.label || "Timer";
 
   const getValues = () => {
     return refs.map((ref) => {
@@ -80,6 +89,32 @@ const Timer = ({ field, onUpdate, isBuilder = true, onRemove }) => {
             >
               <X className="w-4 h-4" />
             </button>
+          )}
+
+          {/* Hidden inputs for form registration in preview mode */}
+          {!isBuilder && typeof register === "function" && (
+            <>
+              <input
+                {...register(`${fieldKey}_days`)}
+                type="hidden"
+                value={timeData.days}
+              />
+              <input
+                {...register(`${fieldKey}_hours`)}
+                type="hidden"
+                value={timeData.hours}
+              />
+              <input
+                {...register(`${fieldKey}_minutes`)}
+                type="hidden"
+                value={timeData.minutes}
+              />
+              <input
+                {...register(`${fieldKey}_seconds`)}
+                type="hidden"
+                value={timeData.seconds}
+              />
+            </>
           )}
 
           {/* Timer Display */}

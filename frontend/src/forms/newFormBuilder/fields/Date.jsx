@@ -2,7 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const DateField = ({ field = {}, isPreview = false, onUpdate }) => {
+const DateField = ({ 
+  field = {}, 
+  isPreview = false, 
+  onUpdate,
+  register // ✅ added register prop for react-hook-form
+}) => {
   const dateRef = useRef(null);
 
   const [dateFieldData, setDateFieldData] = useState({
@@ -37,6 +42,9 @@ const DateField = ({ field = {}, isPreview = false, onUpdate }) => {
     }
   };
 
+  // Used to create unique field names for registration
+  const fieldKey = field?.field_label || "DateField";
+
   return (
     <div className="w-full relative group bg-white rounded-lg ">
       <div className="max-w-3xl mx-auto bg-white px-8 rounded-lg space-y-4">
@@ -56,22 +64,32 @@ const DateField = ({ field = {}, isPreview = false, onUpdate }) => {
               placeholder="Date Question"
               className="text-black bg-white text-lg font-medium w-full outline-none px-1 py-0.5"
             />
-            
-            
           </div>
         )}
 
         {/* Date Picker */}
         <div className="relative">
-          <DatePicker
-            selected={dateFieldData.date}
-            onChange={(date) => handleChange("date", date)}
-            dateFormat="dd/MM/yyyy"
-            placeholderText="dd/mm/yyyy"
-            ref={dateRef}
-            className="w-full px-4 py-2 border bg-white outline-none border-gray-300 rounded-md text-sm pr-12"
-            calendarClassName="!z-50"
-          />
+          {isPreview && typeof register === "function" ? (
+            <DatePicker
+              {...register(fieldKey)} // ✅ Register for react-hook-form
+              selected={dateFieldData.date}
+              dateFormat="dd/MM/yyyy"
+              placeholderText="dd/mm/yyyy"
+              ref={dateRef}
+              className="w-full px-4 py-2 border bg-white outline-none border-gray-300 rounded-md text-sm pr-12"
+              calendarClassName="!z-50"
+            />
+          ) : (
+            <DatePicker
+              selected={dateFieldData.date}
+              onChange={(date) => handleChange("date", date)}
+              dateFormat="dd/MM/yyyy"
+              placeholderText="dd/mm/yyyy"
+              ref={dateRef}
+              className="w-full px-4 py-2 border bg-white outline-none border-gray-300 rounded-md text-sm pr-12"
+              calendarClassName="!z-50"
+            />
+          )}
         </div>
 
         {/* Note */}

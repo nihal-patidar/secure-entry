@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
-const PhoneNumberField = ({ onRemove, isPreview = false, field = {}, onUpdate }) => {
+const PhoneNumberField = ({ 
+  onRemove, 
+  isPreview = false, 
+  field = {}, 
+  onUpdate,
+  register, // ✅ used in preview mode only
+}) => {
   const [phoneNumber, setPhoneNumber] = useState(field.phoneNumber || "");
   const [selectedCountry, setSelectedCountry] = useState(field.selectedCountry || "IN");
   const [description, setDescription] = useState(field.description || "Phone Number");
@@ -24,6 +30,9 @@ const PhoneNumberField = ({ onRemove, isPreview = false, field = {}, onUpdate })
     { code: "CA", name: "Canada", flag: "🇨🇦", dialCode: "+1" },
     { code: "AU", name: "Australia", flag: "🇦🇺", dialCode: "+61" },
   ];
+
+  // Used to create unique field names for registration
+  const fieldKey = field.description || "Phone Number";
 
   const selectedCountryData = countries.find((c) => c.code === selectedCountry);
 
@@ -110,14 +119,24 @@ const PhoneNumberField = ({ onRemove, isPreview = false, field = {}, onUpdate })
             </div>
 
             {/* Phone Number Input */}
-            <input
-              value={phoneNumber}
-              onChange={handlePhoneNumberChange}
-              type="tel"
-              placeholder={phonePlaceholder}
-              className="flex-1 px-4 py-2 rounded-lg border ml-2 outline-none bg-white"
-              maxLength={10}
-            />
+            {isPreview && typeof register === "function" ? (
+              <input
+                {...register(`${fieldKey}_phone`)} // ✅ Register for react-hook-form
+                type="tel"
+                placeholder={phonePlaceholder}
+                className="flex-1 px-4 py-2 rounded-lg border ml-2 outline-none bg-white"
+                maxLength={10}
+              />
+            ) : (
+              <input
+                value={phoneNumber}
+                onChange={handlePhoneNumberChange}
+                type="tel"
+                placeholder={phonePlaceholder}
+                className="flex-1 px-4 py-2 rounded-lg border ml-2 outline-none bg-white"
+                maxLength={10}
+              />
+            )}
           </div>
 
           {/* Editable Placeholder in builder only */}
