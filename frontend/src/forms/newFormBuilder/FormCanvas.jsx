@@ -7,18 +7,23 @@ import PaymentField from "./fields/PaymentField";
 // import { add } from "date-fns";
 
 const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
+  formConfig = formConfig || {
+    title: "",
+    description: "",
+    fields: [],
+  }
   const [serviceId, setServiceId] = useState();
   const params = useParams();
   const navigate = useNavigate();
   const [formTitle, setFormTitle] = useState(formConfig.title || "");
-  console.log("Form config from canvas", formConfig);
+  // console.log("Form config from canvas", formConfig);
   const coverField = formConfig.fields.find((f) => f.type === "Cover");
   const logoField = formConfig.fields.find((f) => f.type === "Logo");
   const timerField = formConfig.fields.find((f) => f.type === "Timer");
   const paymentFields = formConfig.fields.filter(
     (f) => f.type === "Payment Fields"
   );
-  console.log("form config", formConfig, paymentFields);
+  // console.log("form config", formConfig, paymentFields);
   const termsField = formConfig.fields.find(
     (f) => f.type === "Terms & Conditions"
   );
@@ -32,7 +37,6 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
         "Payment Fields",
       ].includes(f.type)
   );
-  // git commit -m "a minute ui but big brainstrome bug fixed. the unwanted 0 on form builder
 
   const otherPlusPaymentFields = formConfig.fields.filter(
     (f) => !["Cover", "Logo", "Timer", "Terms & Conditions"].includes(f.type)

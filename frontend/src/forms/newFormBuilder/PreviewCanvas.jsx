@@ -36,10 +36,6 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender, addField}) 
       (f) => !["Cover", "Logo", "Timer", "Terms & Conditions"].includes(f.type)
     );
 
-
-
-    // console.log("Data bitch", sanitizedFields);
-    // console.log("Data UserFills", userFills);
     
   return (
     <div className="flex-1 overflow-y-auto p-4">

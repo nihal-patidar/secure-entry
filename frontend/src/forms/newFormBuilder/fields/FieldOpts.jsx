@@ -25,62 +25,114 @@ import {
   IndianRupee,
 } from "lucide-react";
 
-const FormBuilderSidebar = ({ onUpdate, idd, qId, oId }) => {
+const FormBuilderSidebar = ({ onUpdate, qId, oId }) => {
   const [blinkingItem, setBlinkingItem] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [collapsedSections, setCollapsedSections] = useState({
-    "Contact Details": false,
-    Essentials: false,
-    "Date & Time": false,
-    "Legal & Consent": false,
+  const [item, setItem] = useState("");
+  const [TempField, setTempField] = useState({
+    id: Date.now().toString(),
+    type: item,
+    label: item,
+    required: false,
+    placeholder: `Enter ${item.toLowerCase()}`,
+    value: "",
   });
-  let activeTab = "Field"
+  const [PaymField, setPaymField] = useState({
+    id: 0,
+    type: item,
+    label: "Extra Payment Field",
+    required: false,
+    placeholder: `Enter ${item.toLowerCase()}`,
+    value: "",
+    amount:"",
+    options:[ { value:"A",id:`${qId}_A`, amount: 0, selected: false, selectedFields:{
+      title: "",
+      description: "",
+      fields: [],
+    }}, {value:"B",id:`${qId}_B`, amount: 0, selected: false, selectedFields:{
+      title: "",
+      description: "Form Description",
+      fields: [],
+    }}, {value:"C",id:`${qId}_C`, amount: 0, selected: false, selectedFields:{
+      title: "",
+      description: "Form Description",
+      fields: [],
+    }}]
+  });
+
 
   const handleItemClick = (item) => {
     setBlinkingItem(item);
-    {if (onFieldSelect) {
-      // onFieldSelect(setSelectedFields, item, idd);
-    }}
-    if (isMobile) setIsSidebarOpen(false);
+
+    // Update the formConfig with the new field
+    setItem(item);
+    console.log("Item NAme" , "Kuch toh hua hai yar")
 
     setTimeout(() => {
       setBlinkingItem(null);
     }, 300);
   };
 
-  const handlePayClick = (item) => {
-    setBlinkingItem(item);
-    onUpdate((prev) => {
-      console.log(prev)
-      return {
-        ...prev,
-        fields: fields.map(field => {
-          field.id === qId ?
-          {...field,
-            options:[...options, { 
-                              value:item,
-                              id:`${qId}${oId}`,
-                              amount: 0,
-                              selectedFields:{
-                                title: "Form Heading",
-                                description: "Form Description",
-                                fields: [],
-                              }
-            }]
-          }
-          : field
-        })}
+
+  useEffect(() => {
+    setTempField({
+      id: Date.now().toString(),
+      type: item,
+      label: item,
+      required: false,
+      placeholder: `Enter ${item.toLowerCase()}`,
+      value: "",
     })
+    setPaymField({
+      id: 0,
+      type: item,
+      label: "Extra Payment Field",
+      required: false,
+      placeholder: `Enter ${item.toLowerCase()}`,
+      value: "",
+      amount:"",
+      options:[ { value:"A",id:`${qId}_A`, amount: 0, selected: false, selectedFields:{
+        title: "",
+        description: "",
+        fields: [],
+      }}, {value:"B",id:`${qId}_B`, amount: 0, selected: false, selectedFields:{
+        title: "",
+        description: "Form Description",
+        fields: [],
+      }}, {value:"C",id:`${qId}_C`, amount: 0, selected: false, selectedFields:{
+        title: "",
+        description: "Form Description",
+        fields: [],
+      }}]
+    })
+    onUpdate((prev) => { 
+      console.log(prev)
+      const newPrev = {
+        ...prev,
+        fields: prev.fields.map((f,i) => {
+          console.log(f.id === qId)
+          return f.id === qId ? {
+                ...f, options: f.options.map((o,i) => {
+                  return i === oId ? {
+                    ...o, selectedFields: {
+                      ...o.selectedFields,
+                      fields: [
+                        ...o.selectedFields.fields,
+                        item === "Payment Fields" ? PaymField : TempField]
+                    }
+                  } : o
+                })
+              }
+               : f
+        })
+      }
+        //   
+  // })
+  //     }
+      console.log("newPrev",newPrev);
+      return newPrev;
+    })
+  }, [item]);
 
-    if (isMobile) setIsSidebarOpen(false);
-
-    setTimeout(() => {
-      setBlinkingItem(null);
-    }, 300);
-  };
-
-  
   const fieldsData = [
     {
       title: "Contact Details",
@@ -120,11 +172,6 @@ const FormBuilderSidebar = ({ onUpdate, idd, qId, oId }) => {
     },
   ];
 
-  const tabs = [
-    { name: "Fields", icon: Palette },
-    { name: "Preview", icon: ScanEye },
-  ];
-
   return (
     <>
       {(
@@ -132,10 +179,10 @@ const FormBuilderSidebar = ({ onUpdate, idd, qId, oId }) => {
       )}
 
       <div
-        className={`sidebar-container ${isMobile ? "fixed" : "relative"} ${
-          isMobile && !isSidebarOpen ? "-translate-x-full" : "translate-x-0"
+        className={`sidebar-container ${"relative"} ${
+          "-translate-x-0"
         } ${
-          isMobile ? "z-40" : "z-auto"
+          "z-100"
         } w-80 bg-gray-50 border-r border-gray-200 h-[490px] flex transition-transform duration-300 ease-in-out`}
       >
           <div className="flex-1 p-4" style={{overflowY:"scroll", maxHeight:"1000px"}}>
@@ -152,16 +199,14 @@ const FormBuilderSidebar = ({ onUpdate, idd, qId, oId }) => {
                         const isBlinking = blinkingItem === item.name;
 
                         const isPayment = item.name === "Payment Fields";
-                        const baseClass = isPayment
-                          ? "bg-[#EAF1FF] text-[#2C3ED3] hover:bg-[#DBE8FF]"
-                          : isBlinking
+                        const baseClass = isBlinking
                           ? "bg-deep-purple-50 animate-pulse"
                           : "hover:bg-gray-100";
 
                         return (
                           <div>
                             {
-                              item.name !== "Payment Fields" ?
+                              
                                 <button
                                   key={item.name}
                                   onClick={() => handleItemClick(item.name)}
@@ -169,24 +214,12 @@ const FormBuilderSidebar = ({ onUpdate, idd, qId, oId }) => {
                                 >
                                   <IconComponent
                                     className={`w-4 h-4 ${
-                                      isPayment ? "text-[#2C3ED3]" : "text-gray-500"
+                                      "text-[#2C3ED3]" 
                                     }`}
                                   />
                                   <span className="text-sm">{item.name}</span>
                                 </button>
-                                :
-                                <button
-                                  key={item.name}
-                                  onClick={() => handlePayClick(item.name)}
-                                  className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${baseClass}`}
-                                >
-                                  <IconComponent
-                                    className={`w-4 h-4 ${
-                                      isPayment ? "text-[#2C3ED3]" : "text-gray-500"
-                                    }`}
-                                  />
-                                  <span className="text-sm">{item.name}</span>
-                                </button>
+                                
                               }
                           </div>
                         );
@@ -195,22 +228,6 @@ const FormBuilderSidebar = ({ onUpdate, idd, qId, oId }) => {
                   )}
                 </div>
               ))}
-
-            {/* Manual Preview Button */}
-            {activeTab === "Preview" && (
-              <div className="mb-4">
-                <h4 className="text-gray-700 font-medium text-sm mb-2">
-                  See Preview
-                </h4>
-                <button
-                  // onClick={() => handleItemClick("Preview")}
-                  className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors hover:bg-gray-100"
-                >
-                  <Eye className="w-4 h-4 text-gray-600" />
-                  <span className="text-sm">Preview</span>
-                </button>
-              </div>
-            )}
           </div>
         </div>
       {/* </div> */}

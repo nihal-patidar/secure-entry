@@ -5,12 +5,13 @@ import {X} from "lucide-react";
 import { button } from "@material-tailwind/react";
 import FormCanvas from "../FormCanvas";
 import PreviewCanvas from "../PreviewCanvas";
+import { use } from "react";
 
 const AddFieldPopUp = ({
   onClose,
-  fieldId,
-  optionId,
-  onUpdate
+  onUpdate,
+  qId,
+  oId
 }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -26,8 +27,9 @@ const AddFieldPopUp = ({
           Add fields to show if this option is selected
         </h2>
 
-        <div className="flex gap-16 h-[600px]" style={{justifyContent:"center"}}>
-          <FormBuilderSidebar onUpdate={onUpdate} qId={fieldId} oId={optionId} />
+        <div className="flex gap-6 h-[600px]" style={{justifyContent:"center"}}>
+          {/* {console.log(qId)} */}
+          <FormBuilderSidebar onUpdate={onUpdate} qId={qId} oId={oId} />
           <div className="w-80 p-4" style={{background:"#fafafa"}}>
             selected
             <div></div>
@@ -73,7 +75,7 @@ const SetPaymentPopUp = ({
     if (!isNaN(num) && num >= 0) {
       // updateOptionAmountAtIndex(fieldId, currentOptionIndex, num);
       onUpdate(prev => {
-        console.log(prev)
+        // console.log(prev)
         return {
           ...prev, 
           fields: prev.fields.map((f) => 
@@ -156,16 +158,16 @@ export default function SpecialSelectOption({
   onRemove
 }) {
   // Initialize options properly - use field.options if available, otherwise default
-  const [options, setOptions] = useState(() => {
-    return field.options || [ { value:"A",id:`${idd}A`, amount: 0, selected: false, selectedFields:{
+  const [options, setOptions] = useState(()=>{
+    return field.options || [ { value:"A",id:`${field.id}_A`, amount: 0, selected: false, selectedFields:{
       title: "",
       description: "",
       fields: [],
-    }}, {value:"B",id:`${idd}B`, amount: 0, selected: false, selectedFields:{
+    }}, {value:"B",id:`${field.id}_B`, amount: 0, selected: false, selectedFields:{
       title: "",
       description: "",
       fields: [],
-    }}, {value:"C",id:`${idd}C`, amount: 0, selected: false, selectedFields:{
+    }}, {value:"C",id:`${field.id}_C`, amount: 0, selected: false, selectedFields:{
       title: "",
       description: "",
       fields: [],
@@ -186,7 +188,6 @@ export default function SpecialSelectOption({
     description: "",
     fields: [],
   })
-
   // Used to create unique field names for registration
   const fieldKey = field.label || "Special Select Question";
 
@@ -238,6 +239,9 @@ export default function SpecialSelectOption({
     }, [tempField]);
   
       
+    useEffect(() => {
+      selectedFields.fields = [...options.filter((o) => o.selected == true)]
+    },[options])
 
   const moveUp = (index) => {
     if (index === 0) return;
@@ -296,9 +300,6 @@ export default function SpecialSelectOption({
       newFieldOptions.splice(index, 1);
       return newFieldOptions;
     });
-    setSelectedOptions(prev =>
-      prev.filter(i => i !== index).map(i => (i > index ? i - 1 : i))
-    );
     setTempField({...tempField, options: options});
   };
 
@@ -328,15 +329,50 @@ export default function SpecialSelectOption({
 
   const toggleOption = (index) => {
     if (isMultiSelect) {
-      setSelectedOptions(prev =>
-        prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]
+      setSelectedOptions(prev => {
+          if(prev.includes(index)) {
+            return prev.filter(i => i !== index)
+          }
+          else{
+            return [...prev, index]
+          }
+        }
       );
     } else {
-      setSelectedOptions(prev => 
-        prev.includes(index) ? [] : [index]
+      setSelectedOptions(prev => {
+        if(prev.includes(index)) {
+          return []
+        }
+        else{
+          return [index]
+        }
+      }
       );
     }
   };
+
+  useEffect(() => {
+    setSelectedFields({...selectedFields, fields: 
+      options.map((o) => {
+        return o.selected === true && o.selectedFields.fields
+      })
+    })
+    console.log("selected fields", selectedFields)
+  }, [selectedOptions])
+
+
+  useEffect(() => {
+    setOptions((prev) => {
+      return prev.map((option, index) => {
+        if (selectedOptions.includes(index)) {
+          return { ...option, selected: true };
+        } else {
+          return { ...option, selected: false };
+        }
+      });
+    })
+    onUpdate((prev) => {console.log(prev); return prev;})
+  }, [selectedOptions]);
 
   const handleSelectTypeChange = (type) => {
     setIsMultiSelect(type === 'multi');
@@ -462,7 +498,7 @@ export default function SpecialSelectOption({
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Description"
             />
-            <p style={{fontWeight:"bold"}}>remember this is most crucial and complex field of the form there is a save button you need to press when completed editing this field just below add options button</p>
+            {/* <p style={{fontWeight:"bold"}}>remember this is most crucial and complex field of the form there is a save button you need to press when completed editing this field just below add options button</p> */}
           </>
         )}
 
@@ -672,31 +708,35 @@ export default function SpecialSelectOption({
         )}
       </div>
 
-      {!isPreview ? (
-          <div>
-            <FormCanvas formConfig={selectedFields} onUpdate={setSelectedFields} setFormConfig={setSelectedFields} />
-          </div>
-        )
-      :
-        (
-          <>
-            <PreviewCanvas
-              key={"formkey"}
-              formConfig={selectedFields}
-              setFormConfig={setSelectedFields}
-              triggerRerender={() => {}/*setFormKey((prev) => prev + 1)*/}
-            />
-        </>
-        )
-      }
+      <div style={{paddingLeft:"4vw"}}>
+        {!isPreview ? (
+            <>
+              <div>
+                <FormCanvas formConfig={selectedFields} onUpdate={onUpdate} setFormConfig={setSelectedFields} />
+              </div>
+            </>
+          )
+        :
+          (
+            <>
+              <PreviewCanvas
+                key={"formkey"}
+                formConfig={selectedFields}
+                setFormConfig={setSelectedFields}
+                triggerRerender={() => {}/*setFormKey((prev) => prev + 1)*/}
+              />
+          </>
+          )
+        }
+      </div>
 
       {/* Popups */}
       {showAddFieldPopup && (
         <AddFieldPopUp
           onClose={() => setShowAddFieldPopup(false)}
-          fieldId={field.id}
-          optionId={currentOptionIndex}
           onUpdate={onUpdate}
+          qId={field.id}
+          oId={currentOptionIndex}
         />
       )}
 
