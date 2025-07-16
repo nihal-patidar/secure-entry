@@ -126,7 +126,7 @@ const TextField = ({
           </>
         ) : (
           <>
-            {/* Type Selector */}
+            {/* Type Selector
             <select
               value={localField.type}
               onChange={(e) => handleFieldChange('type', e.target.value)}
@@ -136,7 +136,7 @@ const TextField = ({
               <option value="email">Email</option>
               <option value="number">Number</option>
               <option value="address">Address</option>
-            </select>
+            </select> */}
 
             {/* Placeholder Editor */}
             <input
@@ -156,7 +156,7 @@ const TextField = ({
               placeholder="Note (optional)..."
             />
 
-            {/* Required Toggle */}
+            {/* Required Toggle
             <label className="flex items-center text-xs text-gray-600">
               <input
                 type="checkbox"
@@ -165,7 +165,7 @@ const TextField = ({
                 className="mr-2"
               />
               Required field
-            </label>
+            </label> */}
           </>
         )}
       </div>

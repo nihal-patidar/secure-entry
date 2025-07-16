@@ -4,6 +4,7 @@ import FormCanvas from "./FormCanvas";
 import PreviewCanvas from "./PreviewCanvas";
 import { useParams } from "react-router-dom";
 import api from "../../../axiosConfig";
+import { select } from "@material-tailwind/react";
 // import { id } from "zod/v4/locales";
 
 const FormBuilder = () => {
@@ -51,16 +52,16 @@ const FormBuilder = () => {
             placeholder: `Enter ${type.toLowerCase()}`,
             value: "",
             amount:"",
-            options:[ { value:"A",id:`${idd}A`, amount: 0, selectedFields:{
-              title: "Form Heading",
+            options:[ { value:"A",id:`${idd}A`, amount: 0, selected: false, selectedFields:{
+              title: "",
+              description: "",
+              fields: [],
+            }}, {value:"B",id:`${idd}B`, amount: 0, selected: false, selectedFields:{
+              title: "",
               description: "Form Description",
               fields: [],
-            }}, {value:"B",id:`${idd}B`, amount: 0, selectedFields:{
-              title: "Form Heading",
-              description: "Form Description",
-              fields: [],
-            }}, {value:"C",id:`${idd}C`, amount: 0, selectedFields:{
-              title: "Form Heading",
+            }}, {value:"C",id:`${idd}C`, amount: 0, selected: false, selectedFields:{
+              title: "",
               description: "Form Description",
               fields: [],
             }} ],
@@ -176,16 +177,16 @@ const FormBuilder = () => {
             value: "",
             amount:"",
             options:[ { value:"A",id:`${idd}A`, selectedFields:{
-              title: "Form Heading",
-              description: "Form Description",
+              title: "",
+              description: "",
               fields: [],
             }}, {value:"B",id:`${idd}B`, selectedFields:{
-              title: "Form Heading",
-              description: "Form Description",
+              title: "",
+              description: "",
               fields: [],
             }}, {value:"C",id:`${idd}C`, selectedFields:{
-              title: "Form Heading",
-              description: "Form Description",
+              title: "",
+              description: "",
               fields: [],
             }} ],
             special: 1

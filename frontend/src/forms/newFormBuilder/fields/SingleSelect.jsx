@@ -1,4 +1,5 @@
 
+import { set } from "date-fns";
 import { useState, useEffect } from "react";
 
 export default function SingleSelectOption({ 
@@ -231,7 +232,7 @@ export default function SingleSelectOption({
         )}
 
         {/* Required Toggle (Builder Mode) */}
-        {!isPreview && (
+        {/* {!isPreview && (
           <label className="flex items-center text-sm text-gray-600 gap-2">
             <input
               type="checkbox"
@@ -252,7 +253,7 @@ export default function SingleSelectOption({
             />
             Required field
           </label>
-        )}
+        )} */}
       </div>
     </div>
   );

@@ -103,7 +103,7 @@ const router = createBrowserRouter([
               { path: "update", element: <UpdateService />},
               { path: "build-form", element: <CreateVisitorForm />},
               { path: "update-form", element: <CreateVisitorForm/>},
-              { path: "form-prev", element: <FormPrev />},
+              { path: "form-prev/:formId", element: <TicketForm />},
               { path: "ticket-prev", element: <TicketPrev />},
               { path: "visitors",element: <ServiceVisitorsData/>},
               { path: "validators",element: <ValidatorList />},

@@ -6,10 +6,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import PaymentField from "./fields/PaymentField";
 // import { add } from "date-fns";
 
-const FormCanvas = ({ formConfig, setFormConfig, isPreview = false, addField }) => {
+const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
   const [serviceId, setServiceId] = useState();
   const params = useParams();
   const navigate = useNavigate();
+  const [formTitle, setFormTitle] = useState(formConfig.title || "");
+  console.log("Form config from canvas", formConfig);
   const coverField = formConfig.fields.find((f) => f.type === "Cover");
   const logoField = formConfig.fields.find((f) => f.type === "Logo");
   const timerField = formConfig.fields.find((f) => f.type === "Timer");
@@ -134,7 +136,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false, addField }) 
           )}
 
           {/* Title + Description */}
-          <div className="p-6 border-b border-gray-100">
+          {formConfig.title != "" && <div className="p-6 border-b border-gray-100">
             <input
               type="text"
               value={formConfig.title}
@@ -159,7 +161,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false, addField }) 
                 e.target.style.height = `${e.target.scrollHeight}px`;
               }}
             />
-          </div>
+          </div>}
 
           {/* Other Fields */}
           {otherFields.length > 0 && (
@@ -212,13 +214,13 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false, addField }) 
                 <div className="h-10"></div>
             </div>
             )}
-              <button
+              {formConfig.title.length&& <button
                 type="submit"
                 onClick={handleSaveForm}
                 className="bg-[#2F44FF] m-auto hover:bg-[#1e2fd6] text-white font-semibold px-6 py-2 active:bg-[#2F44FF] rounded-lg flex items-center justify-center transition duration-200"
               >
                 Save & Exit
-              </button>
+              </button>}
         </div>
       </div>
     </div>

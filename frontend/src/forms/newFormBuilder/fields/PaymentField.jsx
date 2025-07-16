@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import FormBuilderSidebar from "./FieldOpts"
 import Operation from "antd/es/transfer/operation";
 import {X} from "lucide-react";
+import { button } from "@material-tailwind/react";
+import FormCanvas from "../FormCanvas";
+import PreviewCanvas from "../PreviewCanvas";
 
 const AddFieldPopUp = ({
   onClose,
@@ -154,11 +157,19 @@ export default function SpecialSelectOption({
 }) {
   // Initialize options properly - use field.options if available, otherwise default
   const [options, setOptions] = useState(() => {
-    return field.options || [
-      { value: "A", id: `${fieldId}A` },
-      { value: "B", id: `${fieldId}B` },
-      { value: "C", id: `${fieldId}C` }
-    ];
+    return field.options || [ { value:"A",id:`${idd}A`, amount: 0, selected: false, selectedFields:{
+      title: "",
+      description: "",
+      fields: [],
+    }}, {value:"B",id:`${idd}B`, amount: 0, selected: false, selectedFields:{
+      title: "",
+      description: "",
+      fields: [],
+    }}, {value:"C",id:`${idd}C`, amount: 0, selected: false, selectedFields:{
+      title: "",
+      description: "",
+      fields: [],
+    }} ];
   });
   
   const [selectedOptions, setSelectedOptions] = useState(field.selected || []);
@@ -169,7 +180,12 @@ export default function SpecialSelectOption({
   const [showAddFieldPopup, setShowAddFieldPopup] = useState(false);
   const [showPaymentPopup, setShowPaymentPopup] = useState(false);
   const [currentOptionIndex, setCurrentOptionIndex] = useState(null);
-  const [tempField, setTempField] = useState(field)
+  const [tempField, setTempField] = useState(field);
+  const [selectedFields, setSelectedFields] = useState({
+    title: "",
+    description: "",
+    fields: [],
+  })
 
   // Used to create unique field names for registration
   const fieldKey = field.label || "Special Select Question";
@@ -199,43 +215,29 @@ export default function SpecialSelectOption({
       return {
         ...prev, 
         fields: prev.fields.map((f) => 
-          f.id === fieldId ? {  ...tempField } : f
+          f.id === field.id ? {  ...tempField } : f
         )
       };
     })}
 
-  useEffect(() => {
-    if (!isPreview && onUpdate) {
-      // onUpdate((prev) => {
-      //   return {
-      //     ...prev, fields : [
-      //       prev.fields.map((field) => {
-      //         console.log("field", field.id, fieldId);
-      //         return field.id === fieldId ? {
-      //           label: fieldName,
-      //           description,
-      //           options: options,
-      //           selected: selectedOptions,
-      //           isMultiSelect,
-      //           field_Options: fieldOptions,
-      //           id: fieldId
-      //         }
-      //         :
-      //         field}
-      //       )]
-      //     }
-      //   });
-      setTempField({...tempField,
-        label: fieldName,
-        description,
-        options: options,
-        selected: selectedOptions,
-        isMultiSelect,
-      })
-    }
-  }, [fieldName, description, options, selectedOptions, isMultiSelect, fieldOptions, isPreview]);
-
+    useEffect(() => {
+      if (!isPreview && onUpdate) {
+        setTempField({...tempField,
+          label: fieldName,
+          description,
+          options: options,
+          selected: selectedOptions,
+          isMultiSelect,
+        })
+      }
+    }, [fieldName, description, options, selectedOptions, isMultiSelect, fieldOptions, isPreview]);
   
+  
+    useEffect(() => {
+      save();
+    }, [tempField]);
+  
+      
 
   const moveUp = (index) => {
     if (index === 0) return;
@@ -249,6 +251,7 @@ export default function SpecialSelectOption({
       [newFieldOptions[index - 1], newFieldOptions[index]] = [newFieldOptions[index], newFieldOptions[index - 1]];
       return newFieldOptions;
     });
+    setTempField({...tempField, options: options});
   };
 
   const moveDown = (index) => {
@@ -263,6 +266,7 @@ export default function SpecialSelectOption({
       [newFieldOptions[index], newFieldOptions[index + 1]] = [newFieldOptions[index + 1], newFieldOptions[index]];
       return newFieldOptions;
     });
+    setTempField({...tempField, options: options});
   };
 
   const duplicateOption = (index) => {
@@ -277,6 +281,7 @@ export default function SpecialSelectOption({
       newFieldOptions.splice(index + 1, 0, { ...newFieldOptions[index] });
       return newFieldOptions;
     });
+    setTempField({...tempField, options: options});
   };
 
   const removeOption = (index) => {
@@ -294,6 +299,7 @@ export default function SpecialSelectOption({
     setSelectedOptions(prev =>
       prev.filter(i => i !== index).map(i => (i > index ? i - 1 : i))
     );
+    setTempField({...tempField, options: options});
   };
 
   const updateOption = (index, value) => {
@@ -302,7 +308,6 @@ export default function SpecialSelectOption({
       newOptions[index] = { ...newOptions[index], value };
       return newOptions;
     });
-    console.log("updatedOtion:", options)
   };
 
   const addOption = () => {
@@ -318,10 +323,10 @@ export default function SpecialSelectOption({
       }
     };
     setOptions(prev => [...prev, newOption]);
+    setTempField({...tempField, options});
   };
 
   const toggleOption = (index) => {
-    // console.log(index);
     if (isMultiSelect) {
       setSelectedOptions(prev =>
         prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]
@@ -339,7 +344,6 @@ export default function SpecialSelectOption({
   };
 
   const toggleActionDropdown = (index) => {
-    save();
     setActiveDropdown(activeDropdown === index ? null : index);
   };
 
@@ -668,9 +672,18 @@ export default function SpecialSelectOption({
         )}
       </div>
 
-      <div onClick={save}>
-        Save
-      </div>
+      {!isPreview ? (
+          <><FormCanvas formConfig={selectedFields} onUpdate={setSelectedFields} setFormConfig={setSelectedFields} /></>
+        )
+      :
+      (
+        <><PreviewCanvas
+        key={"formkey"}
+        formConfig={selectedFields}
+        setFormConfig={setSelectedFields}
+        triggerRerender={() => {}/*setFormKey((prev) => prev + 1)*/}
+      /></>
+      )}
 
       {/* Popups */}
       {showAddFieldPopup && (

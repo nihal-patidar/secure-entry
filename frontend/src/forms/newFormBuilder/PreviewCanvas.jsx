@@ -55,14 +55,14 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender, addField}) 
           )}
           {timerField && <FieldRenderer field={timerField} isBuilder={false} onUpdate={setUserFills} />}
 
-          <div className="p-6 border-b border-gray-100">
+          {formConfig.title.length && <div className="p-6 border-b border-gray-100">
             <h1 className="text-4xl font-bold text-center">
               {formConfig.title}
             </h1>
             <p className="text-gray-600 text-center mt-2">
               {formConfig.description}
             </p>
-          </div>
+          </div>}
 
           <div className="space-y-6 px-4 py-6">
             {otherFields.map((field, index) => (
@@ -93,7 +93,7 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender, addField}) 
           </div>
         </div>
 
-        <div className="flex justify-between mx-10 py-4">
+        {formConfig.title.length && <div className="flex justify-between mx-10 py-4">
           <button
             onClick={triggerRerender}
             className="text-gray-500 hover:bg-[#1e2fd6] hover:text-white hover:font-semibold px-6 py-2 active:bg-[#2F44FF] rounded-lg flex items-center justify-center transition duration-200"
@@ -106,7 +106,7 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender, addField}) 
           >
             Submit
           </button>
-        </div>
+        </div>}
       </div>
     </div>
   );
