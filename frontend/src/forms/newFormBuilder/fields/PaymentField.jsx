@@ -673,17 +673,22 @@ export default function SpecialSelectOption({
       </div>
 
       {!isPreview ? (
-          <><FormCanvas formConfig={selectedFields} onUpdate={setSelectedFields} setFormConfig={setSelectedFields} /></>
+          <div>
+            <FormCanvas formConfig={selectedFields} onUpdate={setSelectedFields} setFormConfig={setSelectedFields} />
+          </div>
         )
       :
-      (
-        <><PreviewCanvas
-        key={"formkey"}
-        formConfig={selectedFields}
-        setFormConfig={setSelectedFields}
-        triggerRerender={() => {}/*setFormKey((prev) => prev + 1)*/}
-      /></>
-      )}
+        (
+          <>
+            <PreviewCanvas
+              key={"formkey"}
+              formConfig={selectedFields}
+              setFormConfig={setSelectedFields}
+              triggerRerender={() => {}/*setFormKey((prev) => prev + 1)*/}
+            />
+        </>
+        )
+      }
 
       {/* Popups */}
       {showAddFieldPopup && (

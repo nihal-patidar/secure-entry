@@ -32,6 +32,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
         "Payment Fields",
       ].includes(f.type)
   );
+  // git commit -m "a minute ui but big brainstrome bug fixed. the unwanted 0 on form builder
 
   const otherPlusPaymentFields = formConfig.fields.filter(
     (f) => !["Cover", "Logo", "Timer", "Terms & Conditions"].includes(f.type)
@@ -106,7 +107,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
 
   return (
     <div className="flex-1 p-4">
-      <div className="bg-white rounded-lg shadow-sm max-w-6xl w-full mx-auto flex flex-col h-[83vh]">
+      <div className={`bg-white rounded-lg shadow-sm max-w-6xl w-full mx-auto flex flex-col ${formConfig.title.length > 0 ? "h-[83vh]" : "h[0px]"}`}  >
         <div className="p-4 flex-1 overflow-y-auto">
           {/* Cover */}
           {coverField && (
@@ -192,7 +193,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
             </div>
           )}
 
-          {paymentFields.length && (
+          {paymentFields.length > 0 && (
             <div style={{ display: "" }}>
               {paymentFields.map((field, index) => (
                 <>
@@ -211,6 +212,8 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
               )}
             </div>
           )}
+
+
           {!otherFields && !paymentFields.length && (
             <div className="text-center py-12 text-gray-500">
               <p>Click on fields from the sidebar to add them to your form</p>
@@ -230,9 +233,9 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
               />
               <div className="h-10"></div>
             </div>
-          )}
+          )} 
         </div>
-        {formConfig.title.length && (
+        {formConfig.title.length > 0 && 
           <div className="p-4 border-t bg-white flex justify-center">
             <button
               type="submit"
@@ -242,7 +245,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
               Save & Exit
             </button>
           </div>
-        )}
+        }
       </div>
     </div>
   );
