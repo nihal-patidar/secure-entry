@@ -15,13 +15,22 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
   const coverField = formConfig.fields.find((f) => f.type === "Cover");
   const logoField = formConfig.fields.find((f) => f.type === "Logo");
   const timerField = formConfig.fields.find((f) => f.type === "Timer");
-  const paymentFields = formConfig.fields.filter((f) => f.type === "Payment Fields");
-  console.log("form config",formConfig, paymentFields)
+  const paymentFields = formConfig.fields.filter(
+    (f) => f.type === "Payment Fields"
+  );
+  console.log("form config", formConfig, paymentFields);
   const termsField = formConfig.fields.find(
     (f) => f.type === "Terms & Conditions"
   );
   const otherFields = formConfig.fields.filter(
-    (f) => !["Cover", "Logo", "Timer", "Terms & Conditions", "Payment Fields"].includes(f.type)
+    (f) =>
+      ![
+        "Cover",
+        "Logo",
+        "Timer",
+        "Terms & Conditions",
+        "Payment Fields",
+      ].includes(f.type)
   );
 
   const otherPlusPaymentFields = formConfig.fields.filter(
@@ -95,11 +104,10 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
     }
   };
 
-
   return (
-    <div className="flex-1 overflow-y-auto p-4 ">
-      <div className="bg-white rounded-lg shadow-sm max-w-6xl mx-auto">
-        <div className="p-4">
+    <div className="flex-1 p-4">
+      <div className="bg-white rounded-lg shadow-sm max-w-6xl w-full mx-auto flex flex-col h-[83vh]">
+        <div className="p-4 flex-1 overflow-y-auto">
           {/* Cover */}
           {coverField && (
             <FieldRenderer
@@ -136,32 +144,34 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
           )}
 
           {/* Title + Description */}
-          {formConfig.title != "" && <div className="p-6 border-b border-gray-100">
-            <input
-              type="text"
-              value={formConfig.title}
-              onChange={(e) => updateFormTitle(e.target.value)}
-              className={`text-4xl font-bold w-full border-none outline-none bg-transparent text-center leading-[1.3] ${
-                isPreview ? "pointer-events-none text-gray-700" : ""
-              }`}
-              placeholder="Form Title"
-              readOnly={isPreview}
-            />
-            <textarea
-              value={formConfig.description}
-              onChange={(e) => updateFormDescription(e.target.value)}
-              className={`text-gray-600 w-full border-none outline-none bg-transparent mt-2 text-center resize-none overflow-hidden ${
-                isPreview ? "pointer-events-none" : ""
-              }`}
-              placeholder="Form Description"
-              rows={1}
-              readOnly={isPreview}
-              onInput={(e) => {
-                e.target.style.height = "auto";
-                e.target.style.height = `${e.target.scrollHeight}px`;
-              }}
-            />
-          </div>}
+          {formConfig.title != "" && (
+            <div className="p-6 border-b border-gray-100">
+              <input
+                type="text"
+                value={formConfig.title}
+                onChange={(e) => updateFormTitle(e.target.value)}
+                className={`text-4xl font-bold w-full border-none outline-none bg-transparent text-center leading-[1.3] ${
+                  isPreview ? "pointer-events-none text-gray-700" : ""
+                }`}
+                placeholder="Form Title"
+                readOnly={isPreview}
+              />
+              <textarea
+                value={formConfig.description}
+                onChange={(e) => updateFormDescription(e.target.value)}
+                className={`text-gray-600 w-full border-none outline-none bg-transparent mt-2 text-center resize-none overflow-hidden ${
+                  isPreview ? "pointer-events-none" : ""
+                }`}
+                placeholder="Form Description"
+                rows={1}
+                readOnly={isPreview}
+                onInput={(e) => {
+                  e.target.style.height = "auto";
+                  e.target.style.height = `${e.target.scrollHeight}px`;
+                }}
+              />
+            </div>
+          )}
 
           {/* Other Fields */}
           {otherFields.length > 0 && (
@@ -173,55 +183,66 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
                   index={index}
                   onUpdate={(updates) => updateField(field.id, updates)}
                   onRemove={isPreview ? undefined : () => removeField(field.id)}
-                  onDuplicate={isPreview ? undefined : () => duplicateField(field, index)}
+                  onDuplicate={
+                    isPreview ? undefined : () => duplicateField(field, index)
+                  }
                   isBuilder={!isPreview}
                 />
               ))}
             </div>
           )}
 
-          {
-            paymentFields.length && (
-              <div style={{display:""}}>
-              {
-              paymentFields.map((field, index) => (
+          {paymentFields.length && (
+            <div style={{ display: "" }}>
+              {paymentFields.map((field, index) => (
                 <>
-                  <div style={{height:"50px"}}></div>
-                    <PaymentField field={field} fieldId={index} onUpdate={setFormConfig}/>
-                  </>
-                ))
-              }
-              {termsField ? <div style={{height:"4vw"}}></div> :<div style={{height:"7vw"}}></div>}
-              </div>
-            )
-          }
-          {
-            (!otherFields) && !paymentFields.length &&
+                  <div style={{ height: "50px" }}></div>
+                  <PaymentField
+                    field={field}
+                    fieldId={index}
+                    onUpdate={setFormConfig}
+                  />
+                </>
+              ))}
+              {termsField ? (
+                <div style={{ height: "4vw" }}></div>
+              ) : (
+                <div style={{ height: "7vw" }}></div>
+              )}
+            </div>
+          )}
+          {!otherFields && !paymentFields.length && (
             <div className="text-center py-12 text-gray-500">
               <p>Click on fields from the sidebar to add them to your form</p>
               <p>Leave a space in fields you don't want in your Final Form</p>
             </div>
-          }
+          )}
 
           {termsField && (
             <div className="space-y-6">
               <FieldRenderer
                 field={termsField}
                 onUpdate={(updates) => updateField(termsField.id, updates)}
-                onRemove={isPreview ? undefined : () => removeField(termsField.id)}
+                onRemove={
+                  isPreview ? undefined : () => removeField(termsField.id)
+                }
                 isBuilder={!isPreview}
-                />
-                <div className="h-10"></div>
+              />
+              <div className="h-10"></div>
             </div>
-            )}
-              {formConfig.title.length&& <button
-                type="submit"
-                onClick={handleSaveForm}
-                className="bg-[#2F44FF] m-auto hover:bg-[#1e2fd6] text-white font-semibold px-6 py-2 active:bg-[#2F44FF] rounded-lg flex items-center justify-center transition duration-200"
-              >
-                Save & Exit
-              </button>}
+          )}
         </div>
+        {formConfig.title.length && (
+          <div className="p-4 border-t bg-white flex justify-center">
+            <button
+              type="submit"
+              onClick={handleSaveForm}
+              className="bg-[#2F44FF] hover:bg-[#1e2fd6] text-white font-semibold px-6 py-2 active:bg-[#2F44FF] rounded-lg flex items-center justify-center transition duration-200 w-full max-w-xs"
+            >
+              Save & Exit
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
