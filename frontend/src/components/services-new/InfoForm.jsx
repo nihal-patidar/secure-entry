@@ -63,7 +63,11 @@ const InfoForm = ({serviceId, service}) => {
                 <div className=" text-start ">
                   <div className="flex gap-2 items-center">
                     <CalendarDaysIcon className="w-4 text-[#717171]" />
-                    <p className="text-[#717171] text-sm sm:text-base">{service?.service_date }  {} {service?.service_time}</p>
+                    <p className="text-[#717171] text-sm sm:text-base">Starting Date {service?.service_live_date } </p>
+                  </div>
+                  <div className="flex gap-2 items-center">
+                    <CalendarDaysIcon className="w-4 text-[#717171]" />
+                    <p className="text-[#717171] text-sm sm:text-base">Closing Date {service?.service_close_date }</p>
                   </div>
                   <div className="flex gap-2 items-center ">
                     <MapPinIcon className="w-4 text-[#717171]" />

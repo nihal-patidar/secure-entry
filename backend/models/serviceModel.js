@@ -14,14 +14,23 @@ const ServiceSchema = new Schema({
         type: String,
         required: true
     },
-    service_date: {
-        type: String,  // could also be Date, but you're sending it as string
-        required: true
-    },
-    service_time: {
-        type: String,  // assuming HH:mm format
-        required: true
-    },
+    service_live_date: {
+    type: String,
+    required: true,
+  },
+  service_close_date: {
+    type: String,
+    required: true,
+  },
+  form_live_date: {
+    type: String,
+    required: true,
+  },
+  form_close_date: {
+    type: String,
+    required: true,
+  },
+
     ticket_price: {
         type: String, // using String to accept "" and later convert to Number if needed
         required: false
@@ -77,4 +86,4 @@ const ServiceSchema = new Schema({
     }
 }, { timestamps: true });
 
-module.exports= mongoose.model("Service",ServiceSchema);
+module.exports = mongoose.model("Service", ServiceSchema);
