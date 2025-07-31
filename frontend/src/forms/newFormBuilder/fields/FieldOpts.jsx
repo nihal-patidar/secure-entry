@@ -28,6 +28,7 @@ import {
 const FormBuilderSidebar = ({ onUpdate, qId, oId }) => {
   const [blinkingItem, setBlinkingItem] = useState(null);
   const [item, setItem] = useState("");
+  const [trigger, setTrigger] = useState(0);
   const [TempField, setTempField] = useState({
     id: Date.now().toString(),
     type: item,
@@ -65,15 +66,16 @@ const FormBuilderSidebar = ({ onUpdate, qId, oId }) => {
 
     // Update the formConfig with the new field
     setItem(item);
-    console.log("Item NAme" , "Kuch toh hua hai yar")
+    setTrigger(1-trigger)
 
     setTimeout(() => {
       setBlinkingItem(null);
     }, 300);
   };
 
-
   useEffect(() => {
+    // console .log("I am the bug")
+
     setTempField({
       id: Date.now().toString(),
       type: item,
@@ -117,7 +119,13 @@ const FormBuilderSidebar = ({ onUpdate, qId, oId }) => {
                       ...o.selectedFields,
                       fields: [
                         ...o.selectedFields.fields,
-                        item === "Payment Fields" ? PaymField : TempField]
+                        item === "Payment Fields" ? {
+                          ...PaymField,
+                          // id: o.id
+                        } : {
+                          ...TempField, 
+                          // id: o.id
+                        }]
                     }
                   } : o
                 })
@@ -125,13 +133,23 @@ const FormBuilderSidebar = ({ onUpdate, qId, oId }) => {
                : f
         })
       }
+      // xyz = 1;
         //   
   // })
   //     }
-      console.log("newPrev",newPrev);
+      // console.log("newPrev", newPrev);
+      // newPrev.fields.map((item => {
+      //   if (item.id === qId) {
+      //     item.options.map((o, i) => {
+      //       if (i === oId) {
+      //         console.log("Option", o.id, o);
+      //       }
+      //       return o;
+      //     })
+      //   }}))
       return newPrev;
     })
-  }, [item]);
+  }, [trigger]);
 
   const fieldsData = [
     {

@@ -205,10 +205,61 @@ export default function SpecialSelectOption({
     if (field.options && field.options.length > 0) {
       setOptions(field.options);
     }
+    // setSelectedFields(prev => {
+    //   let newFields = [];
+    //   options.map((o, index) => {
+    //     o.selected === true ? 
+    //     {
+    //       insert(o, newFields) {
+    //         for(let i = 0;i < o.selectedFields.fields.length; i++){
+    //           newFields.push(o.selectedFields.fields[i]);
+    //         }
+    //       }
+    //       insert(o, newFields);
+    //     } : 
+    //     {
+          
+    //     }
+    //   });
+    //   return {
+    //     ...prev,
+    //     fields: newFields.map((f, index) => {return f})
+    //   }
+    // })
+    setSelectedFields(prev => {
+      let newFields = [];
+      
+      options.forEach((o, index) => {
+        if (o.selected === true) {
+          // Add all fields from this option's selectedFields
+          for (let i = 0; i < o.selectedFields.fields.length; i++) {
+            newFields.push(o.selectedFields.fields[i]);
+          }
+        }
+      });
+      
+      return {
+        ...prev,
+        fields: newFields
+      };
+    });
+    console.log("selected fields", selectedFields);
   }, [field.options]);
 
-  // Sync changes in builder mode
 
+  // useEffect(() => {
+  //   setSelectedFields(prev => {
+  //     options.map((o, index) => {
+  //       return o.selected === true ? 
+  //         {
+  //           ...o.selectedFields.fields,
+  //         } : 
+  //         {
+
+  //         }
+  //     })
+  //   })
+  // },[options])
 
   function save(){
     onUpdate(prev => {
@@ -222,7 +273,7 @@ export default function SpecialSelectOption({
     })}
 
     useEffect(() => {
-      if (!isPreview && onUpdate) {
+      if (onUpdate) {
         setTempField({...tempField,
           label: fieldName,
           description,
@@ -239,9 +290,9 @@ export default function SpecialSelectOption({
     }, [tempField]);
   
       
-    useEffect(() => {
-      selectedFields.fields = [...options.filter((o) => o.selected == true)]
-    },[options])
+    // useEffect(() => {
+    //   selectedFields.fields = [...options.filter((o) => o.selected === true)]
+    // },[options])
 
   const moveUp = (index) => {
     if (index === 0) return;
@@ -351,14 +402,14 @@ export default function SpecialSelectOption({
     }
   };
 
-  useEffect(() => {
-    setSelectedFields({...selectedFields, fields: 
-      options.map((o) => {
-        return o.selected === true && o.selectedFields.fields
-      })
-    })
-    console.log("selected fields", selectedFields)
-  }, [selectedOptions])
+  // useEffect(() => {
+  //   setSelectedFields({...selectedFields, fields: 
+  //     options.map((o) => {
+  //       return o.selected === true && o.selectedFields.fields
+  //     })
+  //   })
+  //   console.log("selected fields", selectedFields)
+  // }, [selectedOptions])
 
 
   useEffect(() => {
@@ -371,7 +422,7 @@ export default function SpecialSelectOption({
         }
       });
     })
-    onUpdate((prev) => {console.log(prev); return prev;})
+    // onUpdate((prev) => {console.log("new opt selected: ",prev); return prev;})
   }, [selectedOptions]);
 
   const handleSelectTypeChange = (type) => {
@@ -398,6 +449,63 @@ export default function SpecialSelectOption({
     field_Options: fieldOptions
   };
 
+
+  // useEffect(() => {
+  //   setSelectedFields(prev => {
+  //     let newFields = [];
+      
+  //     // Collect fields from all selected options
+  //     options.forEach((option) => {
+  //       if (option.selected === true && option.selectedFields?.fields) {
+  //         newFields.push(...option.selectedFields.fields);
+  //       }
+  //     });
+      
+  //     return {
+  //       ...prev,
+  //       fields: newFields
+  //     };
+  //   });
+  // }, [selectedOptions]);
+
+
+  // useEffect(() => {
+  //   setSelectedFields((prev) => {
+  //     return {
+  //       // ...prev,
+  //       // fields: field.options.map(opt => {
+  //       //   opt.selected === true ?
+  //       //   {
+  //       //     ...opt.selectedFields
+  //       //   } 
+  //       //   :
+  //       //   {
+            
+  //       //   }
+  //       // })
+  //       ...prev
+  //     }
+  //   })
+  // }, [selectedOptions])
+  // onUpdate((prev) => {
+  // console.log("formConfig", prev);
+  // return prev;
+  // })
+
+
+
+  // setTimeout(() => {
+    
+    // useEffect(() => {
+    //   setSelectedFields((prev) => {
+    //     console.log("on toggle selected options", prev);
+    //     // return {
+    //       //   ...prev,
+    //       //   // fields: [...prev.fields, field]
+    //       // }
+    //     });
+    //   },[selectedOptions])
+    // }, 1000);
   return (
     <div className="w-full relative group bg-white rounded-lg">
       

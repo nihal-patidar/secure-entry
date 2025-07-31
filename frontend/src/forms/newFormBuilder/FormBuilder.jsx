@@ -37,7 +37,7 @@ const FormBuilder = () => {
     fetchFormData();
   }, []);
 
-  const addField = (type, idd = formConfig.fields.length) => {
+  const addField = (type, idd = formConfig.fields.length+2) => {
     // console.log("Adding field of type:", type, idd, "final formCOnfig:" , formConfig);
     
     if ("Payment Fields" === type) { 
@@ -52,15 +52,15 @@ const FormBuilder = () => {
             placeholder: `Enter ${type.toLowerCase()}`,
             value: "",
             amount:"",
-            options:[ { value:"A",id:`${id}_A`, amount: 0, selected: false, selectedFields:{
+            options:[ { value:"A",id:`${idd}_A`, amount: 0, selected: false, selectedFields:{
               title: "",
               description: "",
               fields: [],
-            }}, {value:"B",id:`${id}_B`, amount: 0, selected: false, selectedFields:{
+            }}, {value:"B",id:`${idd}_B`, amount: 0, selected: false, selectedFields:{
               title: "",
               description: "Form Description",
               fields: [],
-            }}, {value:"C",id:`${id}_C`, amount: 0, selected: false, selectedFields:{
+            }}, {value:"C",id:`${idd}_C`, amount: 0, selected: false, selectedFields:{
               title: "",
               description: "Form Description",
               fields: [],
