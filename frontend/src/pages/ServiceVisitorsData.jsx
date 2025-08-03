@@ -1,154 +1,109 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@mui/material";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import VisitorDataTable from "../components/services-new/VisitorDataTable";
 import api from "../../axiosConfig";
 
 const ServiceVisitorsData = () => {
-  // const {serviceId} = useParams()
-  const location = useLocation();
-  const { visitorData } = location.state || {};
+  const { serviceId } = useParams();
   const [visitorList, setVisitorList] = useState([]);
   const [showAll, setShowAll] = useState(true);
   const [showVisited, setShowVisited] = useState(false);
   const [showNotVisited, setShowNotVisited] = useState(false);
-  const {serviceId} = useParams();
+
   useEffect(() => {
-    let token = localStorage.getItem("userData")
+    const token = localStorage.getItem("userData");
+
     api
-      .get(`/visitor/get-visitors/${serviceId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        const visitors = res.data?.visitorList;
-        // console.log("visitors",visitors);
-        console.log("VisitorList", visitors);
-        if(visitors){
-          setVisitorList(visitors);
-        }
-      });
-  },[]);
-  // console.log("Visitor Data: ", visitorData)   //array of objects
-  // console.log(Object.keys(visitorData[0] ))
+        .get(`/visitor/get-visitors/${serviceId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          const visitors = res.data?.visitorList;
+          if (visitors && Array.isArray(visitors)) {
+            const cleaned = visitors.map((v) => ({
+              "Full Name": v.visitor_data?.["Full Name"] || "N/A",
+              Email: v.email || "N/A",
+              "Payment Status": v.payment_status === "true" ? "Paid" : "Unpaid",
+              "Remaining Scans": v.remain_scans,
+              "Validation Status": v.validation_status ? "Visited" : "Not Visited",
+              "Visitor ID": v.vis_id,
+            }));
+            setVisitorList(cleaned);
+          }
+        })
+        .catch((err) => {
+          console.error("Failed to fetch visitors", err);
+        });
+  }, [serviceId]);
+
+  // Filter based on tab
+  const filteredVisitors = showAll
+      ? visitorList
+      : showVisited
+          ? visitorList.filter((v) => v["Validation Status"] === "Visited")
+          : showNotVisited
+              ? visitorList.filter((v) => v["Validation Status"] === "Not Visited")
+              : [];
 
   return (
-    <>
-      <div className=" absolute right-7 left-12 bottom-10 top-10  bg-[#F2F3F9]   rounded-3xl border border-[#EAEAEA] ml-16 p-2 mt-8 ">
-        <div className="bg-white border border-[#EAEAEA] h-full w-full px-0 lg:px-5 rounded-3xl ">
-          <div className="flex gap-1 lg:gap-3  text-black px-0 lg:px-6 text-sm  sm:text-lg font-medium h-12 mt-8 mb-4">
+      <div className="absolute right-7 left-12 bottom-10 top-10 bg-[#F2F3F9] rounded-3xl border border-[#EAEAEA] ml-16 p-2 mt-8">
+        <div className="bg-white border border-[#EAEAEA] h-full w-full px-0 lg:px-5 rounded-3xl">
+          <div className="flex gap-1 lg:gap-3 text-black px-0 lg:px-6 text-sm sm:text-lg font-medium h-12 mt-8 mb-4">
             <button
-              className=" px-3 sm:px-8 py-1 sm:py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white active:border-b-blue-900 sm:active:bg-blue-900"
-              onClick={() => {
-                setShowAll(true);
-                setShowVisited(false);
-                setShowNotVisited(false);
-              }}
+                className="px-3 sm:px-8 py-1 sm:py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white"
+                onClick={() => {
+                  setShowAll(true);
+                  setShowVisited(false);
+                  setShowNotVisited(false);
+                }}
             >
               All
             </button>
+
             <button
-              className="px-3 sm:px-8 py-1 sm:py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white active:border-b-blue-900 sm:active:bg-blue-900"
-              onClick={() => {
-                setShowAll(false);
-                setShowVisited(true);
-                setShowNotVisited(false);
-              }}
+                className="px-3 sm:px-8 py-1 sm:py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white"
+                onClick={() => {
+                  setShowAll(false);
+                  setShowVisited(true);
+                  setShowNotVisited(false);
+                }}
             >
               Visited
             </button>
+
             <button
-              className="px-3 sm:px-8 py-1 sm:py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white active:border-b-blue-900 sm:active:bg-blue-900"
-              onClick={() => {
-                setShowAll(false);
-                setShowVisited(false);
-                setShowNotVisited(true);
-              }}
+                className="px-3 sm:px-8 py-1 sm:py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white"
+                onClick={() => {
+                  setShowAll(false);
+                  setShowVisited(false);
+                  setShowNotVisited(true);
+                }}
             >
               Not Visited
             </button>
 
-            <button className="px-3 sm:px-8 py-1 sm:py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white active:border-b-blue-900 sm:active:bg-blue-900">
+            <button
+                className="px-3 sm:px-8 py-1 sm:py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white"
+                onClick={() => {
+                  alert("Excel export coming soon!");
+                }}
+            >
               Excel
             </button>
           </div>
 
-          {/* {visitorData.length > 0 ? (
-            showAll ? (
-              <AllVisitors visitorData={visitorData} />
-            ) : showVisited ? (
-              <VisitedVisitors visitorData={visitorData} />
-            ) : showNotVisited ? (
-              <RemainingVisitors visitorData={visitorData} />
-            ) : null
+          {/* Render Table */}
+          {filteredVisitors.length > 0 ? (
+              <VisitorDataTable visitorData={filteredVisitors} />
           ) : (
-            <p className="w-full  absolute bottom-0 sm:bottom-[5%]   text-center font-semibold text-4xl my-40">
-              No Visitor Data
-            </p>
-          )} */}
+              <p className="w-full text-center font-semibold text-4xl my-40">
+                No Visitor Data
+              </p>
+          )}
         </div>
       </div>
-    </>
-  );
-};
-
-const AllVisitors = ({ visitorData }) => {
-  let visitorList = [];
-
-  visitorData.map((visitorData) => {
-    return visitorList.push(visitorData);
-  });
-  // console.log("Visitor Data All from map: ", visitorList)
-  return (
-    <>
-      {visitorList.length > 0 ? (
-        <VisitorDataTable visitorData={visitorList} />
-      ) : (
-        <p className="w-full text-center font-semibold text-4xl my-40">
-          No Visitor Data
-        </p>
-      )}
-    </>
-  );
-};
-
-const VisitedVisitors = ({ visitorData }) => {
-  let visitorList = [];
-
-  visitorData?.map((visitorData) => {
-    return visitorData.validation_status ? visitorList.push(visitorData) : null;
-  });
-  return (
-    <>
-      {visitorList.length > 0 ? (
-        <VisitorDataTable visitorData={visitorList} color="" />
-      ) : (
-        <p className="w-full text-center font-semibold text-4xl my-40">
-          No Visited Visitors
-        </p>
-      )}
-    </>
-  );
-};
-
-const RemainingVisitors = ({ visitorData }) => {
-  let visitorList = [];
-
-  visitorData?.map((visitorData) => {
-    return visitorData.validation_status ? null : visitorList.push(visitorData);
-  });
-
-  return (
-    <>
-      {visitorList.length > 0 ? (
-        <VisitorDataTable visitorData={visitorList} color="" />
-      ) : (
-        <p className="w-full text-center font-semibold text-4xl my-40">
-          No "Not Visited" Visitors
-        </p>
-      )}
-    </>
   );
 };
 
