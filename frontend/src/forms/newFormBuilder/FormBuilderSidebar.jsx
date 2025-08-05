@@ -109,7 +109,7 @@ const FormBuilderSidebar = ({ onFieldSelect, activeTab, setActiveTab }) => {
         { name: "Dropdown Selection", icon: ChevronDown },
         { name: "Upload File", icon: CloudUpload },
         { name: "Upload Image", icon: CloudUpload },
-        { name: "Payment Fields", icon: IndianRupee },
+        // { name: "Payment Fields", icon: IndianRupee },
       ],
     },
     {
