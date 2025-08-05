@@ -13,6 +13,9 @@ import {
 } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { FaQrcode } from "react-icons/fa";
+
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_blue.css";
 import { toast } from "react-toastify";
 import api from "../../axiosConfig";
 import { ServiceContext } from "../context/ServiceContext";
@@ -31,14 +34,16 @@ const UpdateService = () => {
     service_image_url: null,
     service_name: "",
     service_address: "",
-    service_date: "",
-    service_time: "",
+    service_live_date: "",
+    service_close_date: "",
+    form_live_date: "",
+    form_close_date: "",
     valid_scans: "",
     service_discription: "",
     service_type: "",
     ticket_validity: "",
     ticket_price: "",
-    paymentOption: "Paid",
+    payment_option: "Paid",
   });
 
   const [previewImage, setPreviewImage] = useState(null);
@@ -54,21 +59,33 @@ const UpdateService = () => {
       service_image_url: serviceData.service_image_url || "",
       service_name: serviceData.service_name || "",
       service_address: serviceData.service_address || "",
-      service_date: serviceData.service_date || "",
-      service_time: serviceData.service_time || "",
+      service_live_date: serviceData.service_live_date || "",
+      service_close_date: serviceData.service_close_date || "",
+      form_live_date: serviceData.form_live_date || "",
+      form_close_date: serviceData.form_close_date || "",
       valid_scans: serviceData.valid_scans || "",
       service_discription: serviceData.service_discription || "",
       service_type: serviceData.service_type || "",
       ticket_validity: serviceData.ticket_validity || "",
       ticket_price: serviceData.ticket_price || "",
-      paymentOption: serviceData.payment_option || "Paid",
+      payment_option: serviceData.payment_option || "Paid",
     });
 
     // Show preview if image is URL string
-    // if (typeof serviceData.service_image_url === "string") {
-    //   setPreviewImage(serviceData.service_image_url);
-    // }
+    if (typeof serviceData.service_image_url === "string") {
+      setPreviewImage(serviceData.service_image_url);
+    }
   }, [serviceData]);
+
+  const serviceTypes = ["Ticket", "Pass", "Badge"];
+  const validityOptions = [
+    { label: "3 Hours", value: "3" },
+    { label: "12 Hours", value: "12" },
+    { label: "1 Day", value: "24" },
+    { label: "7 Days", value: "168" },
+    { label: "15 Days", value: "360" },
+    { label: "1 Month", value: "744" },
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -76,7 +93,7 @@ const UpdateService = () => {
   };
 
   const handleRadioChange = (value) => {
-    setFormData((prev) => ({ ...prev, paymentOption: value }));
+    setFormData((prev) => ({ ...prev, payment_option: value }));
   };
 
   const handleImageChange = (e) => {
@@ -92,6 +109,11 @@ const UpdateService = () => {
     setPreviewImage(null);
   };
 
+   const handleDateChange = (selectedDates, dateStr, instance) => {
+    const name = instance.input.name;
+    setFormData((prev) => ({ ...prev, [name]: dateStr }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -104,7 +126,7 @@ const UpdateService = () => {
       const payload = {
         ...formData,
         ticket_price:
-          formData.paymentOption === "Free" ? "0" : formData.ticket_price,
+          formData.payment_option === "Free" ? "0" : formData.ticket_price,
       };
 
       const res = await api.put(
@@ -138,8 +160,6 @@ const UpdateService = () => {
     }
   };
 
-  
-
   if (!serviceData) {
     return (
       <div className="flex justify-center items-center h-[90vh]">
@@ -148,119 +168,167 @@ const UpdateService = () => {
     );
   }
   return (
-    <div className="absolute top-[109px] left-[134px] w-[1160px] h-[559px] rounded-[15px] border border-gray-300 px-[44px] py-[23px] bg-white flex flex-col gap-[24px] overflow-hidden">
-      <h2 className="text-[26px] font-semibold text-gray-800">
-        Update Service
-      </h2>
-      <p className="text-sm text-gray-500 -mt-2">
-        Edit the form and update your service
-      </p>
+    <div className="absolute top-[70px] left-[114px] w-full max-w-[1185px] h-[calc(100vh-100px)] rounded-2xl border border-gray-300 bg-white flex flex-col overflow-hidden">
+      {/* Header - Fixed */}
+      <div className="px-4 md:px-11 py-4 md:py-6 border-b border-gray-200">
+        <h2 className="text-lg md:text-2xl font-semibold text-gray-800">
+          Update Service
+        </h2>
+        <p className="text-xs md:text-sm text-gray-500 mt-1">
+          Fill this form to Update the service
+        </p>
+      </div>
 
-      <div className="flex-grow hide-scrollbar overflow-y-auto pr-2">
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-col md:flex-row gap-[88px]">
-            {/* Left */}
-            <div className="flex flex-col gap-6 max-w-[662px] md:w-[66%]">
-              <div className="flex flex-col gap-2 w-full">
-                <p className="text-sm text-gray-700 font-medium">
-                  Upload an Image
-                </p>
-                {!previewImage ? (
-                  <div className="flex justify-center">
-                    <label className="relative flex items-center justify-center w-full h-[180px] px-5 border-2 border-dashed border-indigo-300 bg-indigo-100 rounded-[10px] cursor-pointer text-center">
-                      <UploadImage />
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        className="absolute inset-0 opacity-0 cursor-pointer"
-                      />
-                    </label>
-                  </div>
-                ) : (
-                  <div className="flex justify-center items-center w-full h-[180px] relative">
-                    <img
-                      src={previewImage}
-                      alt="Preview"
-                      className="max-h-[160px] object-contain rounded-lg border"
-                    />
-                    <button
-                      onClick={removeFile}
-                      className="absolute top-2 right-2  bg-red-50 hover:bg-red-100 text-red-400 text-sm p-1 rounded-full transition"
-                      title="Remove file"
-                    >
-                      <RxCross2 size={18} />
-                    </button>
-                  </div>
-                )}
+      {/* Scrollable Content */}
+      <div className="flex-1 overflow-y-auto px-4 md:px-11 py-6 hide-scrollbar">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Image Upload */}
+          <div className="flex flex-col gap-3 w-full">
+            <label className="text-sm font-medium text-gray-700">
+              Upload an Image
+            </label>
+            {!previewImage ? (
+              <label className="relative flex flex-col items-center justify-center w-full h-40 sm:h-44 md:h-48 border-2 border-dashed border-indigo-300 bg-indigo-100 rounded-xl cursor-pointer text-gray-600 text-sm font-medium hover:bg-indigo-200 transition-colors">
+                <UploadImage />
+                <span className="mt-2">Click or drag image here</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                />
+              </label>
+            ) : (
+              <div className="relative flex justify-center items-center w-full h-40 sm:h-44 md:h-48">
+                <img
+                  src={previewImage}
+                  alt="Uploaded preview"
+                  className="max-h-36 sm:max-h-40 md:max-h-44 object-contain rounded-lg border border-gray-300 shadow-sm"
+                />
+                <button
+                  type="button"
+                  onClick={removeFile}
+                  className="absolute top-2 right-2 bg-white border border-red-200 hover:bg-red-100 text-red-500 p-1 rounded-full"
+                  aria-label="Remove image"
+                >
+                  <RxCross2 size={18} />
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Form Fields */}
+          <div className="flex flex-col md:flex-row gap-10">
+            {/* LEFT PANEL */}
+            <div className="flex flex-col gap-6 w-full md:w-2/3">
+              {/* Service Name & Address */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <InputWithIcon
+                  label="Service Name"
+                  icon={<MdEvent />}
+                  placeholder="Enter Service Name"
+                  name="service_name"
+                  value={formData.service_name}
+                  onChange={handleChange}
+                  required
+                />
+                <InputWithIcon
+                  label="Service Address"
+                  icon={<MdLocationOn />}
+                  placeholder="Enter Address"
+                  name="service_address"
+                  value={formData.service_address}
+                  onChange={handleChange}
+                  required
+                />
               </div>
 
-              <div className="flex flex-col gap-[30px] w-full">
-                <div className="flex flex-col md:flex-row gap-4">
-                  <InputWithIcon
-                    label="Service Name"
-                    icon={<MdEvent />}
-                    placeholder="Enter Service Name"
-                    name="service_name"
-                    value={formData.service_name}
-                    onChange={handleChange}
-                  />
-                  <InputWithIcon
-                    label="Service Address"
-                    icon={<MdLocationOn />}
-                    placeholder="Enter Address"
-                    name="service_address"
-                    value={formData.service_address}
-                    onChange={handleChange}
-                  />
-                </div>
+              {/* Date-Time Pickers */}
+              {[
+                {
+                  label: "Service Live",
+                  name: "service_live_date",
+                  value: formData.service_live_date,
+                },
+                {
+                  label: "Service Closing",
+                  name: "service_close_date",
+                  value: formData.service_close_date,
+                },
+                {
+                  label: "Form Live",
+                  name: "form_live_date",
+                  value: formData.form_live_date,
+                },
+                {
+                  label: "Form Closing",
+                  name: "form_close_date",
+                  value: formData.form_close_date,
+                },
+              ]
+                .reduce((acc, field, idx) => {
+                  if (idx % 2 === 0) acc.push([]);
+                  acc[acc.length - 1].push(field);
+                  return acc;
+                }, [])
+                .map((pair, i) => (
+                  <div className="flex flex-col sm:flex-row gap-4" key={i}>
+                    {pair.map((field) => (
+                      <div className="w-full" key={field.name}>
+                        <label className="text-sm font-medium text-gray-600 mb-2 block">
+                          {field.label}
+                        </label>
+                        <div className="flex items-center pl-10 pr-4 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-800 focus-within:ring-2 focus-within:ring-indigo-500">
+                          <Flatpickr
+                            name={field.name}
+                            data-enable-time
+                            value={field.value}
+                            onChange={handleDateChange}
+                            options={{
+                              dateFormat: "d-m-Y h:i K",
+                              minDate: "today",
+                              time_24hr: false,
+                              clickOpens: true,
+                            }}
+                            placeholder="DD-MM-YYYY 12:00 AM"
+                            className="w-full bg-transparent focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
 
-                <div className="flex flex-col md:flex-row gap-4">
-                  <InputWithIcon
-                    label="Service Date"
-                    icon={<MdEvent />}
-                    type="date"
-                    name="service_date"
-                    value={formData.service_date}
-                    onChange={handleChange}
-                  />
-                  <InputWithIcon
-                    label="Service Time"
-                    icon={<MdAccessTime />}
-                    type="time"
-                    name="service_time"
-                    value={formData.service_time}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="flex flex-col md:flex-row gap-4">
-                  <InputWithIcon
-                    label="Valid Scans"
-                    icon={<FaQrcode />}
-                    placeholder="No. of Scans"
-                    name="valid_scans"
-                    value={formData.valid_scans}
-                    onChange={handleChange}
-                  />
-                  <InputWithIcon
-                    label="Service Description"
-                    icon={<MdInfo />}
-                    placeholder="Enter Description"
-                    name="service_discription"
-                    value={formData.service_discription}
-                    onChange={handleChange}
-                  />
-                </div>
+              {/* Valid Scans & Description */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <InputWithIcon
+                  label="Valid Scans"
+                  icon={<FaQrcode />}
+                  placeholder="No. of Scans"
+                  name="valid_scans"
+                  value={formData.valid_scans}
+                  onChange={handleChange}
+                  required
+                />
+                <InputWithIcon
+                  label="Service Description"
+                  icon={<MdInfo />}
+                  placeholder="Enter Description"
+                  name="service_discription"
+                  value={formData.service_discription}
+                  onChange={handleChange}
+                  required
+                />
               </div>
             </div>
 
-            {/* Right */}
-            <div className="flex flex-col justify-end gap-[30px] w-full md:w-[34%]">
+            {/* RIGHT PANEL */}
+            <div className="flex flex-col gap-6 w-full md:w-1/3">
+              {/* Payment Option */}
               <div className="flex flex-col gap-2">
-                <span className="text-base font-medium text-gray-700">
+                <label className="text-base font-medium text-gray-700">
                   Payment Option
-                </span>
+                </label>
                 <div className="flex gap-6">
                   {["Paid", "Free"].map((opt) => (
                     <label
@@ -269,14 +337,14 @@ const UpdateService = () => {
                     >
                       <input
                         type="radio"
-                        name="paymentOption"
+                        name="payment_option"
                         value={opt}
-                        checked={formData.paymentOption === opt}
+                        checked={formData.payment_option === opt}
                         onChange={() => handleRadioChange(opt)}
                         className="peer hidden"
                       />
-                      <div className="w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center peer-checked:border-transparent peer-checked:bg-[#2C3ED3] transition-all duration-200">
-                        <MdCheck className="text-white text-md" />
+                      <div className="w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center peer-checked:bg-blue-600 peer-checked:border-transparent">
+                        <MdCheck className="text-white text-sm" />
                       </div>
                       <span className="text-base text-gray-700">{opt}</span>
                     </label>
@@ -284,6 +352,7 @@ const UpdateService = () => {
                 </div>
               </div>
 
+              {/* Ticket Price */}
               <InputWithIcon
                 label="Ticket Price"
                 icon={<MdAttachMoney />}
@@ -291,41 +360,43 @@ const UpdateService = () => {
                 name="ticket_price"
                 value={formData.ticket_price}
                 onChange={handleChange}
-                disabled={formData.paymentOption === "Free"}
+                disabled={formData.payment_option === "Free"}
+                required
               />
 
+              {/* Service Type */}
               <SelectField
                 label="Service Type"
                 name="service_type"
                 value={formData.service_type}
                 onChange={handleChange}
-                options={["Ticket", "Pass", "Badge"]}
+                options={serviceTypes}
+                required
               />
+
+              {/* Ticket Validity */}
               <SelectField
                 label="Ticket Validity"
                 name="ticket_validity"
                 value={formData.ticket_validity}
                 onChange={handleChange}
-                options={[
-                  { label: "3 Hours", value: "3h" },
-                  { label: "12 Hours", value: "12h" },
-                  { label: "1 Day", value: "1" },
-                  { label: "7 Days", value: "7" },
-                  { label: "15 Days", value: "15" },
-                  { label: "1 Month", value: "31" },
-                ]}
+                options={validityOptions}
                 optionLabelKey="label"
                 optionValueKey="value"
+                required
               />
             </div>
           </div>
 
-          <div className="mt-6 text-center bg-white pt-2 pb-1">
+          {/* Submit Button */}
+          <div className="mt-5 mb-10 flex justify-center ">
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium py-2 px-6 rounded-full transition duration-200 ${
-                isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+              className={`bg-indigo-600 text-white text-sm font-medium py-3 px-8 rounded-full shadow-md transition duration-200 ${
+                isSubmitting
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-indigo-700 hover:shadow-lg"
               }`}
             >
               {isSubmitting ? "Updating..." : "Update Service"}

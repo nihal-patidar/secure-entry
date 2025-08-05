@@ -23,6 +23,7 @@ formData={ele.formData}
 
 const FormDetails = ({
   serviceId,
+  service,
   formData,
   formUrl,
   formQr,
@@ -143,6 +144,7 @@ const downloadQR = () => {
           </div>
         </div>
       </div>
+      
 
       <div className="qrpart flex flex-col laptop:flex-row  justify-around items-   ">
               <div className="laptop:w-[50%] flex-col w-full  ">
