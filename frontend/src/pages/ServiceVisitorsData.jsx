@@ -20,19 +20,13 @@ const ServiceVisitorsData = () => {
           },
         })
         .then((res) => {
-          const visitors = res.data?.visitorList;
-          if (visitors && Array.isArray(visitors)) {
-            const cleaned = visitors.map((v) => ({
-              "Full Name": v.visitor_data?.["Full Name"] || "N/A",
-              Email: v.email || "N/A",
-              "Payment Status": v.payment_status === "true" ? "Paid" : "Unpaid",
-              "Remaining Scans": v.remain_scans,
-              "Validation Status": v.validation_status ? "Visited" : "Not Visited",
-              "Visitor ID": v.vis_id,
-            }));
-            setVisitorList(cleaned);
-          }
+            const visitors = res.data?.visitorList;
+            if (visitors && Array.isArray(visitors)) {
+                const cleaned = visitors.map((v) => v.visitor_data);
+                setVisitorList(cleaned);
+            }
         })
+
         .catch((err) => {
           console.error("Failed to fetch visitors", err);
         });

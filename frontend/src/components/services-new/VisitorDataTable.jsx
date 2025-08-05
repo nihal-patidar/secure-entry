@@ -4,7 +4,27 @@ import Button from '@mui/material/Button';
 
 const VisitorDataTable = ({ visitorData }) => {
     const [selected, setSelected] = useState([]);
+    // Inside the component, before return:
 
+    const keys = Object.keys(visitorData[0] || {});
+
+    let orderedKeys = keys;
+
+    if (keys.includes("Full Name")) {
+        orderedKeys = ["Full Name"];
+
+        if (keys.includes("Email")) {
+            orderedKeys.push("Email");
+        }
+
+        // Add all other keys except 'Full Name' and 'Email'
+        orderedKeys = orderedKeys.concat(
+            keys.filter(key => key !== "Full Name" && key !== "Email")
+        );
+    }
+
+
+    // const [serial, setSerial] = useState(1);
     const handleSelect = (id) => {
         if (selected.includes(id)) {
             setSelected(prev => prev.filter(eachId => eachId !== id));
@@ -44,8 +64,12 @@ const VisitorDataTable = ({ visitorData }) => {
                                     className="w-5 h-5"
                                 />
                             </th>
-                            {Object.keys(visitorData[0]).map((heading, i) => (
-                                <th key={heading} className='w-[150px] sm:w-[250px] py-4 px-2 capitalize'>{heading}</th>
+                            <th key={"serial id"} className='w-[150px] sm:w-[250px] py-4 px-2 capitalize'>S no.</th>
+
+                            {orderedKeys.map((heading) => (
+                                <th key={heading} className='w-[150px] sm:w-[250px] py-4 px-2 capitalize'>
+                                    {heading}
+                                </th>
                             ))}
                         </tr>
                         </thead>
@@ -64,14 +88,18 @@ const VisitorDataTable = ({ visitorData }) => {
                                         className="w-5 h-5"
                                     />
                                 </td>
-                                {Object.entries(obj).map(([heading, value]) => (
+                                <td key={"serial id"} className="w-[150px] sm:w-[250px] px-2 py-4 break-words whitespace-normal">
+                                    {i + 1}
+                                </td>
+                                {orderedKeys.map((heading) => (
                                     <td key={heading} className="w-[150px] sm:w-[250px] px-2 py-4 break-words whitespace-normal">
-                                        {value}
+                                        {obj[heading]}
                                     </td>
                                 ))}
                             </tr>
                         ))}
                         </tbody>
+
                     </table>
                 </div>
             )}
