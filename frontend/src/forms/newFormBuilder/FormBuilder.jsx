@@ -5,6 +5,7 @@ import PreviewCanvas from "./PreviewCanvas";
 import { useParams } from "react-router-dom";
 import api from "../../../axiosConfig";
 import { select } from "@material-tailwind/react";
+import { devLog } from "../../../devLog";
 // import { id } from "zod/v4/locales";
 
 const FormBuilder = () => {
@@ -24,7 +25,7 @@ const FormBuilder = () => {
     const fetchFormData = async () => {
       try {
         const response = await api.get(`/service/getStructure/${formId}`);
-        // console.log("response data",response.data)
+        // devLog.log("response data",response.data)
         if(response.data?.form_structure){
           setFormConfig(response.data.form_structure);
 
@@ -38,12 +39,12 @@ const FormBuilder = () => {
   }, []);
 
   const addField = (type, idd = formConfig.fields.length+2) => {
-    // console.log("Adding field of type:", type, idd, "final formCOnfig:" , formConfig);
+    // devLog.log("Adding field of type:", type, idd, "final formCOnfig:" , formConfig);
     
     if ("Payment Fields" === type) { 
       setFormConfig((prev) => {
         if (type === "Payment Fields") {
-          // console.log("Adding payment field with id:", idd);
+          // devLog.log("Adding payment field with id:", idd);
           const newPaymentFeild = {
             id: idd || 0,
             type,
@@ -66,7 +67,7 @@ const FormBuilder = () => {
               fields: [],
             }} ],
           }
-          // console.log("New payment field:", newPaymentFeild);
+          // devLog.log("New payment field:", newPaymentFeild);
           return {
             ...prev,
             fields: [

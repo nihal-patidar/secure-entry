@@ -6,6 +6,7 @@ import "../../index.css"
 
 import { dataContext } from "../../context/DataState";
 import { toast } from "react-toastify";
+import { devLog } from "../../../devLog";
 
 import {
   Button,
@@ -52,7 +53,7 @@ const CreateValidatorForm = () => {
   });
 
   const SubmitData = (label, data) => {
-    //console.log(label, ":", data);
+    //devLog.log(label, ":", data);
     setValidatorData((prev) => {
       return { ...prev, [label]: data };
     });
@@ -60,7 +61,7 @@ const CreateValidatorForm = () => {
   let token = localStorage.getItem("userData");
 
   const AddValidator = async (service_id) => {
-    //console.log("heloo hi", validatorData);
+    //devLog.log("heloo hi", validatorData);
     await api
       .put(
         `/validator/addValidator/${service_id}`,
@@ -76,14 +77,14 @@ const CreateValidatorForm = () => {
         }
       )
       .then((response) => {
-        //console.log(response);
+        //devLog.log(response);
         setAllValidator((prev) => [...prev, response.data.validator]);
         toast.success("validator added successfully!");
         navigate("/home/validators");
         reset();
       })
       .catch((err) => {
-        //console.log(err.response.data);
+        //devLog.log(err.response.data);
         toast.warning(err.response.data.msg);
       });
   };

@@ -3,6 +3,7 @@ import { CloseCircleOutlined } from "@ant-design/icons";
 import { dataContext } from "../../context/DataState";
 import { Button, Form, Input, Select } from "antd";
 import api from "../../../axiosConfig";
+import { devLog } from "../../../devLog";
 // import welvideo from "../../../public/vedios/to-our-Service.mp4";
 
 import { toast } from "react-toastify";
@@ -29,13 +30,13 @@ const ServiceForm = ({ formId }) => {
   };
 
   const createFormForVisitor = async () => {
-    // console.log("fields", fields);
+    // devLog.log("fields", fields);
     await api
       .post(`/service/addForm/${formId}`, {
         formData: fields,
       })
       .then((response) => {
-        //console.log(response.data.serviceData);
+        //devLog.log(response.data.serviceData);
         // setServices((prev) => {
         //   return prev.map((ele) => {
         //     if (ele._id == response.data.serviceData._id) {
@@ -49,7 +50,7 @@ const ServiceForm = ({ formId }) => {
         setFieldsDatatype([]);
       })
       .catch((err) => {
-        //console.log(err);
+        //devLog.log(err);
         toast.warning(err.response);
       });
   };
@@ -112,7 +113,7 @@ const ServiceForm = ({ formId }) => {
             fontWeight: "bolder",
           }}
           onClick={() => {
-            //console.log("submitted form :", fields);
+            //devLog.log("submitted form :", fields);
             createFormForVisitor();
           }}
         >

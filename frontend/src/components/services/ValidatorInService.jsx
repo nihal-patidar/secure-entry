@@ -2,7 +2,7 @@ import React, { memo, useContext, useEffect, useState } from "react";
 import Validator_Strip from "./Validator_Strip";
 import { dataContext } from "../../context/DataState";
 import api from "../../../axiosConfig";
-
+import { devLog } from "../../../devLog";
 
 
 const ValidatorInService = (props) => {
@@ -10,7 +10,7 @@ const ValidatorInService = (props) => {
     const [validators , setValidator] = useState({});
 
     useEffect(()=>{
-        //console.log(props.service_id);
+        //devLog.log(props.service_id);
         getValidator();
     },[])
 
@@ -24,17 +24,17 @@ const ValidatorInService = (props) => {
                 })
             })
         }).catch((err)=>{
-            //console.log("error",err);
+            //devLog.log("error",err);
         })
     }
 
-    //console.log("validators element", validators);
+    //devLog.log("validators element", validators);
     
     let Element = [] ;
     const validatorList = ()=>{
         Object.keys(validators).forEach((key,indx)=>{
             let validator = validators[key];
-            //console.log("validator and its key :-",validator , " -> " , key)
+            //devLog.log("validator and its key :-",validator , " -> " , key)
             Element.push(
                 <Validator_Strip key={indx} validator={{...validator}}/>
             )

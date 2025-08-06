@@ -6,6 +6,7 @@ import { Button, Checkbox, Divider, Tabs } from "antd";
 import { useNavigate } from "react-router-dom";
 import OverViewStrip from "./OverView";
 const CheckboxGroup = Checkbox.Group;
+import { devLog } from "../../../devLog";
 
 const OperationsSlot = {
   left: <Button className="tabs-extra-demo-button">Left Extra Action</Button>,
@@ -79,7 +80,7 @@ const ServiceTabs = ({
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      //console.log("Timeout executed!");
+      //devLog.log("Timeout executed!");
       setCount((prev) => prev + 1);
     }, 2000); // 2-second delay
 
@@ -88,7 +89,7 @@ const ServiceTabs = ({
   }, []);
 
   useEffect(() => {
-    //console.log("Services Tab Rendered ", service_id);
+    //devLog.log("Services Tab Rendered ", service_id);
     setTimeout;
   }, []);
   return (

@@ -11,6 +11,7 @@ import api from "../../axiosConfig";
 import { toast } from "react-toastify";
 import Payment from "../components/services/Payment";
 import { useNavigate } from "react-router-dom";
+import { devLog } from "../../devLog";
 
 export function CreateService() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -40,14 +41,14 @@ export function CreateService() {
         }
       )
       .then((response) => {
-        //console.log(response);
+        //devLog.log(response);
         // setServices((prev) => [...prev, response.data.service]);
         navigate(-1);
         toast.success("Service Added !!");
         reset();
       })
       .catch((err) => {
-        //console.log(err.response.data);
+        //devLog.log(err.response.data);
         toast.warning(err.response.data.msg);
       });
   };

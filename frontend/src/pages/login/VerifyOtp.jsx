@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";  
+import { devLog } from "../../../devLog";
 
 const OTP_DIGITS = 6;
 
@@ -33,7 +34,7 @@ const VerifyOTP = ({ imageSrc }) => {
   const navigate = useNavigate();
   const handleVerifyOtp = () => {
     const otp = inputArr.join(''); 
-    console.log("Verifying OTP:", otp);
+    devLog.log("Verifying OTP:", otp);
 
     navigate("/login"); 
   };

@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import {useForm} from "react-hook-form"
 import axios from "axios";
 import api from "../../../axiosConfig";
+import { devLog } from "../../../devLog";
 import { toast } from "react-toastify";
 import { UserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
@@ -42,12 +43,12 @@ const Registration= ()=>{
             email:data.email,
             password:data.password
         }).then((response)=>{
-            //console.log("data",response.data);
+            //devLog.log("data",response.data);
             setUserData(response.data);
             navigate("/login");
         }).catch((error)=>{
             setShowLoading(false);
-            //console.log("error data",error.response.data);
+            //devLog.log("error data",error.response.data);
             toast(error.response.data.msg);
         })
      }

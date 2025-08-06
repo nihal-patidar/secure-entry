@@ -4,6 +4,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import api from "../../../axiosConfig.js";
 import { UserContext } from "../../context/UserContext";
 import {toast} from "react-toastify";
+import { devLog } from "../../../devLog.js";
 
 export default function Profileedit() {
     const { object } = useOutletContext();
@@ -42,7 +43,7 @@ export default function Profileedit() {
 
         // Log for debugging
         for (let pair of formDataToSend.entries()) {
-            console.log(`${pair[0]}: ${pair[1]}`);
+            devLog.log(`${pair[0]}: ${pair[1]}`);
         }
         console.info(token);
         try {

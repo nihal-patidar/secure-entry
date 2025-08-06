@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import FoRm from "./Form.jsx";
+import { devLog } from "../../devLog.js";
 
 export const DefaultQuestion = {
   Logo: "Choose Logo",
@@ -347,7 +348,7 @@ export default function FormBuilder() {
         })),
       }),
     };
-    console.log("ds", type);
+    devLog.log("ds", type);
     setMasterList([...masterList, newField]);
   }
 
@@ -458,7 +459,7 @@ export default function FormBuilder() {
 
       return updated;
     });
-    console.log(MasterList);
+    devLog.log(MasterList);
   }
 
   return (

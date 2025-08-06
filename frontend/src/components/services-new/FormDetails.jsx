@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "../../../axiosConfig.js";
 import { toast } from "react-toastify";
-
+import { devLog } from "../../../devLog.js";
 import { BookmarkSquareIcon } from "@heroicons/react/24/outline";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import Flatpickr from "react-flatpickr";
@@ -64,7 +64,7 @@ const downloadQR = () => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                console.log(response)
+                devLog.log(response)
               // setFormData(response.data.service_data);
             } catch (err) {
                 toast.warning(err.response?.data?.msg || "Failed to fetch Form Data");

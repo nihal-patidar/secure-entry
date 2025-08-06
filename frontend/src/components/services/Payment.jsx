@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import useRazorpay from "react-razorpay";
 import api from "../../../axiosConfig";
+import { devLog } from "../../../devLog";
 
 export default function Payment() {
   const [Razorpay] = useRazorpay();
@@ -12,7 +13,7 @@ export default function Payment() {
         name:"Nihal Patidar"
     }
     let order= await api.post("/ticket/payment",bodyData);
-    //console.log(order);
+    //devLog.log(order);
     const options = {
       key: order.data.key_id,
       amount: order.data.amount,
@@ -22,7 +23,7 @@ export default function Payment() {
       image: "",
       order_id: order.data.order_id,
       handler: (res) => {
-        //console.log(res);
+        //devLog.log(res);
       },
       prefill: {
         name: "Piyush Garg",

@@ -1,5 +1,6 @@
 import { apiConnector } from "../apiconnector";
 import { eventEndpoints } from "../apis";
+import { devLog } from "../../../devLog";
 
 export const getFormData = async ({ formId, setServiceData, setAmount, navigate }) => {
   try {
@@ -15,7 +16,7 @@ export const getFormData = async ({ formId, setServiceData, setAmount, navigate 
 
     setServiceData(response.data.serviceData);
     setAmount(response.data.serviceData?.ticket_price);
-    // console.log("serviceData", response.data.serviceData);
+    // devLog.log("serviceData", response.data.serviceData);
   } catch (err) {
     toast.warning(err?.response?.data?.msg || "Something went wrong");
   }

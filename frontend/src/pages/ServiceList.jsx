@@ -11,6 +11,7 @@ import { ServiceContext } from "../context/ServiceContext.jsx";
 import api from "../../axiosConfig.js";
 import { toast } from "react-toastify";
 import BouncingDotsLoader from "../components/small/BouncingDotsLoader.jsx";
+import { devLog } from "../../devLog.js";
 
 const ServiceList = () => {
   const { services, setServices } = useContext(ServiceContext);
@@ -55,14 +56,14 @@ const ServiceList = () => {
       });
       if (response.data.services.length > 0){
         setServices(response.data.services);
-        console.log(response.data.services);
+        devLog.log( "sx" , response.data.services);
       }
       else {
         setServices([-1]);
         toast.warning("No Services Available");
       }
 
-      console.log("Services fetched");
+      devLog.log("Services fetched now");
     } catch (err) {
       toast.error(err.response?.data?.msg || "Failed to fetch services");
       setError(err);

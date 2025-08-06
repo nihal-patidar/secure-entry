@@ -9,6 +9,7 @@ import Input from "../components/small/Input";
 import { UserContext } from "../context/UserContext";
 import { ServiceContext } from "../context/ServiceContext";
 import { useNavigate } from "react-router-dom";
+import { devLog } from "../../devLog";
 
 const addValidator = () => {
   const { closePopup, setAllValidator } = useContext(dataContext);
@@ -29,7 +30,7 @@ const addValidator = () => {
   
 
   const validatorFormHandler = async (data) => {
-    //console.log("heloo hi" , data);
+    //devLog.log("heloo hi" , data);
     await api
       .put(
         `/validator/addValidator/${data.service_id}`,
@@ -45,14 +46,14 @@ const addValidator = () => {
         }
       )
       .then((response) => {
-        //console.log(response);
+        //devLog.log(response);
         setAllValidator((prev) => [...prev, response.data.validator]);
         toast.success("validator added successfully!");
         navigate(-1);
         reset();
       })
       .catch((err) => {
-        //console.log(err.response.data);
+        //devLog.log(err.response.data);
         toast.warning(err.response.data.msg);
       });
   };

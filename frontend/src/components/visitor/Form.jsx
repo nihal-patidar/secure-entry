@@ -9,6 +9,7 @@ import RazorpayPayment from "./Payment";
 import LoadingDots from "../small/LoadingDots";
 import { apiConnector } from "../../api/apiconnector";
 import { getFormData } from "../../api/operations/formAPI";
+import { devLog } from "../../../devLog";
 
 const Form = ({
   formId,
@@ -53,7 +54,7 @@ const Form = ({
   const postData = async ({ fData, paymentId, orderId }) => {
     let data = fData;
     let ticketId = null;
-    // console.log("form data",paymentId , data);
+    // devLog.log("form data",paymentId , data);
     if (image === null) {
       await api
         .post(`/visitor/set-visitor/${formId}`, {
@@ -72,7 +73,7 @@ const Form = ({
             qrData: response.data.qrData,
           });
           ticketId = response.data.visitorData._id;
-          // console.log("visitor info", response);
+          // devLog.log("visitor info", response);
           setActiveStep(1);
           toast.success("Visitor Data Successfully Added !!!");
         })
@@ -112,13 +113,13 @@ const Form = ({
   };
 
   const submitVisitorFormData = async (data) => {
-    // console.log("onsubmit data", data, amount);
+    // devLog.log("onsubmit data", data, amount);
     if (amount === 0) {
-      // console.log("free pass");
+      // devLog.log("free pass");
       postData({ fData: data, paymentId: "", orderId: "" });
     } else {
       setFFData(data);
-      // console.log("paid pass");
+      // devLog.log("paid pass");
     }
   };
 
@@ -144,7 +145,7 @@ const Form = ({
           {serviceData &&
             serviceData.form_structure.map((ele, index) => {
               {
-                /* console.log("form field", ele); */
+                /* devLog.log("form field", ele); */
               }
               {
                 /* if (ele.fieldName === "email") {

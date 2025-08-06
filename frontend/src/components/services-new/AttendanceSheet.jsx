@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { devLog } from '../../../devLog'
 
 import {SelectOperations} from '../services-new/VisitorDataTable'
 
@@ -188,7 +189,7 @@ export const AttendanceTable = ({visitorData, month}) => {
         
     }
 
-    console.log(month)
+    devLog.log(month)
     useEffect(() => {
         const daysarray = monthDays(month)
         setDates(daysarray)

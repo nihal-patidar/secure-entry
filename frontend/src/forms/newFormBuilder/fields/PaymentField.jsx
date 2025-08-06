@@ -6,6 +6,7 @@ import { button } from "@material-tailwind/react";
 import FormCanvas from "../FormCanvas";
 import PreviewCanvas from "../PreviewCanvas";
 import { use } from "react";
+import { devLog } from "../../../../devLog";
 
 const AddFieldPopUp = ({
   onClose,
@@ -28,7 +29,7 @@ const AddFieldPopUp = ({
         </h2>
 
         <div className="flex gap-6 h-[600px]" style={{justifyContent:"center"}}>
-          {/* {console.log(qId)} */}
+          {/* {devLog.log(qId)} */}
           <FormBuilderSidebar onUpdate={onUpdate} qId={qId} oId={oId} />
           <div className="w-80 p-4" style={{background:"#fafafa"}}>
             selected
@@ -75,7 +76,7 @@ const SetPaymentPopUp = ({
     if (!isNaN(num) && num >= 0) {
       // updateOptionAmountAtIndex(fieldId, currentOptionIndex, num);
       onUpdate(prev => {
-        // console.log(prev)
+        // devLog.log(prev)
         return {
           ...prev, 
           fields: prev.fields.map((f) => 
@@ -243,7 +244,7 @@ export default function SpecialSelectOption({
         fields: newFields
       };
     });
-    console.log("selected fields", selectedFields);
+    devLog.log("selected fields", selectedFields);
   }, [field.options]);
 
 
@@ -263,7 +264,7 @@ export default function SpecialSelectOption({
 
   function save(){
     onUpdate(prev => {
-      console.log(prev)
+      devLog.log(prev)
       return {
         ...prev, 
         fields: prev.fields.map((f) => 
@@ -408,7 +409,7 @@ export default function SpecialSelectOption({
   //       return o.selected === true && o.selectedFields.fields
   //     })
   //   })
-  //   console.log("selected fields", selectedFields)
+  //   devLog.log("selected fields", selectedFields)
   // }, [selectedOptions])
 
 
@@ -422,7 +423,7 @@ export default function SpecialSelectOption({
         }
       });
     })
-    // onUpdate((prev) => {console.log("new opt selected: ",prev); return prev;})
+    // onUpdate((prev) => {devLog.log("new opt selected: ",prev); return prev;})
   }, [selectedOptions]);
 
   const handleSelectTypeChange = (type) => {
@@ -488,7 +489,7 @@ export default function SpecialSelectOption({
   //   })
   // }, [selectedOptions])
   // onUpdate((prev) => {
-  // console.log("formConfig", prev);
+  // devLog.log("formConfig", prev);
   // return prev;
   // })
 
@@ -498,7 +499,7 @@ export default function SpecialSelectOption({
     
     // useEffect(() => {
     //   setSelectedFields((prev) => {
-    //     console.log("on toggle selected options", prev);
+    //     devLog.log("on toggle selected options", prev);
     //     // return {
     //       //   ...prev,
     //       //   // fields: [...prev.fields, field]

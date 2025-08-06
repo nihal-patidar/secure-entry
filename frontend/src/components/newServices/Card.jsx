@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ServiceContext } from "../../context/ServiceContext";
 import api from "../../../axiosConfig";
 import { toast } from "react-toastify";
+import { devLog } from "../../../devLog";
 
 function Card(props) {
   const {
@@ -107,7 +108,7 @@ function Card(props) {
       .then((res) => {
         const visitors = res.data?.visitorList;
 
-        // console.log("Visitors data from fetch: ", visitors)
+        // devLog.log("Visitors data from fetch: ", visitors)
 
         let total = visitors.length;
         let visited = visitors.filter((visitor) => {
@@ -132,14 +133,14 @@ function Card(props) {
         });
       })
       .catch((err) => {
-        //console.log(err);
+        //devLog.log(err);
         toast.warning(
           err.response?.data?.msg || "Failed to fetch visitor data"
         );
       });
   }, [id]);
 
-  // console.log("Count visitors: ",countVisitors)
+  // devLog.log("Count visitors: ",countVisitors)
 
   const navigate = useNavigate();
   let visitPercent = Number;

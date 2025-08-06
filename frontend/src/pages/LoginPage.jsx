@@ -11,6 +11,8 @@ import Input from '../components/small/Input';
 import { Button } from "@material-tailwind/react";
 import api from '../../axiosConfig';
 import { LoginHandle } from '../api/operations/authAPI';
+import { devLog } from '../../devLog';
+
 const LoginPage = () => {
     var {userData,showLoading}= useContext(UserContext);
     return (
@@ -53,13 +55,13 @@ const Login = () => {
 
 
 //   const LonginHandle = async (data) => {
-//       //console.log("i am logining working");
+//       //devLog.log("i am logining working");
 //       setShowLoading((prev) => !prev);
 //       await api.post("/api/login", {
 //           email: data.email,
 //           password: data.password
 //       }).then((response) => {
-//           //console.log("data", response.data);
+//           //devLog.log("data", response.data);
 //           setUserData(response.data);
 //           navigate("/home");
 //           localStorage.setItem("userData", response.data.token);
@@ -70,7 +72,7 @@ const Login = () => {
 //               }
 //           }).then((response)=>{
 //               setUserData(response.data.userData);
-//               //console.log("userdata: ",response.data.userData);
+//               //devLog.log("userdata: ",response.data.userData);
 //               toast.success("User Data Fetched");
 //           }).catch((err)=>{
 //               nevigate('/login');
@@ -78,7 +80,7 @@ const Login = () => {
 //           toast.success("Login Successfully!");
 //       }).catch((error) => {
 //           setShowLoading((prev) => !prev);
-//           //console.log("error data", error.response.data);
+//           //devLog.log("error data", error.response.data);
 //           toast.warning(error.response.data.msg);
 //       })
 //   }

@@ -9,6 +9,7 @@ import { Button } from "@material-tailwind/react";
 // import LoadingDots from "../small/LoadingDots";
 import BouncingDotsLoader from "../../components/small/BouncingDotsLoader";
 import { toast } from "react-toastify";
+import { devLog } from "../../../devLog";
 
 const VisitorForm = ({ setVisitorData, setActiveStep, amount , setAmount,serviceData,setServiceData }) => {
   const { formId } = useParams();
@@ -28,7 +29,7 @@ const VisitorForm = ({ setVisitorData, setActiveStep, amount , setAmount,service
 
         const serviceRes = await api.get(`/service/getThisService/${formId}`);
         setServiceData(serviceRes.data.service_data);
-        console.log("serviceData", serviceRes.data.service_data);
+        devLog.log("serviceData", serviceRes.data.service_data);
         setAmount(serviceRes.data?.amount || 0);
       } catch (error) {
         toast.error("Failed to fetch form or service data");
@@ -40,7 +41,7 @@ const VisitorForm = ({ setVisitorData, setActiveStep, amount , setAmount,service
 
   const onSubmit = async (data) => {
     // Merge first and last name fields
-    console.log("Data submitted:", data);
+    devLog.log("Data submitted:", data);
     const visitorData = { ...data };
     Object.keys(data).forEach((key) => {
       if (key.endsWith("_first")) {
@@ -74,7 +75,7 @@ const VisitorForm = ({ setVisitorData, setActiveStep, amount , setAmount,service
         orderId,
       };
 
-      // console.log("payload visitor data",payload)
+      // devLog.log("payload visitor data",payload)
 
       const config = image
         ? { headers: { "Content-Type": "multipart/form-data" } }
@@ -90,7 +91,7 @@ const VisitorForm = ({ setVisitorData, setActiveStep, amount , setAmount,service
       setActiveStep?.(1);
       toast.success("Visitor Data Successfully Added !!!");
     } catch (err) {
-      // console.log(err);
+      // devLog.log(err);
       toast.warning("Error submitting form");
     }
   };

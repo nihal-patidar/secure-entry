@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import api from "../../axiosConfig";
-
+import { devLog } from "../../devLog";
 import { toast } from "react-toastify";
 const UserContext= createContext();
 
@@ -17,7 +17,7 @@ const UserContextProvider= (props)=>{
         await api.post("/api/mail-verification",{
             email:email
         }).then((response)=>{
-            //console.log("mail send succefully");
+            //devLog.log("mail send succefully");
             toast.success("Verification Mail Send Succefully!");
         }).catch((error)=>{
             toast.warning(error.response.data.msg);
@@ -29,7 +29,7 @@ const UserContextProvider= (props)=>{
         await api.post("/api/forget-password",{
             email:email
         }).then((response)=>{
-            //console.log("mail send succefully");
+            //devLog.log("mail send succefully");
             toast.success("Reset password mail succefully send");
         }).catch((error)=>{
             toast.warning(error.response.data.msg);

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { DefaultQuestion } from "../Aside.jsx";
+import { devLog } from "../../../devLog.js";
 
 
 export default function MultiSelect({options, count, type}){
@@ -44,9 +45,9 @@ export default function MultiSelect({options, count, type}){
             element.addEventListener('mouseleave', ()=>{
                 element.style.background = "transparent";
             });
-            // console.log(option)
-            // console.log(`question-${count}-option-${countOpt}-btn`)
-            // console.log(document.getElementById(`question-${count}-option-${countOpt}-btn`));
+            // devLog.log(option)
+            // devLog.log(`question-${count}-option-${countOpt}-btn`)
+            // devLog.log(document.getElementById(`question-${count}-option-${countOpt}-btn`));
             countOpt++;
 
         })

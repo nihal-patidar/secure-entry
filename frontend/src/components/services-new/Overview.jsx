@@ -4,19 +4,19 @@ import visited from '../../assets/images/Visited.svg';
 import notVisited from '../../assets/images/Not Visited.svg';
 import errors from '../../assets/images/Errors.svg';
 import { useNavigate } from 'react-router-dom';
-
+import { devLog } from '../../../devLog';
 const Overview = ({ serviceId, visitors }) => {
   const navigate = useNavigate();
 
   // Log on render
   useEffect(() => {
-    console.log("📊 Overview mounted");
-    console.log("🆔 serviceId:", serviceId);
-    console.log("👥 Visitors object:", visitors);
+    devLog.log("📊 Overview mounted");
+    devLog.log("🆔 serviceId:", serviceId);
+    devLog.log("👥 Visitors object:", visitors);
   }, [serviceId, visitors]);
 
   const handleVisitorData = () => {
-    console.log("🔁 Navigating to visitors page with state:", {
+    devLog.log("🔁 Navigating to visitors page with state:", {
       serviceId: serviceId,
       visitorData: visitors?.visitorData,
     });

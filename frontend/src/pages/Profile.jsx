@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { UserContext } from "../context/UserContext";
 import api from "../../axiosConfig";
+import { devLog } from "../../devLog";
+
 const Profile = () => {
   const { register, handleSubmit } = useForm();
   var { setShowLoading, userData, image, setImage, setUserData } =
@@ -20,7 +22,7 @@ const Profile = () => {
   const onSubmitHandler = async (data) => {
     setShowLoading((prev) => !prev);
     let token = localStorage.getItem("userData");
-    //console.log(token);
+    //devLog.log(token);
     await api
         .post(
             "/api/update-profile",
@@ -38,14 +40,14 @@ const Profile = () => {
         )
         .then((response) => {
           setShowLoading(false);
-          //console.log("data", response.data);
+          //devLog.log("data", response.data);
           setUserData(response.data.userData);
           setEditable(false);
           toast.success("Profile updated successfully!");
         })
         .catch((error) => {
           setShowLoading(false);
-          //console.log("error data", error.response.data);
+          //devLog.log("error data", error.response.data);
           toast(error.response.data.msg);
         });
   };

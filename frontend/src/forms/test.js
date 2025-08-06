@@ -1,3 +1,5 @@
+import { devLog } from "../../devLog";
+
 function Func(index) {
     let Questions = ["text", "single selection", "multiple selection", "Dropdown selection", "multiple selection", "Dropdown selection", "text", "Timer"];
     let Options = [];
@@ -40,14 +42,14 @@ function Func(index) {
         Questions = (Questions.filter((_, i) => i !== index));
         Options = (Options.filter((_, i) => i !== index));
 
-        // console.log(index);
-        // console.log(Questions);
+        // devLog.log(index);
+        // devLog.log(Questions);
     }
 
     function Display(){
         // for(let i = 0;i < Questions.length;i++){
-            console.log(Questions);
-            console.log(Options);
+            devLog.log(Questions);
+            devLog.log(Options);
         // }
     }
 Options = [[], ["A", "B", "C"], ["A", "B", "C", "D", "E"], ["A", "B", "C", "D"], ["A", "B", "C", "D", "E"], ["A", "B", "C", "D"], [], []];

@@ -1,6 +1,7 @@
 import { apiConnector } from "../apiconnector";
 import { authEndpoints } from "../apis";
 import { toast } from "react-toastify";
+import { devLog } from "../../../devLog";
 
 
 
@@ -11,13 +12,13 @@ export const LoginHandle = async ({
   navigate,
   setError
 }) => {
-  //console.log("i am logining working");
+  //devLog.log("i am logining working");
   setShowLoading((prev) => !prev);
   await apiConnector("POST", authEndpoints.LOGIN, {
     email: data.email,
     password: data.password
   }).then((response) => {
-    //console.log("data", response.data);
+    //devLog.log("data", response.data);
     setUserData(response.data);
     navigate("/home");
     localStorage.setItem("userData", response.data.token);
@@ -26,7 +27,7 @@ export const LoginHandle = async ({
       Authorization: `Bearer ${response.data.token}`
     }).then((response) => {
       setUserData(response.data.userData);
-      //console.log("userdata: ",response.data.userData);
+      //devLog.log("userdata: ",response.data.userData);
       toast.success("User Data Fetched");
     }).catch((err) => {
       
@@ -35,7 +36,7 @@ export const LoginHandle = async ({
     toast.success("Login Successfully!");
   }).catch((error) => {
     setShowLoading((prev) => !prev);
-    // console.log("error data", error.response.data.msg);
+    // devLog.log("error data", error.response.data.msg);
       // toast.warning(error.response.data.msg);
       setError(error)
   })

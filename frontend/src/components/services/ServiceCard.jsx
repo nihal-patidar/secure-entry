@@ -5,6 +5,7 @@ import { ServiceContext } from "../../context/ServiceContext";
 import api from "../../../axiosConfig";
 import { toast } from "react-toastify";
 import "../../index.css";
+import { devLog } from "../../../devLog";
 
 const Services = () => {
 
@@ -15,7 +16,7 @@ const Services = () => {
   }, []);
 
   useEffect(() => {
-    //console.log("Service Component Called!!");
+    //devLog.log("Service Component Called!!");
   }, []);
   const serviceFormHandler = async () => {
     await api
@@ -25,13 +26,13 @@ const Services = () => {
         },
       })
       .then((response) => {
-        console.log("services Data -- ", response.data.services);
-        //console.log("services fetched request");
+        devLog.log("services Data -- ", response.data.services);
+        //devLog.log("services fetched request");
         setServices(response.data.services);
-        //console.log(response.data.services);
+        //devLog.log(response.data.services);
       })
       .catch((err) => {
-        //console.log(err.response.data);
+        //devLog.log(err.response.data);
         toast.warning(err.response.data.msg);
       });
   };
@@ -40,7 +41,7 @@ const Services = () => {
     <div className="flex flex-col gap-2 w-full h-full theme-5 rounded-lg overflow-y-scroll scroller justify-start items-center my-2">
       {services.length !== 0 ? (
         services.map((ele, index) => {
-          //console.log("service no.", index, " -> ", ele);
+          //devLog.log("service no.", index, " -> ", ele);
 
           return <Service ele={ele} index={index} />;
         })

@@ -5,6 +5,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { useLocation, useParams } from "react-router-dom";
 import "../index.css";
+import { devLog } from "../../devLog";
 
 const ServiceVisitors = () => {
   const [visitors, setVisitors] = useState([]);
@@ -46,11 +47,11 @@ const ServiceVisitors = () => {
           },
         })
         .then((res) => {
-          //console.log("get-visitor", res.data.visitorList);
+          //devLog.log("get-visitor", res.data.visitorList);
           setVisitors(res.data.visitorList);
         })
         .catch((err) => {
-          //console.log(err);
+          //devLog.log(err);
         });
     }
   };
@@ -65,7 +66,7 @@ const ServiceVisitors = () => {
         // },
       });
 
-      //console.log("response", response);
+      //devLog.log("response", response);
 
       // if (!response.ok) {
       //   throw new Error("Failed to fetch file");
@@ -106,13 +107,13 @@ const ServiceVisitors = () => {
 
     // let headers = ["No" , "Status"] // Add more fields if needed
     let headerdata = visitors[0].visitor_data;
-    // console.log("ddfd",headerdata)
+    // devLog.log("ddfd",headerdata)
 
     let headerData = Object.keys(headerdata).map((key) => {
       return key;
     });
 
-    // console.log("ddhfd",headers);
+    // devLog.log("ddhfd",headers);
     const headerColumns = ["S.No", ...headerData, "Status"];
     const emptyColumns = ["", ""]; // Two empty columns before summary
     const summaryHeaders = [
@@ -204,11 +205,11 @@ const ServiceVisitors = () => {
         },
       })
       .then((res) => {
-        //console.log("get-visitor", res.data.visitorList);
+        //devLog.log("get-visitor", res.data.visitorList);
         setVisitors(res.data.visitorList);
       })
       .catch((err) => {
-        //console.log(err);
+        //devLog.log(err);
       });
   }, []);
 

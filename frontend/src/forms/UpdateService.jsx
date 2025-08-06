@@ -8,6 +8,7 @@ import { dataContext } from "../context/DataState";
 import { useNavigate } from "react-router-dom";
 import { ServiceContext } from "../context/ServiceContext";
 import api from "../../axiosConfig";
+import { devLog } from "../../devLog";
 
 import { toast } from "react-toastify";
 // import { UpdateForm } from "./UpdateForm";
@@ -32,11 +33,11 @@ export function UpdateServiceForm() {
       api
         .get(`/service/getThisService/${service_id}`)
         .then((response) => {
-          //console.log("form data is here :----", response.data.service_data)
+          //devLog.log("form data is here :----", response.data.service_data)
           setInitialValues(response.data.service_data);
         })
         .catch((err) => {
-          //console.log(err);
+          //devLog.log(err);
           toast.warning(err.response.data.msg);
         });
     }
@@ -74,7 +75,7 @@ function UpdateForm({ initialValues, currentServiceFormId }) {
   let token = localStorage.getItem("userData");
 
   const handleDelete = async () => {
-    //console.log("current service id", currentServiceFormId);
+    //devLog.log("current service id", currentServiceFormId);
 
     await api
       .post(`/service/deleteService/${currentServiceFormId}`, {
@@ -87,7 +88,7 @@ function UpdateForm({ initialValues, currentServiceFormId }) {
         // window.location.reload();
       })
       .catch((err) => {
-        //console.log(err.response.data);
+        //devLog.log(err.response.data);
         toast.warning(err.response.data.msg);
       });
     // closePopup("updateServiceForm");
@@ -101,7 +102,7 @@ function UpdateForm({ initialValues, currentServiceFormId }) {
         },
       })
       .then((response) => {
-        //console.log(response);
+        //devLog.log(response);
         // setServices((prev) => [...prev, response.data.service]);
         toast.success("Updattion successfully done!!");
         navigate("/home/services");
@@ -110,7 +111,7 @@ function UpdateForm({ initialValues, currentServiceFormId }) {
         reset();
       })
       .catch((err) => {
-        //console.log(err.response.data);
+        //devLog.log(err.response.data);
         toast.warning(err.response.data.msg);
       });
   };

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@material-tailwind/react";
+import { devLog } from "../../../devLog";
 import api from "../../../axiosConfig";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +17,7 @@ const OverViewStrip = ({ service_id }) => {
         },
       })
       .then((res) => {
-        //console.log("get-visitor", res.data.visitorList);
+        //devLog.log("get-visitor", res.data.visitorList);
         // setVisitors(res.data.visitorList);
         const visitors = res.data.visitorList;
 
@@ -31,7 +32,7 @@ const OverViewStrip = ({ service_id }) => {
         setVisitors({ a: a, b: b, c: c });
       })
       .catch((err) => {
-        //console.log(err);
+        //devLog.log(err);
       });
   }, []);
   return (

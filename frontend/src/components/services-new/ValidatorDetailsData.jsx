@@ -5,6 +5,7 @@ import { MdOutlinePeople } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../../axiosConfig";
+import { devLog } from "../../../devLog";
 
 const ValidatorDetailsData = () => {
   const [validators, setValidators] = useState([]);
@@ -22,7 +23,7 @@ const ValidatorDetailsData = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        console.log("Fetched Validators: ", res.data.validators);
+        devLog.log("Fetched Validators: ", res.data.validators);
 
         if (Array.isArray(res?.data?.validators)) {
           setValidators(res.data.validators);

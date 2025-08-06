@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import api from "../../../axiosConfig";
-
+import { devLog } from "../../../devLog";
 const RazorpayPayment = ({ amount, postData, fData }) => {
   // const [amount, setAmount] = useState(0);
 
@@ -20,7 +20,7 @@ const RazorpayPayment = ({ amount, postData, fData }) => {
         description: "Payment for Tickets",
         order_id: orderId,
         handler: async function (response) {
-          // console.log("response handler's", response);
+          // devLog.log("response handler's", response);
           let paymentId = response.razorpay_payment_id;
 
           let ticketId = await postData({ fData, paymentId, orderId });

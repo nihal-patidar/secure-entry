@@ -3,6 +3,7 @@ import api from "../../../axiosConfig";
 import { Button } from "antd";
 import { useLocation, useParams } from "react-router-dom";
 import '../../index.css'
+import { devLog } from "../../../devLog";
 
 const ServiceVisitors = () => {
   const [visitors, setVisitors] = useState([]);
@@ -38,12 +39,12 @@ const ServiceVisitors = () => {
       })
       .then((res) => {
         let list = res.data.visitorList ;
-        //console.log("get-visitor", list);
+        //devLog.log("get-visitor", list);
         let revList = list.reverse();
         setVisitors(revList);
       })
       .catch((err) => {
-        //console.log(err);
+        //devLog.log(err);
       });
   }, []);
 

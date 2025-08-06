@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { DefaultQuestion } from "../Aside.jsx";
+import { devLog } from "../../../devLog.js";
 
 export default function SingleSelect({ options, count, type }) {
   let countOpt = 1;
@@ -47,14 +48,14 @@ export default function SingleSelect({ options, count, type }) {
         selectedImg.style.display = "inline-block";
         unSelectedImg.style.display = "none";
         setSelected(numb);
-        // console.log(selected, numb);
+        // devLog.log(selected, numb);
       });
       element.addEventListener("mouseleave", () => {
         element.style.background = "transparent";
       });
-      // console.log(option)
-      // console.log(`question-${count}-option-${countOpt}-btn`)
-      // console.log(document.getElementById(`question-${count}-option-${countOpt}-btn`));
+      // devLog.log(option)
+      // devLog.log(`question-${count}-option-${countOpt}-btn`)
+      // devLog.log(document.getElementById(`question-${count}-option-${countOpt}-btn`));
       countOpt++;
     });
   }, 0);

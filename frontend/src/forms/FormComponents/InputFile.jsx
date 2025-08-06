@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { devLog } from "../../../devLog";
 
 const InputFile = ({ name }) => {
   const inputRef = useRef();
@@ -12,7 +13,7 @@ const InputFile = ({ name }) => {
     const file = event.target.files?.[0];
     if (file) {
       setFileName(file.name);
-      console.log(`Selected ${name}:`, file.name);
+      devLog.log(`Selected ${name}:`, file.name);
     }
   };
 

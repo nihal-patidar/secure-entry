@@ -3,6 +3,8 @@ import { UserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../../axiosConfig';
+import { devLog } from '../../devLog';
+
 const Auth = (props) => {
     let nevigate= useNavigate();
     let {setToken,userData,setUserData}= useContext(UserContext);
@@ -22,7 +24,7 @@ const Auth = (props) => {
             }
         }).then((response)=>{
             setUserData(response.data.userData);
-            //console.log("userdata: ",response.data.userData);
+            //devLog.log("userdata: ",response.data.userData);
             toast.success("User Data Fetched");
         }).catch((err)=>{
             nevigate('/login');

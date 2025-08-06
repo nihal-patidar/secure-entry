@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { devLog } from "../../../../devLog";
 import {
   ChevronDown,
   ChevronRight,
@@ -107,11 +108,11 @@ const FormBuilderSidebar = ({ onUpdate, qId, oId }) => {
       }}]
     })
     onUpdate((prev) => { 
-      console.log(prev)
+      devLog.log(prev)
       const newPrev = {
         ...prev,
         fields: prev.fields.map((f,i) => {
-          console.log(f.id === qId)
+          devLog.log(f.id === qId)
           return f.id === qId ? {
                 ...f, options: f.options.map((o,i) => {
                   return i === oId ? {
@@ -137,12 +138,12 @@ const FormBuilderSidebar = ({ onUpdate, qId, oId }) => {
         //   
   // })
   //     }
-      // console.log("newPrev", newPrev);
+      // devLog.log("newPrev", newPrev);
       // newPrev.fields.map((item => {
       //   if (item.id === qId) {
       //     item.options.map((o, i) => {
       //       if (i === oId) {
-      //         console.log("Option", o.id, o);
+      //         devLog.log("Option", o.id, o);
       //       }
       //       return o;
       //     })

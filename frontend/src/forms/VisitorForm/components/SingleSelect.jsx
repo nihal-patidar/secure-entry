@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { devLog } from "../../../../devLog";
 
 export default function SingleSelectOption({ field = {}, handleUserFills, master, fieldInd }) {
   const [options, setOptions] = useState(field.options || ["A", "B", "C"]);
@@ -11,14 +12,14 @@ export default function SingleSelectOption({ field = {}, handleUserFills, master
         prev2.push(prev[i]);
     }
 
-    console.log("Master Length", master.length);
+    devLog.log("Master Length", master.length);
     let cnt = 0;
     for(let i = 0;i < master.length;i++){
-        console.log("pass", i);
-        console.log(master[i].isSpecial ? master[i].special.id : "NOT FOUND1 ");
-        // console.log("pass2");
-        console.log(field.options[index]?.id);
-        // console.log("pass3");
+        devLog.log("pass", i);
+        devLog.log(master[i].isSpecial ? master[i].special.id : "NOT FOUND1 ");
+        // devLog.log("pass2");
+        devLog.log(field.options[index]?.id);
+        // devLog.log("pass3");
         if(master[i].isSpecial ? (master[i].special.id == field.options[index]?.id) : 0){
             prev2.push(master[i]);
         }
@@ -26,7 +27,7 @@ export default function SingleSelectOption({ field = {}, handleUserFills, master
             // prev2.push(master[i]);
             cnt++;
         }
-        else if(master[i].isSpecial){console.log("I am not the error bro.")}
+        else if(master[i].isSpecial){devLog.log("I am not the error bro.")}
     }
 
     let start = fieldInd+1;
@@ -42,10 +43,10 @@ export default function SingleSelectOption({ field = {}, handleUserFills, master
   let isPreview = false;
   const handleSelect = (index) => {
     setSelectedOption(index);
-    // console.log(index, selectedOption, field.options[selectedOption]?.value)
+    // devLog.log(index, selectedOption, field.options[selectedOption]?.value)
     const option = field[index];
     if( typeof option === "string") {
-        // console.log("string")
+        // devLog.log("string")
     } else{
         handleUserFills(prev => concat(prev, index))
     }   

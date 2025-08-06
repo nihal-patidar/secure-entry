@@ -10,6 +10,7 @@ import BouncingDotsLoader from "../components/small/BouncingDotsLoader.jsx";
 import { ServiceContext } from "../context/ServiceContext.jsx";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import ConfirmationModal from "../components/ConfirmationModal.jsx";
+import { devLog } from "../../devLog.js";
 
 const ServiceDetails = () => {
   const token = useMemo(() => localStorage.getItem("userData"), []);
@@ -33,14 +34,14 @@ const ServiceDetails = () => {
       !(serviceId in service) ||
       location.state?.updated;
 
-    console.log("=== [ServiceDetails - useEffect] ===");
-    console.log("Token:", token);
-    console.log("Location state:", location.state);
-    console.log("Service context:", service);
-    console.log("ServiceId param:", serviceId);
-    console.log("ServiceData from context:", serviceData);
-    console.log("Should fetch from backend:", shouldFetch);
-    console.log("===================================");
+    devLog.log("=== [ServiceDetails - useEffect] ===");
+    devLog.log("Token:", token);
+    devLog.log("Location state:", location.state);
+    devLog.log("Service context:", service);
+    devLog.log("ServiceId param:", serviceId);
+    devLog.log("ServiceData from context:", serviceData);
+    devLog.log("Should fetch from backend:", shouldFetch);
+    devLog.log("===================================");
 
     if (shouldFetch) {
       fetchService();
@@ -52,7 +53,7 @@ const ServiceDetails = () => {
   const fetchService = async () => {
     setIsLoading(true);
     try {
-      console.log("⏳ Fetching service from backend...");
+      devLog.log("⏳ Fetching service from backend...");
       const response = await api.get(`/service/getThisService/${serviceId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -60,7 +61,7 @@ const ServiceDetails = () => {
       });
 
       const data = response?.data?.service_data;
-      console.log("✅ Fetched service data:", data);
+      devLog.log("✅ Fetched service data:", data);
 
       if (data && Object.keys(data).length > 0) {
         setService((prev) => {
@@ -68,7 +69,7 @@ const ServiceDetails = () => {
             ...prev,
             [serviceId]: data,
           };
-          console.log("🧠 Setting updated service context:", updated);
+          devLog.log("🧠 Setting updated service context:", updated);
           return updated;
         });
       } else {
@@ -77,7 +78,7 @@ const ServiceDetails = () => {
       }
 
       if (location.state?.updated) {
-        console.log("🔁 Resetting location state...");
+        devLog.log("🔁 Resetting location state...");
         setTimeout(() => {
           navigate(location.pathname, { replace: true, state: {} });
         }, 0);
@@ -92,13 +93,13 @@ const ServiceDetails = () => {
   };
 
   const handleUpdateService = () => {
-    console.log("📝 Navigating to update page for:", serviceId);
+    devLog.log("📝 Navigating to update page for:", serviceId);
     navigate(`/home/services/${serviceId}/update`, {
       state: { service, updated: true },
     });
   };
   const handleDelete = async () => {
-    //console.log("current service id", currentServiceFormId);
+    //devLog.log("current service id", currentServiceFormId);
     const token = localStorage.getItem("userData");
     if (!token) return toast.error("Token missing. Please log in again.");
 
@@ -119,7 +120,7 @@ const ServiceDetails = () => {
         });
       })
       .catch((err) => {
-        //console.log(err.response.data);
+        //devLog.log(err.response.data);
         toast.warning(err.response.data.msg);
       });
     // closePopup("updateServiceForm");

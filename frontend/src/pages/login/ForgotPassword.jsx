@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import image from "../../assets/images/QrGuy.jpg";
+import { devLog } from "../../../devLog";
 import { forgotPasswordHandle } from "../../api/operations/authAPI";
 
 const ForgotPassword = () => {
@@ -27,7 +28,7 @@ const ForgotPassword = () => {
       setShowLoading,
       navigate,
     });
-    console.log("Sending OTP to:", email);
+    devLog.log("Sending OTP to:", email);
 
     navigate("/verify-otp-forgot-password");
 

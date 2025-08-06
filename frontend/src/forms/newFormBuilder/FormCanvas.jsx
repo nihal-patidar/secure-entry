@@ -4,6 +4,7 @@ import api from "../../../axiosConfig";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import PaymentField from "./fields/PaymentField";
+import { devLog } from "../../../devLog";
 // import { add } from "date-fns";
 
 const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
@@ -16,14 +17,14 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
   const params = useParams();
   const navigate = useNavigate();
   const [formTitle, setFormTitle] = useState(formConfig.title || "");
-  // console.log("Form config from canvas", formConfig);
+  // devLog.log("Form config from canvas", formConfig);
   const coverField = formConfig.fields.find((f) => f.type === "Cover");
   const logoField = formConfig.fields.find((f) => f.type === "Logo");
   const timerField = formConfig.fields.find((f) => f.type === "Timer");
   const paymentFields = formConfig.fields.filter(
     (f) => f.type === "Payment Fields"
   );
-  // console.log("form config", formConfig, paymentFields);
+  // devLog.log("form config", formConfig, paymentFields);
   const termsField = formConfig.fields.find(
     (f) => f.type === "Terms & Conditions"
   );
@@ -90,7 +91,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
   const handleSaveForm = async () => {
     try {
       let token = localStorage.getItem("userData");
-      // console.log(serviceId,token,formConfig);
+      // devLog.log(serviceId,token,formConfig);
       if (serviceId && formConfig && token) {
         let data = formConfig;
         const response = await api.post(`/service/addForm/${serviceId}`, data, {
@@ -104,7 +105,7 @@ const FormCanvas = ({ formConfig, setFormConfig, isPreview = false }) => {
         }
       }
     } catch (err) {
-      // console.log("err", err);
+      // devLog.log("err", err);
     } finally {
     }
   };

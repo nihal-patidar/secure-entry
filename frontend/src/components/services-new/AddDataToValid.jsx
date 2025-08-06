@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import UploadImage from "../small/UploadImage";
-
+import { devLog } from "../../../devLog";
 const AddDataToValid = () => {
   const [formData, setFormData] = useState({
     imageFile: null,
@@ -12,7 +12,7 @@ const AddDataToValid = () => {
   };
 
   const submitHandler = () => {
-    console.log("Opening a form to add data to valid before submitting any form");
+    devLog.log("Opening a form to add data to valid before submitting any form");
   };
 
   return (

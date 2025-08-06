@@ -19,6 +19,7 @@ import api from "../../axiosConfig";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { ServiceContext } from "../context/ServiceContext";
+import { devLog } from "../../devLog";
 
 const now = new Date();
 
@@ -57,19 +58,19 @@ const CreateService = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(`Field Changed → ${name}:`, value);
+    devLog.log(`Field Changed → ${name}:`, value);
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleRadioChange = (value) => {
-    console.log("Payment Option Selected:", value);
+    devLog.log("Payment Option Selected:", value);
     setFormData((prev) => ({ ...prev, payment_option: value }));
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      console.log("📸 Image selected:", file.name, file);
+      devLog.log("📸 Image selected:", file.name, file);
       setFormData((prev) => ({ ...prev, service_image_url: file }));
       setPreviewImage(URL.createObjectURL(file));
     }
@@ -85,7 +86,7 @@ const CreateService = () => {
   };
 
   const resetForm = () => {
-    console.log("🧹 Resetting form...");
+    devLog.log("🧹 Resetting form...");
     setFormData({
       service_image_url: null,
       service_name: "",
@@ -122,7 +123,7 @@ const CreateService = () => {
 
     try {
       setIsSubmitting(true);
-      console.log("📤 Submitting form...");
+      devLog.log("📤 Submitting form...");
 
       const { service_image_url, ...rest } = formData;
 
@@ -132,15 +133,15 @@ const CreateService = () => {
           formData.payment_option === "Free" ? "0" : formData.ticket_price,
       };
 
-      console.log("🧼 Clean data to send:", cleanData);
+      devLog.log("🧼 Clean data to send:", cleanData);
 
       const formPayload = new FormData();
       formPayload.append("data", JSON.stringify(cleanData));
       formPayload.append("image", service_image_url);
 
-      console.log("📦 FormData being sent:");
+      devLog.log("📦 FormData being sent:");
       for (let pair of formPayload.entries()) {
-        console.log(`${pair[0]} →`, pair[1]);
+        devLog.log(`${pair[0]} →`, pair[1]);
       }
 
       const res = await api.put(`/service/addService`, formPayload, {
@@ -150,7 +151,7 @@ const CreateService = () => {
         },
       });
 
-      console.log("✅ Server Response:", res.data);
+      devLog.log("✅ Server Response:", res.data);
 
       const newService = res.data?.service;
 
@@ -160,7 +161,7 @@ const CreateService = () => {
         return;
       }
 
-      console.log("🎉 New service created:", newService);
+      devLog.log("🎉 New service created:", newService);
 
       // Update context
       setService((prev) => {
@@ -168,7 +169,7 @@ const CreateService = () => {
           ...prev,
           [newService._id]: newService,
         };
-        console.log("🧠 Updating context with new service:", updated);
+        devLog.log("🧠 Updating context with new service:", updated);
         return updated;
       });
 
@@ -176,7 +177,7 @@ const CreateService = () => {
       resetForm();
 
       // Navigate with force-fetch
-      console.log("🧭 Navigating to new service detail page...");
+      devLog.log("🧭 Navigating to new service detail page...");
       navigate(`/home/services/${newService._id}`, {
         state: { updated: true },
       });
@@ -185,7 +186,7 @@ const CreateService = () => {
       toast.error(err?.response?.data?.msg || "Failed to add service.");
     } finally {
       setIsSubmitting(false);
-      console.log("📥 Submit complete.");
+      devLog.log("📥 Submit complete.");
     }
   };
 

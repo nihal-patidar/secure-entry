@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createContext } from "react";
+import { devLog } from "../../devLog";
 
 export const dataContext = createContext('default');
 
@@ -12,7 +13,7 @@ export const DataState = (props) => {
     const [currentServiceFormId , setCurrentServiceFormId] = useState();
 
     const Heloo = ()=>{
-        //console.log("hello, ram ram ji")
+        //devLog.log("hello, ram ram ji")
     }
 
     const openPopup = (match) => {

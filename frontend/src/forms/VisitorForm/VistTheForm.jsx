@@ -8,6 +8,7 @@ import Address from "./components/Address.jsx";
 // import SpecialRender from "./components/SpecialRender.jsx";
 import DropDownSelect from "./components/DropDownSelect.jsx";
 import { useEffect, useState } from "react";
+import { devLog } from "../../../devLog.js";
 
 export default function VisitorForm({master}){
     const [userFills, setUserFills] = useState([])
@@ -87,7 +88,7 @@ export default function VisitorForm({master}){
         for(let i = 0;i < master.length;i++){
             if(!master[i].isSpecial)setUserFills(prev => [...prev, master[i]]);
         }
-        console.log(userFills, master)}
+        devLog.log(userFills, master)}
     
     ,[userFills]);
         let padLeft = 0;

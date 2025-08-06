@@ -6,6 +6,7 @@ import { Form, Input, Select } from "antd";
 import { Button } from "@material-tailwind/react";
 import api from "../../axiosConfig";
 import "../index.css";
+import { devLog } from "../../devLog";
 
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -30,20 +31,20 @@ const ServiceForm = ({ formId }) => {
   };
 
   const createFormForVisitor = async () => {
-    //console.log(formId);
-    // console.log("formdata", fields);
+    //devLog.log(formId);
+    // devLog.log("formdata", fields);
     await api
       .post(`/service/addForm/${formId}`, {
         formData: fields,
       })
       .then((response) => {
-        //console.log(response.data.serviceData);
+        //devLog.log(response.data.serviceData);
         toast.success(response.data.msg);
         navigate(-1);
         setFieldsDatatype([]);
       })
       .catch((err) => {
-        //console.log(err);
+        //devLog.log(err);
         toast.warning(err.response);
       });
   };
@@ -80,7 +81,7 @@ const ServiceForm = ({ formId }) => {
           fields.length !== 0 ? "block" : "hidden"
         } theme-3 border border-[#FFEB55] bg-transparent h-10 w-fit hover:text-[#D91656] hover:border-[#D91656] relative top-3`}
         onClick={() => {
-          //console.log("submitted form :", fields);
+          //devLog.log("submitted form :", fields);
           createFormForVisitor();
         }}
       >
@@ -109,7 +110,7 @@ const VisitorFormCreate = () => {
   ];
 
   const addFormField = (obj) => {
-    //console.log(obj);
+    //devLog.log(obj);
     setFieldsDatatype((prev) => {
       // Check if the array already contains obj
       const exists = prev.some(

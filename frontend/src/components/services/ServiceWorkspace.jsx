@@ -5,6 +5,7 @@ import { dataContext } from "../../context/DataState";
 import { Button } from "@material-tailwind/react";
 const Services = React.lazy(()=>import('./ServiceCard'));
 import { useNavigate } from "react-router-dom";
+import { devLog } from "../../../devLog";
 const ServiceWorkSpace = () => {
   const {
     setFieldsDatatype,
@@ -24,14 +25,14 @@ const ServiceWorkSpace = () => {
   ];
 
   const addFormField = (obj) => {
-    //console.log(obj);
+    //devLog.log(obj);
     setFieldsDatatype((prev) => {
       return [...prev, obj];
     });
   };
 
   useEffect(() => {
-    //console.log("fields");
+    //devLog.log("fields");
     setAllValidator([]);
   }, []);
   return (
