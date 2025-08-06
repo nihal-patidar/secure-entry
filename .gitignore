@@ -7,3 +7,39 @@ backend/.env
 .idea
 backend/middleware/firebase.json
 backend/middleware/uploadFile.js
+
+
+# dependencies
+Scanner/node_modules
+Scanner/.pnp
+Scanner/.pnp.js
+
+# testing
+Scanner/coverage
+
+# next.js
+Scanner/.next/
+Scanner/out/
+
+# production
+Scanner/build
+
+# misc
+Scanner/.DS_Store
+Scanner/*.pem
+
+# debug
+Scanner/npm-debug.log*
+Scanner/yarn-debug.log*
+Scanner/yarn-error.log*
+
+# local env files
+Scanner/.env*.local
+Scanner/.env
+
+# vercel
+Scanner/.vercel
+
+# typescript
+Scanner/*.tsbuildinfo
+Scanner/next-env.d.ts
