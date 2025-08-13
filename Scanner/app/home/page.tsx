@@ -290,13 +290,13 @@ const ServiceVisitors: React.FC = () => {
                   className="pl-10 border-slate-200 bg-white/50 backdrop-blur-sm"
                 />
               </div>
-              <Button
+              {/* <Button
                 variant="outline"
                 size="icon"
                 className="border-slate-200 hover:bg-slate-50 bg-transparent"
               >
                 <Download className="w-4 h-4" />
-              </Button>
+              </Button> */}
             </div>
           </CardContent>
         </Card>

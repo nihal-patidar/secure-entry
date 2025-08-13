@@ -4,33 +4,18 @@ import { useState, useContext, useEffect, useRef } from "react";
 import { Scanner, useDevices } from "@yudiel/react-qr-scanner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Scan, Users, Upload } from "lucide-react";
+import { Scan, Upload, Flashlight, FlashlightOff, Repeat } from "lucide-react";
 import axios from "axios";
 import { UserContext } from "@/app/context/UserContext";
 import Ticket from "@/app/ui/Ticket";
 import ShowMsg from "@/app/ui/ShowMsg";
 
-interface Visitor {
-  visitor_data: Record<string, string>;
-  validation_status: boolean;
-}
-
-// helper to render status badge
-const getStatusBadge = (status: boolean) =>
-  status ? (
-    <span className="inline-block px-2 py-1 text-xs font-semibold bg-emerald-100 text-emerald-700 border border-emerald-200 rounded">
-      ✓ Visited
-    </span>
-  ) : (
-    <span className="inline-block px-2 py-1 text-xs font-semibold bg-amber-100 text-amber-700 border border-amber-200 rounded">
-      ⏳ Pending
-    </span>
-  );
-
 export default function ScannerPage() {
   const [deviceId, setDeviceId] = useState<string>();
   const [pause, setPause] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
+  const [torchOn, setTorchOn] = useState(false);
+  const [autoScan, setAutoScan] = useState(false); // 🔄 Auto Scan toggle
   const { userData, setUserData, setVisitors } = useContext<any>(UserContext);
   const [isOpen, setIsOpen] = useState(false);
   const [visitorData, setVisitorData] = useState<any>(null);
@@ -38,8 +23,8 @@ export default function ScannerPage() {
   const [message, setMessage] = useState<string | null>(null);
   const devices = useDevices();
   const uploadRef = useRef<HTMLInputElement>(null);
+  const autoScanRef = useRef<NodeJS.Timeout | null>(null);
 
-  // auto‑select first camera
   useEffect(() => {
     if (devices.length > 0 && !deviceId) {
       setDeviceId(devices[0].deviceId);
@@ -50,9 +35,11 @@ export default function ScannerPage() {
     setVisitorData(null);
     setPause(false);
     setIsScanning(false);
+    setTorchOn(false);
   };
 
   const handleScan = async (data: string) => {
+    if (!data) return;
     setPause(true);
     setIsScanning(false);
     const payload = { validatorId: userData._id, visitorId: data };
@@ -66,15 +53,30 @@ export default function ScannerPage() {
         setMessage(res.data.message);
         setIsMsg(true);
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
       setMessage("An error occurred");
       setIsMsg(true);
     }
   };
 
+  // Auto Scan effect
   useEffect(() => {
-    // auth on mount
+    if (autoScan) {
+      setIsScanning(true);
+      setPause(false);
+      autoScanRef.current = setInterval(() => {
+        setIsScanning(true);
+        setPause(false);
+      }, 10000); // every 10 seconds
+    } else {
+      if (autoScanRef.current) clearInterval(autoScanRef.current);
+    }
+    return () => {
+      if (autoScanRef.current) clearInterval(autoScanRef.current);
+    };
+  }, [autoScan]);
+
+  useEffect(() => {
     (async () => {
       try {
         const response = await fetch("/api/protected", {
@@ -88,8 +90,7 @@ export default function ScannerPage() {
         }
         const data = await response.json();
         setUserData(data.user.user);
-      } catch (error) {
-        console.error("Auth check failed:", error);
+      } catch {
         window.location.href = "/login";
       }
     })();
@@ -97,10 +98,7 @@ export default function ScannerPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-      {/* Header */}
-
-      {/* Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex flex-col items-center justify-center min-h-[70vh]">
           <Card className="w-full max-w-md bg-white/70 backdrop-blur-sm border-white/20 shadow-xl">
             <CardHeader className="text-center pb-4">
@@ -112,29 +110,39 @@ export default function ScannerPage() {
               </p>
             </CardHeader>
             <CardContent className="flex flex-col items-center">
-              <div className="relative mb-6">
-                <div className="rounded-2xl overflow-hidden shadow-lg">
+              <div className="relative mb-6 w-full flex justify-center">
+                <div className="rounded-2xl overflow-hidden shadow-lg w-full max-w-xs sm:max-w-sm">
                   <Scanner
                     formats={["qr_code"]}
-                    constraints={{ deviceId }}
+                    constraints={{
+                      // deviceId,
+                      facingMode: { exact: "environment" },
+                      advanced: torchOn
+                        ? ([
+                            { torch: true },
+                          ] as unknown as MediaTrackConstraintSet[])
+                        : [],
+                    }}
                     onScan={(codes) =>
                       codes.length > 0 && handleScan(codes[0].rawValue)
                     }
                     onError={(e) => console.log("Scanner error", e)}
                     styles={{
                       container: {
-                        height: "350px",
-                        width: "350px",
+                        height: "auto",
+                        aspectRatio: "1 / 1",
+                        width: "100%",
                         overflow: "hidden",
                       },
                     }}
-                    components={{ audio: true, torch: true, zoom: true }}
+                    components={{ audio: true }}
                     allowMultiple
                     scanDelay={700}
                     paused={!isScanning || pause}
                   />
                 </div>
-                {/* Animated corner brackets */}
+
+                {/* corner brackets */}
                 <div className="absolute inset-0 pointer-events-none">
                   {["tl", "tr", "bl", "br"].map((pos) => {
                     const classes = {
@@ -161,8 +169,35 @@ export default function ScannerPage() {
                     setPause(false);
                   }}
                 >
-                  <Scan className="w-4 h-4 mr-2" />
+                  <Scan className="w-4 h-4 mr-2 font-bold" />
                   {isScanning ? "Stop Scanning" : "Start Scanning"}
+                </Button>
+
+                {/* Auto Scan button */}
+                <Button
+                  variant={autoScan ? "default" : "outline"}
+                  className="w-full border-slate-200 hover:bg-slate-50"
+                  onClick={() => setAutoScan((a) => !a)}
+                >
+                  <Repeat className="w-4 h-4 mr-2 font-extrabold" />
+                  {autoScan ? "Stop Auto Scan" : "Enable Auto Scan (10s)"}
+                </Button>
+
+                {/* Torch button */}
+                <Button
+                  variant="outline"
+                  className="w-full border-slate-200 hover:bg-slate-50"
+                  onClick={() => setTorchOn((t) => !t)}
+                >
+                  {torchOn ? (
+                    <>
+                      <FlashlightOff className="w-4 h-4 mr-2" /> Turn Torch Off
+                    </>
+                  ) : (
+                    <>
+                      <Flashlight className="w-4 h-4 mr-2" /> Turn Torch On
+                    </>
+                  )}
                 </Button>
 
                 <input
@@ -192,7 +227,6 @@ export default function ScannerPage() {
         </div>
       </div>
 
-      {/* Modals */}
       <Ticket
         data={visitorData}
         isOpen={isOpen}
