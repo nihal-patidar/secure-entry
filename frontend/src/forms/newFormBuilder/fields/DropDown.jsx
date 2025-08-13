@@ -29,7 +29,6 @@ export default function DropdownSelectOption({
         label: fieldName,
         description,
         options,
-        required: true,
         ...newState,
       });
     }

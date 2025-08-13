@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Calendar } from "lucide-react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { Controller } from "react-hook-form";
 
 const DateField = ({
@@ -14,6 +11,7 @@ const DateField = ({
   const [formData, setFormData] = useState({
     label: field.label || "Enter Date",
     date: field.date || null,
+    time: field.time || "",
     note: field.note || "Note/Instruction (If any)",
     required: field.required || false,
     placeholder: field.placeholder || "Select a date",
@@ -30,6 +28,7 @@ const DateField = ({
       setFormData({
         label: field.label || "Enter Date",
         date: field.date || null,
+        time: field.time || "",
         note: field.note || "Note/Instruction (If any)",
         required: field.required || false,
         placeholder: field.placeholder || "Select a date",
@@ -45,7 +44,7 @@ const DateField = ({
     }
   };
 
-  // Convert date string to Date object name
+  // Convert date string to Date object
   const parseDate = (dateValue) => {
     if (!dateValue) return null;
     if (dateValue instanceof Date) return dateValue;
@@ -59,9 +58,9 @@ const DateField = ({
     return null;
   };
 
-  // Get error message for this field
-  const getErrorMessage = () => {
-    const fieldError = errors[`${fieldKey}_date`];
+  // Get error message for time field
+  const getTimeErrorMessage = () => {
+    const fieldError = errors[`${fieldKey}_time`];
     return fieldError?.message || null;
   };
 
@@ -99,7 +98,7 @@ const DateField = ({
 
   return (
     <div className="w-full relative group bg-white rounded-lg">
-      <div className="max-w-3xl mx-auto bg-white shadow-sm px-8 py-4 rounded-lg space-y-2">
+      <div className="max-w-3xl mx-auto bg-white px-8 py-4 rounded-lg space-y-2">
         {/* Label */}
         {isBuilder ? (
           <input
@@ -108,7 +107,7 @@ const DateField = ({
             value={formData.label}
             onChange={(e) => handleChange("label", e.target.value)}
             placeholder="Date Label"
-            className="text-lg font-medium w-full bg-white outline-none px-1 py-0.5 border-b border-transparent hover:border-gray-300 focus:border-blue-500 transition-colors"
+            className="text-lg font-medium w-full bg-white outline-none px-1 py-0.5 border-b border-transparent"
           />
         ) : (
           <div className="text-lg font-medium text-black">
@@ -118,6 +117,7 @@ const DateField = ({
         )}
 
         {/* Date Input */}
+        {/* Commented out - can be re-enabled when needed
         <div className="relative w-full">
           {!isBuilder && control ? (
             <Controller
@@ -136,7 +136,6 @@ const DateField = ({
                 <CustomDatePicker
                   value={controllerField.value}
                   onChange={(e) => {
-                    // Extract the date value from our synthetic event
                     const dateValue = e.target.value;
                     controllerField.onChange(dateValue);
                   }}
@@ -165,19 +164,74 @@ const DateField = ({
               yearClassName={() => "hover:bg-blue-500 hover:text-white rounded"}
             />
           )}
-          
-          {/* Calendar Icon */}
-          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">
-            <Calendar className="w-4 h-4" />
-          </div>
+        </div>
+        */}
+
+        {/* Time Input */}
+        <div className="relative w-full">
+          {!isBuilder && control ? (
+            <Controller
+              name={`${fieldKey}_time`}
+              control={control}
+              defaultValue=""
+              rules={{
+                required: field.required ? `Time is required` : false,
+                validate: (value) => {
+                  if (!value) return true;
+                  // Basic time format validation (HH:MM)
+                  const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+                  if (!timeRegex.test(value)) return "Please enter a valid time";
+                  return true;
+                }
+              }}
+              render={({ field: controllerField }) => (
+                <input 
+                  type="time" 
+                  name={controllerField.name}
+                  value={controllerField.value || ""}
+                  onChange={(e) => controllerField.onChange(e.target.value)}
+                  onBlur={controllerField.onBlur}
+                  ref={controllerField.ref}
+                  className={`w-full px-4 py-2 border ${
+                    getTimeErrorMessage() 
+                      ? 'border-red-500 focus:ring-red-500' 
+                      : 'border-gray-300 focus:ring-blue-500'
+                  } bg-white text-black rounded-md focus:outline-none focus:ring-2 focus:border-transparent text-sm hover:border-gray-400 transition-colors duration-200 cursor-pointer`}
+                  style={{
+                    colorScheme: 'light'
+                  }}
+                />
+              )}
+            />
+          ) : (
+            <input 
+              type="time" 
+              name="time" 
+              value={formData.time || ""}
+              onChange={(e) => handleChange("time", e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 bg-white text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm hover:border-gray-400 transition-colors duration-200 cursor-pointer"
+              style={{
+                colorScheme: 'light'
+              }}
+            />
+          )}
         </div>
 
+        {/* Time Error Message */}
+        {!isBuilder && getTimeErrorMessage() && (
+          <div className="text-xs text-red-500 mt-1">
+            {getTimeErrorMessage()}
+          </div>
+        )}
+
         {/* Error Message */}
+        {/* Commented out - was for date field
         {!isBuilder && getErrorMessage() && (
           <div className="text-xs text-red-500 mt-1">
             {getErrorMessage()}
           </div>
         )}
+        */}
 
         {/* Note */}
         {isBuilder ? (
@@ -187,7 +241,7 @@ const DateField = ({
             value={formData.note}
             onChange={(e) => handleChange("note", e.target.value)}
             placeholder="Note (optional)..."
-            className="text-xs text-gray-400 bg-white outline-none px-1 py-0.5 w-full border-b border-transparent hover:border-gray-300 focus:border-blue-500 transition-colors"
+            className="text-xs text-gray-400 bg-white outline-none px-1 py-0.5 w-full border-b border-transparent"
           />
         ) : (
           field.note && field.note !== "Note/Instruction (If any)" && (
@@ -196,6 +250,7 @@ const DateField = ({
         )}
 
         {/* Builder Options */}
+        {/* Commented out - can be re-enabled when needed
         {isBuilder && (
           <div className="flex items-center gap-4 pt-2 border-t border-gray-100">
             <label className="flex items-center gap-2 text-sm">
@@ -220,6 +275,7 @@ const DateField = ({
             </div>
           </div>
         )}
+        */}
       </div>
     </div>
   );

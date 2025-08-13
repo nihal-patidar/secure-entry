@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const FullName = ({
   onRemove,
@@ -23,10 +23,16 @@ const FullName = ({
   const handleChange = (setter, key) => (e) => {
     setter(e.target.value);
     if (onUpdate) onUpdate({ ...field, [key]: e.target.value });
+    // console.log(`Updated ${key}:`, {[key]: e.target.value}, e.target.value);
   };
 
   // Used to create unique field names for registration
   const fieldKey = field.description || "Full Name";
+
+  // useEffect(() => {console.log(firstName); if (onUpdate)onUpdate({...field, firstName})},[firstName])
+  // useEffect(() => {if (onUpdate)onUpdate({...field, lastName})},[lastName])
+
+  console.log("FullName field:", field);
 
   return (
     <div className="w-full relative group bg-white rounded-lg ">
@@ -58,6 +64,8 @@ const FullName = ({
             {isPreview && typeof register === "function" ? (
               <input
                 {...register(`${fieldKey}_first`)} // ✅ Register for react-hook-form
+                onChange={handleChange(setFirstName, "firstName")}
+                value={firstName}
                 type="text"
                 placeholder={firstNamePlaceholder}
                 className="border border-gray-400 rounded-lg px-4 py-2 outline-none bg-white"
@@ -66,10 +74,9 @@ const FullName = ({
               <>
                
                 <input
-                  value={firstName}
-                  onChange={handleChange(setFirstName, "firstName")}
+                  value={firstNamePlaceholder}
+                  onChange={handleChange(setFirstNamePlaceholder, "firstNamePlaceholder")}
                   type="text"
-                  placeholder={firstNamePlaceholder}
                   className="border border-gray-400 rounded-lg px-4 py-2 outline-none bg-white"
                 />
             
@@ -86,6 +93,8 @@ const FullName = ({
             // {isPreview ? (
               <input
                 {...register(`${fieldKey}_last`)} // ✅ Register for react-hook-form
+                onChange={handleChange(setLastName, "lastName")}
+                value={lastName}
                 type="text"
                 placeholder={lastNamePlaceholder}
                 className="border border-gray-400 rounded-lg px-4 py-2 outline-none bg-white"
@@ -94,10 +103,9 @@ const FullName = ({
               <>
                
                 <input
-                  value={lastName}
-                  onChange={handleChange(setLastName, "lastName")}
+                  value={lastNamePlaceholder}
+                  onChange={handleChange(setLastNamePlaceholder, "lastNamePlaceholder")}
                   type="text"
-                  placeholder={lastNamePlaceholder}
                   className="border border-gray-400 rounded-lg px-4 py-2 outline-none bg-white"
                 />
                

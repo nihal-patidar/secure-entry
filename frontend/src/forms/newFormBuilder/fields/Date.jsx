@@ -70,9 +70,18 @@ const DateField = ({
         {/* Date Picker */}
         <div className="relative">
           {isPreview && typeof register === "function" ? (
+            // <DatePicker
+            //   {...register(fieldKey)} // ✅ Register for react-hook-form
+            //   selected={dateFieldData.date}
+            //   dateFormat="dd/MM/yyyy"
+            //   placeholderText="dd/mm/yyyy"
+            //   ref={dateRef}
+            //   className="w-full px-4 py-2 border bg-white outline-none border-gray-300 rounded-md text-sm pr-12"
+            //   calendarClassName="!z-50"
+            // />
             <DatePicker
-              {...register(fieldKey)} // ✅ Register for react-hook-form
               selected={dateFieldData.date}
+              onChange={(date) => handleChange("date", date)}
               dateFormat="dd/MM/yyyy"
               placeholderText="dd/mm/yyyy"
               ref={dateRef}
