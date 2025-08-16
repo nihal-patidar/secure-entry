@@ -139,7 +139,7 @@ export default function ScannerPage() {
                     allowMultiple
                     scanDelay={700}
                     paused={!isScanning || pause}
-                  />
+                  />    
                 </div>
 
                 {/* corner brackets */}
