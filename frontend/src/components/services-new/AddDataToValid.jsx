@@ -47,7 +47,7 @@ const AddDataToValid = () => {
       <div className="text-center">
         <button
           onClick={submitHandler}
-          className="bg-indigo-600 text-white px-6 py-2 rounded-full hover:bg-indigo-700 transition duration-200 text-sm font-medium"
+          className="button-secondary text-white px-6 py-2 rounded-full  transition duration-200 text-sm font-medium"
         >
           Add Manually
         </button>

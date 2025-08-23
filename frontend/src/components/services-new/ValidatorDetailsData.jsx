@@ -126,7 +126,7 @@ const ValidatorDetailsData = () => {
 
       <div className="text-center mt-6">
         <button
-          className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-full text-sm font-medium px-6 py-2 transition"
+          className="button-secondary text-white rounded-full text-sm font-medium px-6 py-2 transition"
           onClick={() => navigate(`/home/services/${serviceId}/add-validator`)}
         >
           Add Validator
