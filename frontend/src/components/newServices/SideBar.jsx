@@ -26,15 +26,18 @@ export const SideBar = (props) => {
         { id: 'divA', label: 'Dashboard', icon: Icons.dashboard, path: '/home' },
         { id: 'divB', label: 'Services', icon: Icons.services, path: '/home/services' },
         { id: 'divC', label: 'Add Services', icon: Icons.addServices, path: '/home/services/add-service' },
-        { id: 'divD', label: 'Validator', icon: Icons.validator, path: '/home/validators' },
-        { id: 'divE', label: 'Add Validator', icon: Icons.addValidator, path: '/home/create-validator-form' },
+        { id: 'divD', label: 'scanner', icon: Icons.validator, path: '/home/validators' },
+        { id: 'divE', label: 'Contact us', icon: Icons.addValidator, path: '/home/create-validator-form' },
         { id: 'logout', label: 'Logout', icon: <CiLogout />, click: logout },
     ];
 
     const handleClick = (item) => {
         if (item.click) {
             item.click();
-        } else if (item.path) {
+        }else if(item.path == '/home/validators'){
+            window.location.href = "https://pass-scanner.vercel.app/";
+        }
+        else if (item.path) {
             setActiveId(item.id);
             navigate(item.path);
         }

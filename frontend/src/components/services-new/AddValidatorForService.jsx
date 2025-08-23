@@ -179,7 +179,7 @@ export const AddValidatorForService = () => {
               onChange={changeHandler}
               required
               placeholder="Enter Full Name"
-              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md placeholder-gray-400 text-sm focus:outline-none"
+              className="pl-10 pr-4 py-2 w-full border bg-white border-gray-300 rounded-md placeholder-gray-400 text-sm focus:outline-none"
             />
           </div>
         </label>
@@ -197,7 +197,7 @@ export const AddValidatorForService = () => {
               pattern="[0-9]{10}"
               maxLength={10}
               placeholder="Enter Mobile Number"
-              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md placeholder-gray-400 text-sm focus:outline-none"
+              className="pl-10 pr-4 py-2 w-full border bg-white border-gray-300 rounded-md placeholder-gray-400 text-sm focus:outline-none"
             />
           </div>
         </label>
@@ -214,7 +214,7 @@ export const AddValidatorForService = () => {
               onChange={changeHandler}
               required
               placeholder="user@example.com"
-              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md placeholder-gray-400 text-sm focus:outline-none"
+              className="pl-10 pr-4 py-2 w-full border bg-white border-gray-300 rounded-md placeholder-gray-400 text-sm focus:outline-none"
             />
           </div>
         </label>
@@ -231,7 +231,7 @@ export const AddValidatorForService = () => {
               onChange={changeHandler}
               required
               placeholder="Set Password"
-              className="pl-10 pr-10 py-2 w-full border border-gray-300 rounded-md placeholder-gray-400 text-sm focus:outline-none"
+              className="pl-10 pr-10 py-2 w-full border bg-white border-gray-300 rounded-md placeholder-gray-400 text-sm focus:outline-none"
             />
             <button
               type="button"
@@ -254,7 +254,7 @@ export const AddValidatorForService = () => {
               value={formData.validator_address}
               onChange={changeHandler}
               placeholder="Enter Address"
-              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md placeholder-gray-400 text-sm focus:outline-none"
+              className="pl-10 pr-4 py-2 w-full border bg-white border-gray-300 rounded-md placeholder-gray-400 text-sm focus:outline-none"
             />
           </div>
         </label>
@@ -272,7 +272,7 @@ export const AddValidatorForService = () => {
               pattern="[0-9]{12}"
               maxLength={12}
               placeholder="Enter Aadhar Number"
-              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md placeholder-gray-400 text-sm focus:outline-none"
+              className="pl-10 pr-4 py-2 w-full border bg-white border-gray-300 rounded-md placeholder-gray-400 text-sm focus:outline-none"
             />
           </div>
         </label>

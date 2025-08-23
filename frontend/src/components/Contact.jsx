@@ -2,7 +2,10 @@ import React from "react";
 import email from "../assets/images/emailicon.png";
 import phone from "../assets/images/phoneicon.png";
 import address from "../assets/images/addressicon.png";
+import {useNavigate} from "react-router-dom";
+
 function Contact() {
+  const navigate = useNavigate();
   return (
     <div
       id="contact"
@@ -18,7 +21,9 @@ function Contact() {
           <p>organizers and attendees alike.</p>
         </div>
         <div className="mt-10 flex justify-center gap-4">
-          <button className="bg-[#2C3ED3] text-white px-6 py-2 rounded-[20px] font-medium hover:bg-[#2C3ED9]">
+          <button onClick={()=>{
+            navigate("/create-account")
+          }} className="bg-[#2C3ED3] text-white px-6 py-2 rounded-[20px] font-medium hover:bg-[#2C3ED9]">
             Get Started
           </button>
           <button className="border border-gray-400 px-6 py-2 rounded-[20px] text-black font-medium">

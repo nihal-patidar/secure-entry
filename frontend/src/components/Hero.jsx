@@ -72,7 +72,9 @@ export default function Hero() {
             <span className="text-black">one simple website.</span>
           </div>
           <div className=" flex gap-4 ">
-            <div className="btn-fill px-3 py-1 flex items-center lg:px-4 lg:py-2 hover:cursor-pointer">
+            <div onClick={()=>{
+              navigate("/login")
+            }} className="btn-fill px-3 py-1 flex items-center lg:px-4 lg:py-2 hover:cursor-pointer">
               Get Started
             </div>
             <div className=" btn-outline-border-black px-4 py-2 flex gap-2 items-center hover:cursor-pointer ">
