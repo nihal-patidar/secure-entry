@@ -1,191 +1,140 @@
-import React, { useContext, useEffect, useState } from 'react'
-import 
-{ BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill}
- from 'react-icons/bs'
- import "../styles/Dashboard.css"
- import 
- { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } 
- from 'recharts';
-import { ServiceContext } from '../context/ServiceContext';
-import { dataContext } from '../context/DataState';
+import React, { useState } from 'react'
+import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill } from 'react-icons/bs'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 
 function Dashboard() {
-
-    const {services} = useContext(ServiceContext);
-    const {allValidators , users} = useContext(dataContext);
-
-    const [service_count , setService_Count] = useState();
-    const [validator_count , setValidator_Count] = useState();
-    const [user_count , setUser_Count] = useState();
-
-    useEffect(()=>{
-      setService_Count(services.length);
-      setValidator_Count(allValidators.length);
-      setUser_Count(users.length);
-    },[services,allValidators]);
-
+    const [service_count] = useState(24);
+    const [validator_count] = useState(12);
+    const [user_count] = useState(156);
 
     const data = [
-        {
-          name: 'Jan',
-          uv: 4000,
-          pv: 2400,
-          amt: 2400,
-        },
-        {
-          name: 'Feb',
-          uv: 3000,
-          pv: 1398,
-          amt: 2210,
-        },
-        {
-          name: 'March',
-          uv: 2000,
-          pv: 9800,
-          amt: 2290,
-        },
-        {
-          name: 'April',
-          uv: 2780,
-          pv: 3908,
-          amt: 2000,
-        },
-        {
-          name: 'May',
-          uv: 1890,
-          pv: 4800,
-          amt: 2181,
-        },
-        {
-          name: 'June',
-          uv: 2390,
-          pv: 3800,
-          amt: 2500,
-        },
-        {
-          name: 'July',
-          uv: 3490,
-          pv: 4300,
-          amt: 2100,
-        },
-        {
-            name: 'August',
-            uv: 3490,
-            pv: 4300,
-            amt: 2100,
-          },
-          {
-            name: 'September',
-            uv: 3490,
-            pv: 4300,
-            amt: 2100,
-          },
-          {
-            name: 'Octorber',
-            uv: 3490,
-            pv: 4300,
-            amt: 2100,
-          },
-          {
-            name: 'Nubember',
-            uv: 3490,
-            pv: 4300,
-            amt: 2100,
-          },
-          {
-            name: 'December',
-            uv: 3490,
-            pv: 4300,
-            amt: 2100,
-          },
-      ];
-     
+        { name: 'Jan', services: 4000, users: 2400, validators: 2400 },
+        { name: 'Feb', services: 3000, users: 1398, validators: 2210 },
+        { name: 'Mar', services: 2000, users: 9800, validators: 2290 },
+        { name: 'Apr', services: 2780, users: 3908, validators: 2000 },
+        { name: 'May', services: 1890, users: 4800, validators: 2181 },
+        { name: 'Jun', services: 2390, users: 3800, validators: 2500 },
+        { name: 'Jul', services: 3490, users: 4300, validators: 2100 },
+        { name: 'Aug', services: 3490, users: 4300, validators: 2100 },
+        { name: 'Sep', services: 3490, users: 4300, validators: 2100 },
+        { name: 'Oct', services: 3490, users: 4300, validators: 2100 },
+        { name: 'Nov', services: 3490, users: 4300, validators: 2100 },
+        { name: 'Dec', services: 3490, users: 4300, validators: 2100 },
+    ];
 
-  return (
-    <main className='main-container theme-5'>
-        <div className='main-title theme-31'>
-            <h3>DASHBOARD</h3>
+    return (
+        <div className="min-h-screen bg-gray-100 flex justify-start items-start px-12 py-4">
+            {/* Scrollable container */}
+            <div className="bg-white rounded-3xl shadow-xl w-full max-w-[1400px] ml-4 p-8 space-y-8 overflow-y-auto max-h-screen">
+
+                {/* Header */}
+                <div className="bg-white rounded-2xl p-8 shadow-md border border-gray-200">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h1 className="text-3xl font-bold text-[#2C3ED3]">DASHBOARD</h1>
+                            <p className="text-gray-600 mt-2 text-sm">Welcome back! Here's what's happening today.</p>
+                        </div>
+                        <div className="hidden md:flex items-center">
+                            <div className="w-12 h-12 bg-[#2C3ED3] rounded-full flex items-center justify-center shadow">
+                                <BsFillBellFill className="text-white text-xl" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Stats Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {[
+                        { title: 'Services', icon: <BsFillArchiveFill />, count: service_count },
+                        { title: 'Validators', icon: <BsFillGrid3X3GapFill />, count: validator_count },
+                        { title: 'Users', icon: <BsPeopleFill />, count: user_count },
+                        { title: 'Alerts', icon: <BsFillBellFill />, count: 42 }
+                    ].map((card, idx) => (
+                        <div key={idx} className="group cursor-pointer">
+                            <div className="bg-white rounded-2xl p-6 shadow hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-between min-h-[100px]">
+                                <div className="w-14 h-14 bg-[#2C3ED3] rounded-xl flex items-center justify-center shadow group-hover:scale-105 transition-transform duration-200">
+                                    {React.cloneElement(card.icon, { className: 'text-white text-2xl' })}
+                                </div>
+                                <div className="text-right ml-4">
+                                    <p className="text-gray-500 text-sm font-medium uppercase tracking-wide">{card.title}</p>
+                                    <h3 className="text-2xl font-bold text-gray-800 mt-1">{card.count}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Charts */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {/* Bar Chart */}
+                    <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300">
+                        <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+                            Monthly Analytics
+                        </h3>
+                        <p className="text-gray-500 text-sm mb-3">Services and user growth over time</p>
+                        <div className="h-80">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={data} margin={{ top: 15, right: 20, left: 10, bottom: 5 }}>
+                                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                                    <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 12 }} />
+                                    <YAxis tick={{ fill: '#64748b', fontSize: 12 }} />
+                                    <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.95)', borderRadius: '12px', fontSize: '12px' }} />
+                                    <Legend wrapperStyle={{ fontSize: '12px' }} />
+                                    <Bar dataKey="services" fill="url(#purpleGradient)" radius={[4, 4, 0, 0]} />
+                                    <Bar dataKey="users" fill="url(#blueGradient)" radius={[4, 4, 0, 0]} />
+                                    <defs>
+                                        <linearGradient id="purpleGradient" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stopColor="#8b5cf6" />
+                                            <stop offset="100%" stopColor="#a855f7" />
+                                        </linearGradient>
+                                        <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stopColor="#3b82f6" />
+                                            <stop offset="100%" stopColor="#6366f1" />
+                                        </linearGradient>
+                                    </defs>
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
+
+                    {/* Line Chart */}
+                    <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300">
+                        <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent mb-2">
+                            Trend Analysis
+                        </h3>
+                        <p className="text-gray-500 text-sm mb-3">Performance trends and validator metrics</p>
+                        <div className="h-80">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <LineChart data={data} margin={{ top: 15, right: 20, left: 10, bottom: 5 }}>
+                                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                                    <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 12 }} />
+                                    <YAxis tick={{ fill: '#64748b', fontSize: 12 }} />
+                                    <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.95)', borderRadius: '12px', fontSize: '12px' }} />
+                                    <Legend wrapperStyle={{ fontSize: '12px' }} />
+                                    <Line type="monotone" dataKey="services" stroke="#8b5cf6" strokeWidth={3} />
+                                    <Line type="monotone" dataKey="validators" stroke="#3b82f6" strokeWidth={3} />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Footer Stats */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    {[
+                        { label: 'System Uptime', value: '98.5%', color: 'purple-600', bg: 'purple-50/40' },
+                        { label: 'Avg Response Time', value: '2.4s', color: 'indigo-600', bg: 'indigo-50/40' },
+                        { label: 'Data Accuracy', value: '99.9%', color: 'blue-600', bg: 'blue-50/40' }
+                    ].map((stat, idx) => (
+                        <div key={idx} className={`p-4 rounded-xl hover:bg-${stat.bg} transition-all duration-200 bg-white shadow min-h-[100px]`}>
+                            <h4 className={`text-xl font-bold text-${stat.color}`}>{stat.value}</h4>
+                            <p className="text-gray-500 text-sm mt-1">{stat.label}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
-
-        <div className='main-cards'>
-            <div className='card'>
-                <div className='card-inner'>
-                    <h3>SERVICES</h3>
-                    <BsFillArchiveFill className='card_icon'/>
-                </div>
-                <h1>{service_count}</h1>
-            </div>
-            <div className='card'>
-                <div className='card-inner'>
-                    <h3>VALIDATOR</h3>
-                    <BsFillGrid3X3GapFill className='card_icon'/>
-                </div>
-                <h1>{validator_count}</h1>
-            </div>
-            <div className='card'>
-                <div className='card-inner'>
-                    <h3>USERS</h3>
-                    <BsPeopleFill className='card_icon'/>
-                </div>
-                <h1>{user_count}</h1>
-            </div>
-            <div className='card'>
-                <div className='card-inner'>
-                    <h3>ALERTS</h3>
-                    <BsFillBellFill className='card_icon'/>
-                </div>
-                <h1>42</h1>
-            </div>
-        </div>
-
-        {/* <div className='charts'>
-            <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-            width={500}
-            height={300}
-            data={data}
-            margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-            }}
-            >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="pv" fill="#8884d8" />
-                <Bar dataKey="uv" fill="#82ca9d" />
-                </BarChart>
-            </ResponsiveContainer>
-
-            <ResponsiveContainer width="100%" height="100%">
-                <LineChart
-                width={500}
-                height={300}
-                data={data}
-                margin={{
-                    top: 5,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                }}
-                >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-                <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-                </LineChart>
-            </ResponsiveContainer>
-
-        </div> */}
-    </main>
-  )
+    )
 }
 
 export default Dashboard
