@@ -388,8 +388,8 @@ const CreateService = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`bg-indigo-600 text-white text-sm font-medium py-3 px-8 rounded-full shadow-md transition duration-200 ${
-            isSubmitting ? "opacity-50 cursor-not-allowed" : "hover:bg-indigo-700 hover:shadow-lg"
+          className={`button-secondary text-white text-sm font-medium py-3 px-8 rounded-full shadow-md transition duration-200 ${
+            isSubmitting ? "opacity-50 cursor-not-allowed" : "button-secondary hover:shadow-lg"
           }`}
         >
           {isSubmitting ? "Adding..." : "Add Service"}

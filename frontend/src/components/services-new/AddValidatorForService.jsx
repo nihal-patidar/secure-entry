@@ -283,7 +283,7 @@ export const AddValidatorForService = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-indigo-600 text-white px-8 py-2 rounded-full hover:bg-indigo-700 transition-all duration-200 text-sm font-medium disabled:opacity-50"
+          className="button-secondary text-white px-8 py-2 rounded-full  transition-all duration-200 text-sm font-medium disabled:opacity-50"
         >
           {isSubmitting ? "Adding..." : "Add Validator"}
         </button>

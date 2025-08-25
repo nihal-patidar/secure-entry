@@ -48,7 +48,7 @@ import { AddValidatorForService } from "./components/services-new/AddValidatorFo
 import VisitorForm from './forms/newFormBuilder/VisitorForm.jsx';
 import AttendanceSheet from './components/services-new/AttendanceSheet.jsx';
 import TicketForm from './forms/newFormBuilder/TicketForm.jsx';
-import Teams from "./Teams.jsx";
+import Teams from "./components/Teams.jsx";
 import AdPanel from './pages/Adpanel.jsx'
 
 
