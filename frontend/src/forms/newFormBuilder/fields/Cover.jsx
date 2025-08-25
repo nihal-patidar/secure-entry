@@ -55,7 +55,7 @@ const Cover = ({
       <div className="max-w-3xl mx-auto relative bg-white px-8 rounded-lg space-y-4">
         
         {/* Description / Heading */}
-        {isPreview ? (
+        {/* {isPreview ? (
           <div className="text-black text-lg font-medium">
             {description}
           </div>
@@ -67,7 +67,7 @@ const Cover = ({
             className="text-black bg-white text-lg font-medium outline-none rounded px-1 py-0.5 w-full"
             placeholder="Cover Image Description"
           />
-        )}
+        )} */}
 
         {/* Cover Image Container */}
         <div id="Cover" className="w-full relative group">

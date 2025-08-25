@@ -115,7 +115,7 @@ const FormBuilderSidebar = ({ onFieldSelect, activeTab, setActiveTab }) => {
     {
       title: "Date & Time",
       items: [
-        { name: "Timer", icon: Timer },
+        // { name: "Timer", icon: Timer },
         { name: "Date", icon: Calendar },
         { name: "Time", icon: Clock },
       ],

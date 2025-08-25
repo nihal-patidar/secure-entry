@@ -140,7 +140,24 @@ const FormBuilder = () => {
         return prev;
       });
       return ;
-    } else {
+    } else if(type === "Full Name") {
+      const newField = {
+        id: Date.now().toString(),
+        type,
+        label: type,
+        required: false,
+        firstNamePlaceholder: `Enter first name`,
+        lastNamePlaceholder: `Enter last name`,
+        firstName: "",
+        lastName: "",
+        value: "",
+      };
+      setFormConfig((prev) => ({
+        ...prev,
+        fields: [...prev.fields, newField],
+      }));
+    }
+    else {
       const newField = {
         id: Date.now().toString(),
         type,
