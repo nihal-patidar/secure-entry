@@ -98,7 +98,7 @@ const PreviewCanvas = ({ formConfig, setFormConfig, triggerRerender, addField}) 
           </button>
           <button
             type="submit"
-            className="bg-[#2F44FF] hover:bg-[#1e2fd6] text-white font-semibold px-6 py-2 active:bg-[#2F44FF] rounded-lg flex items-center justify-center transition duration-200"
+            className="bg-[#7850fa] hover:bg-[#7850fa] text-white font-semibold px-6 py-2 active:bg-[#7850fa] rounded-lg flex items-center justify-center transition duration-200"
           >
             Submit
           </button>
