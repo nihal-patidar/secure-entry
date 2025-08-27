@@ -26,7 +26,7 @@ export const SideBar = (props) => {
         { id: 'divA', label: 'Dashboard', icon: Icons.dashboard, path: '/home' },
         { id: 'divB', label: 'Services', icon: Icons.services, path: '/home/services' },
         { id: 'divC', label: 'Add Services', icon: Icons.addServices, path: '/home/services/add-service' },
-        { id: 'divD', label: 'scanner', icon: Icons.validator, path: '/home/validators' },
+        { id: 'divD', label: 'Scanner', icon: Icons.validator, path: '/home/validators' },
         { id: 'divE', label: 'Contact us', icon: Icons.addValidator, path: '/home/create-validator-form' },
         { id: 'logout', label: 'Logout', icon: <CiLogout />, click: logout },
     ];

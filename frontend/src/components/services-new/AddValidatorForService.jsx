@@ -119,15 +119,18 @@ export const AddValidatorForService = () => {
 
 
   return (
-  <div className="absolute top-[109px] left-[134px] w-[1160px] h-[559px] rounded-[15px] border border-gray-300 px-[44px] py-[23px] bg-white flex flex-col gap-[24px] overflow-hidden">
+  <div className="w-full max-w-[1185px] h-[calc(100vh-100px)]  flex flex-col overflow-hidden flex-1 absolute right-7 left-12 px-4 pb-12 bottom-10 top-10 bg-[#F2F3F9] border border-[#EAEAEA] rounded-3xl mt-8 ml-16 lg:ml-16 ">
   
-    <h2 className="text-2xl font-semibold text-gray-700">Add Validator</h2>
+    
+ 
+ <div className="px-4 md:px-11 py-4 md:py-6 border-b border-gray-200">
+        <h2 className="text-2xl font-semibold text-gray-700">Add Validator</h2>
     <p className="text-sm text-gray-600">
       Fill this form to add a new validator for this service
     </p>
- 
+      </div>
 
-  <div className="flex-grow overflow-y-auto max-h-[calc(100vh-160px)] pr-1 hide-scrollbar ">
+  <div className="flex-1 overflow-y-auto px-4 md:px-11 py-6 hide-scrollbar">
     <form onSubmit={submitHandler} className="space-y-6">
       {/* Image Upload */}
       <div>

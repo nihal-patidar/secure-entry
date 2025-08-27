@@ -38,7 +38,7 @@ const Overview = ({ serviceId, visitors }) => {
       <div className="grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 gap-12 place-items-center mx-auto mb-9">
         <div className="relative">
           <img src={totalRegistered} className="h-20" alt="total registered" />
-          <p className="absolute text-sm sm:text-base top-3 sm:top-2 left-8 text-white">
+          <p className="absolute font-semibold text-sm sm:text-base top-3 sm:top-2 left-8 text-white">
             Registered
           </p>
           <p className="absolute top-8 left-8 text-2xl sm:text-3xl font-semibold tracking-wider text-white">
@@ -48,7 +48,7 @@ const Overview = ({ serviceId, visitors }) => {
 
         <div className="relative">
           <img src={visited} className="h-20" alt="visited" />
-          <p className="absolute top-3 sm:top-2 left-8 text-sm sm:text-base text-white">
+          <p className="absolute font-semibold top-3  sm:top-2 left-8 text-sm sm:text-base text-white">
             Visited
           </p>
           <p className="absolute top-8 left-8 text-2xl sm:text-3xl font-semibold tracking-wider text-white">
@@ -58,7 +58,7 @@ const Overview = ({ serviceId, visitors }) => {
 
         <div className="relative">
           <img src={notVisited} className="h-20" alt="not visited" />
-          <p className="absolute top-3 sm:top-2 left-8 text-sm sm:text-base text-white">
+          <p className="absolute font-semibold top-3 sm:top-2 left-8 text-sm sm:text-base text-white">
             Not Visited
           </p>
           <p className="absolute top-8 left-8 text-2xl sm:text-3xl font-semibold tracking-wider text-white">
@@ -68,7 +68,7 @@ const Overview = ({ serviceId, visitors }) => {
 
         <div className="relative">
           <img src={errors} className="h-20" alt="errors" />
-          <p className="absolute top-3 sm:top-2 left-8 text-sm sm:text-base text-white">
+          <p className="absolute font-semibold top-3 sm:top-2 left-8 text-sm sm:text-base text-white">
             Errors
           </p>
           <p className="absolute top-8 left-8 text-2xl sm:text-3xl font-semibold tracking-wider text-white">
