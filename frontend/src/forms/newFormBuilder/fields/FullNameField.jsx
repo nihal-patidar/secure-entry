@@ -32,7 +32,7 @@ const FullName = ({
   // useEffect(() => {console.log(firstName); if (onUpdate)onUpdate({...field, firstName})},[firstName])
   // useEffect(() => {if (onUpdate)onUpdate({...field, lastName})},[lastName])
 
-  console.log("FullName field:", field);
+  // console.log("FullName field:", field);
 
   return (
     <div className="w-full relative group bg-white rounded-lg ">

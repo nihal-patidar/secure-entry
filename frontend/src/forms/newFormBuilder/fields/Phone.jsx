@@ -31,9 +31,7 @@ const PhoneNumberField = ({
     { code: "AU", name: "Australia", flag: "🇦🇺", dialCode: "+61" },
   ];
 
-  // Used to create unique field names for registration
   const fieldKey = field.description || "Phone Number";
-
   const selectedCountryData = countries.find((c) => c.code === selectedCountry);
 
   const handlePhoneNumberChange = (e) => {
@@ -64,10 +62,10 @@ const PhoneNumberField = ({
   };
 
   return (
-    <div className="w-full relative group bg-white rounded-lg p-4">
-      <div className="max-w-3xl mx-auto relative bg-white shadow-sm px-8 py-6 rounded-lg space-y-4">
+    <div className="w-full relative group bg-white rounded-lg ">
+      <div className="max-w-3xl mx-auto relative bg-white shadow-sm px-8 rounded-lg space-y-4">
         
-        {/* Label with asterisk */}
+        {/* Label */}
         {isPreview ? (
           <div className="text-black text-lg font-medium">
             {field.description || "Phone Number"}
@@ -81,50 +79,55 @@ const PhoneNumberField = ({
           />
         )}
 
-        {/* Phone Input + Country */}
-        <div className="flex flex-col">
-          <div className="flex rounded-lg">
-            {/* Country Code Dropdown */}
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center gap-2 px-3 py-2 bg-gray-50"
-              >
+        {/* Responsive wrapper */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          {/* Country Selector */}
+          <div className="relative w-full sm:w-48">
+            <button
+              type="button"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center justify-between w-full px-3 py-2 bg-gray-50 rounded-lg border"
+            >
+              <div className="flex items-center gap-2">
                 <span className="text-lg">{selectedCountryData?.flag}</span>
-                <span className="text-sm font-medium">{selectedCountryData?.dialCode}</span>
+                <span className="text-sm font-medium">{selectedCountryData?.name}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-600">{selectedCountryData?.dialCode}</span>
                 <ChevronDown
                   size={14}
-                  className={`transform transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
+                  className={`ml-1 shrink-0 transform transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
                 />
-              </button>
+              </div>
+            </button>
 
-              {isDropdownOpen && (
-                <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-lg shadow-lg z-10 max-h-60 overflow-y-auto">
-                  {countries.map((country) => (
-                    <button
-                      key={country.code}
-                      onClick={() => handleCountrySelect(country.code)}
-                      className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-gray-100"
-                    >
-                      <span className="text-lg">{country.flag}</span>
-                      <div className="flex-1">
-                        <div className="text-sm font-medium">{country.name}</div>
-                        <div className="text-xs text-gray-500">{country.dialCode}</div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            {isDropdownOpen && (
+              <div className="absolute top-full left-0 mt-1 w-full bg-white rounded-lg shadow-lg z-10 max-h-60 overflow-y-auto">
+                {countries.map((country) => (
+                  <button
+                    key={country.code}
+                    onClick={() => handleCountrySelect(country.code)}
+                    className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-gray-100"
+                  >
+                    <span className="text-lg">{country.flag}</span>
+                    <div className="flex-1">
+                      <div className="text-sm font-medium">{country.name}</div>
+                      <div className="text-xs text-gray-500">{country.dialCode}</div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
 
-            {/* Phone Number Input */}
+          {/* Phone Input */}
+          <div className="flex-1">
             {isPreview && typeof register === "function" ? (
               <input
-                {...register(`${fieldKey}_phone`)} // ✅ Register for react-hook-form
+                {...register(`${fieldKey}_phone`)}
                 type="tel"
                 placeholder={phonePlaceholder}
-                className="flex-1 px-4 py-2 rounded-lg border ml-2 outline-none bg-white"
+                className="w-full px-4 py-2 rounded-lg border outline-none bg-white"
                 maxLength={10}
               />
             ) : (
@@ -133,22 +136,22 @@ const PhoneNumberField = ({
                 onChange={handlePhoneNumberChange}
                 type="tel"
                 placeholder={phonePlaceholder}
-                className="flex-1 px-4 py-2 rounded-lg border ml-2 outline-none bg-white"
+                className="w-full px-4 py-2 rounded-lg border outline-none bg-white"
                 maxLength={10}
               />
             )}
           </div>
-
-          {/* Editable Placeholder in builder only */}
-          {!isPreview && (
-            <input
-              value={phonePlaceholder}
-              onChange={(e) => handlePlaceholderChange(e.target.value)}
-              className="text-xs text-gray-400 bg-white mt-1 outline-none px-1 py-0.5"
-              title="Edit placeholder"
-            />
-          )}
         </div>
+
+        {/* Placeholder (editable only in builder) */}
+        {!isPreview && (
+          <input
+            value={phonePlaceholder}
+            onChange={(e) => handlePlaceholderChange(e.target.value)}
+            className="text-xs text-gray-400 bg-white mt-1 outline-none px-1 py-0.5"
+            title="Edit placeholder"
+          />
+        )}
 
         {/* Note Field */}
         {isPreview ? (

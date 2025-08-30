@@ -116,10 +116,10 @@ const VisitorForm = ({ setVisitorData, setActiveStep, amount , setAmount,service
   return (
     <>
       {sanitizedFields && (
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex-1 overflow-y-auto p-[2vw]">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="bg-white rounded-lg shadow-sm max-w-6xl mx-auto">
-              <div className="p-4">
+              <div className="p-[2vw]">
                 {coverField && <FieldRenderer field={coverField} isBuilder={false} />}
                 {logoField && <FieldRenderer field={logoField} isBuilder={false} hasCover={!!coverField} />}
                 {timerField && <FieldRenderer field={timerField} isBuilder={false} />}
@@ -129,7 +129,7 @@ const VisitorForm = ({ setVisitorData, setActiveStep, amount , setAmount,service
                   <p className="text-gray-600 text-center mt-2">{formConfig.description}</p>
                 </div>
 
-                <div className="space-y-6 px-4 py-6">
+                <div className="space-y-6 m-auto py-6 max-w-[80vw]">
                   {otherFields?.map((field, index) => (
                     field.fieldName === "email" ? (
                       <EmailOtpForm key={field.id} register={register} setEnable={setEnable} />
@@ -161,7 +161,7 @@ const VisitorForm = ({ setVisitorData, setActiveStep, amount , setAmount,service
                       fData={fFData}
                     />
                   ) : (
-                    <Button type="submit" className="bg-green-500 w-full">
+                    <Button type="submit" className="bg-[#7850fa] w-full">
                       Submit
                     </Button>
                   )
