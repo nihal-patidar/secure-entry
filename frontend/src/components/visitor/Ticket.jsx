@@ -159,7 +159,7 @@ const InvitationCard = ({ data }) => {
             <div className="px-8 pb-6">
               <div className="flex items-center justify-between">
                 <span className="text-3xl font-black text-orange-500" style={{fontFamily: "'Inter', sans-serif"}}>{service.price ? `${service.price} Rs.` : ""}</span>
-                <span className="text-3xl font-black text-gray-600" style={{fontFamily: "'Inter', sans-serif"}}>{visitor.vis_id ? `#${visitor.vis_id}` : ""}</span>
+                {/* <span className="text-3xl font-black text-gray-600" style={{fontFamily: "'Inter', sans-serif"}}>{visitor.vis_id ? `#${visitor.vis_id}` : ""}</span> */}
               </div>
             </div>
 
@@ -175,11 +175,12 @@ const InvitationCard = ({ data }) => {
               <div className="flex justify-center mb-6">
                 <div id="qr-container" className="w-32 h-32 mx-auto bg-white rounded-lg">
                   <QrCodePlaceholder qrHtml={visitor.qrData} className="w-full h-full" />
-                  <p className="text-center mt-2 text-xs font-semibold text-blue-600">SecureEntry</p>
+                  {/* <p className="text-center mt-2 text-xs font-semibold text-blue-600">SecureEntry</p> */}
                 </div>
               </div>
               <div className="mb-6">
-                <p className="text-2xl font-black tracking-widest text-gray-800" style={{fontFamily: "'JetBrains Mono', 'Fira Code', 'Consolas', monospace"}}>{visitor.ticket_code || "TICKET CODE"}</p>
+                <span className="text-3xl font-black text-gray-600" style={{fontFamily: "'Inter', sans-serif"}}>{visitor.vis_id ? `#${visitor.vis_id}` : ""}</span>
+                {/* <p className="text-2xl font-black tracking-widest text-gray-800" style={{fontFamily: "'JetBrains Mono', 'Fira Code', 'Consolas', monospace"}}>{visitor.ticket_code || "TICKET CODE"}</p> */}
               </div>
               <p className="text-gray-400 text-sm leading-relaxed font-medium" style={{fontFamily: "'Inter', sans-serif"}}>
                 {service.event_description || "Showcase your programming skills and innovative ideas."}
