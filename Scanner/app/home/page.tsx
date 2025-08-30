@@ -33,11 +33,11 @@ interface Tab {
 const getStatusBadge = (status: boolean) =>
   status ? (
     <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200">
-      ✓ Visited
+      ✓ 
     </Badge>
   ) : (
     <Badge className="bg-amber-100 text-amber-700 border-amber-200">
-      ⏳ Pending
+      ⏳ 
     </Badge>
   );
 
@@ -81,6 +81,9 @@ const VisitorsTable: React.FC<VisitorsTableProps> = ({
       <table className="min-w-full table-auto border-collapse">
         <thead className="bg-slate-100">
           <tr>
+            <th className="px-4 py-2 text-left text-xs font-semibold uppercase text-slate-600">
+              Status
+            </th>
             {columns.map((col) => (
               <th
                 key={col}
@@ -89,22 +92,21 @@ const VisitorsTable: React.FC<VisitorsTableProps> = ({
                 {col.replace(/_/g, " ")}
               </th>
             ))}
-            <th className="px-4 py-2 text-left text-xs font-semibold uppercase text-slate-600">
-              Status
-            </th>
+            
           </tr>
         </thead>
         <tbody>
           {rows.map((v, i) => (
             <tr key={i} className={i % 2 === 0 ? "bg-white/80" : "bg-white/90"}>
-              {columns.map((col) => (
-                <td key={col} className="px-4 py-2 whitespace-nowrap">
-                  {v.visitor_data[col]}
-                </td>
-              ))}
               <td className="px-4 py-2">
                 {getStatusBadge(v.validation_status)}
               </td>
+              {columns.map((col) => (
+                <td key={col} className="px-4 py-2 whitespace-nowrap">
+                  {v.visitor_data[col] || "-"}
+                </td>
+              ))}
+              
             </tr>
           ))}
         </tbody>
@@ -205,10 +207,10 @@ const ServiceVisitors: React.FC = () => {
       {/* Content */}
       <div className="max-w-7xl w-[100vw] mx-auto px-6 py-8 space-y-6">
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-[3vw]">
           {/* Total */}
           <Card className="bg-white/70 backdrop-blur-sm border-white/20 shadow-lg">
-            <CardContent className="p-6 flex items-center justify-between">
+            <CardContent className="p-6 px-[3.5vw] flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-slate-600">
                   Total Visitors
@@ -217,35 +219,35 @@ const ServiceVisitors: React.FC = () => {
                   {stats.total}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl hidden sm:flex items-center justify-center">
                 <Users className="w-6 h-6 text-blue-600" />
               </div>
             </CardContent>
           </Card>
           {/* Visited */}
           <Card className="bg-white/70 backdrop-blur-sm border-white/20 shadow-lg">
-            <CardContent className="p-6 flex items-center justify-between">
+            <CardContent className="p-6 px-[3.5vw] flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-slate-600">Visited</p>
                 <p className="text-3xl font-bold text-emerald-600">
                   {stats.visited}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-emerald-100 rounded-xl hidden sm:flex items-center justify-center">
                 <span className="text-emerald-600 text-xl">✓</span>
               </div>
             </CardContent>
           </Card>
           {/* Remaining */}
           <Card className="bg-white/70 backdrop-blur-sm border-white/20 shadow-lg">
-            <CardContent className="p-6 flex items-center justify-between">
+            <CardContent className="p-6 px-[3.5vw] flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-slate-600">Remaining</p>
                 <p className="text-3xl font-bold text-amber-600">
                   {stats.remaining}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-amber-100 rounded-xl hidden sm:flex items-center justify-center">
                 <span className="text-amber-600 text-xl">⏳</span>
               </div>
             </CardContent>
