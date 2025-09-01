@@ -415,4 +415,10 @@ input::-webkit-textfield-decoration-container {
 }
 
 /* button ripple effect */
+.tickettext-primary{
+  color: #92400E;
+}
 
+.ticket-primary{
+  background-color: #92400E;
+}
