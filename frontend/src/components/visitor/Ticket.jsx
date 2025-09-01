@@ -278,7 +278,7 @@ const InvitationCard = ({ data }) => {
                 <div className="flex justify-center mb-6">
                   <div id="qr-container" className="relative">
                     <div className="w-48 h-52 mx-auto bg-white rounded-2xl shadow-xl p-1  border-4 border-amber-500 flex flex-col justify-center items-center">
-                        <div className="text-sm font-bold tickettext-primary" style={{fontFamily: "'Inter', sans-serif"}}>{visitor.ticket_code || "TICKET CODE"}</div>
+                        <div className="text-sm font-bold tickettext-primary" style={{fontFamily: "'Inter', sans-serif"}}>{visitor.vis_id ? `#${visitor.vis_id}` : ""}</div>
                         <div className="px-6 ">
                       <QrCodePlaceholder qrHtml={visitor.qrData} className="w-full h-full rounded-lg" />
                       </div>
