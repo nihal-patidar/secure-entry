@@ -81,8 +81,21 @@ const ServiceVisitorsData = () => {
             >
               Not Visited
             </button>
+              <button
+                  className=" px-4 py-2 bg-red-600 text-white font-semibold rounded-md shadow
+             hover:bg-red-700 focus:bg-red-800 focus:outline-none focus:ring-2
+             focus:ring-red-400 transition-all duration-300"
+                  onClick={() => {
+                      setShowAll(false);
+                      setShowVisited(false);
+                      setShowNotVisited(false);
+                      setShowBlocked(true);
+                  }}
+              >
+                  Blocked
+              </button>
 
-            <button
+              <button
                 className="px-3 sm:px-8 py-1 sm:py-2 focus:rounded-md transition-all duration-300 hover:border-b-4 hover:border-b-[#2C3ED3] focus:bg-[#2C3ED3] focus:text-white"
                 onClick={() => {
                   alert("Excel export coming soon!");
@@ -94,7 +107,7 @@ const ServiceVisitorsData = () => {
 
           {/* Render Table */}
           {filteredVisitors.length > 0 ? (
-              <VisitorDataTable visitorData={filteredVisitors.map((v) => v.visitor_data)} />
+              <VisitorDataTable maindata={filteredVisitors.map((v) => v.visitor_data)} />
           ) : (
               <p className="w-full text-center font-semibold text-4xl my-40">
                 No Visitor Data
