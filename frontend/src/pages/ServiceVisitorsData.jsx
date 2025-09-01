@@ -22,8 +22,9 @@ const ServiceVisitorsData = () => {
         .then((res) => {
             const visitors = res.data?.visitorList;
             if (visitors && Array.isArray(visitors)) {
-                const cleaned = visitors.map((v) => v.visitor_data);
+                const cleaned = visitors.map((v) => v);
                 setVisitorList(cleaned);
+                // console.log(visitors);
             }
         })
 
@@ -36,11 +37,14 @@ const ServiceVisitorsData = () => {
   const filteredVisitors = showAll
       ? visitorList
       : showVisited
-          ? visitorList.filter((v) => v["Validation Status"] === "Visited")
+          ? visitorList.filter((v) => {
+             // console.log(v["validation_status"])
+              return v["validation_status"];
+          })
           : showNotVisited
-              ? visitorList.filter((v) => v["Validation Status"] === "Not Visited")
+              ? visitorList.filter((v) => !v["validation_status"])
               : [];
-
+// console.log("finaldata:", filteredVisitors)
   return (
       <div className="absolute right-7 left-12 bottom-10 top-10 bg-[#F2F3F9] rounded-3xl border border-[#EAEAEA] ml-16 p-2 mt-8">
         <div className="bg-white border border-[#EAEAEA] h-full w-full px-0 lg:px-5 rounded-3xl">
@@ -90,7 +94,7 @@ const ServiceVisitorsData = () => {
 
           {/* Render Table */}
           {filteredVisitors.length > 0 ? (
-              <VisitorDataTable visitorData={filteredVisitors} />
+              <VisitorDataTable visitorData={filteredVisitors.map((v) => v.visitor_data)} />
           ) : (
               <p className="w-full text-center font-semibold text-4xl my-40">
                 No Visitor Data

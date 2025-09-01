@@ -101,12 +101,19 @@ const InvitationCard = ({ data }) => {
   const handleShare = async () => {
     if (cardRef.current) {
       try {
-        const dataUrl = await toPng(cardRef.current, {
-          backgroundColor: 'transparent',
-          width: cardRef.current.scrollWidth,
-          height: cardRef.current.scrollHeight,
-          pixelRatio: 2
-        });
+        const rect = cardRef.current.getBoundingClientRect();
+      const padding = 40; // extra space around ticket
+
+      const dataUrl = await toPng(cardRef.current, {
+        backgroundColor: "transparent",
+        width: rect.width + padding * 2,
+        height: rect.height + padding * 2,
+        pixelRatio: 3,
+        style: {
+          transform: `translate(${padding}px, ${padding}px)`,
+          transformOrigin: "top left"
+        }
+      });
         if (navigator.share) {
           const blob = await (await fetch(dataUrl)).blob();
           const file = new File([blob], "ticket.png", { type: "image/png" });
@@ -277,12 +284,12 @@ const InvitationCard = ({ data }) => {
               <div className="relative z-10 px-6 pb-8 text-center">
                 <div className="flex justify-center mb-6">
                   <div id="qr-container" className="relative">
-                    <div className="w-48 h-52 mx-auto bg-white rounded-2xl shadow-xl p-1  border-4 border-amber-500 flex flex-col justify-center items-center">
-                        <div className="text-sm font-bold tickettext-primary" style={{fontFamily: "'Inter', sans-serif"}}>{visitor.vis_id ? `#${visitor.vis_id}` : ""}</div>
+                    <div className="w-48 h-56 mx-auto bg-white rounded-2xl shadow-xl p-1  border-4 border-amber-500 flex flex-col justify-center items-center">
+                        <div className="text-sm font-bold tickettext-primary mb-2" style={{fontFamily: "'Inter', sans-serif"}}>{visitor.vis_id ? `#${visitor.vis_id}` : ""}</div>
                         <div className="px-6 ">
-                      <QrCodePlaceholder qrHtml={visitor.qrData} className="w-full h-full rounded-lg" />
+                      <QrCodePlaceholder qrHtml={visitor.qrData} className="w-full h-full rounded-lg mb-0" />
                       </div>
-                    <div className="text-center tickettext-primary text-md font-bold whitespace-nowrap">
+                    <div className="text-center tickettext-primary text-md font-bold whitespace-nowrap mb-1">
                       Secure Entry
                     </div>
                     </div>

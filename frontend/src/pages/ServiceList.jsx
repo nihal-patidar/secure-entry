@@ -119,11 +119,10 @@ const ServiceList = () => {
                                 image = {service.service_image_url}
                                 id={service._id }
                                 key={service._id }
-                                eventName={service.service_name}
-                                location={service.service_address}
-                                time={service.time}
-                                date={service.date}
-                                price={service.ticket_price}
+                                eventName={service?.service_name}
+                                location={service?.service_address}
+                                date={service.service_live_date}
+                                price={service?.ticket_price}
                                 countVisitors={countVisitors}
                                 setCountVisitors={setCountVisitorsHandler}
                             />

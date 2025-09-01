@@ -75,7 +75,7 @@ const FieldRenderer = ({
 
   // Normal fields
   return (
-    <div className="bg-white rounded-lg p-4 shadow-sm border hover:shadow-md transition-shadow group">
+    <div className="bg-white rounded-lg p-[2vw] pt-[4vh] m-0 pb-[4vh] shadow-sm  hover:shadow-md transition-shadow group">
       {/* Top Controls */}
       {isBuilder && (
         <div className="flex justify-between items-center mb-3">

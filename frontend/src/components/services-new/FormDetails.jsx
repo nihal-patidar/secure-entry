@@ -10,7 +10,7 @@ import QR from '/QR image.png'
 import QRpreView from "../services/QRpreView.jsx";
 import { useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
-
+import { MapPinIcon, CalendarDaysIcon, ClockIcon, CurrencyDollarIcon, UserGroupIcon, QrCodeIcon } from "@heroicons/react/24/outline";
 
  
 
@@ -75,75 +75,34 @@ const downloadQR = () => {
   return (
     <>
     
-      <div className="flex laptop:flex-row  gap-3  flex-col justify-between mt-8 mb-10 px-4 ">
-        <div className="laptop:w-[48%] w-full">
-          <p className="text-center text-sm font-medium tracking-wider text-[#717171]">
-            Form Live
-          </p>
-
-          <div
-            tabIndex={0}
-            className="flex items-center pr-0 pl-4  border border-[#C8C8C8] rounded-lg  text-secondary text-center  focus-within:ring-2  focus-within:ring-blue-300 w-full "
-          >
-            <button onClick={() => setLiveEditable(!liveeditable)} className="">
-              {liveeditable ? (
-                <BookmarkSquareIcon className="w-5 text-gray-800" />
-              ) : (
-                <PencilSquareIcon className="w-5 text-gray-800" />
-              )}
-            </button>
-            <Flatpickr
-              data-enable-time
-              value={livedate}
-              onChange={([selected]) => setLiveDate(selected)}
-              options={{
-                dateFormat: "d-m-Y h:i K",
-                minDate: "today",
-                time_24hr: false,
-                clickOpens: liveeditable,
-                defaultDate: "today",
-              }}
-              readOnly={!liveeditable}
-              className="font-semibold focus:outline-none p-2 pr-6 bg-transparent w-full"
-            />
-          </div>
-        </div>
-        <div className="laptop:w-[48%] w-full"> 
-          <p className="text-center text-sm font-medium tracking-wider text-[#717171]">
-            Form Closing
-          </p>
-
-          <div
-            tabIndex={0}
-            className="flex w-full items-center pr-0 pl-4  border border-[#C8C8C8] rounded-lg  text-secondary text-center  focus-within:ring-2  focus-within:ring-blue-300  "
-          >
-            <button
-              onClick={() => setClosingEditable(!closingeditable)}
-              className=""
-            >
-              {closingeditable ? (
-                <BookmarkSquareIcon className="w-5 text-gray-800" />
-              ) : (
-                <PencilSquareIcon className="w-5 text-gray-800" />
-              )}
-            </button>
-            <Flatpickr
-              data-enable-time
-              value={closingdate}
-              onChange={([selected]) => setClosingDate(selected)}
-              options={{
-                dateFormat: "d-m-Y h:i K",
-                minDate: "today",
-                time_24hr: false,
-                clickOpens: closingeditable,
-                defaultDate: "today",
-              }}
-              readOnly={!closingeditable}
-              className="font-semibold focus:outline-none p-2 pr-6 bg-transparent w-full"
-            />
-          </div>
-        </div>
+     <div className="flex laptop:flex-row gap-4 flex-col justify-between mt-8 mb-10 px-4">
+  {/* Date and Location Info */}
+  <div className="flex-1 space-y-4">
+    <div className="flex gap-3 items-start p-3 bg-gray-50 rounded-lg border border-gray-100">
+      <CalendarDaysIcon className="w-5 h-5 text-gray-500 mt-0.5 flex-shrink-0" aria-hidden="true" />
+      <div className="min-w-0 flex-1">
+        <p className="text-gray-700 text-sm sm:text-base font-semibold">
+          Form Starting Date:
+        </p>
+        <span className="text-gray-600 font-normal text-sm sm:text-base">
+          {service?.form_live_date || 'Not specified'}
+        </span>
       </div>
+    </div>
+    
+    <div className="flex gap-3 items-start p-3 bg-gray-50 rounded-lg border border-gray-100">
+      <CalendarDaysIcon className="w-5 h-5 text-gray-500 mt-0.5 flex-shrink-0" aria-hidden="true" />
+      <div className="min-w-0 flex-1">
+        <p className="text-gray-700 text-sm sm:text-base font-semibold">
+          Form Closing Date:
+        </p>
+        <span className="text-gray-600 font-normal text-sm sm:text-base">
+          {service?.form_close_date || 'Not specified'}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
       
 
       <div className="qrpart flex flex-col laptop:flex-row  justify-around items-   ">

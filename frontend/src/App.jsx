@@ -50,6 +50,7 @@ import AttendanceSheet from './components/services-new/AttendanceSheet.jsx';
 import TicketForm from './forms/newFormBuilder/TicketForm.jsx';
 import Teams from "./components/Teams.jsx";
 import AdPanel from './pages/Adpanel.jsx'
+import Contact from "./components/Contact.jsx";
 
 
 const router = createBrowserRouter([
@@ -117,12 +118,15 @@ const router = createBrowserRouter([
               { path: "visitors",element: <ServiceVisitorsData/>},
               { path: "validators",element: <ValidatorList />},
               { path: "add-validator",element: <AddValidatorForService />},
+              
             ],
           },
         ],
       },
     ],
   },
+
+  {path:"contact-us" , element:<Contact/>},
 
   {
     path: "/forgot-password",
@@ -144,6 +148,7 @@ const router = createBrowserRouter([
     path: "/team",
     element: <Teams />,
   },
+  
 
   // {
   //   path: "/form/:formId",

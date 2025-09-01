@@ -23,9 +23,8 @@ function Dashboard() {
     ];
 
     return (
-        <div className="min-h-screen bg-gray-100 flex justify-start items-start px-12 py-4">
-            {/* Scrollable container */}
-            <div className="bg-white rounded-3xl shadow-xl w-full max-w-[1400px] ml-4 p-8 space-y-8 overflow-y-auto max-h-screen">
+        <div className="w-full max-w-[1185px] h-[calc(100vh-100px)] flex flex-col overflow-hidden absolute right-7 left-12 px-4 pb-12 bottom-10 top-10 bg-[#F2F3F9] border border-[#EAEAEA] rounded-3xl mt-8 ml-16 lg:ml-16">
+            <div className=" rounded-3xl w-full max-w-[1400px]  p-5 hide-scrollbar space-y-8 overflow-y-auto max-h-screen">
 
                 {/* Header */}
                 <div className="bg-white rounded-2xl p-8 shadow-md border border-gray-200">
@@ -45,14 +44,14 @@ function Dashboard() {
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {[
-                        { title: 'Services', icon: <BsFillArchiveFill />, count: service_count },
-                        { title: 'Validators', icon: <BsFillGrid3X3GapFill />, count: validator_count },
-                        { title: 'Users', icon: <BsPeopleFill />, count: user_count },
-                        { title: 'Alerts', icon: <BsFillBellFill />, count: 42 }
+                        { title: 'Services', icon: <BsFillArchiveFill />, count: service_count, color: 'bg-[#2C3ED3]' },
+                        { title: 'Validators', icon: <BsFillGrid3X3GapFill />, count: validator_count, color: 'bg-[#2C3ED3]' },
+                        { title: 'Users', icon: <BsPeopleFill />, count: user_count, color: 'bg-[#2C3ED3]' },
+                        { title: 'Alerts', icon: <BsFillBellFill />, count: 42, color: 'bg-[#2C3ED3]' }
                     ].map((card, idx) => (
                         <div key={idx} className="group cursor-pointer">
                             <div className="bg-white rounded-2xl p-6 shadow hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-between min-h-[100px]">
-                                <div className="w-14 h-14 bg-[#2C3ED3] rounded-xl flex items-center justify-center shadow group-hover:scale-105 transition-transform duration-200">
+                                <div className={`${card.color} w-14 h-14 rounded-xl flex items-center justify-center shadow group-hover:scale-105 transition-transform duration-200`}>
                                     {React.cloneElement(card.icon, { className: 'text-white text-2xl' })}
                                 </div>
                                 <div className="text-right ml-4">
@@ -121,16 +120,18 @@ function Dashboard() {
 
                 {/* Footer Stats */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    {[
-                        { label: 'System Uptime', value: '98.5%', color: 'purple-600', bg: 'purple-50/40' },
-                        { label: 'Avg Response Time', value: '2.4s', color: 'indigo-600', bg: 'indigo-50/40' },
-                        { label: 'Data Accuracy', value: '99.9%', color: 'blue-600', bg: 'blue-50/40' }
-                    ].map((stat, idx) => (
-                        <div key={idx} className={`p-4 rounded-xl hover:bg-${stat.bg} transition-all duration-200 bg-white shadow min-h-[100px]`}>
-                            <h4 className={`text-xl font-bold text-${stat.color}`}>{stat.value}</h4>
-                            <p className="text-gray-500 text-sm mt-1">{stat.label}</p>
-                        </div>
-                    ))}
+                    <div className="p-4 rounded-xl bg-purple-50/40 hover:bg-purple-100 transition-all duration-200 shadow min-h-[100px]">
+                        <h4 className="text-xl font-bold text-purple-600">98.5%</h4>
+                        <p className="text-gray-500 text-sm mt-1">System Uptime</p>
+                    </div>
+                    <div className="p-4 rounded-xl bg-indigo-50/40 hover:bg-indigo-100 transition-all duration-200 shadow min-h-[100px]">
+                        <h4 className="text-xl font-bold text-indigo-600">2.4s</h4>
+                        <p className="text-gray-500 text-sm mt-1">Avg Response Time</p>
+                    </div>
+                    <div className="p-4 rounded-xl bg-blue-50/40 hover:bg-blue-100 transition-all duration-200 shadow min-h-[100px]">
+                        <h4 className="text-xl font-bold text-blue-600">99.9%</h4>
+                        <p className="text-gray-500 text-sm mt-1">Data Accuracy</p>
+                    </div>
                 </div>
             </div>
         </div>

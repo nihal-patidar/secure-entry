@@ -160,37 +160,40 @@ const ServiceDetails = () => {
   // === Main Render ===
   return (
     <div className="flex absolute right-7 left-12 bottom-10 top-10 ml-16 gap-8 mt-8">
-      <div className="w-full bg-[#F2F3F9] rounded-3xl pt-6 border border-[#EAEAEA]">
-        <div className="flex justify-between items-center mb-8 lg:mx-14 mx-7">
-          <h3 className="text-[#5621FF] text-xl md:text-2xl font-medium">
+      <div className="w-full bg-[#F2F3F9] rounded-3xl pt-5 border border-[#EAEAEA]">
+        <div className="flex justify-between items-center mb-4 lg:mx-14 mx-7">
+          <h3 className="text-secondary text-xl md:text-2xl font-semibold">
             {serviceData.service_name}
           </h3>
 
           <div className="relative inline-block text-left">
             <button
               onClick={() => setShowMenu((prev) => !prev)}
-              className="text-2xl p-2 rounded-full hover:bg-gray-100 transition"
+              className="flex items-center justify-center w-10 h-10 text-2xl text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-1"
+              aria-label="Open menu"
+              aria-expanded={showMenu}
             >
               <PiDotsThreeOutlineVerticalFill />
             </button>
 
             {showMenu && (
-              <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-md z-50 ">
+              <div className="absolute right-0 mt-2 w-36 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden">
                 <button
                   onClick={() => {
                     setShowMenu(false);
                     handleUpdateService();
                   }}
-                  className="block w-full text-left px-10 py-2 text-md font-medium hover:bg-gray-200"
+                  className="flex items-center w-full text-left px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
                 >
                   Update
                 </button>
+                <div className="border-t border-gray-100"></div>
                 <button
                   onClick={() => {
                     setShowMenu(false);
-                    setShowModal(true); // ✅ this opens modal
+                    setShowModal(true);
                   }}
-                  className="block w-full text-left px-10 py-2 text-md text-red-600 font-medium hover:bg-gray-200"
+                  className="flex items-center w-full text-left px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors duration-150"
                 >
                   Delete
                 </button>

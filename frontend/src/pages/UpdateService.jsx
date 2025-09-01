@@ -168,7 +168,7 @@ const UpdateService = () => {
     );
   }
   return (
-    <div className="absolute top-[70px] left-[114px] w-full max-w-[1185px] h-[calc(100vh-100px)] rounded-2xl border border-gray-300 bg-white flex flex-col overflow-hidden">
+    <div className="w-full max-w-[1185px] h-[calc(100vh-100px)]  flex flex-col overflow-hidden flex-1 absolute right-7 left-12 px-4 pb-12 bottom-10 top-10 bg-[#F2F3F9] border border-[#EAEAEA] rounded-3xl mt-8 ml-16 lg:ml-16">
       {/* Header - Fixed */}
       <div className="px-4 md:px-11 py-4 md:py-6 border-b border-gray-200">
         <h2 className="text-lg md:text-2xl font-semibold text-gray-800">
@@ -393,10 +393,10 @@ const UpdateService = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`bg-indigo-600 text-white text-sm font-medium py-3 px-8 rounded-full shadow-md transition duration-200 ${
+              className={`button-secondary text-white text-sm font-medium py-3 px-8 rounded-full shadow-md transition duration-200 ${
                 isSubmitting
                   ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-indigo-700 hover:shadow-lg"
+                  : "hover:button-secondary hover:shadow-lg"
               }`}
             >
               {isSubmitting ? "Updating..." : "Update Service"}
