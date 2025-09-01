@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { TrashIcon, EnvelopeIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { TrashIcon, EnvelopeIcon, PencilSquareIcon, NoSymbolIcon } from "@heroicons/react/24/outline";
 import Button from '@mui/material/Button';
+
 
 const VisitorDataTable = ({ visitorData }) => {
     const [selected, setSelected] = useState([]);
+    const [blocked, setBlocked] = useState([]);
     // Inside the component, before return:
-
+    console.log(visitorData)
     const keys = Object.keys(visitorData[0] || {});
 
     let orderedKeys = keys;
@@ -45,7 +47,7 @@ const VisitorDataTable = ({ visitorData }) => {
         <>
             {selected.length > 0 && (
                 <div className='absolute top-11 right-10 z-50'>
-                    <SelectOperations selected={selected} />
+                    <SelectOperations selected={selected} setBlocked={setBlocked} blocked={blocked} visitorData={visitorData} />
                 </div>
             )}
 
@@ -78,7 +80,7 @@ const VisitorDataTable = ({ visitorData }) => {
                         {visitorData.map((obj, i) => (
                             <tr
                                 key={i}
-                                className={`${selected.includes(i) ? "bg-[#E2E6FF]" : ""} border-b border-b-[#ACACAC] transition-all duration-150`}
+                                className={`${selected.includes(i) ? "bg-[#E2E6FF]" : ""} ${blocked.includes(i) ? "bg-red-200" : ""} border-b border-b-[#ACACAC] transition-all duration-150`}
                             >
                                 <td className='w-[5px] sm:w-[10px] py-4 pl-8'>
                                     <input
@@ -111,38 +113,94 @@ export default VisitorDataTable;
 
 // ---------------------
 
-export const SelectOperations = ({ selected }) => {
-    const handleDelete = () => {
-        alert(`Delete rows: ${selected.join(', ')}`);
+export const SelectOperations = ({ selected, setBlocked, blocked, visitorData }) => {
+    const [isBlockHovered, setIsBlockHovered] = useState(false)
+    const [isEmailHovered, setIsEmailHovered] = useState(false)
+    
+
+    const handleBlock = () => {
+        // alert(`Delete rows: ${selected.join(', ')}`);
+        if(blocked.some(id=> selected.includes(id))){
+            let filterMatching= blocked.filter(id=> !blocked.includes(id))
+            setBlocked(prev=>prev.filter(id=>!selected.includes(id)))
+        } else{
+            setBlocked(prev=>[...prev, ...selected])
+        }
     };
 
     const handleEmail = () => {
-        alert(`Send email to rows: ${selected.join(', ')}`);
-    };
+  if (!selected || selected.length === 0) {
+    alert("No visitors selected!");
+    return;
+  }
+
+  const emails = selected
+    .map((id) => {
+      const visitor = visitorData[id];
+      return visitor?.Email || visitor?.email || visitor?.EMAIL || null;
+    })
+    .filter((email) => !!email);
+
+  if (emails.length === 0) {
+    console.warn("No valid email field found in selected visitors!");
+    return;
+  }
+
+  const subject = encodeURIComponent("Event Notification");
+  const body = encodeURIComponent("Hello, here are the event details...");
+
+  // Gmail compose URL
+  const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${emails.join(
+    ","
+  )}&su=${subject}&body=${body}`;
+
+  // Open Gmail in new tab
+  window.open(gmailLink, "_blank");
+};
+
+
 
     const handleEdit = () => {
         alert(`Edit row: ${selected[0]}`);
     };
 
     return (
-        <div className='flex gap-5 z-50'>
+        <div className='flex gap-3 z-50 mr-5'>
+            <div className="relative inline-block">
             <Button
-                variant=''
+                variant=""
                 color="primary"
-                onClick={handleDelete}
+                onMouseEnter={() => setIsBlockHovered(true)}
+                onMouseLeave={() => setIsBlockHovered(false)}
+                onClick={handleBlock}
                 sx={{
-                    borderRadius: 10,
-                    '&:active': { backgroundColor: '#E2E6FF' },
-                    '&:hover': { backgroundColor: '#B1FFFF' },
+                borderRadius: 10,
+                "&:active": { backgroundColor: "#E2E6FF" },
+                "&:hover": { backgroundColor: "#B1FFFF" },
                 }}
             >
-                <TrashIcon className="w-6 text-black" />
+                <NoSymbolIcon className="w-6 text-black" />
             </Button>
 
+            {isBlockHovered && (
+                <div className="absolute left-1/2 -translate-x-1/2 mt-2">
+                {/* Tooltip Box */}
+                <div className="relative bg-gray-800 text-white text-sm px-3 py-2 rounded-md shadow-lg">
+                    Block Visitors
+                    {/* Arrow */}
+                    <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-800 rotate-45"></div>
+                </div>
+                </div>
+            )}
+            </div>
+
+            <div className="relative inline-block">
             <Button
                 variant=''
                 color="primary"
                 onClick={handleEmail}
+                onMouseEnter={() => setIsEmailHovered(true)}
+                onMouseLeave={() => setIsEmailHovered(false)}
                 sx={{
                     borderRadius: 10,
                     '&:active': { backgroundColor: '#E2E6FF' },
@@ -152,6 +210,19 @@ export const SelectOperations = ({ selected }) => {
                 <EnvelopeIcon className="w-6 text-black" />
             </Button>
 
+                {isEmailHovered && (
+                <div className="absolute left-1/2 -translate-x-1/2 mt-2">
+                {/* Tooltip Box */}
+                <div className="relative bg-gray-800 text-white text-sm px-3 py-2 rounded-md shadow-lg">
+                    Message Visitors
+                    {/* Arrow */}
+                    <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-800 rotate-45"></div>
+                </div>
+                </div>
+            )}
+            </div>
+            
+            {/* <div className="relative inline-block">
             <Button
                 variant=''
                 color="primary"
@@ -165,6 +236,18 @@ export const SelectOperations = ({ selected }) => {
             >
                 <PencilSquareIcon className="w-6 text-black" />
             </Button>
+
+            {isEmailHovered && (
+                <div className="absolute left-1/2 -translate-x-1/2 mt-2">
+               
+                <div className="relative bg-gray-800 text-white text-sm px-3 py-2 rounded-md shadow-lg">
+                    Block Visitors
+                    
+                    <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-800 rotate-45"></div>
+                </div>
+                </div>
+            )}
+            </div> */}
         </div>
     );
 };
