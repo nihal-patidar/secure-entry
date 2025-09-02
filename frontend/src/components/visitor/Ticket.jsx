@@ -42,14 +42,51 @@ const CheckCircleIcon = ({ className }) => (
     </svg>
 );
 
+const StarIcon = ({ className }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+    </svg>
+);
+
 const QrCodePlaceholder = ({ qrHtml, className }) => (
     <div className={className}>
       {qrHtml ? (
-          <div dangerouslySetInnerHTML={{ __html: qrHtml }} style={{ width: "100%", height: "100%" }} />
+          <div dangerouslySetInnerHTML={{ __html: qrHtml }} className="w-full h-full" />
       ) : (
           // fallback SVG illustrated QR if none
           <svg viewBox="0 0 152 152" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-            {/* ...as above... */}
+            <rect width="152" height="152" fill="white"/>
+            <rect x="8" y="8" width="48" height="48" fill="black"/>
+            <rect x="16" y="16" width="32" height="32" fill="white"/>
+            <rect x="24" y="24" width="16" height="16" fill="black"/>
+            <rect x="96" y="8" width="48" height="48" fill="black"/>
+            <rect x="104" y="16" width="32" height="32" fill="white"/>
+            <rect x="112" y="24" width="16" height="16" fill="black"/>
+            <rect x="8" y="96" width="48" height="48" fill="black"/>
+            <rect x="16" y="104" width="32" height="32" fill="white"/>
+            <rect x="24" y="112" width="16" height="16" fill="black"/>
+            <rect x="72" y="8" width="8" height="8" fill="black"/>
+            <rect x="72" y="24" width="8" height="8" fill="black"/>
+            <rect x="72" y="40" width="8" height="8" fill="black"/>
+            <rect x="8" y="72" width="8" height="8" fill="black"/>
+            <rect x="24" y="72" width="8" height="8" fill="black"/>
+            <rect x="40" y="72" width="8" height="8" fill="black"/>
+            <rect x="72" y="72" width="8" height="8" fill="black"/>
+            <rect x="88" y="72" width="8" height="8" fill="black"/>
+            <rect x="104" y="72" width="8" height="8" fill="black"/>
+            <rect x="120" y="72" width="8" height="8" fill="black"/>
+            <rect x="136" y="72" width="8" height="8" fill="black"/>
+            <rect x="72" y="88" width="8" height="8" fill="black"/>
+            <rect x="72" y="104" width="8" height="8" fill="black"/>
+            <rect x="88" y="96" width="8" height="8" fill="black"/>
+            <rect x="104" y="88" width="8" height="8" fill="black"/>
+            <rect x="120" y="96" width="8" height="8" fill="black"/>
+            <rect x="136" y="88" width="8" height="8" fill="black"/>
+            <rect x="72" y="120" width="8" height="8" fill="black"/>
+            <rect x="88" y="136" width="8" height="8" fill="black"/>
+            <rect x="104" y="120" width="8" height="8" fill="black"/>
+            <rect x="120" y="136" width="8" height="8" fill="black"/>
+            <rect x="136" y="120" width="8" height="8" fill="black"/>
           </svg>
       )}
     </div>
@@ -59,12 +96,24 @@ const QrCodePlaceholder = ({ qrHtml, className }) => (
 const InvitationCard = ({ data }) => {
   const cardRef = useRef(null);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
 
   const handleShare = async () => {
     if (cardRef.current) {
       try {
-        const dataUrl = await toPng(cardRef.current);
+        const rect = cardRef.current.getBoundingClientRect();
+      const padding = 40; // extra space around ticket
+
+      const dataUrl = await toPng(cardRef.current, {
+        backgroundColor: "transparent",
+        width: rect.width + padding * 2,
+        height: rect.height + padding * 2,
+        pixelRatio: 3,
+        style: {
+          transform: `translate(${padding}px, ${padding}px)`,
+          transformOrigin: "top left"
+        }
+      });
         if (navigator.share) {
           const blob = await (await fetch(dataUrl)).blob();
           const file = new File([blob], "ticket.png", { type: "image/png" });
@@ -106,93 +155,166 @@ const InvitationCard = ({ data }) => {
   const visitor = data?.visitorData || {};
 
   return (
-      <div className="min-h-screen w-full bg-gradient-to-b from-purple-600 to-blue-600 font-inter p-4 flex flex-col" style={{fontFamily: "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif"}}>
+      <div className="ticketpage min-h-screen absolute right-0 left-0 top-0 -bottom-32 bg-gradient-to-br from-[#b45309] via-[#9a3412] to-[#7f1d1d]  flex flex-col" style={{fontFamily: "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif"}}>
         <div className="w-full max-w-sm mx-auto">
           {/* Header */}
           <header className="flex items-center justify-between text-white mb-8 px-2 pt-4">
-            <button className="p-2" onClick={() => { navigate(-1); if(data.setActiveStep) data.setActiveStep(0); }}>
+            {/* <button className="p-2" onClick={() => { navigate(-1); if(data.setActiveStep) data.setActiveStep(0); }}>
               <ArrowLeftIcon className="h-6 w-6" />
-            </button>
-            <div className="flex items-center gap-2">
+            </button> */}
+            {/* <div className="flex items-start gap-2">
               <SettingsIcon className="h-5 w-5" />
               <h1 className="text-xl font-semibold">SecureEntry</h1>
-            </div>
+            </div> */}
             <div className="w-10"></div>
           </header>
 
-          {/* TICKET */}
-          <main ref={cardRef} className="bg-white rounded-t-3xl shadow-2xl overflow-hidden relative mx-4">
-            <div className="absolute top-0 left-0 w-6 h-6 bg-gradient-to-b from-purple-600 to-blue-600 rounded-br-full"></div>
-            <div className="absolute top-0 right-0 w-6 h-6 bg-gradient-to-b from-purple-600 to-blue-600 rounded-bl-full"></div>
-
-            <div className="pt-8 px-8 pb-6">
-              <div className="text-center mb-8">
-                <h2 className="text-4xl font-black text-gray-700 mb-2 tracking-tight" style={{fontFamily: "'Inter', sans-serif"}}>
-                  {service.service_name || "Event Name"}
-                </h2>
-                <p className="text-gray-400 text-lg font-medium tracking-wide" style={{fontFamily: "'Inter', sans-serif"}}>
-                  {service.service_type === "Pass" ? "Pass Entry" : "Event Entry"}
-                </p>
+          {/* PREMIUM GOLDEN TICKET */}
+          <main ref={cardRef} className="relative overflow-hidden mx-2" style={{ minWidth: '340px' }}>
+            {/* Golden gradient background with texture */}
+            <div className="bg-gradient-to-br from-[#FDE04D] via-[#FDE688] to-[#F97C1F] rounded-3xl shadow-2xl relative overflow-hidden">
+              {/* Decorative pattern overlay */}
+              <div className="absolute inset-0 ">
+                {/* <div className="absolute top-6 left-4 w-8 h-8  text-amber-600 font-bold  text-2xl  rounded-full">S</div> */}
+                {/* <div className="absolute top-8 right-8 w-6 h-6 border-2 border-amber-600 rounded-full">h</div>
+                <div className="absolute bottom-12 left-8 w-4 h-4 border-2 border-amber-600 rounded-full">h</div>
+                <div className="absolute bottom-8 right-12 w-6 h-6 border-2 border-awhite rounded-full">h</div> */}
               </div>
-
-              <div className="space-y-4 text-gray-600">
-                <div className="flex items-center gap-3">
-                  <MapPinIcon className="h-5 w-5 text-gray-400" />
-                  <span className="text-base font-semibold tracking-wide">{service.service_address || "Address not specified"}</span>
+              
+              {/* Premium header section */}
+              <div className="relative z-10 pt-8 px-6">
+                <div className="flex items-center justify-center mb-6">
+                  <div className="flex gap-1">
+                    <StarIcon className="h-5 w-5 text-amber-900" />
+                    <StarIcon className="h-5 w-5 text-amber-900" />
+                    <StarIcon className="h-5 w-5 text-amber-900" />
+                  </div>
                 </div>
-                {service.event_date && (
-                    <div className="flex items-center gap-3">
-                      <CalendarIcon className="h-5 w-5 text-gray-400" />
-                      <span className="text-base font-semibold tracking-wide">{service.event_date}</span>
+                
+                <div className="text-center mb-8">
+                  <h2 className="text-3xl font-bold tickettext-primary mb-2 leading-tight" style={{fontFamily: "'Inter', sans-serif", letterSpacing: '-0.025em'}}>
+                    {service.service_name || "EXCLUSIVE EVENT"}
+                  </h2>
+                  <div className="inline-block ticket-primary text-amber-100 px-4 py-2 rounded-full text-md font-semibold" style={{letterSpacing: '0.1em'}}>
+                    {/* {service.service_type === "Pass" ? "VIP PASS" : "PREMIUM ENTRY"} */}
+                    Secure Entry
+                  </div>
+                </div>
+
+                {/* Event details in elegant boxes */}
+                <div className="space-y-3 mb-6">
+                  <div className="bg-white bg-opacity-40 backdrop-blur-sm rounded-xl p-4 border border-amber-600">
+                    <div className="flex items-center gap-3 ">
+                      <MapPinIcon className="h-5 w-5 tickettext-primary" />
+                      <p className="text-md font-semibold tickettext-primary">{service.service_address || "Address not specified"}</p>
                     </div>
-                )}
-                {service.ticket_validity && (
-                    <div className="flex items-center gap-3">
-                      <CheckCircleIcon className="h-5 w-5 text-gray-400" />
-                      <span className="text-base font-semibold tracking-wide">Validity : {service.ticket_validity} hrs</span>
+                    
+                  </div>
+                  
+                  {
+                //   service.event_date
+                true
+                   && (
+                    <div className="">
+                      <div className="bg-white bg-opacity-40 backdrop-blur-sm rounded-xl p-4 border border-amber-600">
+                        <div className="flex items-center gap-2 ">
+                          <CalendarIcon className="h-4 w-4 tickettext-primary" />
+                          <div>
+                            <p className="text-xs tickettext-primary font-medium text-start">DATE</p>
+                            <p className="text-md font-semibold tickettext-primary">{service.service_live_date || "dd/mm/yy"}</p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* {
+                    //   service.ticket_validity
+                      true
+                       && (
+                        <div className="bg-white bg-opacity-40 backdrop-blur-sm rounded-xl p-4 border border-amber-600">
+                          <div className="flex items-center gap-2 ">
+                            <CheckCircleIcon className="h-4 w-4 tickettext-primary" />
+                            <div>
+                              <p className="text-xs tickettext-primary font-medium text-start">VALID</p>
+                              <p className="text-md font-semibold tickettext-primary">{service.ticket_validity} hrs</p>
+                            </div>
+                          </div>
+                        </div>
+                      )} */}
                     </div>
-                )}
-              </div>
-            </div>
-
-            {/* Price and seat/ID */}
-            <div className="px-8 pb-6">
-              <div className="flex items-center justify-between">
-                <span className="text-3xl font-black text-orange-500" style={{fontFamily: "'Inter', sans-serif"}}>{service.price ? `${service.price} Rs.` : ""}</span>
-                {/* <span className="text-3xl font-black text-gray-600" style={{fontFamily: "'Inter', sans-serif"}}>{visitor.vis_id ? `#${visitor.vis_id}` : ""}</span> */}
-              </div>
-            </div>
-
-            {/* Dashed line separator (with cutouts) */}
-            <div className="relative px-8">
-              <div className="absolute left-0 top-0 h-8 w-8 rounded-full bg-gradient-to-b from-purple-600 to-blue-600 -translate-x-1/2 -translate-y-1/2"></div>
-              <div className="absolute right-0 top-0 h-8 w-8 rounded-full bg-gradient-to-b from-purple-600 to-blue-600 translate-x-1/2 -translate-y-1/2"></div>
-              <div className="border-t-2 border-dashed border-gray-300"></div>
-            </div>
-
-            {/* QR code */}
-            <div className="px-8 py-8 text-center">
-              <div className="flex justify-center mb-6">
-                <div id="qr-container" className="w-32 h-32 mx-auto bg-white rounded-lg">
-                  <QrCodePlaceholder qrHtml={visitor.qrData} className="w-full h-full" />
-                  {/* <p className="text-center mt-2 text-xs font-semibold text-blue-600">SecureEntry</p> */}
+                  )}
                 </div>
               </div>
-              <div className="mb-6">
-                <span className="text-3xl font-black text-gray-600" style={{fontFamily: "'Inter', sans-serif"}}>{visitor.vis_id ? `#${visitor.vis_id}` : ""}</span>
-                {/* <p className="text-2xl font-black tracking-widest text-gray-800" style={{fontFamily: "'JetBrains Mono', 'Fira Code', 'Consolas', monospace"}}>{visitor.ticket_code || "TICKET CODE"}</p> */}
+
+              {/* Price section with gold accent */}
+              <div className="relative z-10 px-6 pb-6 mt-5">
+                <div className="flex items-center justify-between">
+                  <div className="bg-gradient-to-r from-amber-900 to-yellow-900 text-white px-6 py-3 rounded-2xl shadow-lg">
+                    <p className="text-xs font-medium opacity-90">PRICE</p>
+                    <p className="text-2xl font-black" style={{fontFamily: "'Inter', sans-serif"}}>{service.price ? `₹${service.price}` : "FREE"}</p>
+                  </div>
+                  <div className="text-right flex gap-3 items-center">
+                    {/* <p className="text-md text-amber-700 font-bold">TICKET ID</p>
+                    <p className="text-md font-bold text-amber-900" style={{fontFamily: "'Inter', sans-serif"}}>{visitor.vis_id ? `#${visitor.vis_id}` : "#001"}</p> */}
+                    <div className="tickettext-primary text-start ">
+                    <p>Validity - <span className="font-semibold">{service.ticket_validity} hrs</span></p>
+                    <p>Type - <span className="font-semibold">{service.service_type}</span></p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <p className="text-gray-400 text-sm leading-relaxed font-medium" style={{fontFamily: "'Inter', sans-serif"}}>
-                {service.event_description || "Showcase your programming skills and innovative ideas."}
-              </p>
+
+              {/* Elegant separator with decorative elements */}
+              <div className="relative px-6 my-6">
+                <div className="absolute left-0 top-1/2 h-6 w-6 rounded-full bg-red-800 transform -translate-x-1/2 -translate-y-1/2 "></div>
+                
+                <div className="absolute right-0 top-1/2 h-6 w-6 rounded-full   transform translate-x-1/2 -translate-y-1/2 bg-red-800"></div>
+
+                <div className="flex items-center justify-center">
+                  <div className="w-full h-px bg-gradient-to-r from-transparent via-amber-900 to-transparent"></div>
+                  <div className="flex gap-2 px-4">
+                    <div className="w-2 h-2 rounded-full bg-amber-900"></div>
+                    <div className="w-2 h-2 rounded-full bg-amber-900"></div>
+                    <div className="w-2 h-2 rounded-full bg-amber-900"></div>
+                  </div>
+                  <div className="w-full h-px bg-gradient-to-r from-transparent via-amber-900 to-transparent"></div>
+                </div>
+              </div>
+
+              {/* QR code section with premium styling */}
+              <div className="relative z-10 px-6 pb-8 text-center">
+                <div className="flex justify-center mb-6">
+                  <div id="qr-container" className="relative">
+                    <div className="w-48 h-56 mx-auto bg-white rounded-2xl shadow-xl p-1  border-4 border-amber-500 flex flex-col justify-center items-center">
+                        <div className="text-sm font-bold tickettext-primary mb-2" style={{fontFamily: "'Inter', sans-serif"}}>{visitor.vis_id ? `#${visitor.vis_id}` : ""}</div>
+                        <div className="px-6 ">
+                      <QrCodePlaceholder qrHtml={visitor.qrData} className="w-full h-full rounded-lg mb-0" />
+                      </div>
+                    <div className="text-center tickettext-primary text-md font-bold whitespace-nowrap mb-1">
+                      Secure Entry
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* <div className="mb-6 bg-white bg-opacity-50 backdrop-blur-sm rounded-xl p-4 border border-amber-300">
+                  <p className="text-xs text-amber-700 font-medium mb-1">ENTRY CODE</p>
+                  <p className="text-xl font-black text-amber-900" style={{fontFamily: "'JetBrains Mono', 'Fira Code', 'Consolas', monospace", letterSpacing: '0.15em'}}>{visitor.ticket_code || "SECURE001"}</p>
+                </div> */}
+                
+                <div className=" ticket-primary text-amber-100 rounded-xl p-4 text-center">
+                  <p className="text-sm font-medium leading-relaxed" style={{fontFamily: "'Inter', sans-serif"}}>
+                    {service.service_discription || "Experience an exclusive premium event."}
+                  </p>
+                </div>
+              </div>
             </div>
           </main>
 
           {/* Footer Buttons */}
-          <footer className="mx-4 grid grid-cols-2 gap-4 bg-gradient-to-b from-purple-600 to-blue-600 px-6 py-6 rounded-b-3xl">
+          <footer className="mx-2 mt-6 grid grid-cols-2 gap-4 bg-[#c2410c] px-6 py-6 rounded-3xl shadow-xl">
             {service.service_type === "Pass" ? (
                 <button
-                    className="py-3 px-6 rounded-xl border-2 border-white/30 text-white font-semibold hover:bg-white/10 transition-colors flex justify-center items-center gap-2"
+                    className="py-3 px-6 rounded-xl border-2 border-amber-300 text-white font-semibold hover:bg-amber-600 hover:bg-opacity-20 transition-all duration-300 flex justify-center items-center gap-2 backdrop-blur-sm"
                     style={{fontFamily: "'Inter', sans-serif"}}
                     onClick={downloadQR}
                 >
@@ -200,7 +322,7 @@ const InvitationCard = ({ data }) => {
                 </button>
             ) : (
                 <button
-                    className="py-3 px-6 rounded-xl border-2 border-white/30 text-white font-semibold hover:bg-white/10 transition-colors flex justify-center items-center gap-2"
+                    className="py-3 px-6 rounded-xl border-2 border-amber-300 text-white font-semibold hover:bg-amber-600 hover:bg-opacity-20 transition-all duration-300 flex justify-center items-center gap-2 backdrop-blur-sm"
                     style={{fontFamily: "'Inter', sans-serif"}}
                     onClick={handleShare}
                 >
@@ -208,17 +330,32 @@ const InvitationCard = ({ data }) => {
                 </button>
             )}
             <button
-                className="py-3 px-6 rounded-xl bg-white text-blue-600 font-semibold hover:bg-gray-100 transition-colors flex justify-center items-center gap-2"
-                style={{fontFamily: "'Inter', sans-serif"}}
-                onClick={async () => {
-                  if (cardRef.current) {
-                    const dataUrl = await toPng(cardRef.current);
-                    downloadImage(dataUrl);
-                  }
-                }}
-            >
-              <DownloadIcon size={20} /> Download Ticket
-            </button>
+  className="py-3 px-6 rounded-xl bg-gradient-to-r from-amber-300 to-yellow-300 ticket-primary font-bold hover:from-amber-200 hover:to-yellow-200 transition-all duration-300 flex justify-center items-center gap-2 shadow-lg"
+  style={{ fontFamily: "'Inter', sans-serif" }}
+  onClick={async () => {
+    if (cardRef.current) {
+      const rect = cardRef.current.getBoundingClientRect();
+      const padding = 40; // extra space around ticket
+
+      const dataUrl = await toPng(cardRef.current, {
+        backgroundColor: "transparent",
+        width: rect.width + padding * 2,
+        height: rect.height + padding * 2,
+        pixelRatio: 3,
+        style: {
+          transform: `translate(${padding}px, ${padding}px)`,
+          transformOrigin: "top left"
+        }
+      });
+
+      downloadImage(dataUrl);
+    }
+  }}
+>
+  <DownloadIcon size={20} /> Download Ticket
+</button>
+
+
           </footer>
         </div>
       </div>
