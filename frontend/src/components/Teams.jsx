@@ -9,11 +9,11 @@ const founders = [
     title: "Founder",
     Role: "Vision & Strategy, Core Development",
     expertise: "Team Building, Backend, Frontend",
-    socials: [
-      { icon: "github", url: "https://github.com/nihal-patidar", name: "GitHub" },
-      { icon: "linkedin", url: "https://www.linkedin.com/in/nihal-patidar/", name: "LinkedIn" },
-      { icon: "mail", url: "mailto:nihalpatidar14@gmail.com", name: "Email" }
-    ]
+    // socials: [
+    //   { icon: "github", url: "https://github.com/nihal-patidar", name: "GitHub" },
+    //   { icon: "linkedin", url: "https://www.linkedin.com/in/nihal-patidar/", name: "LinkedIn" },
+    //   { icon: "mail", url: "mailto:nihalpatidar14@gmail.com", name: "Email" }
+    // ]
   },
   {
     name: "Yagyadeep Ahirwar",
@@ -21,11 +21,11 @@ const founders = [
     title: "Co-Founder",
     Role: "Technical Architecture",
     expertise: "System Design",
-    socials: [
-      { icon: "github", url: "https://github.com/yagyadeep786", name: "GitHub" },
-      { icon: "linkedin", url: "https://www.linkedin.com/in/yagyadeep-ahirwar/", name: "LinkedIn" },
-      { icon: "mail", url: "mailto:yagyadeepahirwar@gmail.com", name: "Email" }
-    ]
+    // socials: [
+    //   { icon: "github", url: "https://github.com/yagyadeep786", name: "GitHub" },
+    //   { icon: "linkedin", url: "https://www.linkedin.com/in/yagyadeep-ahirwar/", name: "LinkedIn" },
+    //   { icon: "mail", url: "mailto:yagyadeepahirwar@gmail.com", name: "Email" }
+    // ]
   }
 ];
 
@@ -35,77 +35,77 @@ const people = [
     image: "/images/PiyushImage.jpeg",
     Role: "Frontend Development, Form Builder, Design",
     expertise: "React, JavaScript, Node.js, Framer Motion",
-    socials: [
-      { icon: "github", url: "https://github.com/arsenic-art", name: "GitHub" },
-      { icon: "linkedin", url: "https://www.linkedin.com/in/piyush-sharma-757585329/", name: "LinkedIn" },
-      { icon: "mail", url: "mailto:piyushsharmaa@yahoo.com", name: "Email" }
-    ]
+    // socials: [
+    //   { icon: "github", url: "https://github.com/arsenic-art", name: "GitHub" },
+    //   { icon: "linkedin", url: "https://www.linkedin.com/in/piyush-sharma-757585329/", name: "LinkedIn" },
+    //   { icon: "mail", url: "mailto:piyushsharmaa@yahoo.com", name: "Email" }
+    // ]
   },
   {
     name: "Virender Singh Bhadoriya",
     image: "/images/VirenderImage.jpg",
     Role: "Frontend & Backend Development",
     expertise: "React, Node.js, AI/ML, Gen AI",
-    socials: [
-      { icon: "github", url: "http://github.com/Virender07th", name: "GitHub" },
-      { icon: "linkedin", url: "https://www.linkedin.com/in/virender-singh-bhadoriya-95b91a276/", name: "LinkedIn" },
-      { icon: "mail", url: "mailto:hs374639@gmail.com", name: "Email" }
-    ]
+    // socials: [
+    //   { icon: "github", url: "http://github.com/Virender07th", name: "GitHub" },
+    //   { icon: "linkedin", url: "https://www.linkedin.com/in/virender-singh-bhadoriya-95b91a276/", name: "LinkedIn" },
+    //   { icon: "mail", url: "mailto:hs374639@gmail.com", name: "Email" }
+    // ]
   },
   {
     name: "Nikhil Patidar",
     image: "/images/NikhilImage.jpg",
     Role: "Frontend, Backend, Logic",
     expertise: "React, JavaScript, Node.js",
-    socials: [
-      { icon: "github", url: "https://github.com/Nikhil-687", name: "GitHub" },
-      { icon: "linkedin", url: "https://www.linkedin.com/in/nikhil-patidar-03155a292/", name: "LinkedIn" },
-      { icon: "mail", url: "mailto:patidarnikhil687@gmail.com", name: "Email" },
-    ]
+    // socials: [
+    //   { icon: "github", url: "https://github.com/Nikhil-687", name: "GitHub" },
+    //   { icon: "linkedin", url: "https://www.linkedin.com/in/nikhil-patidar-03155a292/", name: "LinkedIn" },
+    //   { icon: "mail", url: "mailto:patidarnikhil687@gmail.com", name: "Email" },
+    // ]
   },
   {
     name: "Tanay Sharma",
     image: "/images/TanayImage.jpg",
     Role: "Frontend, Backend, Design",
     expertise: "UI/UX, React, Node.js, Figma, Next.js",
-    socials: [
-      { icon: "github", url: "https://github.com/TanaySharma15", name: "GitHub" },
-      { icon: "linkedin", url: "https://www.linkedin.com/in/tanaykumarsharma/", name: "LinkedIn" },
-      { icon: "mail", url: "mailto:tanaysharma1526@gmail.com", name: "Email" }
-    ]
+    // socials: [
+    //   { icon: "github", url: "https://github.com/TanaySharma15", name: "GitHub" },
+    //   { icon: "linkedin", url: "https://www.linkedin.com/in/tanaykumarsharma/", name: "LinkedIn" },
+    //   { icon: "mail", url: "mailto:tanaysharma1526@gmail.com", name: "Email" }
+    // ]
   },
   {
     name: "Nagesh Arjariya",
     image: "/images/NageshImage.jpg",
     Role: "Frontend, Backend, Debugger",
     expertise: "React, NodeJs, Django, Python",
-    socials: [
-      { icon: "github", url: "https://github.com/finnnagesh", name: "GitHub" },
-      { icon: "linkedin", url: "https://www.linkedin.com/in/nagesh-arjariya-019556292/", name: "LinkedIn" },
-      { icon: "mail", url: "mailto:nagesharjariya@gmail.com", name: "Email" },
-    ]
+    // socials: [
+    //   { icon: "github", url: "https://github.com/finnnagesh", name: "GitHub" },
+    //   { icon: "linkedin", url: "https://www.linkedin.com/in/nagesh-arjariya-019556292/", name: "LinkedIn" },
+    //   { icon: "mail", url: "mailto:nagesharjariya@gmail.com", name: "Email" },
+    // ]
   },
   {
     name: "Asad Qureshi",
     image: "/images/AsadImage.jpg",
     Role: "FrontEnd, Design, UI/UX",
     expertise: "Figma, Web Design, React, Tailwind CSS",
-    socials: [
-      { icon: "github", url: "https://github.com/Asad-Qureshi-Programmer", name: "GitHub" },
-      { icon: "linkedin", url: "https://www.linkedin.com/in/asad-qureshi-0894b8305/", name: "LinkedIn" },
-      { icon: "mail", url: "mailto:100asadqureshi@gmail.com", name: "Email" }
-    ]
+    // socials: [
+    //   { icon: "github", url: "https://github.com/Asad-Qureshi-Programmer", name: "GitHub" },
+    //   { icon: "linkedin", url: "https://www.linkedin.com/in/asad-qureshi-0894b8305/", name: "LinkedIn" },
+    //   { icon: "mail", url: "mailto:100asadqureshi@gmail.com", name: "Email" }
+    // ]
   },
   {
     name: "Aman Ahmad",
     image: "/images/AmanImage.jpg",
     Role: "Frontend Development, Design",
     expertise: "React, NodeJs, Figma, Framer Motion",
-    socials: [
-      { icon: "github", url: "https://github.com/wizardamxn", name: "GitHub" },
-      { icon: "linkedin", url: "https://www.linkedin.com/in/wizardamxn/", name: "LinkedIn" },
-      { icon: "mail", url: "mailto:amank225566@gmail.com", name: "Email" }
-    ]
+    // socials: [
+    //   { icon: "github", url: "https://github.com/wizardamxn", name: "GitHub" },
+    //   { icon: "linkedin", url: "https://www.linkedin.com/in/wizardamxn/", name: "LinkedIn" },
+    //   { icon: "mail", url: "mailto:amank225566@gmail.com", name: "Email" }
+    // ]
   }
 ];
 
@@ -241,7 +241,7 @@ const TeamCards = () => {
               }`}
             >
               <div className="flex justify-center space-x-2 pt-3 border-t border-gray-100">
-                {person.socials.map((social, socialIndex) => {
+                {person?.socials?.map((social, socialIndex) => {
                   const Icon = getIcon(social.icon);
                   return (
                     Icon && (
@@ -397,7 +397,7 @@ const TeamCards = () => {
               }`}
             >
               <div className="flex justify-center space-x-2 pt-3 border-t border-gray-100">
-                {person.socials.map((social, socialIndex) => {
+                {person?.socials?.map((social, socialIndex) => {
                   const Icon = getIcon(social.icon);
                   return (
                     Icon && (
