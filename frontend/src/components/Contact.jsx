@@ -61,7 +61,7 @@ function Contact() {
               </div>
               <div>
                 <p className="text-sm">Phone</p>
-                <p>+91 6261677451</p>
+                <p>+91 9009680868</p>
               </div>
             </div>
 
