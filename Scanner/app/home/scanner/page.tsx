@@ -135,7 +135,6 @@ export default function ScannerPage() {
                         overflow: "hidden",
                       },
                     }}
-                    components={{ audio: true }}
                     allowMultiple
                     scanDelay={700}
                     paused={!isScanning || pause}
