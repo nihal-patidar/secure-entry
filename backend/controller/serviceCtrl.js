@@ -97,7 +97,7 @@ const createForm = async (req, res) => {
     let typeNumber = 5;
     let errorCorrectionLevel = "M";
     let mode = "Byte";
-    let text = `https://secure-entry-new.netlify.app/form/${id}`;
+    let text = `https://secure-entry.netlify.app/form/${id}`;
     let size = 4;
     let mar = 0;
 
