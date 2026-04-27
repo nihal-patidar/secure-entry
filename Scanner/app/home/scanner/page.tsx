@@ -116,12 +116,12 @@ export default function ScannerPage() {
                     formats={["qr_code"]}
                     constraints={{
                       // deviceId,
-                      facingMode: { exact: "environment" },
-                      advanced: torchOn
-                        ? ([
-                            { torch: true },
-                          ] as unknown as MediaTrackConstraintSet[])
-                        : [],
+                      // facingMode: { exact: "environment" },
+                      // advanced: torchOn
+                      //   ? ([
+                      //       { torch: true },
+                      //     ] as unknown as MediaTrackConstraintSet[])
+                      //   : [],
                     }}
                     onScan={(codes) =>
                       codes.length > 0 && handleScan(codes[0].rawValue)
